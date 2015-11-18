@@ -2,8 +2,26 @@
     <ion-content padding="'true'" class="has-header">
         <form class="list">
             <ion-list>
-                <label class="item item-input">
+                <label class="item item-input item-stacked-label">
                     <span class="input-label">Address registration</span>
+                    <input type="text" placeholder="" ng-model="user.address">
+                </label>
+                <label class="item item-input item-select">
+                    <div class="input-label">Country</div>
+                    <select>
+                        <option>Russia</option>
+                        <option selected>Ukraine</option>
+                    </select>
+                </label>
+                <label class="item item-input item-select">
+                    <div class="input-label">City</div>
+                    <select>
+                        <option>Odessa</option>
+                        <option selected>Kiev</option>
+                    </select>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Address Delivery</span>
                     <input type="text" placeholder="" ng-model="user.address">
                 </label>
                 <label class="item item-input item-select">

@@ -7,20 +7,52 @@ angular.module('app.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
+  
+    .state('app', {
+      url: '',
+      abstract: true,
+      templateUrl: 'templates/menu.html',
+      controller: 'AppCtrl'
+    })
 
-    .state('login', {
+    .state('app.login', {
       url: '/login',
-      templateUrl: 'templates/login.html',
-      controller: 'loginCtrl'
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/login.html',
+          controller: 'loginCtrl'
+        }
+      }
     })
            
-    .state('signup', {
-      url: '/signup',
-      templateUrl: 'templates/signup.html',
-      controller: 'signupCtrl'
+    // .state('app.signup', {
+    //   url: '/signup',
+    //   templateUrl: 'templates/signup.html',
+    //   controller: 'signupCtrl'
+    // })
+    
+    .state('app.help', {
+      url: '/help',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/help.html',
+          controller: 'helpCtrl'
+        }
+      }
+    })
+    
+    //PROFILE
+    .state('app.profile', {
+      url: "/profile",
+      abstract: true,
+      views: {
+        'menuContent': {
+          templateUrl: "templates/profile.html",
+        }
+      }
     })
       
-    .state('profileController.main', {
+    .state('app.profile.main', {
       url: '/main',
       views: {
         'main': {
@@ -28,9 +60,9 @@ angular.module('app.routes', [])
           controller: 'profileMainCtrl'
         }
       }
-    })    
+    })
         
-    .state('profileController.additional', {
+    .state('app.profile.additional', {
       url: '/additional',
       views: {
         'additional': {
@@ -40,7 +72,7 @@ angular.module('app.routes', [])
       }
     })
     
-    .state('profileController.pass', {
+    .state('app.profile.pass', {
       url: '/pass',
       views: {
         'pass': {
@@ -50,7 +82,7 @@ angular.module('app.routes', [])
       }
     })
         
-    .state('profileController.address', {
+    .state('app.profile.address', {
       url: '/address',
       views: {
         'address': {
@@ -60,11 +92,26 @@ angular.module('app.routes', [])
       }
     })
     
-    .state('profileController', {
-      url: '/profile',
-      abstract: true,
-      templateUrl: 'templates/profile.html'
+    //TRIPS LIST
+    .state('app.trips', {
+      url: '/trips',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/trips.html',
+          controller: 'tripsCtrl'
+        }
+      }
     })
+    
+    .state('app.single', {
+      url: '/trips/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/trip.html',
+          controller: 'tripCtrl'
+        }
+      }
+    });
 ;
 
   // if none of the above states are matched, use this as the fallback

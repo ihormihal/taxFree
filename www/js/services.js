@@ -59,21 +59,45 @@ angular.module('app.services', [])
 	});
 })
 
-.service('TripService', [function(Trip){
+.service('Trips', [function(Trip){
 	
 	var self = {
 		
 		trips: [
 			{
-				label: "Trip Label",
+				id: 1,
+				label: "Trip First",
 				city: "London",
-				date_arr: "05-10-2015",
-				date_dep: "12-10-2015",
+				date_arrival: new Date(2015, 10, 5),
+				date_depature: new Date(2015, 10, 12),
 				flight_number: "1",
+				comments: "Blablabla",
+				reminder: ""
+			},
+			{
+				id: 2,
+				label: "Trip Second",
+				city: "Paris",
+				date_arrival: new Date(2015, 10, 13),
+				date_depature: new Date(2015, 10, 20),
+				flight_number: "2",
 				comments: "Blablabla",
 				reminder: ""
 			}
 		],
+		
+		all: function(){
+			return self.trips;
+		},
+		
+		get: function(id){
+			for (var i = 0; i < self.trips.length; i++) {
+				if (self.trips[i].id === parseInt(id)) {
+					return self.trips[i];
+				}
+			}
+			return null;
+		},
 		
 		loadTrips: function(){
 			var params = {};
