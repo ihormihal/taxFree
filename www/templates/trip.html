@@ -1,0 +1,48 @@
+<ion-view view-title="{{data.label}}">
+  <ion-nav-buttons side="right" ng-show="false">
+		<button class="button button-icon button-clear ion-edit"></button>
+  </ion-nav-buttons>
+  <ion-content padding="'true'" class="has-header">
+      <form class="list">
+          <ion-list>
+              <label class="item item-input item-stacked-label">
+                  <span class="input-label">Label</span>
+                  <input type="text" placeholder="" ng-model="data.label">
+              </label>
+              <label class="item item-input item-select">
+                  <div class="input-label">Country</div>
+                  <select>
+                      <option>Russia</option>
+                      <option selected>UK</option>
+                  </select>
+              </label>
+              <label class="item item-input item-select">
+                  <div class="input-label">City</div>
+                  <select>
+                      <option>London</option>
+                  </select>
+              </label>
+              <label class="item item-input">
+                  <span class="input-label">Date arrival</span>
+                  <input type="date" placeholder="" ng-model="data.date_arrival">
+              </label>
+              <label class="item item-input">
+                  <span class="input-label">Date departure</span>
+                  <input type="date" placeholder="" ng-model="data.date_depature">
+              </label>
+              <label class="item item-input">
+                  <span class="input-label">Flight number</span>
+                  <input type="text" placeholder="" ng-model="data.flight_number">
+              </label>
+              <label class="item item-input item-stacked-label">
+                  <span class="input-label">Comments</span>
+                  <textarea placeholder="Comments" ng-model="data.comments"></textarea>
+              </label>
+              <label class="item item-input">
+                  <span class="input-label">Reminder</span>
+                  <input type="text" placeholder="" ng-model="data.reminder">
+              </label>
+          </ion-list>
+      </form>
+  </ion-content>
+</ion-view>
