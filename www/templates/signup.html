@@ -2,7 +2,7 @@
     <ion-content padding="'true'" scroll="true" class="has-header">
         <div class="spacer" style="height:20px"></div>
         <div class="logo image">
-            <img src="http://placehold.it/200x100">
+            <img src="img/logo.png">
         </div>
         <h2 class="text-center">Sign up step 1</h2>
         <p class="text-center">Already have an account?</p>
@@ -13,11 +13,11 @@
             <ion-list>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">E-mail (login) *</span>
-                    <input type="email" placeholder="mail@example.com">
+                    <input type="email" ng-model="data.email" placeholder="mail@example.com">
                 </label>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Phone country code / Phone number * </span>
-                    <input type="text" placeholder="(000) 000-00-00">
+                    <input type="text" ng-model="data.phone" placeholder="(000) 000-00-00">
                 </label>
             </ion-list>
             <div class="item">
@@ -25,19 +25,19 @@
                 <div class="row">
                     <div class="col">
                         <span class="item item-checkbox">
-                            <label class="checkbox"><input name="code" type="radio" checked></label>
+                            <label class="checkbox"><input type="radio" name="conformation" ng-model="data.conformation" value="email" checked></label>
                             E-mail
                         </span>
                     </div>
                     <div class="col">
                         <span class="item item-checkbox">
-                            <label class="checkbox"><input name="code" type="radio"></label>
+                            <label class="checkbox"><input type="radio" name="conformation"  ng-model="data.conformation" value="phone"></label>
                             Phone
                         </span>
                     </div>
                 </div>
             </div>
-            <a class="button button-stable button-block button-positive" href="#/signup/code">Confirm</a>
+            <button class="button button-stable button-block button-positive" ng-click="signup()">Confirm</button>
         </form>
     </ion-content>
 </ion-view>

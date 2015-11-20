@@ -1,20 +1,83 @@
 angular.module('app.services', [])
 
-.service('SignupService', [function(){
-	return true;
+.service('SignUpService', ['$q', function($q){
+	var self = {
+		signup: function (email, phone, conformation) {
+			var deferred = $q.defer();
+            var promise = deferred.promise;
+
+			if (email == 'ihor.mihal@gmail.com' && phone == '0') {
+
+				if(conformation == 'phone')
+				{
+					deferred.resolve('Welcome!');
+				}
+				else if(conformation == 'email')
+				{
+					deferred.resolve('Welcome!');
+				}
+				else
+				{
+					deferred.reject('Unknown conformation method!');
+				}
+
+			}
+			else if(email !== 'ihor.mihal@gmail.com' && phone == '0')
+			{
+				deferred.reject('E-mail is already used!');
+			}
+			else if(email == 'ihor.mihal@gmail.com' && phone !== '0')
+			{
+				deferred.reject('Phone is already used!');
+			}
+			else
+			{
+				deferred.reject('E-mail and phone are already used!');
+			}
+
+            promise.success = function(fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function(fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
+		},
+
+		confirm: function (code) {
+			var deferred = $q.defer();
+            var promise = deferred.promise;
+
+            if(code == '0000'){
+            	deferred.resolve('Welcome!');
+            }else{
+            	deferred.reject('Invalid code!');
+            }
+
+            promise.success = function(fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function(fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
+		}
+	};
+	return self;
 }])
 
-.service('LoginService', ['$q', function($q){
+.service('SignInService', ['$q', function($q){
 	var self = {
-		// login: function(user){
-		// 	if(user.username == 'root' && user.password == '0000') return true;
-		// }
-		loginUser: function(username, password) {
+		signin: function(email, password) {
             var deferred = $q.defer();
             var promise = deferred.promise;
- 
-            if (username == 'root' && password == '0000') {
-                deferred.resolve('Welcome ' + username + '!');
+
+            if (email == 'ihor.mihal@gmail.com' && password == '0000') {
+                deferred.resolve('Welcome !');
             } else {
                 deferred.reject('Wrong credentials.');
             }
@@ -32,22 +95,38 @@ angular.module('app.services', [])
 	return self;
 }])
 
-.service('ProfileService', [function(){
+.service('ProfileService', ['$q', function($q){
 	var self = {
 		profile: {
-			login: "root",
+			email: "ihor.mihal@gmail.com",
 			password: "0000",
 			name: "Ihor",
 			surname: "Mykhalchenko",
-			email: "ihor.mihal@gmail.com",
 			phone: "+380734058015",
 			birth_date: new Date(1989, 2, 17),
 			goverment: "Ukraine",
 			gender: "male",
 			skype: "igor-mihal"
-		}
+		},
+
+		save: function(data) {
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+
+            deferred.resolve('Success!');
+
+            promise.success = function(fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function(fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
+        }
 	};
-	
+
 	return self;
 }])
 
@@ -60,9 +139,9 @@ angular.module('app.services', [])
 })
 
 .service('Trips', [function(Trip){
-	
+
 	var self = {
-		
+
 		trips: [
 			{
 				id: 1,
@@ -85,11 +164,11 @@ angular.module('app.services', [])
 				reminder: ""
 			}
 		],
-		
+
 		all: function(){
 			return self.trips;
 		},
-		
+
 		get: function(id){
 			for (var i = 0; i < self.trips.length; i++) {
 				if (self.trips[i].id === parseInt(id)) {
@@ -98,18 +177,18 @@ angular.module('app.services', [])
 			}
 			return null;
 		},
-		
+
 		loadTrips: function(){
 			var params = {};
 			Trip.get(params, function(data){
 				self.trips = data;
 			});
 		},
-		
+
 		loadTrip: function(id){
-			
+
 		},
-	
+
 		updateTrip: function(Trip){
 			Trip.update(Trip).$promise.then(function(){
 				//is finishing
@@ -118,13 +197,13 @@ angular.module('app.services', [])
 				//is finishing
 			});
 		},
-	
+
 		removeTrip: function(Trip){
 			Trip.$remove.then(function(){
 				//is finishing
 			});
 		},
-		
+
 		createTrip: function (Trip) {
 			var d = $q.defer();
 			Trip.save(Trip).$promise.then(function(){
@@ -137,7 +216,7 @@ angular.module('app.services', [])
 			//позволяет использовать "then" при вызове этой функции
 		}
 	};
-	
+
 	//self.loadTrips();
 
 	return self;

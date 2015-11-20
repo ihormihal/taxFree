@@ -30,17 +30,17 @@ angular.module('app.routes', [])
       views: {
         'menuContent': {
           templateUrl: 'templates/signup.html',
-          controller: 'regCtrl'
+          controller: 'signupCtrl'
         }
       }
     })
 
     .state('app.code', {
-      url: '/signup/code',
+      url: '/signup/code/:type',
       views: {
         'menuContent': {
           templateUrl: 'templates/signup/code.html',
-          //controller: 'codeCtrl'
+          controller: 'codeCtrl'
         }
       }
     })
@@ -50,7 +50,7 @@ angular.module('app.routes', [])
       views: {
         'menuContent': {
           templateUrl: 'templates/signup/reg.html',
-          //controller: 'regCtrl'
+          controller: 'regCtrl'
         }
       }
     })

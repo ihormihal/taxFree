@@ -11,3 +11,7 @@
 	width: 30%;
 	margin: 0 auto;
 }
+
+.platform-android .view-container .tabs-top .tabs {
+	top: 43px !important;
+}

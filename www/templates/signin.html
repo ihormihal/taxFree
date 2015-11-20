@@ -2,7 +2,7 @@
     <ion-content padding="'true'" scroll="false" class="has-header">
         <div class="spacer" style="height:20px"></div>
         <div class="logo image">
-            <img src="http://placehold.it/200x100">
+            <img src="img/logo.png">
         </div>
         <h2 class="text-center">Sign in</h2>
 
@@ -11,7 +11,7 @@
             <ion-list>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">E-mail (login) *</span>
-                    <input type="email" ng-model="data.username" placeholder="">
+                    <input type="email" ng-model="data.email" placeholder="">
                 </label>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">Password</span>
@@ -20,7 +20,7 @@
             </ion-list>
             <div class="spacer" style="height: 10px;"></div>
             <p><a href="#/recover">Forgot password?</a></p>
-            <button class="button button-stable button-block" ng-click="login()">Sign In</button>
+            <button class="button button-stable button-block" ng-click="signin()">Sign In</button>
             <div class="spacer" style="height: 10px;"></div>
             <p class="text-center">New to TaxFree4U?</p>
             <p class="text-center"><a href="#/signup">Sign up</a></p>

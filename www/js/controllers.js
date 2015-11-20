@@ -10,58 +10,106 @@ angular.module('app.controllers', [])
   //});
 
   // Form data for the login modal
-  $scope.loginData = {};
+  // $scope.loginData = {};
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/signin.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
+  // // Create the login modal that we will use later
+  // $ionicModal.fromTemplateUrl('templates/signin.html', {
+  //   scope: $scope
+  // }).then(function(modal) {
+  //   $scope.modal = modal;
+  // });
 
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
+  // // Triggered in the login modal to close it
+  // $scope.closeLogin = function() {
+  //   $scope.modal.hide();
+  // };
 
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
+  // // Open the login modal
+  // $scope.login = function() {
+  //   $scope.modal.show();
+  // };
 
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
+  // // Perform the login action when the user submits the login form
+  // $scope.doLogin = function() {
+  //   console.log('Doing login', $scope.loginData);
 
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
+  //   // Simulate a login delay. Remove this and replace with your login
+  //   // code if using a login system
+  //   $timeout(function() {
+  //     $scope.closeLogin();
+  //   }, 1000);
+  // };
 })
 
-.controller('signinCtrl', function($scope, LoginService, $ionicPopup, $state) {
-	$scope.data = {};
+.controller('signinCtrl', function($scope, SignInService, $ionicPopup, $state) {
+    $scope.data = {
+        email: 'ihor.mihal@gmail.com',
+        password: '0000'
+    };
 
-    $scope.login = function() {
-        LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
-            $state.go('profileController.main');
+    $scope.signin = function() {
+        SignInService.signin($scope.data.email, $scope.data.password).success(function(data) {
+            $state.go('app.profile.main');
         }).error(function(data) {
             $ionicPopup.alert({
                 title: 'Login failed!',
-                template: 'Please check your credentials!'
+                template: 'Please check your login or password!'
             });
         });
     };
 })
 
-.controller('regCtrl', function($scope) {
+.controller('signupCtrl', function($scope, SignUpService, $ionicPopup, $state) {
+    $scope.data = {
+        email: 'ihor.mihal@gmail.com',
+        phone: '0',
+        conformation: 'email'
+    };
 
+    $scope.signup = function() {
+        SignUpService.signup($scope.data.email, $scope.data.phone, $scope.data.conformation).success(function(data) {
+            $state.go('app.code',{type: $scope.data.conformation});
+        }).error(function(data) {
+            $ionicPopup.alert({
+                title: 'Error!',
+                template: data
+            });
+        });
+    };
 })
 
-.controller('codeCtrl', function($scope) {
+.controller('codeCtrl', function($scope, $state, $stateParams, $ionicPopup, SignUpService) {
+    $scope.data = {
+        type: $stateParams.type,
+        code: '0000'
+    };
 
+    $scope.confirm = function() {
+        SignUpService.confirm($scope.data.code).success(function(data) {
+            $state.go('app.reg');
+        }).error(function(data) {
+            $ionicPopup.alert({
+                title: 'Error!',
+                template: data
+            });
+        });
+    };
+})
+
+.controller('regCtrl', function($scope, $state, $ionicPopup, ProfileService) {
+    $scope.data = {
+
+    };
+    $scope.save = function(){
+        ProfileService.save($scope.data).success(function(data) {
+            $state.go('app.profile.main');
+        }).error(function(data) {
+            $ionicPopup.alert({
+                title: 'Error!',
+                template: data
+            });
+        });
+    }
 })
 
 .controller('helpCtrl', function($scope) {
