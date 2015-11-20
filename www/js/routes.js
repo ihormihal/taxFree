@@ -7,7 +7,7 @@ angular.module('app.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-  
+
     .state('app', {
       url: '',
       abstract: true,
@@ -15,22 +15,46 @@ angular.module('app.routes', [])
       controller: 'AppCtrl'
     })
 
-    .state('app.login', {
-      url: '/login',
+    .state('app.signin', {
+      url: '/signin',
       views: {
         'menuContent': {
-          templateUrl: 'templates/login.html',
-          controller: 'loginCtrl'
+          templateUrl: 'templates/signin.html',
+          controller: 'signinCtrl'
         }
       }
     })
-           
-    // .state('app.signup', {
-    //   url: '/signup',
-    //   templateUrl: 'templates/signup.html',
-    //   controller: 'signupCtrl'
-    // })
-    
+
+    .state('app.signup', {
+      url: '/signup',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/signup.html',
+          controller: 'regCtrl'
+        }
+      }
+    })
+
+    .state('app.code', {
+      url: '/signup/code',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/signup/code.html',
+          //controller: 'codeCtrl'
+        }
+      }
+    })
+
+    .state('app.reg', {
+      url: '/signup/reg',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/signup/reg.html',
+          //controller: 'regCtrl'
+        }
+      }
+    })
+
     .state('app.help', {
       url: '/help',
       views: {
@@ -40,7 +64,7 @@ angular.module('app.routes', [])
         }
       }
     })
-    
+
     //PROFILE
     .state('app.profile', {
       url: "/profile",
@@ -51,7 +75,7 @@ angular.module('app.routes', [])
         }
       }
     })
-      
+
     .state('app.profile.main', {
       url: '/main',
       views: {
@@ -61,7 +85,7 @@ angular.module('app.routes', [])
         }
       }
     })
-        
+
     .state('app.profile.additional', {
       url: '/additional',
       views: {
@@ -71,7 +95,7 @@ angular.module('app.routes', [])
         }
       }
     })
-    
+
     .state('app.profile.pass', {
       url: '/pass',
       views: {
@@ -81,7 +105,7 @@ angular.module('app.routes', [])
         }
       }
     })
-        
+
     .state('app.profile.address', {
       url: '/address',
       views: {
@@ -91,7 +115,7 @@ angular.module('app.routes', [])
         }
       }
     })
-    
+
     //TRIPS LIST
     .state('app.trips', {
       url: '/trips',
@@ -102,7 +126,7 @@ angular.module('app.routes', [])
         }
       }
     })
-    
+
     .state('app.single', {
       url: '/trips/:id',
       views: {
@@ -115,6 +139,6 @@ angular.module('app.routes', [])
 ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/signin');
 
 });

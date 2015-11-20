@@ -1,21 +1,43 @@
 <ion-view title="Signup">
-    <ion-content padding="'true'" scroll="false" class="has-header">
+    <ion-content padding="'true'" scroll="true" class="has-header">
+        <div class="spacer" style="height:20px"></div>
+        <div class="logo image">
+            <img src="http://placehold.it/200x100">
+        </div>
+        <h2 class="text-center">Sign up step 1</h2>
+        <p class="text-center">Already have an account?</p>
+        <p class="text-center"><a href="#/signin.html">Sign In</a></p>
+
+        <div class="spacer" style="height:20px"></div>
         <form class="list">
             <ion-list>
-                <label class="item item-input">
-                    <span class="input-label">Name</span>
-                    <input type="text" placeholder="">
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">E-mail (login) *</span>
+                    <input type="email" placeholder="mail@example.com">
                 </label>
-                <label class="item item-input">
-                    <span class="input-label">Username</span>
-                    <input type="text" placeholder="">
-                </label>
-                <label class="item item-input">
-                    <span class="input-label">Password</span>
-                    <input type="text" placeholder="">
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Phone country code / Phone number * </span>
+                    <input type="text" placeholder="(000) 000-00-00">
                 </label>
             </ion-list>
-            <button class="button button-stable button-block ">Sign up</button>
+            <div class="item">
+                <span class="input-label">Sign up confirmation *</span>
+                <div class="row">
+                    <div class="col">
+                        <span class="item item-checkbox">
+                            <label class="checkbox"><input name="code" type="radio" checked></label>
+                            E-mail
+                        </span>
+                    </div>
+                    <div class="col">
+                        <span class="item item-checkbox">
+                            <label class="checkbox"><input name="code" type="radio"></label>
+                            Phone
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <a class="button button-stable button-block button-positive" href="#/signup/code">Confirm</a>
         </form>
     </ion-content>
 </ion-view>

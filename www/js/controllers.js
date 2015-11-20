@@ -13,7 +13,7 @@ angular.module('app.controllers', [])
   $scope.loginData = {};
 
   // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
+  $ionicModal.fromTemplateUrl('templates/signin.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modal = modal;
@@ -40,10 +40,10 @@ angular.module('app.controllers', [])
     }, 1000);
   };
 })
-  
-.controller('loginCtrl', function($scope, LoginService, $ionicPopup, $state) {
+
+.controller('signinCtrl', function($scope, LoginService, $ionicPopup, $state) {
 	$scope.data = {};
- 
+
     $scope.login = function() {
         LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
             $state.go('profileController.main');
@@ -55,8 +55,12 @@ angular.module('app.controllers', [])
         });
     };
 })
-   
-.controller('signupCtrl', function($scope) {
+
+.controller('regCtrl', function($scope) {
+
+})
+
+.controller('codeCtrl', function($scope) {
 
 })
 
@@ -77,11 +81,11 @@ angular.module('app.controllers', [])
 .controller('profileMainCtrl', function($scope,ProfileService) {
 	$scope.user = ProfileService.profile;
 })
-   
+
 .controller('profileAdditionalCtrl', function($scope,ProfileService) {
 	$scope.user = ProfileService.profile;
 })
-   
+
 .controller('profilePassCtrl', function($scope,ProfileService) {
 	$scope.user = ProfileService.profile;
 })
@@ -91,4 +95,3 @@ angular.module('app.controllers', [])
 });
 
 
-    

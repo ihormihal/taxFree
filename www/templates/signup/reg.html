@@ -1,0 +1,53 @@
+<ion-view title="SignUp">
+    <ion-content padding="'true'" scroll="true" class="has-header">
+        <div class="spacer" style="height:20px"></div>
+        <div class="logo image">
+            <img src="http://placehold.it/200x100">
+        </div>
+        <h2 class="text-center">Enter your SMS code</h2>
+        <p class="text-center">You need to confirm your code during 1 hour</p>
+
+        <div class="spacer" style="height:20px"></div>
+        <form class="list">
+            <ion-list>
+                <label class="item item-input">
+                    <span class="input-label">How can we call You? *</span>
+                    <select>
+                        <option>Mr.</option>
+                        <option>Mrs.</option>
+                        <option>Ms.</option>
+                    </select>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Country of residence *</span>
+                    <select>
+                        <option>Select country</option>
+                    </select>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Home adress *</span>
+                    <input type="text" placeholder="">
+                </label>
+            </ion-list>
+            <div class="spacer" style="height:20px"></div>
+            <ion-list>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Password *</span>
+                    <input type="password" placeholder="Min. 8 characters">
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Confirm password *</span>
+                    <input type="password" placeholder="Min. 8 characters">
+                </label>
+            </ion-list>
+            <div class="item item-checkbox">
+                <label class="checkbox">
+                    <input type="checkbox">
+                </label>
+                I agree with <a href="#/help">terms and conditions</a>
+            </div>
+            <div class="spacer" style="height:20px"></div>
+            <a href="#/profile/main" class="button button-stable button-block button-positive">Send data</a>
+        </form>
+    </ion-content>
+</ion-view>
