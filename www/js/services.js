@@ -1,10 +1,18 @@
 angular.module('app.services', [])
 
-.service('SignUpService', ['$q', function($q){
+.service('LoginService', ['$q', function($q){
 	var self = {
+		data: {
+			email: 'ihor.mihal@gmail.com',
+			phone: '',
+			type: 'email',
+			code: ''
+		},
 		signup: function (email, phone, conformation) {
 			var deferred = $q.defer();
             var promise = deferred.promise;
+
+            self.data.conformation = conformation;
 
 			if (email == 'ihor.mihal@gmail.com' && phone == '0') {
 
@@ -55,6 +63,40 @@ angular.module('app.services', [])
             }else{
             	deferred.reject('Invalid code!');
             }
+
+            promise.success = function(fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function(fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
+		},
+
+		passwordRecovery: function (code) {
+			var deferred = $q.defer();
+            var promise = deferred.promise;
+
+            deferred.resolve('Welcome!');
+
+            promise.success = function(fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function(fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+            return promise;
+		},
+
+		passwordRestore: function (code) {
+			var deferred = $q.defer();
+            var promise = deferred.promise;
+
+            deferred.resolve('Welcome!');
 
             promise.success = function(fn) {
                 promise.then(fn);

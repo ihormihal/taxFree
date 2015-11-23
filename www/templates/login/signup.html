@@ -6,7 +6,7 @@
         </div>
         <h2 class="text-center">Sign up step 1</h2>
         <p class="text-center">Already have an account?</p>
-        <p class="text-center"><a href="#/signin.html">Sign In</a></p>
+        <p class="text-center"><a href="#/login/signin">Sign In</a></p>
 
         <div class="spacer" style="height:20px"></div>
         <form class="list">
@@ -22,16 +22,16 @@
             </ion-list>
             <div class="item">
                 <span class="input-label">Sign up confirmation *</span>
-                <div class="row">
+                <div class="row row-no-padding">
                     <div class="col">
-                        <span class="item item-checkbox">
-                            <label class="checkbox"><input type="radio" name="conformation" ng-model="data.conformation" value="email" checked></label>
+                        <span class="item-clear item-checkbox">
+                            <label class="checkbox"><input type="radio" name="type" ng-model="data.type" value="email" checked></label>
                             E-mail
                         </span>
                     </div>
                     <div class="col">
-                        <span class="item item-checkbox">
-                            <label class="checkbox"><input type="radio" name="conformation"  ng-model="data.conformation" value="phone"></label>
+                        <span class="item-clear item-checkbox">
+                            <label class="checkbox"><input type="radio" name="type"  ng-model="data.type" value="phone"></label>
                             Phone
                         </span>
                     </div>

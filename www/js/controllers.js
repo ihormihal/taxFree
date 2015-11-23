@@ -59,16 +59,13 @@ angular.module('app.controllers', [])
     };
 })
 
-.controller('signupCtrl', function($scope, SignUpService, $ionicPopup, $state) {
-    $scope.data = {
-        email: 'ihor.mihal@gmail.com',
-        phone: '0',
-        conformation: 'email'
-    };
+.controller('signupCtrl', function($scope, $state, $ionicPopup, LoginService) {
+    $scope.data = LoginService.data;
 
     $scope.signup = function() {
-        SignUpService.signup($scope.data.email, $scope.data.phone, $scope.data.conformation).success(function(data) {
-            $state.go('app.code',{type: $scope.data.conformation});
+        LoginService.signup($scope.data.email, $scope.data.phone, $scope.data.type).success(function(data) {
+            console.log($scope.data.type);
+            $state.go('app.signupConformation');
         }).error(function(data) {
             $ionicPopup.alert({
                 title: 'Error!',
@@ -76,16 +73,8 @@ angular.module('app.controllers', [])
             });
         });
     };
-})
-
-.controller('codeCtrl', function($scope, $state, $stateParams, $ionicPopup, SignUpService) {
-    $scope.data = {
-        type: $stateParams.type,
-        code: '0000'
-    };
-
     $scope.confirm = function() {
-        SignUpService.confirm($scope.data.code).success(function(data) {
+        LoginService.confirm($scope.data.code).success(function(data) {
             $state.go('app.reg');
         }).error(function(data) {
             $ionicPopup.alert({
@@ -95,6 +84,7 @@ angular.module('app.controllers', [])
         });
     };
 })
+
 
 .controller('regCtrl', function($scope, $state, $ionicPopup, ProfileService) {
     $scope.data = {
@@ -110,6 +100,43 @@ angular.module('app.controllers', [])
             });
         });
     }
+})
+
+.controller('passwordRecoveryCtrl', function($scope, $state, $ionicPopup, LoginService) {
+    $scope.data = LoginService.data;
+
+    $scope.send = function() {
+        LoginService.passwordRecovery($scope.data.email, $scope.data.phone, $scope.data.type).success(function(data) {
+            $state.go('app.passwordRecoveryConformation');
+        }).error(function(data) {
+            $ionicPopup.alert({
+                title: 'Error!',
+                template: data
+            });
+        });
+    };
+
+    $scope.confirm = function() {
+        LoginService.confirm($scope.data.code).success(function(data) {
+            $state.go('app.passwordRestore');
+        }).error(function(data) {
+            $ionicPopup.alert({
+                title: 'Error!',
+                template: data
+            });
+        });
+    };
+
+    $scope.restore = function() {
+        LoginService.passwordRestore($scope.data.password).success(function(data) {
+            $state.go('app.signin');
+        }).error(function(data) {
+            $ionicPopup.alert({
+                title: 'Error!',
+                template: data
+            });
+        });
+    };
 })
 
 .controller('helpCtrl', function($scope) {

@@ -1,0 +1,28 @@
+.item-clear {
+	position: relative;
+	display: block;
+	margin: 7px 0;
+	&.item-checkbox {
+		padding-left: 46px;
+	}
+	.checkbox {
+		left: 0;
+		padding-left: 0;
+	}
+}
+.image {
+	width: 100%;
+	overflow: hidden;
+	img {
+		width: 100%;
+		height: auto;
+	}
+}
+.logo {
+	width: 30%;
+	margin: 0 auto;
+}
+
+.platform-android .view-container .tabs-top .tabs {
+	top: 43px !important;
+}

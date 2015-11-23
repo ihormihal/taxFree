@@ -16,41 +16,71 @@ angular.module('app.routes', [])
     })
 
     .state('app.signin', {
-      url: '/signin',
+      url: '/login/signin',
       views: {
         'menuContent': {
-          templateUrl: 'templates/signin.html',
+          templateUrl: 'templates/login/signin.html',
           controller: 'signinCtrl'
         }
       }
     })
 
     .state('app.signup', {
-      url: '/signup',
+      url: '/login/signup',
       views: {
         'menuContent': {
-          templateUrl: 'templates/signup.html',
+          templateUrl: 'templates/login/signup.html',
           controller: 'signupCtrl'
         }
       }
     })
 
-    .state('app.code', {
-      url: '/signup/code/:type',
+    .state('app.signupConformation', {
+      url: '/login/signup-conformation/',
       views: {
         'menuContent': {
-          templateUrl: 'templates/signup/code.html',
-          controller: 'codeCtrl'
+          templateUrl: 'templates/login/signup-conformation.html',
+          controller: 'signupCtrl'
         }
       }
     })
 
     .state('app.reg', {
-      url: '/signup/reg',
+      url: '/login/reg',
       views: {
         'menuContent': {
-          templateUrl: 'templates/signup/reg.html',
+          templateUrl: 'templates/login/reg.html',
           controller: 'regCtrl'
+        }
+      }
+    })
+
+    .state('app.passwordRecovery', {
+      url: '/login/password-recovery',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/login/password-recovery.html',
+          controller: 'passwordRecoveryCtrl'
+        }
+      }
+    })
+
+    .state('app.passwordRecoveryConformation', {
+      url: '/login/password-recovery-conformation/',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/login/password-recovery-conformation.html',
+          controller: 'passwordRecoveryCtrl'
+        }
+      }
+    })
+
+    .state('app.passwordRestore', {
+      url: '/login/password-restore',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/login/password-restore.html',
+          controller: 'passwordRecoveryCtrl'
         }
       }
     })
@@ -139,6 +169,6 @@ angular.module('app.routes', [])
 ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/signin');
+  $urlRouterProvider.otherwise('/login/signin');
 
 });
