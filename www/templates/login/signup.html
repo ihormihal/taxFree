@@ -19,24 +19,24 @@
                     <span class="input-label">Phone country code / Phone number * </span>
                     <input type="text" ng-model="data.phone" placeholder="(000) 000-00-00">
                 </label>
-            </ion-list>
-            <div class="item">
-                <span class="input-label">Sign up confirmation *</span>
-                <div class="row row-no-padding">
-                    <div class="col">
-                        <span class="item-clear item-checkbox">
-                            <label class="checkbox"><input type="radio" name="type" ng-model="data.type" value="email" checked></label>
-                            E-mail
-                        </span>
-                    </div>
-                    <div class="col">
-                        <span class="item-clear item-checkbox">
-                            <label class="checkbox"><input type="radio" name="type"  ng-model="data.type" value="phone"></label>
-                            Phone
-                        </span>
+                <div class="item item-stacked-label-row">
+                    <span class="input-label">Sign up confirmation *</span>
+                    <div class="row row-no-padding">
+                        <div class="col">
+                            <span class="item-clear item-checkbox">
+                                <label class="checkbox"><input type="radio" name="type" ng-model="data.type" value="email" checked></label>
+                                E-mail
+                            </span>
+                        </div>
+                        <div class="col">
+                            <span class="item-clear item-checkbox">
+                                <label class="checkbox"><input type="radio" name="type"  ng-model="data.type" value="phone"></label>
+                                Phone
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </ion-list>
             <button class="button button-stable button-block button-positive" ng-click="signup()">Confirm</button>
         </form>
     </ion-content>
