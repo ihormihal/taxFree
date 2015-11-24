@@ -42,108 +42,108 @@ angular.module('app.controllers', [])
 })
 
 .controller('signinCtrl', function($scope, SignInService, $ionicPopup, $state) {
-    $scope.data = {
-        email: 'ihor.mihal@gmail.com',
-        password: '0000'
-    };
+  $scope.data = {
+    email: 'ihor.mihal@gmail.com',
+    password: '0000'
+  };
 
-    $scope.signin = function() {
-        SignInService.signin($scope.data.email, $scope.data.password).success(function(data) {
-            $state.go('app.profile.main');
-        }).error(function(data) {
-            $ionicPopup.alert({
-                title: 'Login failed!',
-                template: 'Please check your login or password!'
-            });
-        });
-    };
+  $scope.signin = function() {
+    SignInService.signin($scope.data.email, $scope.data.password).success(function(data) {
+      $state.go('app.profile.main');
+    }).error(function(data) {
+      $ionicPopup.alert({
+        title: 'Login failed!',
+        template: 'Please check your login or password!'
+      });
+    });
+  };
 })
 
 .controller('signupCtrl', function($scope, $state, $ionicPopup, LoginService) {
-    $scope.data = LoginService.data;
+  $scope.data = LoginService.data;
 
-    $scope.signup = function() {
-        LoginService.signup($scope.data.email, $scope.data.phone, $scope.data.type).success(function(data) {
-            console.log($scope.data.type);
-            $state.go('app.signupConformation');
-        }).error(function(data) {
-            $ionicPopup.alert({
-                title: 'Error!',
-                template: data
-            });
-        });
-    };
-    $scope.confirm = function() {
-        LoginService.confirm($scope.data.code).success(function(data) {
-            $state.go('app.reg');
-        }).error(function(data) {
-            $ionicPopup.alert({
-                title: 'Error!',
-                template: data
-            });
-        });
-    };
+  $scope.signup = function() {
+    LoginService.signup($scope.data.email, $scope.data.phone, $scope.data.type).success(function(data) {
+      console.log($scope.data.type);
+      $state.go('app.signupConformation');
+    }).error(function(data) {
+      $ionicPopup.alert({
+        title: 'Error!',
+        template: data
+      });
+    });
+  };
+  $scope.confirm = function() {
+    LoginService.confirm($scope.data.code).success(function(data) {
+      $state.go('app.reg');
+    }).error(function(data) {
+      $ionicPopup.alert({
+        title: 'Error!',
+        template: data
+      });
+    });
+  };
 })
 
 
 .controller('regCtrl', function($scope, $state, $ionicPopup, ProfileService) {
-    $scope.data = {
+  $scope.data = {
 
-    };
-    $scope.save = function(){
-        ProfileService.save($scope.data).success(function(data) {
-            $state.go('app.profile.main');
-        }).error(function(data) {
-            $ionicPopup.alert({
-                title: 'Error!',
-                template: data
-            });
-        });
-    }
+  };
+  $scope.save = function() {
+    ProfileService.save($scope.data).success(function(data) {
+      $state.go('app.profile.main');
+    }).error(function(data) {
+      $ionicPopup.alert({
+        title: 'Error!',
+        template: data
+      });
+    });
+  }
 })
 
 .controller('passwordRecoveryCtrl', function($scope, $state, $ionicPopup, LoginService) {
-    $scope.data = LoginService.data;
+  $scope.data = LoginService.data;
 
-    $scope.send = function() {
-        LoginService.passwordRecovery($scope.data.email, $scope.data.phone, $scope.data.type).success(function(data) {
-            $state.go('app.passwordRecoveryConformation');
-        }).error(function(data) {
-            $ionicPopup.alert({
-                title: 'Error!',
-                template: data
-            });
-        });
-    };
+  $scope.send = function() {
+    LoginService.passwordRecovery($scope.data.email, $scope.data.phone, $scope.data.type).success(function(data) {
+      $state.go('app.passwordRecoveryConformation');
+    }).error(function(data) {
+      $ionicPopup.alert({
+        title: 'Error!',
+        template: data
+      });
+    });
+  };
 
-    $scope.confirm = function() {
-        LoginService.confirm($scope.data.code).success(function(data) {
-            $state.go('app.passwordRestore');
-        }).error(function(data) {
-            $ionicPopup.alert({
-                title: 'Error!',
-                template: data
-            });
-        });
-    };
+  $scope.confirm = function() {
+    LoginService.confirm($scope.data.code).success(function(data) {
+      $state.go('app.passwordRestore');
+    }).error(function(data) {
+      $ionicPopup.alert({
+        title: 'Error!',
+        template: data
+      });
+    });
+  };
 
-    $scope.restore = function() {
-        LoginService.passwordRestore($scope.data.password).success(function(data) {
-            $state.go('app.signin');
-        }).error(function(data) {
-            $ionicPopup.alert({
-                title: 'Error!',
-                template: data
-            });
-        });
-    };
+  $scope.restore = function() {
+    LoginService.passwordRestore($scope.data.password).success(function(data) {
+      $state.go('app.signin');
+    }).error(function(data) {
+      $ionicPopup.alert({
+        title: 'Error!',
+        template: data
+      });
+    });
+  };
 })
 
 .controller('helpCtrl', function($scope) {
 
 })
 
-.controller('tripsCtrl', function($scope,Trips) {
+.controller('tripsCtrl', function($scope, Trips) {
   $scope.trips = Trips.all();
 })
 
@@ -153,20 +153,18 @@ angular.module('app.controllers', [])
   $scope.data = Trips.get($scope.id);
 })
 
-.controller('profileMainCtrl', function($scope,ProfileService) {
-	$scope.user = ProfileService.profile;
+.controller('profileMainCtrl', function($scope, ProfileService) {
+  $scope.user = ProfileService.profile;
 })
 
-.controller('profileAdditionalCtrl', function($scope,ProfileService) {
-	$scope.user = ProfileService.profile;
+.controller('profileAdditionalCtrl', function($scope, ProfileService) {
+  $scope.user = ProfileService.profile;
 })
 
-.controller('profilePassCtrl', function($scope,ProfileService) {
-	$scope.user = ProfileService.profile;
+.controller('profilePassCtrl', function($scope, ProfileService) {
+  $scope.user = ProfileService.profile;
 })
 
-.controller('profileAddressCtrl', function($scope,ProfileService) {
-	$scope.user = ProfileService.profile;
+.controller('profileAddressCtrl', function($scope, ProfileService) {
+  $scope.user = ProfileService.profile;
 });
-
-

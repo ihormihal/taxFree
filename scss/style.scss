@@ -1,18 +1,8 @@
-.item-clear {
-	position: relative;
-	display: block;
-	margin: 7px 0;
-	&.item-checkbox {
-		padding-left: 46px;
-	}
-	.checkbox {
-		left: 0;
-		padding-left: 0;
-	}
+a {
+	color: $positive;
+	text-decoration: none;
 }
-.item-stacked-label-row {
-	padding: 6px 0 5px 16px;
-}
+//generally for image container
 .image {
 	width: 100%;
 	overflow: hidden;
@@ -25,7 +15,24 @@
 	width: 30%;
 	margin: 0 auto;
 }
-
+//for multiple checkboxes in row
+.item-clear {
+	position: relative;
+	display: block;
+	margin: 7px 0;
+	&.item-checkbox {
+		padding-left: 46px;
+	}
+	.checkbox {
+		left: 0;
+		padding-left: 0;
+	}
+}
+//label for multiple checkboxes in row
+.item-stacked-label-row {
+	padding: 6px 0 5px 16px;
+}
+//tabs position fix for android
 .platform-android .view-container .tabs-top .tabs {
 	top: 43px !important;
 }

@@ -9088,3 +9088,34 @@ a.button {
   opacity: 0;
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
+
+a {
+  color: #387ef5;
+  text-decoration: none; }
+
+.image {
+  width: 100%;
+  overflow: hidden; }
+  .image img {
+    width: 100%;
+    height: auto; }
+
+.logo {
+  width: 30%;
+  margin: 0 auto; }
+
+.item-clear {
+  position: relative;
+  display: block;
+  margin: 7px 0; }
+  .item-clear.item-checkbox {
+    padding-left: 46px; }
+  .item-clear .checkbox {
+    left: 0;
+    padding-left: 0; }
+
+.item-stacked-label-row {
+  padding: 6px 0 5px 16px; }
+
+.platform-android .view-container .tabs-top .tabs {
+  top: 43px !important; }
