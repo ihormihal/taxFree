@@ -1,12 +1,4 @@
 {
   "name": "taxFree",
-  "app_id": "f6bc8b20",
-  "gulpStartupTasks": [
-    "sass",
-    "watch"
-  ],
-  "watchPatterns": [
-    "www/**/*",
-    "!www/lib/**/*"
-  ]
+  "app_id": ""
 }

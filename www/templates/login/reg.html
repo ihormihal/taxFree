@@ -8,7 +8,7 @@
         <p class="text-center">Personal data</p>
 
         <div class="spacer" style="height:20px"></div>
-        <form class="list">
+        <form class="list" name="regForm">
             <ion-list>
                 <label class="item item-input item-select">
                     <span class="input-label">How can we call You? *</span>
@@ -30,6 +30,24 @@
                     <input type="text" placeholder="">
                 </label>
             </ion-list>
+
+
+            Photo: <input type="file" ngf-select ng-model="picFile" name="file" accept="image/*" ngf-max-size="2MB" required>
+            <i ng-show="regForm.file.$error.required">*required</i>
+
+            <i ng-show="regForm.file.$error.maxSize">File too large {{picFile.size / 1000000|number:1}}MB: max 2M</i>
+            <img ng-show="regForm.file.$valid" ngf-thumbnail="picFile" class="thumb">
+            <button ng-click="picFile = null" ng-show="picFile">Remove</button>
+
+            <button ng-disabled="!regForm.$valid" ng-click="uploadPic(picFile)">Submit</button>
+            <span class="progress" ng-show="picFile.progress >= 0">
+              <div style="width:{{picFile.progress}}%" ng-bind="picFile.progress + '%'"></div>
+            </span>
+            <span ng-show="picFile.result">Upload Successful</span>
+            <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+
+
+
             <div class="spacer" style="height:20px"></div>
             <ion-list>
                 <label class="item item-input item-stacked-label">
