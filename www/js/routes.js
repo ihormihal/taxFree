@@ -8,86 +8,59 @@ angular.module('app.routes', [])
   // Each state's controller can be found in controllers.js
   $stateProvider
 
-  .state('app', {
-    url: '',
+  // LOGIN
+  .state('signin', {
+    url: '/login/signin',
+    templateUrl: 'templates/login/signin.html',
+    controller: 'signinCtrl'
+  })
+  // SIGNUP
+  .state('signup', {
+    url: '/login/signup',
+    templateUrl: 'templates/login/signup.html',
+    controller: 'signupCtrl'
+  })
+  // SIGNUP CONFORMATION
+  .state('signupConformation', {
+    url: '/login/signup-conformation',
+    templateUrl: 'templates/login/signup-conformation.html',
+    controller: 'signupCtrl'
+  })
+  // REG
+  .state('reg', {
+    url: '/login/reg',
+    templateUrl: 'templates/login/reg.html',
+    controller: 'regCtrl'
+  })
+  // Password Recovery
+  .state('passwordRecovery', {
+    url: '/login/password-recovery',
+    templateUrl: 'templates/login/password-recovery.html',
+    controller: 'passwordRecoveryCtrl'
+  })
+  // Password Recovery Conformation
+  .state('passwordRecoveryConformation', {
+    url: '/login/password-recovery-conformation',
+    templateUrl: 'templates/login/password-recovery-conformation.html',
+    controller: 'passwordRecoveryCtrl'
+  })
+  // Password Reset
+  .state('passwordReset', {
+    url: '/login/password-reset',
+    templateUrl: 'templates/login/password-reset.html',
+    controller: 'passwordResetCtrl'
+  })
+
+  //main
+  .state('main', {
+    url: '/main',
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
 
-  // LOGIN
-  .state('app.signin', {
-    url: '/login/signin',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/login/signin.html',
-        controller: 'signinCtrl'
-      }
-    }
-  })
-
-  .state('app.signup', {
-    url: '/login/signup',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/login/signup.html',
-        controller: 'signupCtrl'
-      }
-    }
-  })
-
-  .state('app.signupConformation', {
-    url: '/login/signup-conformation/',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/login/signup-conformation.html',
-        controller: 'signupCtrl'
-      }
-    }
-  })
-
-  .state('app.reg', {
-    url: '/login/reg',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/login/reg.html',
-        controller: 'regCtrl'
-      }
-    }
-  })
-
-  .state('app.passwordRecovery', {
-    url: '/login/password-recovery',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/login/password-recovery.html',
-        controller: 'passwordRecoveryCtrl'
-      }
-    }
-  })
-
-  .state('app.passwordRecoveryConformation', {
-    url: '/login/password-recovery-conformation/',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/login/password-recovery-conformation.html',
-        controller: 'passwordRecoveryCtrl'
-      }
-    }
-  })
-
-  .state('app.passwordRestore', {
-    url: '/login/password-restore',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/login/password-restore.html',
-        controller: 'passwordRecoveryCtrl'
-      }
-    }
-  })
-
   //HELP
-  .state('app.help', {
+  .state('main.help', {
     url: '/help',
     views: {
       'menuContent': {
@@ -98,7 +71,7 @@ angular.module('app.routes', [])
   })
 
   //PROFILE
-  .state('app.profile', {
+  .state('main.profile', {
     url: "/profile",
     abstract: true,
     views: {
@@ -108,7 +81,7 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('app.profile.main', {
+  .state('main.profile.main', {
     url: '/main',
     views: {
       'main': {
@@ -118,7 +91,7 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('app.profile.additional', {
+  .state('main.profile.additional', {
     url: '/additional',
     views: {
       'additional': {
@@ -128,7 +101,7 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('app.profile.pass', {
+  .state('main.profile.pass', {
     url: '/pass',
     views: {
       'pass': {
@@ -138,7 +111,7 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('app.profile.address', {
+  .state('main.profile.address', {
     url: '/address',
     views: {
       'address': {
@@ -149,7 +122,7 @@ angular.module('app.routes', [])
   })
 
   //TRIPS LIST
-  .state('app.trips', {
+  .state('main.trips', {
     url: '/trips',
     views: {
       'menuContent': {
@@ -159,7 +132,7 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('app.single', {
+  .state('main.single', {
     url: '/trips/:id',
     views: {
       'menuContent': {

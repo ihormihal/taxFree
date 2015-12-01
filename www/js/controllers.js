@@ -49,7 +49,7 @@ angular.module('app.controllers', [])
 
   $scope.signin = function() {
     SignInService.signin($scope.data.email, $scope.data.password).success(function(data) {
-      $state.go('app.profile.main');
+      $state.go('main.profile.main');
     }).error(function(data) {
       $ionicPopup.alert({
         title: 'Login failed!',
@@ -65,7 +65,7 @@ angular.module('app.controllers', [])
   $scope.signup = function() {
     LoginService.signup($scope.data.email, $scope.data.phone, $scope.data.type).success(function(data) {
       console.log($scope.data.type);
-      $state.go('app.signupConformation');
+      $state.go('signupConformation');
     }).error(function(data) {
       $ionicPopup.alert({
         title: 'Error!',
@@ -75,7 +75,7 @@ angular.module('app.controllers', [])
   };
   $scope.confirm = function() {
     LoginService.confirm($scope.data.code).success(function(data) {
-      $state.go('app.reg');
+      $state.go('reg');
     }).error(function(data) {
       $ionicPopup.alert({
         title: 'Error!',
@@ -111,7 +111,7 @@ angular.module('app.controllers', [])
 
   $scope.save = function() {
     ProfileService.save($scope.data).success(function(data) {
-      $state.go('app.profile.main');
+      $state.go('main.profile.main');
     }).error(function(data) {
       $ionicPopup.alert({
         title: 'Error!',
@@ -126,7 +126,7 @@ angular.module('app.controllers', [])
 
   $scope.send = function() {
     LoginService.passwordRecovery($scope.data.email, $scope.data.phone, $scope.data.type).success(function(data) {
-      $state.go('app.passwordRecoveryConformation');
+      $state.go('passwordRecoveryConformation');
     }).error(function(data) {
       $ionicPopup.alert({
         title: 'Error!',
@@ -137,7 +137,7 @@ angular.module('app.controllers', [])
 
   $scope.confirm = function() {
     LoginService.confirm($scope.data.code).success(function(data) {
-      $state.go('app.passwordRestore');
+      $state.go('passwordReset');
     }).error(function(data) {
       $ionicPopup.alert({
         title: 'Error!',
