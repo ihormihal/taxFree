@@ -1,29 +1,26 @@
-<ion-view title="Sign In">
-    <ion-content padding="'true'" scroll="false" class="has-header">
+<ion-view id="sigin" id="signin" hide-nav-bar="true">
+    <ion-content padding="'true'" scroll="false" class="">
         <div class="spacer" style="height:20px"></div>
         <div class="logo image">
             <img src="img/logo.png">
         </div>
-        <h2 class="text-center">Sign in</h2>
+        <h1 class="text-center white">Авторизация</h1>
+        <p class="text-center white">Еще нет аккаунта? <a href="#/login/signup" class="white">Регистрация</a></p>
 
         <div class="spacer" style="height:20px"></div>
-        <form class="list">
-            <ion-list>
-                <label class="item item-input item-stacked-label">
-                    <span class="input-label">E-mail (login) *</span>
-                    <input type="email" ng-model="data.email" placeholder="">
+        <form>
+            <div class="list inputs-on-background">
+                <label class="item item-input">
+                    <input type="email" ng-model="data.email" placeholder="E-mail">
                 </label>
-                <label class="item item-input item-stacked-label">
-                    <span class="input-label">Password</span>
-                    <input type="password" ng-model="data.password" placeholder="">
+                <label class="item item-input">
+                    <input type="password" ng-model="data.password" placeholder="Password">
                 </label>
-            </ion-list>
-            <div class="spacer" style="height: 10px;"></div>
-            <p><a href="#/login/password-recovery">Forgot password?</a></p>
-            <button class="button button-stable button-block button-positive" ng-click="signin()">Sign In</button>
-            <div class="spacer" style="height: 10px;"></div>
-            <p class="text-center">New to TaxFree4U?</p>
-            <p class="text-center"><a href="#/login/signup">Sign up</a></p>
+            </div>
+            <p class="text-center"><a href="#/login/password-recovery" class="white">Забыли пароль?</a></p>
+            <div class="spacer" style="height: 20px;"></div>
+
+            <button class="button button-block button-outline button-white up" ng-click="signin()">Вход</button>
         </form>
     </ion-content>
 </ion-view>

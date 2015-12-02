@@ -1,26 +1,26 @@
-<ion-view title="Conformation">
-    <ion-content padding="'true'" scroll="true" class="has-header">
+<ion-view id="signup-step-1" hide-nav-bar="true">
+    <ion-content padding="'true'" scroll="false" class="">
         <div class="spacer" style="height:20px"></div>
         <div class="logo image">
             <img src="img/logo.png">
         </div>
-        <h2 class="text-center" ng-show="data.type == 'phone'">Enter your SMS code</h2>
-        <h2 class="text-center" ng-show="data.type == 'email'">Enter code from recived email</h2>
-        <p class="text-center">You need to confirm your code during 1 hour</p>
+        <h1 class="text-center white" ng-show="data.type == 'phone'">Enter your SMS code</h1>
+        <h1 class="text-center white" ng-show="data.type == 'email'">Enter code from recived email</h1>
+        <p class="text-center white">You need to confirm your code during 1 hour</p>
 
         <div class="spacer" style="height:20px"></div>
-        <form class="list">
-            <ion-list>
-                <label class="item item-input item-stacked-label">
+        <form>
+            <div class="list inputs-on-background">
+                <label class="item item-input">
                     <input type="text" ng-model="data.code" placeholder="xxxxxxxx">
                 </label>
             </ion-list>
             <div class="spacer" style="height:20px"></div>
             <p class="text-center">
-                <a href="#/login/signup">Back to sign up form</a>
+                <a href="#/login/signup" class="white">Back to sign up form</a>
             </p>
-            <div class="spacer" style="height:10px"></div>
-            <button class="button button-stable button-block button-positive" ng-click="confirm()">Confirm</button>
+            <div class="spacer" style="height:20px"></div>
+            <button class="button button-block button-outline button-white up" ng-click="confirm()">Подтвердить</button>
         </form>
     </ion-content>
 </ion-view>

@@ -1,35 +1,39 @@
-<ion-view title="SignUp">
-    <ion-content padding="'true'" scroll="true" class="has-header">
+<ion-view id="signup-step-2" hide-nav-bar="true">
+    <ion-content padding="false" scroll="true" class="">
         <div class="spacer" style="height:20px"></div>
         <div class="logo image">
             <img src="img/logo.png">
         </div>
-        <h2 class="text-center">Sign up step 2</h2>
-        <p class="text-center">Personal data</p>
+        <h1 class="text-center">Регистрация</h1>
+        <p class="text-center">Шаг 2</p>
+        <p class="text-center positive">Личные данные</p>
 
         <div class="spacer" style="height:20px"></div>
-        <form class="list" name="regForm">
-            <ion-list>
+        <form name="regForm">
+            <div class="list">
                 <label class="item item-input item-select">
-                    <span class="input-label">How can we call You? *</span>
+                    <span class="input-label">Как к Вам обращаться? <sup>*</sup></span>
                     <select>
                         <option>Mr.</option>
                         <option>Mrs.</option>
                         <option>Ms.</option>
                     </select>
                 </label>
+                <label class="item item-input">
+                    <input type="text" placeholder="Ф.И.О.">
+                </label>
                 <label class="item item-input item-select">
-                    <div class="input-label">Country of residence *</div>
+                    <div class="input-label">Страна проживания <sup>*</sup></div>
                     <select>
                         <option>Russia</option>
                         <option selected>Ukraine</option>
                     </select>
                 </label>
                 <label class="item item-input item-stacked-label">
-                    <span class="input-label">Home adress *</span>
-                    <input type="text" placeholder="">
+                    <span class="input-label">Домашний адрес <sup>*</sup></span>
+                    <input type="text" placeholder="Город, улица, дом, квартира">
                 </label>
-            </ion-list>
+            </div>
 
 
             Photo: <input type="file" ngf-select ng-model="picFile" name="file" accept="image/*" ngf-max-size="2MB" required>
