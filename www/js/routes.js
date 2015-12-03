@@ -48,7 +48,7 @@ angular.module('app.routes', [])
   .state('passwordReset', {
     url: '/login/password-reset',
     templateUrl: 'templates/login/password-reset.html',
-    controller: 'passwordResetCtrl'
+    controller: 'passwordRecoveryCtrl'
   })
 
   //main
@@ -91,32 +91,12 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('main.profile.additional', {
-    url: '/additional',
+  .state('main.profile.password', {
+    url: '/password',
     views: {
-      'additional': {
-        templateUrl: 'templates/profile/additional.html',
-        controller: 'profileAdditionalCtrl'
-      }
-    }
-  })
-
-  .state('main.profile.pass', {
-    url: '/pass',
-    views: {
-      'pass': {
-        templateUrl: 'templates/profile/pass.html',
-        controller: 'profilePassCtrl'
-      }
-    }
-  })
-
-  .state('main.profile.address', {
-    url: '/address',
-    views: {
-      'address': {
-        templateUrl: 'templates/profile/address.html',
-        controller: 'profileAddressCtrl'
+      'password': {
+        templateUrl: 'templates/profile/password.html',
+        controller: 'profilePasswordCtrl'
       }
     }
   })

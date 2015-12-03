@@ -1,16 +1,11 @@
+
 <ion-view title="Profile">
-    <ion-tabs class="tabs-stable tabs-icon-top">
-        <ion-tab title="Main" icon="ion-ios-contact" href="#/profile/main">
+    <ion-tabs class="tabs-icon-left tabs-background-positive tabs-color-light">
+        <ion-tab title="Личные данные" icon="ion-ios-contact" href="#main/profile/main">
             <ion-nav-view name="main"></ion-nav-view>
         </ion-tab>
-        <ion-tab title="Additional" icon="ion-ios-cloud" href="#/profile/additional">
-            <ion-nav-view name="additional"></ion-nav-view>
-        </ion-tab>
-        <ion-tab title="Pass" icon="ion-ios-cloud" href="#/profile/pass">
-            <ion-nav-view name="pass"></ion-nav-view>
-        </ion-tab>
-        <ion-tab title="Address" icon="ion-ios-cloud" href="#/profile/address">
-            <ion-nav-view name="address"></ion-nav-view>
+        <ion-tab title="Пароль" icon="ion-ios-locked" href="#main/profile/password">
+            <ion-nav-view name="password"></ion-nav-view>
         </ion-tab>
     </ion-tabs>
 </ion-view>

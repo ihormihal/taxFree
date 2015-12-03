@@ -86,12 +86,17 @@ angular.module('app.controllers', [])
 })
 
 
-.controller('regCtrl', function($scope, $state, $ionicPopup, ProfileService, Upload, $timeout) {
-  $scope.data = {
+.controller('regCtrl', function($scope, $state, $timeout, $ionicPopup, ProfileService, Upload) {
+  $scope.data = {};
 
-  };
+  //FILE UPLOADING
+  $scope.$watch('data.file', function () {
+    if ($scope.data.file != null) {
+      $scope.upload($scope.data.file);
+    }
+  });
 
-  $scope.uploadPic = function(file) {
+  $scope.upload = function(file) {
     file.upload = Upload.upload({
       url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
       data: {file: file}
@@ -105,9 +110,10 @@ angular.module('app.controllers', [])
         $scope.errorMsg = response.status + ': ' + response.data;
       }
     }, function (evt) {
-      file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+      //file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
     });
   };
+
 
   $scope.save = function() {
     ProfileService.save($scope.data).success(function(data) {
@@ -148,7 +154,7 @@ angular.module('app.controllers', [])
 
   $scope.restore = function() {
     LoginService.passwordRestore($scope.data.password).success(function(data) {
-      $state.go('app.signin');
+      $state.go('signin');
     }).error(function(data) {
       $ionicPopup.alert({
         title: 'Error!',
@@ -172,18 +178,40 @@ angular.module('app.controllers', [])
   $scope.data = Trips.get($scope.id);
 })
 
-.controller('profileMainCtrl', function($scope, ProfileService) {
+.controller('profileMainCtrl', function($scope, $timeout, ProfileService, Upload) {
   $scope.user = ProfileService.profile;
+  $scope.data = {};
+  //FILE UPLOADING
+  $scope.$watch('data.file', function () {
+    if ($scope.data.file != null) {
+      $scope.upload($scope.data.file);
+    }
+  });
+
+  $scope.upload = function(file) {
+    file.upload = Upload.upload({
+      url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+      data: {file: file}
+    });
+    file.upload.then(function (response) {
+      $timeout(function () {
+        file.result = response.data;
+      });
+    }, function (response) {
+      if (response.status > 0){
+        $scope.errorMsg = response.status + ': ' + response.data;
+      }
+    }, function (evt) {
+      //file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+    });
+  };
+
 })
 
-.controller('profileAdditionalCtrl', function($scope, ProfileService) {
+.controller('profilePasswordCtrl', function($scope, ProfileService) {
   $scope.user = ProfileService.profile;
 })
 
 .controller('profilePassCtrl', function($scope, ProfileService) {
-  $scope.user = ProfileService.profile;
-})
-
-.controller('profileAddressCtrl', function($scope, ProfileService) {
   $scope.user = ProfileService.profile;
 });

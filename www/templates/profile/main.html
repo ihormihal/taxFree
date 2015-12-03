@@ -1,24 +1,82 @@
-<ion-view title="Main Info">
-    <ion-content padding="'true'" class="has-header">
-        <form class="list">
-            <ion-list>
-                <label class="item item-input">
-                    <span class="input-label">Name</span>
-                    <input type="text" placeholder="" ng-model="user.name">
+<ion-view title="Профиль">
+    <ion-content padding="false" scroll="true" class="has-header">
+        <form>
+            <div class="list">
+                <label class="item item-input item-select top-item">
+                    <span class="input-label">Как к Вам обращаться? <sup>*</sup></span>
+                    <select>
+                        <option>Mr.</option>
+                        <option>Mrs.</option>
+                        <option>Ms.</option>
+                    </select>
                 </label>
                 <label class="item item-input">
-                    <span class="input-label">Surname</span>
-                    <input type="password" placeholder="" ng-model="user.surname">
+                    <input type="text" placeholder="Ф.И.О.">
                 </label>
-                <label class="item item-input">
-                    <span class="input-label">E-mail</span>
-                    <input type="email" placeholder="" ng-model="user.email">
+                <label class="item item-input item-stacked-label">
+                    <div class="input-label">Страна проживания <sup>*</sup></div>
+                    <div class="item-select">
+                        <select>
+                            <option>Russia</option>
+                            <option selected>Ukraine</option>
+                        </select>
+                    </div>
                 </label>
-                <label class="item item-input">
-                    <span class="input-label">Phone</span>
-                    <input type="tel" placeholder="" ng-model="user.phone">
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Домашний адрес <sup>*</sup></span>
+                    <input type="text" placeholder="Город, улица, дом, квартира">
                 </label>
-            </ion-list>
+                <label class="item">
+                    <span class="input-label">Фото загранпаспорта <sup>*</sup></span>
+                    <div
+                        class="button button-block button-outline button-positive"
+                        ngf-select
+                        ng-model="data.file"
+                        accept="image/*"
+                        ngf-pattern="'image/*'"
+                        ngf-max-size="2MB"
+                        ng-hide="data.file"
+                    >
+                        <i class="icon ion-ios-plus-empty"></i>
+                        Загрузить фото
+                        <i ng-show="data.file.$error.required">*required</i>
+                    </div>
+                    <div class="image-preview" ng-show="data.file">
+                        <table class="table spinner-table">
+                            <tr>
+                                <td class="image">
+                                    <ion-spinner icon="spiral" class="spinner-positive" ng-hide="data.file.result"></ion-spinner>
+                                    <div ng-show="data.file.result"><img ngf-thumbnail="data.file"></div>
+                                </td>
+                                <td class="action">
+                                    <div class="remove" ng-click="data.file = null">
+                                        <i class="icon ion-android-close"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Пароль *</span>
+                    <input type="password" placeholder="Минимально 8 символов">
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Подтверждение пароля *</span>
+                    <input type="password" placeholder="Введите пароль снова">
+                </label>
+                <div class="item item-checkbox">
+                    <label class="checkbox">
+                        <input type="checkbox">
+                    </label>
+                    Согласен с <a href="#/help">условиями использования</a>
+                </div>
+            </div>
+            <div class="spacer" style="height:20px"></div>
+            <div class="padding">
+                <button class="button button-stable button-block button-positive up" ng-click="save()">Отправить</button>
+            </div>
         </form>
     </ion-content>
 </ion-view>

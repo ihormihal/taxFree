@@ -104,13 +104,18 @@ a {
 //label for multiple checkboxes in row
 .item-stacked-label-row {
 	padding: 6px 0 5px 16px;
+	&:after {
+		display: block;
+		content: '';
+		clear: both;
+	}
 }
 //tabs position fix for android
 .platform-android .view-container .tabs-top .tabs {
-	top: 43px !important;
+	top: 44px !important;
 }
 
-#signin, #signup-step-1 {
+.main-background {
 	.scroll-content {
 		background-image: url(../img/background.jpg);
 		background-size: cover;
@@ -119,6 +124,9 @@ a {
 
 .inputs-on-background {
 	background-color: transparent;
+	.input-label {
+		width: 100%;
+	}
 	.item-input {
 		border: none;
 		margin-bottom: 10px;
@@ -149,4 +157,74 @@ a {
 }
 .input-label sup {
 	color: $positive;
+}
+.item-transparent-white {
+	border: none;
+	background-color: transparent;
+	.input-label {
+		color: white;
+		width: 100%;
+		max-width: 100%;
+	}
+	.checkbox input:before, .checkbox-icon:before {
+		background-color: transparent;
+		border-color: white;
+	}
+	.checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
+		background-color: white;
+		border-color: white;
+	}
+	.checkbox input:after, .checkbox-icon:after {
+		border-color: $positive;
+	}
+	background: none;
+	color: white;
+}
+.image-preview {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	table {
+		width: 100%;
+		td {
+			vertical-align: middle;
+		}
+	}
+	.image {
+		width: 70%;
+		text-align: center;
+		.spinner {
+			height: 28px;
+			width: 28px;
+		}
+		img {
+			max-width: 100%;
+			max-height: 100%;
+			height: auto;
+			width: auto;
+			vertical-align: bottom;
+		}
+	}
+	.action {
+		width: 30%;
+		text-align: center;
+		border-left: 1px solid #ddd;
+		.remove {
+			line-height: 100px;
+		}
+	}
+}
+.has-header {
+	.top-item {
+		border-top: none;
+	}
+}
+.item-stacked-label .item-select {
+	height: 34px;
+	select {
+		left: -4px;
+		padding: 0;
+		max-width: 100%;
+		width: 100%;
+		direction: ltr;
+	}
 }

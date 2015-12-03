@@ -9188,16 +9188,22 @@ a {
 
 .item-stacked-label-row {
   padding: 6px 0 5px 16px; }
+  .item-stacked-label-row:after {
+    display: block;
+    content: '';
+    clear: both; }
 
 .platform-android .view-container .tabs-top .tabs {
-  top: 43px !important; }
+  top: 44px !important; }
 
-#signin .scroll-content, #signup-step-1 .scroll-content {
+.main-background .scroll-content {
   background-image: url(../img/background.jpg);
   background-size: cover; }
 
 .inputs-on-background {
   background-color: transparent; }
+  .inputs-on-background .input-label {
+    width: 100%; }
   .inputs-on-background .item-input {
     border: none;
     margin-bottom: 10px;
@@ -9222,3 +9228,59 @@ a {
 
 .input-label sup {
   color: #ef4b23; }
+
+.item-transparent-white {
+  border: none;
+  background-color: transparent;
+  background: none;
+  color: white; }
+  .item-transparent-white .input-label {
+    color: white;
+    width: 100%;
+    max-width: 100%; }
+  .item-transparent-white .checkbox input:before, .item-transparent-white .checkbox-icon:before {
+    background-color: transparent;
+    border-color: white; }
+  .item-transparent-white .checkbox input:checked:before, .item-transparent-white .checkbox input:checked + .checkbox-icon:before {
+    background-color: white;
+    border-color: white; }
+  .item-transparent-white .checkbox input:after, .item-transparent-white .checkbox-icon:after {
+    border-color: #ef4b23; }
+
+.image-preview {
+  border: 1px solid #ddd;
+  border-radius: 3px; }
+  .image-preview table {
+    width: 100%; }
+    .image-preview table td {
+      vertical-align: middle; }
+  .image-preview .image {
+    width: 70%;
+    text-align: center; }
+    .image-preview .image .spinner {
+      height: 28px;
+      width: 28px; }
+    .image-preview .image img {
+      max-width: 100%;
+      max-height: 100%;
+      height: auto;
+      width: auto;
+      vertical-align: bottom; }
+  .image-preview .action {
+    width: 30%;
+    text-align: center;
+    border-left: 1px solid #ddd; }
+    .image-preview .action .remove {
+      line-height: 100px; }
+
+.has-header .top-item {
+  border-top: none; }
+
+.item-stacked-label .item-select {
+  height: 34px; }
+  .item-stacked-label .item-select select {
+    left: -4px;
+    padding: 0;
+    max-width: 100%;
+    width: 100%;
+    direction: ltr; }
