@@ -43,7 +43,7 @@ angular.module('app.controllers', [])
 
 .controller('signinCtrl', function($scope, SignInService, $ionicPopup, $state) {
   $scope.data = {
-    email: 'ihor.mihal@gmail.com',
+    email: 'example@mail.com',
     password: '0000'
   };
 
@@ -174,6 +174,7 @@ angular.module('app.controllers', [])
 
 .controller('tripCtrl', function($scope, $stateParams, Trips) {
   $scope.data = {};
+  console.log($stateParams.id);
   $scope.id = $stateParams.id;
   $scope.data = Trips.get($scope.id);
 })

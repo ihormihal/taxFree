@@ -3,8 +3,8 @@ angular.module('app.services', [])
 .service('LoginService', ['$q', function($q) {
   var self = {
     data: {
-      email: 'ihor.mihal@gmail.com',
-      phone: '',
+      email: 'example@mail.com',
+      phone: '+380730000000',
       type: 'email',
       code: ''
     },
@@ -14,22 +14,10 @@ angular.module('app.services', [])
 
       self.data.conformation = conformation;
 
-      if (email == 'ihor.mihal@gmail.com' && phone == '0') {
-
-        if (conformation == 'phone') {
-          deferred.resolve('Success!');
-        } else if (conformation == 'email') {
-          deferred.resolve('Success!');
-        } else {
-          deferred.reject('Unknown conformation method!');
-        }
-
-      } else if (email !== 'ihor.mihal@gmail.com' && phone == '0') {
-        deferred.reject('E-mail is already used!');
-      } else if (email == 'ihor.mihal@gmail.com' && phone !== '0') {
-        deferred.reject('Phone is already used!');
+      if (email == 'example@mail.com' && phone == '+380730000000') {
+        deferred.resolve('Success!');
       } else {
-        deferred.reject('E-mail and phone are already used!');
+        deferred.reject('Server validation error!');
       }
 
       promise.success = function(fn) {
@@ -107,7 +95,7 @@ angular.module('app.services', [])
       var deferred = $q.defer();
       var promise = deferred.promise;
 
-      if (email == 'ihor.mihal@gmail.com' && password == '0000') {
+      if (email == 'example@mail.com' && password == '0000') {
         deferred.resolve('Success !');
       } else {
         deferred.reject('Wrong credentials.');
@@ -129,15 +117,21 @@ angular.module('app.services', [])
 .service('ProfileService', ['$q', function($q) {
   var self = {
     profile: {
-      email: "ihor.mihal@gmail.com",
+      id: 1,
+      email: "example@mail.com",
       password: "0000",
-      name: "Ihor",
-      surname: "Mykhalchenko",
-      phone: "+380734058015",
-      birth_date: new Date(1989, 2, 17),
-      goverment: "Ukraine",
+      fullname: "Иван Смирнов",
+      honorific: "mr",
       gender: "male",
-      skype: "igor-mihal"
+      birthday: new Date(1985, 9, 10),
+      goverment: "ua",
+      country: "ua",
+      phone_code: "+38",
+      phone: "073000000",
+      passport: "EK000001",
+      passport_validiti: new Date(2018, 2, 23),
+      passport_country: "ua",
+      passport_photo: "images/passport.jpg"
     },
 
     save: function(data) {
@@ -176,23 +170,29 @@ angular.module('app.services', [])
   var self = {
 
     trips: [{
-      id: 1,
-      label: "Trip First",
-      city: "London",
-      date_arrival: new Date(2015, 10, 5),
-      date_depature: new Date(2015, 10, 12),
-      flight_number: "1",
-      comments: "Blablabla",
-      reminder: ""
-    }, {
       id: 2,
-      label: "Trip Second",
-      city: "Paris",
-      date_arrival: new Date(2015, 10, 13),
-      date_depature: new Date(2015, 10, 20),
-      flight_number: "2",
-      comments: "Blablabla",
-      reminder: ""
+      from_country: "США",
+      from_transport_type: "flight",
+      from_transport_number: "PS 423",
+      from_time: new Date(2015, 10, 25),
+      to_country: "Италия",
+      to_transport_type: "flight",
+      to_transport_number: "PS 425",
+      to_time: new Date(2015, 11, 10),
+      address: "Some str. 25, ap.100",
+      status: "current"
+    },{
+      id: 1,
+      from_country: "Украина",
+      from_transport_type: "flight",
+      from_transport_number: "PS 423",
+      from_time: new Date(2015, 10, 5),
+      to_country: "США",
+      to_transport_type: "flight",
+      to_transport_number: "PS 425",
+      to_time: new Date(2015, 10, 25),
+      address: "Some str. 25, ap.100",
+      status: "past"
     }],
 
     all: function() {

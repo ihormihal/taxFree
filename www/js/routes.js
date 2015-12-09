@@ -111,8 +111,8 @@ angular.module('app.routes', [])
       }
     }
   })
-
-  .state('main.single', {
+  //SINGLE TRIP
+  .state('main.trip', {
     url: '/trips/:id',
     views: {
       'menuContent': {
