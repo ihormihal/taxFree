@@ -179,7 +179,7 @@ angular.module('app.controllers', [])
   $scope.data = Trips.get($scope.id);
 })
 
-.controller('profileMainCtrl', function($scope, $timeout, ProfileService, Upload) {
+.controller('profileMainCtrl', function($scope, $timeout, ProfileService, Upload, Camera) {
   $scope.user = ProfileService.profile;
   $scope.data = {};
   //FILE UPLOADING
@@ -188,6 +188,43 @@ angular.module('app.controllers', [])
       $scope.upload($scope.data.file);
     }
   });
+
+  $scope.lastPhoto = null;
+
+  $scope.getPhoto = function() {
+    Camera.getPicture().then(function(imageURI) {
+      console.log(imageURI);
+      $scope.lastPhoto = imageURI;
+    }, function(err) {
+      console.err(err);
+    }, {
+      quality: 75,
+      targetWidth: 320,
+      targetHeight: 320,
+      saveToPhotoAlbum: false
+    });
+  };
+
+  // $scope.uploadPhoto = function() {
+  //   var options = {
+  //       quality : 75,
+  //       destinationType : Camera.DestinationType.DATA_URL,
+  //       sourceType : Camera.PictureSourceType.CAMERA,
+  //       allowEdit : true,
+  //       encodingType: Camera.EncodingType.JPEG,
+  //       popoverOptions: CameraPopoverOptions,
+  //       targetWidth: 500,
+  //       targetHeight: 500,
+  //       saveToPhotoAlbum: false
+  //   };
+  //   $cordovaCamera.getPicture(options).then(function(imageData) {
+  //     syncArray.$add({image: imageData}).then(function() {
+  //         alert("Image has been uploaded");
+  //     });
+  //   }, function(error) {
+  //       console.error(error);
+  //   });
+  // };
 
   $scope.upload = function(file) {
     file.upload = Upload.upload({

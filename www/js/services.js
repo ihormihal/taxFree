@@ -155,16 +155,6 @@ angular.module('app.services', [])
   return self;
 }])
 
-.factory('Trip', function($resource) {
-  return $resource('https://example.com/api/something/trip/:id/', {
-    id: '@id'
-  }, {
-    update: {
-      method: 'PUT'
-    }
-  });
-})
-
 .service('Trips', [function(Trip) {
 
   var self = {
@@ -250,4 +240,33 @@ angular.module('app.services', [])
   //self.loadTrips();
 
   return self;
-}]);
+}])
+
+.factory('Trip', function($resource) {
+  return $resource('https://example.com/api/something/trip/:id/', {
+    id: '@id'
+  }, {
+    update: {
+      method: 'PUT'
+    }
+  });
+})
+
+.factory('Camera', ['$q', function($q) {
+
+  return {
+    getPicture: function(options) {
+      var q = $q.defer();
+
+      navigator.camera.getPicture(function(result) {
+        // Do any magic you need
+        q.resolve(result);
+      }, function(err) {
+        q.reject(err);
+      }, options);
+
+      return q.promise;
+    }
+  }
+}])
+;

@@ -108,6 +108,9 @@
                     <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
                 </label>
             </div>
+            <button class="button button-stable button-block button-positive up" ng-click="getPhoto()">getPhoto</button>
+            Photo result:
+            <pre>{{lastPhoto}}</pre>
             <div class="spacer" style="height:20px"></div>
             <div class="padding">
                 <button class="button button-stable button-block button-positive up" ng-click="save()">Сохранить</button>
