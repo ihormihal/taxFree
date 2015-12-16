@@ -2,113 +2,55 @@ angular.module('app.services', [])
 
 .service('LoginService', ['$q', function($q) {
   var self = {
+
     data: {
       email: 'example@mail.com',
       phone: '+380730000000',
       type: 'email',
       code: ''
     },
-    signup: function(email, phone, conformation) {
-      var deferred = $q.defer();
-      var promise = deferred.promise;
 
-      self.data.conformation = conformation;
-
-      if (email == 'example@mail.com' && phone == '+380730000000') {
-        deferred.resolve('Success!');
+    signin: function(email, password) {
+      var q = $q.defer();
+      if (email == 'example@mail.com' && password == '0000') {
+        q.resolve('Success !');
       } else {
-        deferred.reject('Server validation error!');
+        q.reject('Please check your login or password!');
       }
+      return q.promise;
+    },
 
-      promise.success = function(fn) {
-        promise.then(fn);
-        return promise;
-      };
-      promise.error = function(fn) {
-        promise.then(null, fn);
-        return promise;
-      };
-      return promise;
+    signup: function(email, phone, conformation) {
+      var q = $q.defer();
+      self.data.conformation = conformation;
+      if (email == 'example@mail.com' && phone == '+380730000000') {
+        q.resolve('Success!');
+      } else {
+        q.reject('Server validation error!');
+      }
+      return q.promise;
     },
 
     confirm: function(code) {
-      var deferred = $q.defer();
-      var promise = deferred.promise;
-
+      var q = $q.defer();
       if (code == '0000') {
-        deferred.resolve('Success!');
+        q.resolve('Success!');
       } else {
-        deferred.reject('Invalid code!');
+        q.reject('Invalid code!');
       }
-
-      promise.success = function(fn) {
-        promise.then(fn);
-        return promise;
-      };
-      promise.error = function(fn) {
-        promise.then(null, fn);
-        return promise;
-      };
-      return promise;
+      return q.promise;
     },
 
     passwordRecovery: function(code) {
-      var deferred = $q.defer();
-      var promise = deferred.promise;
-
-      deferred.resolve('Success!');
-
-      promise.success = function(fn) {
-        promise.then(fn);
-        return promise;
-      }
-      promise.error = function(fn) {
-        promise.then(null, fn);
-        return promise;
-      }
-      return promise;
+      var q = $q.defer();
+      q.resolve('Success!');
+      return q.promise;
     },
 
     passwordRestore: function(code) {
-      var deferred = $q.defer();
-      var promise = deferred.promise;
-
-      deferred.resolve('Success!');
-
-      promise.success = function(fn) {
-        promise.then(fn);
-        return promise;
-      }
-      promise.error = function(fn) {
-        promise.then(null, fn);
-        return promise;
-      }
-      return promise;
-    }
-  };
-  return self;
-}])
-
-.service('SignInService', ['$q', function($q) {
-  var self = {
-    signin: function(email, password) {
-      var deferred = $q.defer();
-      var promise = deferred.promise;
-
-      if (email == 'example@mail.com' && password == '0000') {
-        deferred.resolve('Success !');
-      } else {
-        deferred.reject('Wrong credentials.');
-      }
-      promise.success = function(fn) {
-        promise.then(fn);
-        return promise;
-      }
-      promise.error = function(fn) {
-        promise.then(null, fn);
-        return promise;
-      }
-      return promise;
+      var q = $q.defer();
+      q.resolve('Success!');
+      return q.promise;
     }
   };
   return self;
@@ -135,20 +77,9 @@ angular.module('app.services', [])
     },
 
     save: function(data) {
-      var deferred = $q.defer();
-      var promise = deferred.promise;
-
-      deferred.resolve('Success!');
-
-      promise.success = function(fn) {
-        promise.then(fn);
-        return promise;
-      }
-      promise.error = function(fn) {
-        promise.then(null, fn);
-        return promise;
-      }
-      return promise;
+      var q = $q.defer();
+      q.resolve('Success!');
+      return q.promise;
     }
   };
 
@@ -225,20 +156,16 @@ angular.module('app.services', [])
     },
 
     createTrip: function(Trip) {
-      var d = $q.defer();
+      var q = $q.defer();
       Trip.save(Trip).$promise.then(function() {
-        //is finishing
         self.loadTrips();
         toaster.pop('success', 'Created ' + Trip.name);
-        d.resolve();
+        q.resolve('success');
       });
-      return d.promise;
-      //позволяет использовать "then" при вызове этой функции
+      return q.promise;
     }
   };
-
   //self.loadTrips();
-
   return self;
 }])
 
@@ -253,7 +180,6 @@ angular.module('app.services', [])
 })
 
 .factory('Camera', ['$q', function($q) {
-
   return {
     getPicture: function(options) {
       var q = $q.defer();
@@ -264,9 +190,9 @@ angular.module('app.services', [])
       }, function(err) {
         q.reject(err);
       }, options);
-
       return q.promise;
     }
   }
 }])
+
 ;
