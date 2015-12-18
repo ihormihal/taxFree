@@ -1,0 +1,4 @@
+If your button is inside the <label> ng-click will not work. Change to a <div> or <span>.
+//cordova plugin add cordova-plugin-file-transfer
+//cordova plugin add com-sarriaroman-photoviewer
+//cordova plugin add cordova-plugin-whitelist

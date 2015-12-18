@@ -2,43 +2,6 @@ angular.module('app.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  // Form data for the login modal
-  // $scope.loginData = {};
-
-  // // Create the login modal that we will use later
-  // $ionicModal.fromTemplateUrl('templates/signin.html', {
-  //   scope: $scope
-  // }).then(function(modal) {
-  //   $scope.modal = modal;
-  // });
-
-  // // Triggered in the login modal to close it
-  // $scope.closeLogin = function() {
-  //   $scope.modal.hide();
-  // };
-
-  // // Open the login modal
-  // $scope.login = function() {
-  //   $scope.modal.show();
-  // };
-
-  // // Perform the login action when the user submits the login form
-  // $scope.doLogin = function() {
-  //   console.log('Doing login', $scope.loginData);
-
-  //   // Simulate a login delay. Remove this and replace with your login
-  //   // code if using a login system
-  //   $timeout(function() {
-  //     $scope.closeLogin();
-  //   }, 1000);
-  // };
 })
 
 .controller('signinCtrl', function($scope, $state, $ionicPopup, LoginService) {
@@ -90,32 +53,6 @@ angular.module('app.controllers', [])
 
 .controller('regCtrl', function($scope, $state, $timeout, $ionicPopup, ProfileService, Upload) {
   $scope.data = {};
-
-  //FILE UPLOADING
-  // $scope.$watch('data.file', function () {
-  //   if ($scope.data.file != null) {
-  //     $scope.upload($scope.data.file);
-  //   }
-  // });
-
-  // $scope.upload = function(file) {
-  //   file.upload = Upload.upload({
-  //     url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
-  //     data: {file: file}
-  //   });
-  //   file.upload.then(function (response) {
-  //     $timeout(function () {
-  //       file.result = response.data;
-  //     });
-  //   }, function (response) {
-  //     if (response.status > 0){
-  //       $scope.errorMsg = response.status + ': ' + response.data;
-  //     }
-  //   }, function (evt) {
-  //     //file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-  //   });
-  // };
-
 
   $scope.save = function() {
     ProfileService.save($scope.data)
@@ -179,41 +116,18 @@ angular.module('app.controllers', [])
 })
 
 .controller('tripCtrl', function($scope, $stateParams, Trips) {
-  $scope.data = {};
-  console.log($stateParams.id);
-  $scope.id = $stateParams.id;
-  $scope.data = Trips.get($scope.id);
+  $scope.data = Trips.get($stateParams.id);
 })
 //cordova plugin add cordova-plugin-file-transfer
 //cordova plugin add com-sarriaroman-photoviewer
-.controller('profileMainCtrl', function($scope, $timeout, $cordovaImagePicker, $cordovaFileTransfer, $ionicActionSheet, ProfileService, Camera) {
+//cordova plugin add cordova-plugin-imagepicker
+.controller('profileMainCtrl', function($scope, $timeout, $cordovaFileTransfer, $ionicActionSheet, ProfileService, Camera) {
   $scope.user = ProfileService.profile;
   $scope.data = {};
-
 
   $scope.viewImage = function(url){
     PhotoViewer.show(url, 'Photo');
   };
-
-  $scope.uploadPhoto = function(file){
-    $scope.data.loading = true;
-    var options = {
-      fileKey: "file",
-      fileName: "photo.jpg",
-      chunkedMode: false,
-      mimeType: "image/jpeg"
-    };
-    $cordovaFileTransfer.upload("http://mycode.in.ua/test/upload_file.php", file, options)
-    .then(function(result) {
-      $scope.data.loading = false;
-      $scope.user.photo = result.response;
-    },function(error) {
-      $scope.data.loading = false;
-      alert("ERROR: " + JSON.stringify(error))
-    },function (progress) {
-      // constant progress updates
-    });
-  }
 
   $scope.selectPhoto = function() {
     var hideSheet = $ionicActionSheet.show({
@@ -245,27 +159,22 @@ angular.module('app.controllers', [])
       height: 800,
       quality: 80
     };
-    var upload_options = {
-      fileKey: "file",
-      fileName: "photo.jpg",
-      chunkedMode: false,
-      mimeType: "image/jpeg"
-    };
-    $cordovaImagePicker.getPictures(options)
-    .then(function(results) {
-      for (var i = 0; i < results.length; i++) {
-        $scope.uploadPhoto(results[i]);
-      }
-    },function(error) {
-      alert(error);
-    });
+    window.imagePicker.getPictures(
+      function(results) {
+        for (var i = 0; i < results.length; i++) {
+          $scope.uploadPhoto(results[i]);
+        }
+      }, function (error) {
+        alert(error);
+      }, options
+    );
   };
 
   $scope.fromCamera = function() {
     var options = {
-      quality: 75,
-      targetWidth: 320,
-      targetHeight: 320,
+      targetWidth: 800,
+      targetHeight: 800,
+      quality: 80,
       saveToPhotoAlbum: false
     };
     Camera.getPicture(options)
@@ -274,6 +183,67 @@ angular.module('app.controllers', [])
       $scope.uploadPhoto(temp_path);
     },function(error) {
       alert(error);
+    });
+  };
+
+  $scope.data.loading = false;
+
+  // $scope.uploadPhoto = function(file){
+  //   $scope.data.loading = true;
+  //   var options = new FileUploadOptions();
+  //   options.fileKey = "file";
+  //   //options.fileName = fileURL.substr(file.lastIndexOf('/') + 1);
+  //   options.fileName = "photo.jpg";
+  //   options.mimeType = "image/jpeg";
+  //   options.params = {userid: 10};
+  //   options.headers = {'headerParam':'headerValue'};
+  //   options.chunkedMode = false;
+
+  //   var ft = new FileTransfer();
+  //   ft.onprogress = function(progressEvent) {
+  //     /*if (progressEvent.lengthComputable) {
+  //       loadingStatus.setPercentage(progressEvent.loaded / progressEvent.total);
+  //     } else {
+  //       loadingStatus.increment();
+  //     }*/
+  //   };
+  //   ft.upload(
+  //     file,
+  //     encodeURI("http://mycode.in.ua/test/upload_file.php"),
+  //     function(result) {
+  //       $scope.data.loading = false;
+  //       //console.log("Code = " + result.responseCode);
+  //       //console.log("Response = " + result.response);
+  //       //console.log("Sent = " + result.bytesSent);
+  //       $scope.user.photo = result.response + '?' + new Date().getTime();
+  //       alert($scope.user.photo);
+  //     },function(error) {
+  //       $scope.data.loading = false;
+  //       alert("An error has occurred: Code = " + error.code);
+  //       //console.log("upload error source " + error.source);
+  //       //console.log("upload error target " + error.target);
+  //     },
+  //     options
+  //   );
+  // };
+
+  $scope.uploadPhoto = function(file){
+    $scope.data.loading = true;
+    var options = {
+      fileKey: "file",
+      fileName: "photo.jpg",
+      chunkedMode: false,
+      mimeType: "image/jpeg"
+    };
+    $cordovaFileTransfer.upload("http://mycode.in.ua/test/upload_file.php", file, options)
+    .then(function(result) {
+      $scope.data.loading = false;
+      $scope.user.photo = result.response + '?' + new Date().getTime();
+    },function(error) {
+      $scope.data.loading = false;
+     alert("An error has occurred: Code = " + error.code);
+    },function (progress) {
+      // constant progress updates
     });
   };
 

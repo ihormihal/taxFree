@@ -116,7 +116,7 @@ angular.module('app.routes', [])
     url: '/trips/:id',
     views: {
       'menuContent': {
-        templateUrl: 'templates/trip.html',
+        templateUrl: 'templates/trips/trip.html',
         controller: 'tripCtrl'
       }
     }

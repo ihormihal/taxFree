@@ -4,7 +4,7 @@
     </ion-nav-buttons>
     <ion-content class="has-header">
 		<ion-list>
-			<ion-item ng-repeat="trip in trips" class="item-icon-right" href="#main/trips/{{trip.id}}">
+			<ion-item ng-repeat="trip in trips" class="item-icon-right" ui-sref="main.trip({id: trip.id})">
 				<h2>{{trip.from_country}} - {{trip.to_country}}</h2>
 				<p>{{trip.from_time|date:"dd.MM.yyyy"}} - {{trip.to_time|date:"dd.MM.yyyy"}}</p>
 				<i class="icon ion-android-done-all" ng-show="trip.status == 'past'"></i>

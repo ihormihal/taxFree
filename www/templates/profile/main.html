@@ -66,26 +66,25 @@
                         <option value="+7">Россия (+7)</option>
                         <option value="+38">Украина (+38)</option>
                     </select>
-
                 </label>
+
                 <label class="item item-input">
                     <input type="text" ng-model="user.phone">
                 </label>
 
-                <label class="item">
+                <div class="item">
                     <span class="input-label">Фото загранпаспорта <sup>*</sup></span>
 
-                    <button class="button button-block button-outline button-positive" ng-click="selectPhoto()">
+                    <div ng-hide="data.loading || user.photo" ng-click="selectPhoto()" class="button button-block button-outline button-positive">
                         <i class="icon ion-ios-plus-empty"></i> Загрузить фото
-                    </button>
+                    </div>
 
-                    {{user.photo}}
                     <div class="image-preview" ng-show="data.loading || user.photo">
                         <table class="table spinner-table">
                             <tr>
                                 <td class="image" ng-click="viewImage(user.photo)">
                                     <ion-spinner icon="spiral" class="spinner-positive" ng-show="data.loading"></ion-spinner>
-                                    <img ng-src="{{user.photo}}" />
+                                    <img ng-show="user.photo" ng-src="{{user.photo}}" />
                                 </td>
                                 <td class="action">
                                     <div class="remove" ng-click="user.photo = null;">
@@ -96,7 +95,7 @@
                         </table>
                     </div>
                     <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
-                </label>
+                </div>
             </div>
 
             <div class="spacer" style="height:20px"></div>

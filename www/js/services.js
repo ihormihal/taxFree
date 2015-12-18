@@ -73,7 +73,8 @@ angular.module('app.services', [])
       passport: "EK000001",
       passport_validiti: new Date(2018, 2, 23),
       passport_country: "ua",
-      passport_photo: "images/passport.jpg"
+      passport_photo: "images/passport.jpg",
+      photo: "http://mycode.in.ua/test/uploads/photo.jpg"
     },
 
     save: function(data) {

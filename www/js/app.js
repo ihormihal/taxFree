@@ -5,13 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
+angular.module('app', ['ionic', 'ngMockE2E', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
-.config(['$compileProvider',function($compileProvider){
-  $compileProvider.imgSrcSanitizationWhitelist(/^\s(https|file|blob|cdvfile):|data:image\//);
-}])
-
-.run(function($ionicPlatform) {
+.run(function($rootScope, $ionicPlatform, $httpBackend, $http) {
+  /*
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -23,4 +20,21 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
       StatusBar.styleDefault();
     }
   });//ionic ready end
+*/
+  var authorized = false;
+  var customers = [{name: 'John Smith'}, {name: 'Tim Johnson'}];
+  // returns the current list of customers or a 401 depending on authorization flag
+  $httpBackend.whenGET('https://customers').respond(function (method, url, data, headers) {
+     return authorized ? [200, customers] : [401];
+  });
+  $httpBackend.whenPOST('https://login').respond(function(method, url, data) {
+    authorized = true;
+    return  [200 , { authorizationToken: "NjMwNjM4OTQtMjE0Mi00ZWYzLWEzMDQtYWYyMjkyMzNiOGIy" }];
+  });
+  $httpBackend.whenPOST('https://logout').respond(function(method, url, data) {
+    authorized = false;
+    return [200];
+  });
+  // All other http requests will pass through
+  $httpBackend.whenGET(/.*/).passThrough();
 })
