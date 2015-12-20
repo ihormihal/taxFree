@@ -21,6 +21,7 @@ angular.module('app', ['ionic', 'ngMockE2E', 'ngCordova', 'app.controllers', 'ap
     }
   });//ionic ready end
 */
+//http://www.kdmooreconsulting.com/blogs/authentication-with-ionic-and-angular-js-in-a-cordovaphonegap-mobile-web-application/
   var authorized = false;
   var customers = [{name: 'John Smith'}, {name: 'Tim Johnson'}];
   // returns the current list of customers or a 401 depending on authorization flag

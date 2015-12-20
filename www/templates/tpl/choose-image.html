@@ -1,0 +1,19 @@
+<div ng-hide="loading || image" ng-click="selectPhoto()" class="button button-block button-outline button-positive">
+  <i class="icon ion-ios-plus-empty"></i> Загрузить фото
+</div>
+<div class="image-preview" ng-show="loading || image">
+  <table class="table spinner-table">
+    <tr>
+      <td class="image" ng-click="viewImage(image)">
+        <ion-spinner icon="spiral" class="spinner-positive" ng-show="loading"></ion-spinner>
+        <img ng-show="image" ng-src="{{image}}" />
+      </td>
+      <td class="action">
+        <div class="remove" ng-click="image = null;">
+          <i class="icon ion-android-close"></i>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+<span class="err" ng-show="errorMsg">{{errorMsg}}</span>

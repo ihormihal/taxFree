@@ -1,6 +1,93 @@
 angular.module('app.directives', [])
 
-.directive('blankDirective', [function(){
+.directive('chooseImage', [function() {
+	return {
+		restrict: 'E',
+		scope: {
+			image: '='
+		},
+		templateUrl: 'templates/tpl/choose-image.html',
+		controller: function($scope, $timeout, $ionicActionSheet, $cordovaImagePicker, $cordovaFileTransfer, Camera){
+			$scope.loading = false;
 
-}]);
+			$scope.viewImage = function(url){
+				PhotoViewer.show(url, 'Photo');
+			};
+
+			$scope.selectPhoto = function() {
+				$ionicActionSheet.show({
+					buttons: [{
+						text: '<i class="icon ion-camera"></i> Камера'
+					}, {
+						text: '<i class="icon ion-images"></i> Галерея'
+					}],
+					buttonClicked: function(index) {
+						switch (index){
+							case 0:
+								$scope.fromCamera();
+								break;
+							case 1:
+								$scope.fromGallery();
+								break;
+							defaut:
+								break;
+						}
+						return true;
+					}
+				});
+			};
+
+			$scope.fromGallery = function(){
+				var options = {
+					maximumImagesCount: 1
+				};
+				$cordovaImagePicker.getPictures(options)
+				.then(function (images) {
+					for(var i = 0; i < images.length; i++){
+						$scope.uploadPhoto(images[i]);
+					}
+				}, function(error) {
+					alert(error);
+				});
+			};
+
+			$scope.fromCamera = function() {
+				var options = {
+					saveToPhotoAlbum: false
+				};
+				Camera.getPicture(options)
+				.then(function(image) {
+					$scope.uploadPhoto(image);
+				},function(error) {
+					alert(error);
+				});
+			};
+
+			$scope.uploadPhoto = function(file){
+				$scope.loading = true;
+				var options = {
+					fileKey: "file",
+					fileName: "photo.jpg",
+					chunkedMode: false,
+					mimeType: "image/jpeg",
+					params: {userid: 10}
+				};
+				$cordovaFileTransfer.upload(
+					encodeURI("http://mycode.in.ua/test/upload_file.php"),
+					file,
+					options)
+				.then(function(result) {
+					$scope.loading = false;
+					$scope.image = result.response + '?' + new Date().getTime();
+				},function(error) {
+					$scope.loading = false;
+					alert("An error has occurred: Code = " + error.code);
+				},function (progress) {
+					// constant progress updates
+				});
+			};
+		}
+	};
+}])
+;
 

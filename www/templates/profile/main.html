@@ -74,27 +74,7 @@
 
                 <div class="item">
                     <span class="input-label">Фото загранпаспорта <sup>*</sup></span>
-
-                    <div ng-hide="data.loading || user.photo" ng-click="selectPhoto()" class="button button-block button-outline button-positive">
-                        <i class="icon ion-ios-plus-empty"></i> Загрузить фото
-                    </div>
-
-                    <div class="image-preview" ng-show="data.loading || user.photo">
-                        <table class="table spinner-table">
-                            <tr>
-                                <td class="image" ng-click="viewImage(user.photo)">
-                                    <ion-spinner icon="spiral" class="spinner-positive" ng-show="data.loading"></ion-spinner>
-                                    <img ng-show="user.photo" ng-src="{{user.photo}}" />
-                                </td>
-                                <td class="action">
-                                    <div class="remove" ng-click="user.photo = null;">
-                                        <i class="icon ion-android-close"></i>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+                    <choose-image image="user.photo"></choose-image>
                 </div>
             </div>
 
