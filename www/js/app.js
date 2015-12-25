@@ -5,11 +5,25 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'ngMockE2E', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
+angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
-.run(function($rootScope, $ionicPlatform, $httpBackend, $http) {
-  /*
+
+.run(function($rootScope, $ionicPlatform, $ionicPopup, $cordovaNetwork) {
+
   $ionicPlatform.ready(function() {
+
+    //var isOffline = $cordovaNetwork.isOffline()
+    $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
+      var offlineState = networkState;
+      if(offlineState){
+        $ionicPopup.alert({
+          title: "Нет интернета!",
+          content: "Ваше устройство не подключено к интернету"
+        }).then(function() {
+          ionic.Platform.exitApp();
+        });
+      }
+    })
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -19,23 +33,29 @@ angular.module('app', ['ionic', 'ngMockE2E', 'ngCordova', 'app.controllers', 'ap
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
   });//ionic ready end
-*/
-//http://www.kdmooreconsulting.com/blogs/authentication-with-ionic-and-angular-js-in-a-cordovaphonegap-mobile-web-application/
-  var authorized = false;
-  var customers = [{name: 'John Smith'}, {name: 'Tim Johnson'}];
-  // returns the current list of customers or a 401 depending on authorization flag
-  $httpBackend.whenGET('https://customers').respond(function (method, url, data, headers) {
-     return authorized ? [200, customers] : [401];
-  });
-  $httpBackend.whenPOST('https://login').respond(function(method, url, data) {
-    authorized = true;
-    return  [200 , { authorizationToken: "NjMwNjM4OTQtMjE0Mi00ZWYzLWEzMDQtYWYyMjkyMzNiOGIy" }];
-  });
-  $httpBackend.whenPOST('https://logout').respond(function(method, url, data) {
-    authorized = false;
-    return [200];
-  });
-  // All other http requests will pass through
-  $httpBackend.whenGET(/.*/).passThrough();
+
+  // $httpBackend.whenGET('https://posts')
+  // .respond(function(method, url, data, headers) {
+  //   var authToken = localStorageService.get('authorizationToken');
+  //   return authToken ? [200, posts] : [401];
+  // });
+
+  // $httpBackend.whenPOST('http://localhost:5000/login')
+  // .respond(function(method, url, data) {
+  //   var authToken = 'NjMw ...';
+  //   return [200, {
+  //     authorizationToken: authToken
+  //   }];
+  // });
+
+  // $httpBackend.whenPOST('http://localhost:5000/logout')
+  // .respond(function(method, url, data) {
+  //   return [200];
+  // });
+
+  // $httpBackend.whenGET(/.*/).passThrough();
+
+
 })

@@ -1,12 +1,9 @@
 <ion-side-menus enable-menu-with-back-views="false">
   <ion-side-menu-content>
     <ion-nav-bar class="bar-positive">
-      <ion-nav-back-button>
-      </ion-nav-back-button>
-
+      <ion-nav-back-button></ion-nav-back-button>
       <ion-nav-buttons side="left">
-        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
-        </button>
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
@@ -26,11 +23,11 @@
           <i class="icon ion-briefcase"></i>
           Поездки
         </ion-item>
-        <!-- <ion-item menu-close ui-sref="main.checks">
+        <ion-item menu-close ui-sref="main.checks">
           <i class="icon ion-android-list"></i>
           Чеки
         </ion-item>
-    		<ion-item menu-close ui-sref="main.declarations">
+    		<!-- <ion-item menu-close ui-sref="main.declarations">
           <i class="icon ion-document-text"></i>
           Декларации
         </ion-item>
@@ -54,7 +51,7 @@
           <i class="icon ion-gear-b"></i>
           Настройки
         </ion-item> -->
-        <ion-item menu-close ui-sref="signin">
+        <ion-item menu-close ng-click="logout()">
           <i class="icon ion-android-exit"></i>
           Выход
         </ion-item>

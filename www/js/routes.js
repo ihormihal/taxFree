@@ -2,6 +2,7 @@ angular.module('app.routes', [])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
+
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
@@ -71,32 +72,33 @@ angular.module('app.routes', [])
   })
 
   //PROFILE
-  .state('main.profile', {
-    url: "/profile",
+  .state('main.user', {
+    url: "/user",
     abstract: true,
     views: {
       'menuContent': {
-        templateUrl: "templates/profile.html",
+        templateUrl: "templates/user.html",
+        controller: 'userCtrl'
       }
     }
   })
 
-  .state('main.profile.main', {
-    url: '/main',
+  .state('main.user.profile', {
+    url: '/profile',
     views: {
-      'main': {
-        templateUrl: 'templates/profile/main.html',
-        controller: 'profileMainCtrl'
+      'profile': {
+        templateUrl: 'templates/user/profile.html',
+        controller: 'userCtrl'
       }
     }
   })
 
-  .state('main.profile.password', {
+  .state('main.user.password', {
     url: '/password',
     views: {
       'password': {
-        templateUrl: 'templates/profile/password.html',
-        controller: 'profilePasswordCtrl'
+        templateUrl: 'templates/user/password.html',
+        controller: 'userCtrl'
       }
     }
   })
@@ -111,16 +113,77 @@ angular.module('app.routes', [])
       }
     }
   })
+
   //SINGLE TRIP
   .state('main.trip', {
     url: '/trips/:id',
+    abstract: true,
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/trips/trip.html',
         controller: 'tripCtrl'
       }
     }
-  });
+  })
+
+  //TRIP info
+  .state('main.trip.info', {
+    url: '/info',
+    views: {
+      'info': {
+        templateUrl: 'templates/trips/info.html',
+        controller: 'tripCtrl'
+      }
+    }
+  })
+
+  //TRIP checks
+  .state('main.trip.checks', {
+    url: '/checks',
+    views: {
+      'checks': {
+        templateUrl: 'templates/trips/checks.html',
+        controller: 'tripCtrl'
+      }
+    }
+  })
+
+  //TRIP declarations
+  .state('main.trip.declarations', {
+    url: '/declarations',
+    views: {
+      'declarations': {
+        templateUrl: 'templates/trips/declarations.html',
+        controller: 'tripCtrl'
+      }
+    }
+  })
+
+  //CHECKS LIST
+  .state('main.checks', {
+    url: '/checks',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/checks.html',
+        controller: 'checksCtrl'
+      }
+    }
+  })
+
+  //SINGLE CHECK
+  .state('main.check', {
+    url: '/checks/:id',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/checks/check.html',
+        controller: 'checkCtrl'
+      }
+    }
+  })
+
+  ;
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login/signin');

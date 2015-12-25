@@ -1,10 +1,14 @@
-<ion-view title="Поездки">
-	<ion-nav-buttons side="right" ng-show="false">
+<ion-view view-title="Поездки">
+	<!-- <ion-nav-buttons side="right" ng-show="false">
 		<button class="button button-icon button-clear ion-android-add"></button>
-    </ion-nav-buttons>
+    </ion-nav-buttons> -->
     <ion-content class="has-header">
+		<ion-refresher
+			pulling-text=""
+			on-refresh="doRefresh()">
+		</ion-refresher>
 		<ion-list>
-			<ion-item ng-repeat="trip in trips" class="item-icon-right" ui-sref="main.trip({id: trip.id})">
+			<ion-item ng-repeat="trip in trips" class="item-icon-right" ui-sref="main.trip.info({id: trip.id})">
 				<h2>{{trip.from_country}} - {{trip.to_country}}</h2>
 				<p>{{trip.from_time|date:"dd.MM.yyyy"}} - {{trip.to_time|date:"dd.MM.yyyy"}}</p>
 				<i class="icon ion-android-done-all" ng-show="trip.status == 'past'"></i>

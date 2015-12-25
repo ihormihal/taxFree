@@ -1,5 +1,16 @@
 angular.module('app.directives', [])
 
+.directive('imageViewer', [function(){
+	return {
+		restrict: 'A',
+		link: function($scope, $element, $attrs) {
+			$element[0].onclick = function(e){
+				PhotoViewer.show($attrs.src,$attrs.alt);
+			}
+		}
+	}
+}])
+
 .directive('chooseImage', [function() {
 	return {
 		restrict: 'E',
@@ -9,11 +20,6 @@ angular.module('app.directives', [])
 		templateUrl: 'templates/tpl/choose-image.html',
 		controller: function($scope, $timeout, $ionicActionSheet, $cordovaImagePicker, $cordovaFileTransfer, Camera){
 			$scope.loading = false;
-
-			$scope.viewImage = function(url){
-				PhotoViewer.show(url, 'Photo');
-			};
-
 			$scope.selectPhoto = function() {
 				$ionicActionSheet.show({
 					buttons: [{
@@ -73,7 +79,7 @@ angular.module('app.directives', [])
 					params: {userid: 10}
 				};
 				$cordovaFileTransfer.upload(
-					encodeURI("http://mycode.in.ua/test/upload_file.php"),
+					encodeURI("http://mycode.in.ua/app/upload_file.php"),
 					file,
 					options)
 				.then(function(result) {

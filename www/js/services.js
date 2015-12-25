@@ -1,4 +1,54 @@
-angular.module('app.services', [])
+angular.module('app.services', ['ngResource', 'LocalStorageModule', 'http-auth-interceptor'])
+
+.factory('AuthenticationService', ['$rootScope', '$q', '$state', '$http', 'localStorageService', 'authService', function($rootScope, $q, $state, $http, localStorageService, authService) {
+  var loggedIn = false;
+  var self  = {
+    login: function(credentials) {
+      console.log(credentials);
+      var q = $q.defer();
+      $http.post('http://localhost:5000/login/', credentials)
+      .success(function(data, status, headers, config) {
+
+        loggedIn = true;
+        localStorageService.set('authorizationToken', data.access_token);
+        $http.defaults.headers.common.Authorization = data.access_token;
+
+        authService.loginConfirmed(data, function(config) {
+          config.headers.Authorization = data.access_token;
+          return config;
+        });
+        q.resolve('Login success! Token: '+data.access_token);
+      })
+      .error(function (data, status, headers, config) {
+        $rootScope.$broadcast('event:auth-login-failed', status);
+        q.reject(status);
+      });
+      return q.promise;
+    },
+
+    logout: function() {
+      loggedIn = false;
+      $http.post('http://localhost:5000/logout/', {}, { ignoreAuthModule: true })
+      .success(function(data, status, headers, config) {
+        localStorageService.remove('authorizationToken');
+        delete $http.defaults.headers.common.Authorization;
+        $rootScope.$broadcast('event:auth-logout-complete');
+        console.log('AuthenticationService LogOut!');
+        $state.go('signin');
+      });
+    },
+
+    isLoggedIn: function() {
+      return loggedIn;
+    },
+
+    loginCancelled: function() {
+      authService.loginCancelled();
+    }
+
+  };
+  return self;
+}])
 
 .service('LoginService', ['$q', function($q) {
   var self = {
@@ -56,124 +106,24 @@ angular.module('app.services', [])
   return self;
 }])
 
-.service('ProfileService', ['$q', function($q) {
-  var self = {
-    profile: {
-      id: 1,
-      email: "example@mail.com",
-      password: "0000",
-      fullname: "Иван Смирнов",
-      honorific: "mr",
-      gender: "male",
-      birthday: new Date(1985, 9, 10),
-      goverment: "ua",
-      country: "ua",
-      phone_code: "+38",
-      phone: "073000000",
-      passport: "EK000001",
-      passport_validiti: new Date(2018, 2, 23),
-      passport_country: "ua",
-      passport_photo: "images/passport.jpg",
-      photo: "http://mycode.in.ua/test/uploads/photo.jpg"
-    },
-
-    save: function(data) {
-      var q = $q.defer();
-      q.resolve('Success!');
-      return q.promise;
-    }
-  };
-
-  return self;
-}])
-
-.service('Trips', [function(Trip) {
-
-  var self = {
-
-    trips: [{
-      id: 2,
-      from_country: "США",
-      from_transport_type: "flight",
-      from_transport_number: "PS 423",
-      from_time: new Date(2015, 10, 25),
-      to_country: "Италия",
-      to_transport_type: "flight",
-      to_transport_number: "PS 425",
-      to_time: new Date(2015, 11, 10),
-      address: "Some str. 25, ap.100",
-      status: "current"
-    },{
-      id: 1,
-      from_country: "Украина",
-      from_transport_type: "flight",
-      from_transport_number: "PS 423",
-      from_time: new Date(2015, 10, 5),
-      to_country: "США",
-      to_transport_type: "flight",
-      to_transport_number: "PS 425",
-      to_time: new Date(2015, 10, 25),
-      address: "Some str. 25, ap.100",
-      status: "past"
-    }],
-
-    all: function() {
-      return self.trips;
-    },
-
-    get: function(id) {
-      for (var i = 0; i < self.trips.length; i++) {
-        if (self.trips[i].id === parseInt(id)) {
-          return self.trips[i];
-        }
-      }
-      return null;
-    },
-
-    loadTrips: function() {
-      var params = {};
-      Trip.get(params, function(data) {
-        self.trips = data;
-      });
-    },
-
-    loadTrip: function(id) {
-
-    },
-
-    updateTrip: function(Trip) {
-      Trip.update(Trip).$promise.then(function() {
-        //is finishing
-      });
-      Trip.$update.then(function() {
-        //is finishing
-      });
-    },
-
-    removeTrip: function(Trip) {
-      Trip.$remove.then(function() {
-        //is finishing
-      });
-    },
-
-    createTrip: function(Trip) {
-      var q = $q.defer();
-      Trip.save(Trip).$promise.then(function() {
-        self.loadTrips();
-        toaster.pop('success', 'Created ' + Trip.name);
-        q.resolve('success');
-      });
-      return q.promise;
-    }
-  };
-  //self.loadTrips();
-  return self;
-}])
+.factory('User', function($resource) {
+  return $resource('http://localhost:5000/user/');
+})
 
 .factory('Trip', function($resource) {
-  return $resource('https://example.com/api/something/trip/:id/', {
+  return $resource('http://localhost:5000/trips/:id/', {
     id: '@id'
-  }, {
+  },{
+    update: {
+      method: 'PUT'
+    }
+  });
+})
+
+.factory('Check', function($resource) {
+  return $resource('http://localhost:5000/checks/:id/', {
+    id: '@id'
+  },{
     update: {
       method: 'PUT'
     }
