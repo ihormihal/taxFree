@@ -1,10 +1,3 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
 
@@ -12,7 +5,6 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
 
   $ionicPlatform.ready(function() {
 
-    //var isOffline = $cordovaNetwork.isOffline()
     $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
       var offlineState = networkState;
       if(offlineState){
@@ -36,26 +28,28 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
 
   });//ionic ready end
 
-  // $httpBackend.whenGET('https://posts')
-  // .respond(function(method, url, data, headers) {
-  //   var authToken = localStorageService.get('authorizationToken');
-  //   return authToken ? [200, posts] : [401];
-  // });
+  $rootScope.serialize = function(obj, prefix) {
+    var str = [];
+    for(var p in obj) {
+      if (obj.hasOwnProperty(p)) {
+        var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+        str.push(typeof v == "object" ?
+          $rootScope.serialize(v, k) :
+          encodeURIComponent(k) + "=" + encodeURIComponent(v));
+      }
+    }
+    return str.join("&");
+  };
 
-  // $httpBackend.whenPOST('http://localhost:5000/login')
-  // .respond(function(method, url, data) {
-  //   var authToken = 'NjMw ...';
-  //   return [200, {
-  //     authorizationToken: authToken
-  //   }];
-  // });
 
-  // $httpBackend.whenPOST('http://localhost:5000/logout')
-  // .respond(function(method, url, data) {
-  //   return [200];
-  // });
+})
 
-  // $httpBackend.whenGET(/.*/).passThrough();
+.config(function($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider) {
 
+  if(window.localStorage['token']){
+    $httpProvider.defaults.headers.common['Authorization'] = window.localStorage['token'];
+  }
+
+  $resourceProvider.defaults.stripTrailingSlashes = false;
 
 })

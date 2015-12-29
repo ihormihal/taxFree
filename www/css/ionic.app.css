@@ -9248,6 +9248,7 @@ a {
     border-color: #ef4b23; }
 
 .image-preview {
+  width: 100%;
   border: 1px solid #ddd;
   border-radius: 3px; }
   .image-preview table {
@@ -9261,7 +9262,7 @@ a {
       height: 28px;
       width: 28px; }
     .image-preview .image img {
-      max-width: 100%;
+      max-width: 320px;
       height: auto;
       vertical-align: bottom; }
   .image-preview .action {

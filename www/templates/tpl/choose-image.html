@@ -4,9 +4,9 @@
 <div class="image-preview" ng-show="loading || image">
   <table class="table spinner-table">
     <tr>
-      <td class="image" ng-click="viewImage(image)">
+      <td class="image">
         <ion-spinner icon="spiral" class="spinner-positive" ng-show="loading"></ion-spinner>
-        <img ng-show="image" ng-src="{{image}}" />
+        <img ng-show="image" ng-src="http://tax-free.jaya-test.com{{image}}" imageViewer />
       </td>
       <td class="action">
         <div class="remove" ng-click="image = null;">

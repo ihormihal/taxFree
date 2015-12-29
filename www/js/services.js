@@ -1,123 +1,179 @@
-angular.module('app.services', ['ngResource', 'LocalStorageModule', 'http-auth-interceptor'])
+angular.module('app.services', ['ngResource'])
 
-.factory('AuthenticationService', ['$rootScope', '$q', '$state', '$http', 'localStorageService', 'authService', function($rootScope, $q, $state, $http, localStorageService, authService) {
-  var loggedIn = false;
+.service('AuthService', ['$rootScope', '$q', '$state', '$http', function($rootScope, $q, $state, $http) {
   var self  = {
-    login: function(credentials) {
-      console.log(credentials);
-      var q = $q.defer();
-      $http.post('http://localhost:5000/login/', credentials)
+    login: function(user) {
+      $http({
+        method: 'POST',
+        url: 'http://tax-free.jaya-test.com/app_dev.php/oauth/v2/token',
+        data: $rootScope.serialize({
+          username: user.username,
+          password: user.password,
+          grant_type: 'password',
+          client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
+          client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk'
+        }),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        },
+      })
       .success(function(data, status, headers, config) {
-
-        loggedIn = true;
-        localStorageService.set('authorizationToken', data.access_token);
-        $http.defaults.headers.common.Authorization = data.access_token;
-
-        authService.loginConfirmed(data, function(config) {
-          config.headers.Authorization = data.access_token;
-          return config;
-        });
-        q.resolve('Login success! Token: '+data.access_token);
+        if(data.access_token){
+          window.localStorage['token'] = 'Bearer '+ data.access_token;
+          $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
+          $rootScope.$broadcast('auth-login');
+        }
       })
       .error(function (data, status, headers, config) {
-        $rootScope.$broadcast('event:auth-login-failed', status);
-        q.reject(status);
+        $rootScope.$broadcast('auth-login-failed', status);
       });
-      return q.promise;
     },
 
     logout: function() {
-      loggedIn = false;
-      $http.post('http://localhost:5000/logout/', {}, { ignoreAuthModule: true })
+      window.localStorage['token'] = false;
+      delete $http.defaults.headers.common['Authorization'];
+      $rootScope.$broadcast('auth-logout');
+      console.log('AuthenticationService logout!');
+    }
+
+  };
+  return self;
+}])
+
+.service('RegService', ['$rootScope', '$q', '$state', '$http', function($rootScope, $q, $state, $http) {
+  var self = {
+    getToken: function(){
+      $http({
+        method: 'POST',
+        url: 'http://tax-free.jaya-test.com/app_dev.php/oauth/v2/token',
+        data: $rootScope.serialize({
+          grant_type: 'client_credentials',
+          client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
+          client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk'
+        }),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        },
+      })
       .success(function(data, status, headers, config) {
-        localStorageService.remove('authorizationToken');
-        delete $http.defaults.headers.common.Authorization;
-        $rootScope.$broadcast('event:auth-logout-complete');
-        console.log('AuthenticationService LogOut!');
-        $state.go('signin');
+        if(data.access_token){
+          window.localStorage['token'] = 'Bearer '+ data.access_token;
+          $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
+          $rootScope.$broadcast('auth-login');
+        }
+      })
+      .error(function (data, status, headers, config) {
+        $rootScope.$broadcast('auth-login-failed', status);
       });
     },
-
-    isLoggedIn: function() {
-      return loggedIn;
+    one: function(data){
+      var q = $q.defer();
+      $http({
+        method: 'POST',
+        url: 'http://tax-free.jaya-test.com/app_dev.php/api/user/register/one',
+        data: $rootScope.serialize(data),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        },
+      })
+      .success(function(data, status, headers, config) {
+        q.resolve(data);
+      })
+      .error(function (data, status, headers, config) {
+        $rootScope.$broadcast('auth-login-failed', status);
+        q.reject(data);
+      });
+      return q.promise;
     },
+    two: function(data){
+      var q = $q.defer();
+      $http({
+        method: 'POST',
+        url: 'http://tax-free.jaya-test.com/app_dev.php/api/user/register/two',
+        data: $rootScope.serialize(data),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        },
+      })
+      .success(function(data, status, headers, config) {
+        q.resolve(data);
+      })
+      .error(function (data, status, headers, config) {
+        $rootScope.$broadcast('auth-login-failed', status);
+        q.resolve(data);
+      });
+      return q.promise;
+    },
+    tree: function(){
 
-    loginCancelled: function() {
-      authService.loginCancelled();
     }
-
   };
   return self;
 }])
 
-.service('LoginService', ['$q', function($q) {
+//http://localhost:5000/user/
+//http://tax-free.jaya-test.com/app_dev.php/api/user/me
+.factory('User', function ($resource) {
+  return $resource('http://tax-free.jaya-test.com/app_dev.php/api/user/me', {}, {
+    update: {
+      method: 'PUT'
+    }
+  });
+})
+
+.service('UserService', function($q, User){
   var self = {
-
-    data: {
-      email: 'example@mail.com',
-      phone: '+380730000000',
-      type: 'email',
-      code: ''
+    profile: {},
+    getProfile: function(){
+      User.get({}, function(data){
+        self.profile = new User(data);
+      }, function(error){
+        console.log(error.data.error);
+      });
     },
-
-    signin: function(email, password) {
-      var q = $q.defer();
-      if (email == 'example@mail.com' && password == '0000') {
-        q.resolve('Success !');
-      } else {
-        q.reject('Please check your login or password!');
-      }
-      return q.promise;
-    },
-
-    signup: function(email, phone, conformation) {
-      var q = $q.defer();
-      self.data.conformation = conformation;
-      if (email == 'example@mail.com' && phone == '+380730000000') {
-        q.resolve('Success!');
-      } else {
-        q.reject('Server validation error!');
-      }
-      return q.promise;
-    },
-
-    confirm: function(code) {
-      var q = $q.defer();
-      if (code == '0000') {
-        q.resolve('Success!');
-      } else {
-        q.reject('Invalid code!');
-      }
-      return q.promise;
-    },
-
-    passwordRecovery: function(code) {
-      var q = $q.defer();
-      q.resolve('Success!');
-      return q.promise;
-    },
-
-    passwordRestore: function(code) {
-      var q = $q.defer();
-      q.resolve('Success!');
-      return q.promise;
+    updateProfile: function(profile){
+      profile.$update().then(function(){
+        console.log('User updated!');
+      },function(error){
+        console.log(error.data.error);
+      });
     }
   };
+  self.getProfile();
   return self;
-}])
-
-.factory('User', function($resource) {
-  return $resource('http://localhost:5000/user/');
 })
 
 .factory('Trip', function($resource) {
-  return $resource('http://localhost:5000/trips/:id/', {
+  return $resource('http://tax-free.jaya-test.com/app_dev.php/api/trip/:id', {
     id: '@id'
   },{
     update: {
       method: 'PUT'
     }
   });
+})
+
+.service('TripService', function($q, Trip) {
+  var self = {
+    trips: [],
+    trip: {},
+    getList: function(){
+      Trip.get({id: 'list'}, function(data){
+        self.trips = data;
+      }, function(error){
+        console.log(error.data.error);
+      });
+    },
+    get: function(id){
+      Trip.get({id: id}, function(data){
+        self.trip = new Trip(data);
+      }, function(error){
+        console.log(error.data.error);
+      });
+    }
+  };
+  self.getList();
+  return self;
 })
 
 .factory('Check', function($resource) {
@@ -128,6 +184,54 @@ angular.module('app.services', ['ngResource', 'LocalStorageModule', 'http-auth-i
       method: 'PUT'
     }
   });
+})
+
+.factory('CheckService', function($resource) {
+  var checks = [{
+    id: 0,
+    title: "Gucci",
+    time: '2015-11-04T22:00:00.000Z',
+    status: "approved",
+    images: [
+      {
+        url: 'http://mycode.in.ua/app/check.jpg'
+      },
+      {
+        url: 'http://mycode.in.ua/app/check.jpg'
+      },
+      {
+        url: 'http://mycode.in.ua/app/check.jpg'
+      }
+    ]
+  },{
+    id: 1,
+    title: "Nissan",
+    time: '2015-11-04T22:00:00.000Z',
+    status: "processed",
+    images: [
+      {
+        url: 'http://mycode.in.ua/app/check.jpg'
+      }
+    ]
+  },{
+    id: 2,
+    title: "Elitparfums",
+    time: '2015-11-04T22:00:00.000Z',
+    status: "refused",
+    images: []
+  }];
+
+  var self = {
+    getList: function(){
+      return checks;
+    },
+    getOne: function(id){
+      return checks[id];
+    }
+  };
+
+  return self;
+
 })
 
 .factory('Camera', ['$q', function($q) {

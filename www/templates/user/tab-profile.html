@@ -1,12 +1,10 @@
 <ion-view title="Профиль">
     <ion-content padding="false" scroll="true" class="has-header">
-
         <form>
             <div class="list">
-
                 <label class="item item-input item-select top-item">
                     <span class="input-label">Как к Вам обращаться? <sup>*</sup></span>
-                    <select ng-model="user.honorific">
+                    <select ng-model="user.profile.before_fs">
                         <option value="mr">Mr.</option>
                         <option value="mrs">Mrs.</option>
                         <option value="ms">Ms.</option>
@@ -14,17 +12,17 @@
                 </label>
 
                 <label class="item item-input">
-                    <input type="text" ng-model="user.fullname" placeholder="Ф.И.О.">
+                    <input type="text" ng-model="user.profile.fsname" placeholder="Ф.И.О.">
                 </label>
 
                 <label class="item item-input item-stacked-label">
                     <div class="input-label">Дата рождения <sup>*</sup></div>
-                    <input type="date" ng-model="user.birthday">
+                    <input type="date" ng-model="user.profile.passp_birthday">
                 </label>
 
                 <label class="item item-input item-select">
                     <div class="input-label">Гражданство <sup>*</sup></div>
-                    <select ng-model="user.goverment">
+                    <select ng-model="user.profile.goverment">
                         <option value="ru">Россия</option>
                         <option value="ua">Украина</option>
                     </select>
@@ -32,7 +30,7 @@
 
                 <label class="item item-input item-select">
                     <div class="input-label">Страна проживания <sup>*</sup></div>
-                    <select ng-model="user.country">
+                    <select ng-model="user.profile.country">
                         <option value="ru">Россия</option>
                         <option value="ua">Украина</option>
                     </select>
@@ -40,48 +38,48 @@
 
                 <label class="item item-input item-stacked-label">
                     <div class="input-label">Номер паспорта <sup>*</sup></div>
-                    <input type="text" ng-model="user.passport" placeholder="ET000001">
+                    <input type="text" ng-model="user.profile.passp_number" placeholder="ET000001">
                 </label>
 
                 <label class="item item-input item-select">
                     <div class="input-label">Страна выдачи <sup>*</sup></div>
-                    <select ng-model="user.passport_country">
-                        <option value="ru">Россия</option>
-                        <option value="ua">Украина</option>
+                    <select ng-model="user.profile.passp_country.iso_name">
+                        <option value="RU">Россия</option>
+                        <option value="UA">Украина</option>
                     </select>
                 </label>
 
                 <label class="item item-input item-stacked-label">
                     <div class="input-label">Срок действия <sup>*</sup></div>
-                    <input type="date" ng-model="user.passport_validiti">
+                    <input type="date" ng-model="user.profile.passp_date">
                 </label>
 
                 <label class="item item-input item-stacked-label">
                     <div class="input-label">Електронная почта <sup>*</sup></div>
-                    <input type="email" ng-model="user.email">
+                    <input type="email" ng-model="user.profile.email">
                 </label>
 
                 <label class="item item-input item-select">
                     <div class="input-label">Номер телефона <sup>*</sup></div>
-                    <select ng-model="user.phone_code">
+                    <select ng-model="user.profile.phone_country.phone_code">
                         <option value="+7">Россия (+7)</option>
                         <option value="+38">Украина (+38)</option>
                     </select>
                 </label>
 
                 <label class="item item-input">
-                    <input type="text" ng-model="user.phone">
+                    <input type="text" ng-model="user.profile.phone">
                 </label>
 
                 <div class="item">
                     <span class="input-label">Фото загранпаспорта <sup>*</sup></span>
-                    <choose-image image="user.photo"></choose-image>
+                    <choose-image image="user.profile.passport"></choose-image>
                 </div>
             </div>
 
             <div class="spacer" style="height:20px"></div>
             <div class="padding">
-                <button class="button button-stable button-block button-positive up" ng-click="save()">Сохранить</button>
+                <button class="button button-stable button-block button-positive up" ng-click="update()">Сохранить</button>
             </div>
         </form>
     </ion-content>

@@ -4,23 +4,24 @@
         <div class="logo image">
             <img src="img/logo.png">
         </div>
-        <h1 class="text-center white" ng-show="data.type == 'phone'">Enter your SMS code</h1>
-        <h1 class="text-center white" ng-show="data.type == 'email'">Enter code from recived email</h1>
+        ={{data}}=
+        <h1 class="text-center white" ng-show="data.confirmation == 'sms'">Enter your SMS code</h1>
+        <h1 class="text-center white" ng-show="data.confirmation == 'email'">Enter code from recived email</h1>
         <p class="text-center white">You need to confirm your code during 1 hour</p>
 
         <div class="spacer" style="height:20px"></div>
         <form>
             <div class="list inputs-on-background">
                 <label class="item item-input">
-                    <input type="text" ng-model="data.code" placeholder="xxxxxxxx">
+                    <input type="text" ng-model="data.code" placeholder="xxxxxx">
                 </label>
             </div>
             <div class="spacer" style="height:20px"></div>
             <p class="text-center">
-                <a href="#/login/signup" class="white">Back to sign up form</a>
+                <a ui-sref="regOne" class="white">Back to sign up form</a>
             </p>
             <div class="spacer" style="height:20px"></div>
-            <button class="button button-block button-outline button-white up" ng-click="confirm()">Подтвердить</button>
+            <button class="button button-block button-outline button-white up" ng-click="stepTwo()">Подтвердить</button>
         </form>
     </ion-content>
 </ion-view>

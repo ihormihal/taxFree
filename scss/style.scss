@@ -181,6 +181,7 @@ a {
 	color: white;
 }
 .image-preview {
+	width: 100%;
 	border: 1px solid #ddd;
 	border-radius: 3px;
 	table {
@@ -197,7 +198,7 @@ a {
 			width: 28px;
 		}
 		img {
-			max-width: 100%;
+			max-width: 320px;
 			height: auto;
 			vertical-align: bottom;
 		}

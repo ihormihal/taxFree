@@ -1,12 +1,30 @@
 angular.module('app.directives', [])
 
+
+.directive('input', ['dateFilter', function(dateFilter) {
+    return {
+        restrict: 'E',
+        require: '?ngModel',
+        link: function($scope, $element, $attrs, ngModel) {
+            if (typeof $attrs.type !== 'undefined' && $attrs.type === 'date' && ngModel) {
+                ngModel.$formatters.push(function(timestamp) {
+                	return new Date(timestamp*1000);
+                });
+	            ngModel.$parsers.push(function(date) {
+	              return date.getTime()/1000;
+	            });
+            }
+        }
+    }
+}])
+
 .directive('imageViewer', [function(){
 	return {
 		restrict: 'A',
 		link: function($scope, $element, $attrs) {
 			$element[0].onclick = function(e){
 				PhotoViewer.show($attrs.src,$attrs.alt);
-			}
+			};
 		}
 	}
 }])
@@ -79,7 +97,7 @@ angular.module('app.directives', [])
 					params: {userid: 10}
 				};
 				$cordovaFileTransfer.upload(
-					encodeURI("http://mycode.in.ua/app/upload_file.php"),
+					encodeURI("http://tax-free.jaya-test.com/app_dev.php/api/user/upload"),
 					file,
 					options)
 				.then(function(result) {

@@ -1,7 +1,6 @@
 angular.module('app.routes', [])
 
-.config(function($stateProvider, $urlRouterProvider) {
-
+.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -10,45 +9,51 @@ angular.module('app.routes', [])
   $stateProvider
 
   // LOGIN
-  .state('signin', {
-    url: '/login/signin',
-    templateUrl: 'templates/login/signin.html',
-    controller: 'signinCtrl'
+  .state('login', {
+    url: '/login',
+    templateUrl: '',
+    controller: 'loginCtrl'
   })
-  // SIGNUP
-  .state('signup', {
-    url: '/login/signup',
-    templateUrl: 'templates/login/signup.html',
-    controller: 'signupCtrl'
-  })
-  // SIGNUP CONFORMATION
-  .state('signupConformation', {
-    url: '/login/signup-conformation',
-    templateUrl: 'templates/login/signup-conformation.html',
-    controller: 'signupCtrl'
-  })
-  // REG
+  //REGISTRATION
   .state('reg', {
-    url: '/login/reg',
-    templateUrl: 'templates/login/reg.html',
+    url: '/registration',
+    abstract: true,
+    controller: 'regCtrl',
+    templateUrl: 'templates/registration-one.html'
+  })
+
+  .state('reg.one', {
+    url: '/one',
+    templateUrl: 'templates/registration-one.html'
+  })
+
+  .state('reg.two', {
+    url: '/two',
+    templateUrl: 'templates/registration-two.html',
     controller: 'regCtrl'
   })
+
+  .state('reg.three', {
+    url: '/three',
+    templateUrl: 'templates/registration-three.html'
+  })
+
   // Password Recovery
   .state('passwordRecovery', {
-    url: '/login/password-recovery',
-    templateUrl: 'templates/login/password-recovery.html',
+    url: '/password-recovery',
+    templateUrl: 'templates/password-recovery.html',
     controller: 'passwordRecoveryCtrl'
   })
   // Password Recovery Conformation
   .state('passwordRecoveryConformation', {
-    url: '/login/password-recovery-conformation',
-    templateUrl: 'templates/login/password-recovery-conformation.html',
+    url: '/password-recovery-conformation',
+    templateUrl: 'templates/password-recovery-conformation.html',
     controller: 'passwordRecoveryCtrl'
   })
   // Password Reset
   .state('passwordReset', {
-    url: '/login/password-reset',
-    templateUrl: 'templates/login/password-reset.html',
+    url: '/password-reset',
+    templateUrl: 'templates/password-reset.html',
     controller: 'passwordRecoveryCtrl'
   })
 
@@ -77,7 +82,7 @@ angular.module('app.routes', [])
     abstract: true,
     views: {
       'menuContent': {
-        templateUrl: "templates/user.html",
+        templateUrl: "templates/user/user.html",
         controller: 'userCtrl'
       }
     }
@@ -87,7 +92,7 @@ angular.module('app.routes', [])
     url: '/profile',
     views: {
       'profile': {
-        templateUrl: 'templates/user/profile.html',
+        templateUrl: 'templates/user/tab-profile.html',
         controller: 'userCtrl'
       }
     }
@@ -97,7 +102,7 @@ angular.module('app.routes', [])
     url: '/password',
     views: {
       'password': {
-        templateUrl: 'templates/user/password.html',
+        templateUrl: 'templates/user/tab-password.html',
         controller: 'userCtrl'
       }
     }
@@ -108,7 +113,7 @@ angular.module('app.routes', [])
     url: '/trips',
     views: {
       'menuContent': {
-        templateUrl: 'templates/trips.html',
+        templateUrl: 'templates/trips/list.html',
         controller: 'tripsCtrl'
       }
     }
@@ -132,7 +137,7 @@ angular.module('app.routes', [])
     url: '/info',
     views: {
       'info': {
-        templateUrl: 'templates/trips/info.html',
+        templateUrl: 'templates/trips/tab-info.html',
         controller: 'tripCtrl'
       }
     }
@@ -143,7 +148,7 @@ angular.module('app.routes', [])
     url: '/checks',
     views: {
       'checks': {
-        templateUrl: 'templates/trips/checks.html',
+        templateUrl: 'templates/trips/tab-checks.html',
         controller: 'tripCtrl'
       }
     }
@@ -154,7 +159,7 @@ angular.module('app.routes', [])
     url: '/declarations',
     views: {
       'declarations': {
-        templateUrl: 'templates/trips/declarations.html',
+        templateUrl: 'templates/trips/tab-declarations.html',
         controller: 'tripCtrl'
       }
     }
@@ -165,7 +170,7 @@ angular.module('app.routes', [])
     url: '/checks',
     views: {
       'menuContent': {
-        templateUrl: 'templates/checks.html',
+        templateUrl: 'templates/checks/list.html',
         controller: 'checksCtrl'
       }
     }
@@ -186,6 +191,6 @@ angular.module('app.routes', [])
   ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login/signin');
+  $urlRouterProvider.otherwise('/login');
 
 });
