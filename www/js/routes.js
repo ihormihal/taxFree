@@ -11,31 +11,26 @@ angular.module('app.routes', [])
   // LOGIN
   .state('login', {
     url: '/login',
-    templateUrl: '',
+    templateUrl: 'templates/login.html',
     controller: 'loginCtrl'
   })
   //REGISTRATION
-  .state('reg', {
-    url: '/registration',
-    abstract: true,
-    controller: 'regCtrl',
-    templateUrl: 'templates/registration-one.html'
+  .state('regOne', {
+    url: '/reg-one',
+    templateUrl: 'templates/registration-one.html',
+    controller: 'regCtrl'
   })
 
-  .state('reg.one', {
-    url: '/one',
-    templateUrl: 'templates/registration-one.html'
-  })
-
-  .state('reg.two', {
-    url: '/two',
+  .state('regTwo', {
+    url: '/reg-two',
     templateUrl: 'templates/registration-two.html',
     controller: 'regCtrl'
   })
 
-  .state('reg.three', {
-    url: '/three',
-    templateUrl: 'templates/registration-three.html'
+  .state('regThree', {
+    url: '/reg-three',
+    templateUrl: 'templates/registration-three.html',
+    controller: 'regCtrl'
   })
 
   // Password Recovery

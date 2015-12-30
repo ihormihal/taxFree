@@ -41,24 +41,15 @@ angular.module('app.controllers', [])
 
 .controller('regCtrl', function($scope, $state, $ionicPopup, RegService) {
 
-  RegService.getToken();
-
-  $scope.data = {
-    email: 'ihor.mihal@gmail.com',
-    phone: '0734058015',
-    confirmation: 'email',
-    country: 1,
-    user: null,
-    code: null
-  };
+  //initialize every time when view is called
+  $scope.data = RegService.data;
 
   $scope.stepOne = function() {
+    RegService.data = $scope.data;
     RegService.one($scope.data)
     .then(function(data) {
-      console.log(data.user);
-      $scope.data.user = data.user;
-      $state.go('reg.two');
-      console.log($scope.data);
+      RegService.data.user = data.user;
+      $state.go('regTwo');
     },function(error) {
       $ionicPopup.alert({
         title: 'Error!',
@@ -68,10 +59,10 @@ angular.module('app.controllers', [])
   };
 
   $scope.stepTwo = function() {
-    console.log($scope.data);
+    RegService.data.code = $scope.data.code;
     RegService.two($scope.data)
     .then(function(data) {
-      $state.go('reg.three');
+      $state.go('regThree');
     },function(error) {
       $ionicPopup.alert({
         title: 'Error!',

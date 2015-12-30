@@ -42,6 +42,14 @@ angular.module('app.services', ['ngResource'])
 
 .service('RegService', ['$rootScope', '$q', '$state', '$http', function($rootScope, $q, $state, $http) {
   var self = {
+    data: {
+      email: 'ihor.mihal@gmail.com',
+      phone: '0734058015',
+      confirmation: 'email',
+      country: 1,
+      user: null,
+      code: null
+    },
     getToken: function(){
       $http({
         method: 'POST',
@@ -108,6 +116,7 @@ angular.module('app.services', ['ngResource'])
 
     }
   };
+  self.getToken();
   return self;
 }])
 
