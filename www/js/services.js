@@ -1,5 +1,12 @@
 angular.module('app.services', ['ngResource'])
 
+.factory('Countries', function ($resource) {
+  return [
+    {id: 1, name: 'Украина', phone_code: '+38'},
+    {id: 2, name: 'Россия', phone_code: '+7'}
+  ];
+})
+
 .service('AuthService', ['$rootScope', '$q', '$state', '$http', function($rootScope, $q, $state, $http) {
   var self  = {
     login: function(user) {
@@ -18,10 +25,12 @@ angular.module('app.services', ['ngResource'])
         },
       })
       .success(function(data, status, headers, config) {
-        if(data.access_token){
+        if(data.access_token && status == 200){
           window.localStorage['token'] = 'Bearer '+ data.access_token;
           $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
           $rootScope.$broadcast('auth-login');
+        }else{
+          $rootScope.$broadcast('auth-login-failed', data.error_description);
         }
       })
       .error(function (data, status, headers, config) {
@@ -46,10 +55,9 @@ angular.module('app.services', ['ngResource'])
       email: 'ihor.mihal@gmail.com',
       phone: '0734058015',
       confirmation: 'email',
-      country: 1,
-      user: null,
-      code: null
+      country: 1
     },
+
     getToken: function(){
       $http({
         method: 'POST',
@@ -64,64 +72,93 @@ angular.module('app.services', ['ngResource'])
         },
       })
       .success(function(data, status, headers, config) {
-        if(data.access_token){
+        if(data.access_token && status == 200){
           window.localStorage['token'] = 'Bearer '+ data.access_token;
           $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
           $rootScope.$broadcast('auth-login');
+        }else{
+          $rootScope.$broadcast('auth-login-failed', status);
         }
       })
       .error(function (data, status, headers, config) {
         $rootScope.$broadcast('auth-login-failed', status);
       });
     },
-    one: function(data){
+
+    one: function(){
       var q = $q.defer();
       $http({
         method: 'POST',
         url: 'http://tax-free.jaya-test.com/app_dev.php/api/user/register/one',
-        data: $rootScope.serialize(data),
+        data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
       })
       .success(function(data, status, headers, config) {
-        q.resolve(data);
+        if(status == 200){
+          q.resolve(data);
+        }else{
+          q.reject(data);
+        }
       })
       .error(function (data, status, headers, config) {
-        $rootScope.$broadcast('auth-login-failed', status);
         q.reject(data);
       });
       return q.promise;
     },
-    two: function(data){
+
+    two: function(){
       var q = $q.defer();
       $http({
         method: 'POST',
         url: 'http://tax-free.jaya-test.com/app_dev.php/api/user/register/two',
-        data: $rootScope.serialize(data),
+        data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
       })
       .success(function(data, status, headers, config) {
-        q.resolve(data);
+        if(status == 200){
+          q.resolve(data);
+        }else{
+          q.reject(data);
+        }
       })
       .error(function (data, status, headers, config) {
-        $rootScope.$broadcast('auth-login-failed', status);
-        q.resolve(data);
+        q.reject(data);
       });
       return q.promise;
     },
-    tree: function(){
 
+    tree: function(){
+      var q = $q.defer();
+      $http({
+        method: 'POST',
+        url: 'http://tax-free.jaya-test.com/app_dev.php/api/user/register/tree',
+        data: $rootScope.serialize(self.data),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        },
+      })
+      .success(function(data, status, headers, config) {
+        if(status == 200){
+          q.resolve(data);
+        }else{
+          q.reject(data);
+        }
+      })
+      .error(function (data, status, headers, config) {
+        q.reject(data);
+      });
+      return q.promise;
     }
   };
+
   self.getToken();
   return self;
 }])
 
-//http://localhost:5000/user/
-//http://tax-free.jaya-test.com/app_dev.php/api/user/me
 .factory('User', function ($resource) {
   return $resource('http://tax-free.jaya-test.com/app_dev.php/api/user/me', {}, {
     update: {

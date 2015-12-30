@@ -46,7 +46,7 @@ angular.module('app.controllers', [])
 
   $scope.stepOne = function() {
     RegService.data = $scope.data;
-    RegService.one($scope.data)
+    RegService.one()
     .then(function(data) {
       RegService.data.user = data.user;
       $state.go('regTwo');
@@ -60,7 +60,7 @@ angular.module('app.controllers', [])
 
   $scope.stepTwo = function() {
     RegService.data.code = $scope.data.code;
-    RegService.two($scope.data)
+    RegService.two()
     .then(function(data) {
       $state.go('regThree');
     },function(error) {
@@ -72,7 +72,11 @@ angular.module('app.controllers', [])
   };
 
   $scope.stepThree = function(){
-    RegService.three($scope.user)
+    RegService.data.password = $scope.data.password;
+    RegService.data.before_fs = $scope.data.before_fs;
+    RegService.data.fs_name = $scope.data.fsname;
+    RegService.data.address = $scope.data.address;
+    RegService.three()
     .then(function(data) {
       $state.go('main.user.profile');
     },function(error) {
@@ -124,10 +128,18 @@ angular.module('app.controllers', [])
   };
 })
 
-.controller('userCtrl', function($scope, UserService) {
+.controller('userCtrl', function($scope, UserService, Countries) {
+  $scope.countries = Countries;
   $scope.user = UserService;
   $scope.update = function(){
     $scope.user.updateProfile($scope.user.profile);
+  };
+  $scope.doRefresh = function(){
+    $scope.user.profile = UserService.getProfile();
+    $scope.$broadcast('scroll.refreshComplete');
+  };
+  $scope.cChange = function(){
+    console.log($scope.user.profile.passp_citizenship);
   };
 })
 

@@ -1,5 +1,9 @@
 <ion-view title="Профиль">
     <ion-content padding="false" scroll="true" class="has-header">
+        <ion-refresher
+            pulling-text=""
+            on-refresh="doRefresh()">
+        </ion-refresher>
         <form>
             <div class="list">
                 <label class="item item-input item-select top-item">
@@ -21,18 +25,25 @@
                 </label>
 
                 <label class="item item-input item-select">
+                    <div class="input-label">Пол <sup>*</sup></div>
+                    <select ng-model="user.profile.passp_sex">
+                        <option value="m">Муж.</option>
+                        <option value="f">Жен.</option>
+                    </select>
+                </label>
+
+                <label class="item item-input item-select">
                     <div class="input-label">Гражданство <sup>*</sup></div>
-                    <select ng-model="user.profile.goverment">
-                        <option value="ru">Россия</option>
-                        <option value="ua">Украина</option>
+                    <select integer-model ng-model="user.profile.passp_citizenship">
+                        <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
                     </select>
                 </label>
 
                 <label class="item item-input item-select">
                     <div class="input-label">Страна проживания <sup>*</sup></div>
                     <select ng-model="user.profile.country">
-                        <option value="ru">Россия</option>
-                        <option value="ua">Украина</option>
+                        <option value="1">Украина</option>
+                        <option value="2">Россия</option>
                     </select>
                 </label>
 
@@ -43,9 +54,8 @@
 
                 <label class="item item-input item-select">
                     <div class="input-label">Страна выдачи <sup>*</sup></div>
-                    <select ng-model="user.profile.passp_country.iso_name">
-                        <option value="RU">Россия</option>
-                        <option value="UA">Украина</option>
+                    <select integer-model ng-model="user.profile.passp_country">
+                        <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
                     </select>
                 </label>
 
@@ -61,9 +71,8 @@
 
                 <label class="item item-input item-select">
                     <div class="input-label">Номер телефона <sup>*</sup></div>
-                    <select ng-model="user.profile.phone_country.phone_code">
-                        <option value="+7">Россия (+7)</option>
-                        <option value="+38">Украина (+38)</option>
+                    <select integer-model ng-model="user.profile.phone_country">
+                        <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}} {{country.phone_code}}</option>
                     </select>
                 </label>
 
