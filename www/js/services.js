@@ -1,24 +1,63 @@
 angular.module('app.services', ['ngResource'])
 
-.factory('Countries', function ($resource) {
-  return [
-    {id: 1, name: 'Украина', phone_code: '+38'},
-    {id: 2, name: 'Россия', phone_code: '+7'}
-  ];
+.service('Catalog', function($rootScope, $q, $http){
+  var self = {
+    countries: [],
+    transport: [],
+    getCountries: function() {
+      var q = $q.defer();
+      $http.get('http://tax-free.jaya-test.com/app_dev.php/api/catalog/country')
+      .success(function(data, status, headers, config) {
+        if(status == 200){
+          q.resolve(data);
+        }else{
+          q.reject(angular.toJson({status: status, data: data}));
+        }
+      })
+      .error(function (data, status, headers, config) {
+        if(status == 401){
+          $rootScope.$broadcast('auth-login-required', error);
+        }else{
+          q.reject(angular.toJson({status: status, data: data}));
+        }
+      });
+      return q.promise;
+    },
+    getTransport: function(){
+      var q = $q.defer();
+      $http.get('http://tax-free.jaya-test.com/app_dev.php/api/catalog/transport')
+      .success(function(data, status, headers, config) {
+        if(status == 200){
+          q.resolve(data);
+        }else{
+          q.reject(angular.toJson({status: status, data: data}));
+        }
+      })
+      .error(function (data, status, headers, config) {
+        if(status == 401){
+          $rootScope.$broadcast('auth-login-required', error);
+        }else{
+          q.reject(angular.toJson({status: status, data: data}));
+        }
+      });
+      return q.promise;
+    }
+  };
+  return self;
 })
 
-.service('AuthService', ['$rootScope', '$q', '$state', '$http', function($rootScope, $q, $state, $http) {
+.service('AuthService', function($rootScope, $q, $state, $http) {
   var self  = {
     login: function(user) {
       $http({
         method: 'POST',
         url: 'http://tax-free.jaya-test.com/app_dev.php/oauth/v2/token',
         data: $rootScope.serialize({
-          username: user.username,
-          password: user.password,
-          grant_type: 'password',
           client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
-          client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk'
+          client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk',
+          grant_type: 'password',
+          username: user.username,
+          password: user.password
         }),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -27,6 +66,7 @@ angular.module('app.services', ['ngResource'])
       .success(function(data, status, headers, config) {
         if(data.access_token && status == 200){
           window.localStorage['token'] = 'Bearer '+ data.access_token;
+          window.localStorage['refresh_token'] = data.refresh_token;
           $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
           $rootScope.$broadcast('auth-login');
         }else{
@@ -43,13 +83,46 @@ angular.module('app.services', ['ngResource'])
       delete $http.defaults.headers.common['Authorization'];
       $rootScope.$broadcast('auth-logout');
       console.log('AuthenticationService logout!');
+    },
+
+    refresh: function(){
+      if(window.localStorage['refresh_token']){
+        $http({
+          method: 'POST',
+          url: 'http://tax-free.jaya-test.com/app_dev.php/oauth/v2/token',
+          data: $rootScope.serialize({
+            client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
+            client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk',
+            grant_type: 'refresh_token',
+            refresh_token: window.localStorage['refresh_token']
+          }),
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+          },
+        })
+        .success(function(data, status, headers, config) {
+          if(data.access_token && status === 200){
+            window.localStorage['token'] = 'Bearer '+ data.access_token;
+            window.localStorage['refresh_token'] = data.refresh_token;
+            $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
+            $rootScope.$broadcast('auth-login');
+          }else{
+            $rootScope.$broadcast('auth-login-failed', data.error_description);
+          }
+        })
+        .error(function (data, status, headers, config) {
+          $rootScope.$broadcast('auth-login-failed', status);
+        });
+      }else{
+        $rootScope.$broadcast('auth-login-failed', 'Invalid refresh token');
+      }
     }
 
   };
   return self;
-}])
+})
 
-.service('RegService', ['$rootScope', '$q', '$state', '$http', function($rootScope, $q, $state, $http) {
+.service('RegService', function($rootScope, $q, $state, $http) {
   var self = {
     data: {
       email: 'ihor.mihal@gmail.com',
@@ -99,11 +172,11 @@ angular.module('app.services', ['ngResource'])
         if(status == 200){
           q.resolve(data);
         }else{
-          q.reject(data);
+          q.reject(angular.toJson({status: status, data: data}));
         }
       })
       .error(function (data, status, headers, config) {
-        q.reject(data);
+        q.reject(angular.toJson({status: status, data: data}));
       });
       return q.promise;
     },
@@ -122,11 +195,11 @@ angular.module('app.services', ['ngResource'])
         if(status == 200){
           q.resolve(data);
         }else{
-          q.reject(data);
+          q.reject(angular.toJson({status: status, data: data}));
         }
       })
       .error(function (data, status, headers, config) {
-        q.reject(data);
+        q.reject(angular.toJson({status: status, data: data}));
       });
       return q.promise;
     },
@@ -145,19 +218,17 @@ angular.module('app.services', ['ngResource'])
         if(status == 200){
           q.resolve(data);
         }else{
-          q.reject(data);
+          q.reject(angular.toJson({status: status, data: data}));
         }
       })
       .error(function (data, status, headers, config) {
-        q.reject(data);
+        q.reject(angular.toJson({status: status, data: data}));
       });
       return q.promise;
     }
   };
-
-  self.getToken();
   return self;
-}])
+})
 
 .factory('User', function ($resource) {
   return $resource('http://tax-free.jaya-test.com/app_dev.php/api/user/me', {}, {
@@ -167,21 +238,30 @@ angular.module('app.services', ['ngResource'])
   });
 })
 
-.service('UserService', function($q, User){
+.service('UserService', function($rootScope, $q, User){
   var self = {
     profile: {},
     getProfile: function(){
       User.get({}, function(data){
         self.profile = new User(data);
       }, function(error){
-        console.log(error.data.error);
+        // if(error.status == 401){
+        //   $rootScope.$broadcast('auth-login-required', error);
+        // }else{
+        //   console.log(error.data);
+        // }
+        $rootScope.$broadcast('auth-login-required', error);
       });
     },
     updateProfile: function(profile){
       profile.$update().then(function(){
         console.log('User updated!');
       },function(error){
-        console.log(error.data.error);
+        if(error.status == 401){
+          $rootScope.$broadcast('auth-login-required', error);
+        }else{
+          console.log(error.data);
+        }
       });
     }
   };
@@ -199,22 +279,32 @@ angular.module('app.services', ['ngResource'])
   });
 })
 
-.service('TripService', function($q, Trip) {
+.service('TripService', function($rootScope, $q, Trip) {
   var self = {
-    trips: [],
     trip: {},
     getList: function(){
+      var q = $q.defer();
       Trip.get({id: 'list'}, function(data){
-        self.trips = data;
+        q.resolve(data.trips);
       }, function(error){
-        console.log(error.data.error);
+        if(error.status == 401){
+          $rootScope.$broadcast('auth-login-required', error);
+        }else{
+          q.reject(angular.toJson({status: error.status, data: error.data}));
+          console.log(error.data);
+        }
       });
+      return q.promise;
     },
     get: function(id){
       Trip.get({id: id}, function(data){
         self.trip = new Trip(data);
       }, function(error){
-        console.log(error.data.error);
+        if(error.status == 401){
+          $rootScope.$broadcast('auth-login-required', error);
+        }else{
+          console.log(error.data);
+        }
       });
     }
   };

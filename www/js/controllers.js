@@ -11,6 +11,10 @@ angular.module('app.controllers', [])
   });
 
   $scope.$on('auth-login-required', function(e, rejection) {
+    AuthService.refresh();
+  });
+
+  $scope.$on('auth-login-failed', function(e, rejection) {
     $state.go('login');
   });
 
@@ -41,6 +45,10 @@ angular.module('app.controllers', [])
 
 .controller('regCtrl', function($scope, $state, $ionicPopup, RegService) {
 
+  if(!window.localStorage['token']){
+    RegService.getToken();
+  }
+
   //initialize every time when view is called
   $scope.data = RegService.data;
 
@@ -51,10 +59,7 @@ angular.module('app.controllers', [])
       RegService.data.user = data.user;
       $state.go('regTwo');
     },function(error) {
-      $ionicPopup.alert({
-        title: 'Error!',
-        template: error
-      });
+      alert(error);
     });
   };
 
@@ -64,10 +69,7 @@ angular.module('app.controllers', [])
     .then(function(data) {
       $state.go('regThree');
     },function(error) {
-      $ionicPopup.alert({
-        title: 'Error!',
-        template: error
-      });
+      alert(error);
     });
   };
 
@@ -80,10 +82,7 @@ angular.module('app.controllers', [])
     .then(function(data) {
       $state.go('main.user.profile');
     },function(error) {
-      $ionicPopup.alert({
-        title: 'Error!',
-        template: error
-      });
+      alert(error);
     });
   };
 })
@@ -96,10 +95,7 @@ angular.module('app.controllers', [])
     .then(function(data) {
       $state.go('passwordRecoveryConformation');
     },function(data) {
-      $ionicPopup.alert({
-        title: 'Error!',
-        template: data
-      });
+      alert(error);
     });
   };
 
@@ -108,10 +104,7 @@ angular.module('app.controllers', [])
     .then(function(data) {
       $state.go('passwordReset');
     },function(error) {
-      $ionicPopup.alert({
-        title: 'Error!',
-        template: error
-      });
+      alert(error);
     });
   };
 
@@ -120,16 +113,20 @@ angular.module('app.controllers', [])
     .then(function(data) {
       $state.go('signin');
     },function(error) {
-      $ionicPopup.alert({
-        title: 'Error!',
-        template: error
-      });
+      alert(error);
     });
   };
 })
 
-.controller('userCtrl', function($scope, UserService, Countries) {
-  $scope.countries = Countries;
+.controller('userCtrl', function($scope, UserService, Catalog) {
+
+  Catalog.getCountries()
+  .then(function(data){
+    $scope.countries = data;
+  },function(error){
+    alert(error);
+  });
+
   $scope.user = UserService;
   $scope.update = function(){
     $scope.user.updateProfile($scope.user.profile);
@@ -138,9 +135,6 @@ angular.module('app.controllers', [])
     $scope.user.profile = UserService.getProfile();
     $scope.$broadcast('scroll.refreshComplete');
   };
-  $scope.cChange = function(){
-    console.log($scope.user.profile.passp_citizenship);
-  };
 })
 
 .controller('helpCtrl', function($scope) {
@@ -148,9 +142,19 @@ angular.module('app.controllers', [])
 })
 
 .controller('tripsCtrl', function($scope, TripService) {
-  $scope.trips = TripService.getList();
+  TripService.getList()
+  .then(function(data){
+    $scope.trips = data;
+  },function(error){
+    alert(error);
+  });
   $scope.doRefresh = function(){
-    $scope.trips = TripService.getList();
+    TripService.getList()
+    .then(function(data){
+      $scope.trips = data;
+    },function(error){
+      alert(error);
+    });
     $scope.$broadcast('scroll.refreshComplete');
   };
 })
