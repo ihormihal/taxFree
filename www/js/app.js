@@ -53,3 +53,17 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
   $resourceProvider.defaults.stripTrailingSlashes = false;
 
 })
+
+.filter('translate', function() {
+  return function(text, def) {
+    var lang = 'ru';
+    if(window.localStorage['lang']) {
+      lang = window.localStorage['lang'];
+    }
+    if(text in translate[lang]) {
+      return translate[lang][text];
+    }else{
+      return text;
+    }
+  }
+})

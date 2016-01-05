@@ -4,8 +4,8 @@
         <div class="logo image">
             <img src="img/logo.png">
         </div>
-        <h1 class="text-center white">Авторизация</h1>
-        <p class="text-center white">Еще нет аккаунта? <a ui-sref="regOne" class="white">Регистрация</a></p>
+        <h1 class="text-center white">{{'authorization'|translate}}</h1>
+        <p class="text-center white">{{'no_account_yet'|translate}} <a ui-sref="regOne" class="white">{{'registration'|translate}}</a></p>
 
         <div class="spacer" style="height:20px"></div>
         <form>
@@ -17,10 +17,10 @@
                     <input type="password" ng-model="user.password" placeholder="Password">
                 </label>
             </div>
-            <p class="text-center"><a href="#/login/password-recovery" class="white">Забыли пароль?</a></p>
+            <p class="text-center"><a href="#/login/password-recovery" class="white">{{'forgot_password'|translate}}</a></p>
             <div class="spacer" style="height: 20px;"></div>
 
-            <button class="button button-block button-outline button-white up" ng-click="login()">Вход</button>
+            <button class="button button-block button-outline button-white up" ng-click="login()">{{'login'|translate}}</button>
         </form>
     </ion-content>
 </ion-view>
