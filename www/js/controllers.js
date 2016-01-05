@@ -2,6 +2,14 @@ angular.module('app.controllers', [])
 
 .controller('AppCtrl', function($scope, $state, AuthService, Catalog) {
 
+  if(!window.localStorage['countries']){
+    Catalog.loadCountries();
+  }
+
+  if(!window.localStorage['transport']){
+    Catalog.loadTransport();
+  }
+
   $scope.logout = function(){
     AuthService.logout();
   };
@@ -18,47 +26,23 @@ angular.module('app.controllers', [])
     $state.go('login');
   });
 
-  if(!window.localStorage['countries']){
-    Catalog.getCountries()
-    .then(function(data){
-      window.localStorage['countries'] = angular.toJson(data);
-    },function(error){
-      alert(error);
-    });
-  }
-
-  if(!window.localStorage['transport']){
-    Catalog.getTransport()
-    .then(function(data){
-      window.localStorage['transport'] = angular.toJson(data);
-    },function(error){
-      alert(error);
-    });
-  }
-
 })
 
-.controller('loginCtrl', function($scope, $state, $ionicPopup, AuthService, RegService) {
+.controller('loginCtrl', function($scope, $state, $ionicPopup, AuthService, Catalog) {
 
   $scope.user = {
     username: 'tsvetok77@yandex.ru',
     password: 'PArol12345'
   };
 
+  $scope.login = function() {
+    AuthService.login($scope.user);
+  };
+
   $scope.$on('auth-login', function(e, rejection) {
     $state.go('main.user.profile');
   });
 
-  $scope.$on('auth-login-failed', function(event, data){
-    $ionicPopup.alert({
-      title: 'Login failed!',
-      template: data
-    });
-  });
-
-  $scope.login = function() {
-    AuthService.login($scope.user);
-  };
 })
 
 .controller('regCtrl', function($scope, $state, $ionicPopup, RegService) {
@@ -139,7 +123,15 @@ angular.module('app.controllers', [])
   };
 })
 
-.controller('userCtrl', function($scope, UserService) {
+.controller('userCtrl', function($scope, UserService, Catalog) {
+
+  if(!window.localStorage['countries']){
+    Catalog.loadCountries();
+  }
+
+  if(!window.localStorage['transport']){
+    Catalog.loadTransport();
+  }
 
   $scope.countries = angular.fromJson(window.localStorage['countries']);
   $scope.transport = angular.fromJson(window.localStorage['transport']);
@@ -151,6 +143,21 @@ angular.module('app.controllers', [])
   $scope.doRefresh = function(){
     $scope.user.profile = UserService.getProfile();
     $scope.$broadcast('scroll.refreshComplete');
+  };
+})
+
+.controller('settingsCtrl', function($scope, $ionicPopup, $timeout, $state) {
+  $scope.clearCache = function(){
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Очистить кеш',
+      template: 'Кеш приложения будет очищен. Вы будете перенаправлены на экран авторизации. Очистить?'
+    });
+    confirmPopup.then(function(res) {
+      if(res){
+        window.localStorage.clear();
+        $state.go('login');
+      }
+    });
   };
 })
 

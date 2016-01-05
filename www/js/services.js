@@ -2,43 +2,39 @@ angular.module('app.services', ['ngResource'])
 
 .service('Catalog', function($rootScope, $q, $http){
   var self = {
-    getCountries: function() {
-      var q = $q.defer();
+    loadCountries: function() {
       $http.get('http://tax-free.jaya-test.com/app_dev.php/api/catalog/country')
       .success(function(data, status, headers, config) {
         if(status == 200){
-          q.resolve(data);
+          window.localStorage['countries'] = angular.toJson(data);
         }else{
-          q.reject(angular.toJson({status: status, data: data}));
+          console.error({status: status, data: data});
         }
       })
       .error(function (data, status, headers, config) {
         if(status == 401){
           $rootScope.$broadcast('auth-login-required', error);
         }else{
-          q.reject(angular.toJson({status: status, data: data}));
+          console.error({status: status, data: data});
         }
       });
-      return q.promise;
     },
-    getTransport: function(){
-      var q = $q.defer();
+    loadTransport: function(){
       $http.get('http://tax-free.jaya-test.com/app_dev.php/api/catalog/transport')
       .success(function(data, status, headers, config) {
         if(status == 200){
-          q.resolve(data);
+          window.localStorage['transport'] = angular.toJson(data);
         }else{
-          q.reject(angular.toJson({status: status, data: data}));
+          console.error({status: status, data: data});
         }
       })
       .error(function (data, status, headers, config) {
         if(status == 401){
           $rootScope.$broadcast('auth-login-required', error);
         }else{
-          q.reject(angular.toJson({status: status, data: data}));
+          console.error({status: status, data: data});
         }
       });
-      return q.promise;
     }
   };
   return self;

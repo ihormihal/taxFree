@@ -60,6 +60,17 @@ angular.module('app.routes', [])
     controller: 'AppCtrl'
   })
 
+  //SETTINGS
+  .state('main.settings', {
+    url: '/settings',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/settings.html',
+        controller: 'settingsCtrl'
+      }
+    }
+  })
+
   //HELP
   .state('main.help', {
     url: '/help',
