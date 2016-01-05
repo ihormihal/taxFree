@@ -2,8 +2,6 @@ angular.module('app.services', ['ngResource'])
 
 .service('Catalog', function($rootScope, $q, $http){
   var self = {
-    countries: [],
-    transport: [],
     getCountries: function() {
       var q = $q.defer();
       $http.get('http://tax-free.jaya-test.com/app_dev.php/api/catalog/country')

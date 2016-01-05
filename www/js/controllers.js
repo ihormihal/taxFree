@@ -1,6 +1,6 @@
 angular.module('app.controllers', [])
 
-.controller('AppCtrl', function($scope, $state, AuthService) {
+.controller('AppCtrl', function($scope, $state, AuthService, Catalog) {
 
   $scope.logout = function(){
     AuthService.logout();
@@ -17,6 +17,24 @@ angular.module('app.controllers', [])
   $scope.$on('auth-login-failed', function(e, rejection) {
     $state.go('login');
   });
+
+  if(!window.localStorage['countries']){
+    Catalog.getCountries()
+    .then(function(data){
+      window.localStorage['countries'] = angular.toJson(data);
+    },function(error){
+      alert(error);
+    });
+  }
+
+  if(!window.localStorage['transport']){
+    Catalog.getTransport()
+    .then(function(data){
+      window.localStorage['transport'] = angular.toJson(data);
+    },function(error){
+      alert(error);
+    });
+  }
 
 })
 
@@ -48,6 +66,9 @@ angular.module('app.controllers', [])
   if(!window.localStorage['token']){
     RegService.getToken();
   }
+
+  $scope.countries = angular.fromJson(window.localStorage['countries']);
+  $scope.transport = angular.fromJson(window.localStorage['transport']);
 
   //initialize every time when view is called
   $scope.data = RegService.data;
@@ -118,14 +139,10 @@ angular.module('app.controllers', [])
   };
 })
 
-.controller('userCtrl', function($scope, UserService, Catalog) {
+.controller('userCtrl', function($scope, UserService) {
 
-  Catalog.getCountries()
-  .then(function(data){
-    $scope.countries = data;
-  },function(error){
-    alert(error);
-  });
+  $scope.countries = angular.fromJson(window.localStorage['countries']);
+  $scope.transport = angular.fromJson(window.localStorage['transport']);
 
   $scope.user = UserService;
   $scope.update = function(){
@@ -142,6 +159,9 @@ angular.module('app.controllers', [])
 })
 
 .controller('tripsCtrl', function($scope, TripService) {
+  $scope.countries = angular.fromJson(window.localStorage['countries']);
+  $scope.transport = angular.fromJson(window.localStorage['transport']);
+
   TripService.getList()
   .then(function(data){
     $scope.trips = data;
@@ -160,6 +180,9 @@ angular.module('app.controllers', [])
 })
 
 .controller('tripCtrl', function($scope, $stateParams, $ionicConfig, TripService, CheckService) {
+  $scope.countries = angular.fromJson(window.localStorage['countries']);
+  $scope.transport = angular.fromJson(window.localStorage['transport']);
+
   $scope.trip = {};
   $scope.trip = TripService.getOne($stateParams.id);
   $scope.checks = CheckService.getList();
