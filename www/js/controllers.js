@@ -1,13 +1,17 @@
 angular.module('app.controllers', [])
 
-.controller('AppCtrl', function($scope, $state, AuthService, Catalog) {
+.controller('AppCtrl', function($rootScope, $scope, $state, AuthService, Catalog) {
 
   if(!window.localStorage['countries']){
     Catalog.loadCountries();
+  }else{
+    $rootScope.countries = angular.fromJson(window.localStorage['countries']);
   }
 
-  if(!window.localStorage['transport']){
-    Catalog.loadTransport();
+  if(!window.localStorage['transports']){
+    Catalog.loadTransports();
+  }else{
+    $rootScope.transports = angular.fromJson(window.localStorage['transports']);
   }
 
   $scope.logout = function(){
@@ -45,14 +49,11 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('regCtrl', function($scope, $state, $ionicPopup, RegService) {
+.controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, RegService) {
 
   if(!window.localStorage['token']){
     RegService.getToken();
   }
-
-  $scope.countries = angular.fromJson(window.localStorage['countries']);
-  $scope.transport = angular.fromJson(window.localStorage['transport']);
 
   //initialize every time when view is called
   $scope.data = RegService.data;
@@ -125,17 +126,6 @@ angular.module('app.controllers', [])
 
 .controller('userCtrl', function($scope, UserService, Catalog) {
 
-  if(!window.localStorage['countries']){
-    Catalog.loadCountries();
-  }
-
-  if(!window.localStorage['transport']){
-    Catalog.loadTransport();
-  }
-
-  $scope.countries = angular.fromJson(window.localStorage['countries']);
-  $scope.transport = angular.fromJson(window.localStorage['transport']);
-
   $scope.user = UserService;
   $scope.update = function(){
     $scope.user.updateProfile($scope.user.profile);
@@ -165,18 +155,16 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('tripsCtrl', function($scope, TripService) {
-  $scope.countries = angular.fromJson(window.localStorage['countries']);
-  $scope.transport = angular.fromJson(window.localStorage['transport']);
+.controller('tripsCtrl', function($scope, $state, $ionicModal, TripListService, TripService) {
 
-  TripService.getList()
+  TripListService.getList()
   .then(function(data){
     $scope.trips = data;
   },function(error){
     alert(error);
   });
   $scope.doRefresh = function(){
-    TripService.getList()
+    TripListService.getList()
     .then(function(data){
       $scope.trips = data;
     },function(error){
@@ -184,19 +172,62 @@ angular.module('app.controllers', [])
     });
     $scope.$broadcast('scroll.refreshComplete');
   };
+
+  $scope.trip = {
+    info: {
+      time_start: 61200,
+      time_end: 61200
+    }
+  };
+
+  $ionicModal.fromTemplateUrl('templates/trips/add.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+
+  $scope.addTrip = function(){
+    $scope.openModal();
+  };
+
+  $scope.create = function(){
+    TripService.create($scope.trip.info)
+    .then(function(data){
+      if(data.id){
+        $scope.closeModal();
+        $state.go('main.trip.info', {id: data.id});
+      }
+    },function(){
+      alert(error);
+    });
+  };
+
 })
 
-.controller('tripCtrl', function($scope, $stateParams, $ionicConfig, TripService, CheckService) {
-  $scope.countries = angular.fromJson(window.localStorage['countries']);
-  $scope.transport = angular.fromJson(window.localStorage['transport']);
+.controller('tripCtrl', function($scope, $stateParams, $ionicConfig, TripService) {
 
-  $scope.trip = {};
-  $scope.trip = TripService.getOne($stateParams.id);
-  $scope.checks = CheckService.getList();
-  $scope.doRefresh = function(){
-    $scope.checks = CheckService.getList();
-    $scope.$broadcast('scroll.refreshComplete');
+  TripService.getInfo($stateParams.id).then(function(){
+    $scope.trip = TripService;
+  },function(error){
+    alert(error);
+  });
+
+  $scope.update = function(){
+    $scope.trip.updateInfo($scope.trip.info);
   };
+
 })
 
 .controller('checksCtrl', function($scope, $ionicModal, CheckService) {

@@ -41,6 +41,15 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
     return str.join("&");
   };
 
+  $rootScope.getById = function(items,id){
+    for(var i = 0; i < items.length; i++){
+      if(items[i].id == id){
+        return items[i];
+        break;
+      }
+    }
+  };
+
 
 })
 
@@ -55,7 +64,7 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
 })
 
 .filter('translate', function() {
-  return function(text, def) {
+  return function(text) {
     var lang = 'ru';
     if(window.localStorage['lang']) {
       lang = window.localStorage['lang'];
@@ -67,3 +76,9 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
     }
   }
 })
+.filter('isPast', function() {
+  return function(time) {
+    return Date.now() > parseInt(time);
+  }
+})
+;

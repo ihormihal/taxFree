@@ -129,7 +129,6 @@ angular.module('app.routes', [])
   .state('main.trip', {
     url: '/trips/:id',
     abstract: true,
-    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/trips/trip.html',

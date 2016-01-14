@@ -1,12 +1,15 @@
+var ApiDomain = 'http://tax-free-dev.jaya-test.com/app_dev.php/';
+
 angular.module('app.services', ['ngResource'])
 
 .service('Catalog', function($rootScope, $q, $http){
   var self = {
     loadCountries: function() {
-      $http.get('http://tax-free.jaya-test.com/app_dev.php/api/catalog/country')
+      $http.get(ApiDomain + 'api/catalog/country')
       .success(function(data, status, headers, config) {
         if(status == 200){
           window.localStorage['countries'] = angular.toJson(data);
+          $rootScope.countries = data;
         }else{
           console.error({status: status, data: data});
         }
@@ -19,11 +22,12 @@ angular.module('app.services', ['ngResource'])
         }
       });
     },
-    loadTransport: function(){
-      $http.get('http://tax-free.jaya-test.com/app_dev.php/api/catalog/transport')
+    loadTransports: function(){
+      $http.get(ApiDomain + 'api/catalog/transport')
       .success(function(data, status, headers, config) {
         if(status == 200){
-          window.localStorage['transport'] = angular.toJson(data);
+          window.localStorage['transports'] = angular.toJson(data);
+          $rootScope.transports = data;
         }else{
           console.error({status: status, data: data});
         }
@@ -45,7 +49,7 @@ angular.module('app.services', ['ngResource'])
     login: function(user) {
       $http({
         method: 'POST',
-        url: 'http://tax-free.jaya-test.com/app_dev.php/oauth/v2/token',
+        url: ApiDomain + 'oauth/v2/token',
         data: $rootScope.serialize({
           client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
           client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk',
@@ -83,7 +87,7 @@ angular.module('app.services', ['ngResource'])
       if(window.localStorage['refresh_token']){
         $http({
           method: 'POST',
-          url: 'http://tax-free.jaya-test.com/app_dev.php/oauth/v2/token',
+          url: ApiDomain + 'oauth/v2/token',
           data: $rootScope.serialize({
             client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
             client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk',
@@ -128,7 +132,7 @@ angular.module('app.services', ['ngResource'])
     getToken: function(){
       $http({
         method: 'POST',
-        url: 'http://tax-free.jaya-test.com/app_dev.php/oauth/v2/token',
+        url: ApiDomain + 'oauth/v2/token',
         data: $rootScope.serialize({
           grant_type: 'client_credentials',
           client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
@@ -156,7 +160,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: 'http://tax-free.jaya-test.com/app_dev.php/api/user/register/one',
+        url: ApiDomain + 'api/user/register/one',
         data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -179,7 +183,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: 'http://tax-free.jaya-test.com/app_dev.php/api/user/register/two',
+        url: ApiDomain + 'api/user/register/two',
         data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -202,7 +206,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: 'http://tax-free.jaya-test.com/app_dev.php/api/user/register/tree',
+        url: ApiDomain + 'api/user/register/tree',
         data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -225,7 +229,7 @@ angular.module('app.services', ['ngResource'])
 })
 
 .factory('User', function ($resource) {
-  return $resource('http://tax-free.jaya-test.com/app_dev.php/api/user/me', {}, {
+  return $resource(ApiDomain + 'api/user/me', {}, {
     update: {
       method: 'PUT'
     }
@@ -239,11 +243,6 @@ angular.module('app.services', ['ngResource'])
       User.get({}, function(data){
         self.profile = new User(data);
       }, function(error){
-        // if(error.status == 401){
-        //   $rootScope.$broadcast('auth-login-required', error);
-        // }else{
-        //   console.log(error.data);
-        // }
         $rootScope.$broadcast('auth-login-required', error);
       });
     },
@@ -264,18 +263,15 @@ angular.module('app.services', ['ngResource'])
 })
 
 .factory('Trip', function($resource) {
-  return $resource('http://tax-free.jaya-test.com/app_dev.php/api/trip/:id', {
-    id: '@id'
-  },{
+  return $resource(ApiDomain + 'api/trip/:id', {id: '@id'},{
     update: {
       method: 'PUT'
     }
   });
 })
 
-.service('TripService', function($rootScope, $q, Trip) {
+.service('TripListService', function($rootScope, $q, Trip) {
   var self = {
-    trip: {},
     getList: function(){
       var q = $q.defer();
       Trip.get({id: 'list'}, function(data){
@@ -289,20 +285,59 @@ angular.module('app.services', ['ngResource'])
         }
       });
       return q.promise;
-    },
-    get: function(id){
+    }
+  };
+  return self;
+})
+
+.service('TripService', function($rootScope, $q, Trip) {
+  var self = {
+    info: {},
+    checks: {},
+    getInfo: function(id){
+      var q = $q.defer();
       Trip.get({id: id}, function(data){
-        self.trip = new Trip(data);
+        self.info = new Trip(data);
+        q.resolve();
       }, function(error){
         if(error.status == 401){
           $rootScope.$broadcast('auth-login-required', error);
         }else{
+          q.reject(angular.toJson({status: error.status, data: error.data}));
           console.log(error.data);
         }
       });
+      return q.promise;
+    },
+    updateInfo: function(trip){
+      trip.$update({id: trip.id}).then(function(){
+        console.log('Trip updated!');
+      },function(error){
+        if(error.status == 401){
+          $rootScope.$broadcast('auth-login-required', error);
+        }else{
+          q.reject(angular.toJson({status: error.status, data: error.data}));
+          console.log(error.data);
+        }
+      });
+    },
+    create: function(data){
+      var q = $q.defer();
+      var trip = new Trip(data);
+      trip.$save({id: 'add'}).then(function(data){
+        q.resolve(data);
+        console.log('Trip created!');
+      },function(error){
+        if(error.status == 401){
+          $rootScope.$broadcast('auth-login-required', error);
+        }else{
+          q.reject(angular.toJson({status: error.status, data: error.data}));
+          console.log(error.data);
+        }
+      });
+      return q.promise;
     }
   };
-  self.getList();
   return self;
 })
 

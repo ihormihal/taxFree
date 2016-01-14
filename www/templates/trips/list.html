@@ -1,7 +1,7 @@
 <ion-view view-title="Поездки">
-	<!-- <ion-nav-buttons side="right" ng-show="false">
-		<button class="button button-icon button-clear ion-android-add"></button>
-    </ion-nav-buttons> -->
+	<ion-nav-buttons side="right" ng-show="false">
+		<button class="button button-icon button-clear ion-android-add" ng-click="addTrip()"></button>
+    </ion-nav-buttons>
     <ion-content class="has-header">
 		<ion-refresher
 			pulling-text=""
@@ -9,10 +9,10 @@
 		</ion-refresher>
 		<ion-list>
 			<ion-item ng-repeat="trip in trips" class="item-icon-right" ui-sref="main.trip.info({id: trip.id})">
-				<h2>{{trip.country_enter.name}} - {{trip.country_leaving.name}}</h2>
-				<p>{{trip.from_time|date:"dd.MM.yyyy"}} - {{trip.to_time|date:"dd.MM.yyyy"}}</p>
-				<i class="icon ion-android-done-all" ng-show="trip.status == 'past'"></i>
-				<i class="icon ion-android-time" ng-show="trip.status == 'current'"></i>
+				<h2>{{getById(countries,trip.country_enter).name}} - {{getById(countries,trip.country_leaving).name}}</h2>
+				<p>{{trip.date_start*1000|date:"dd.MM.yyyy"}} - {{trip.date_end*1000|date:"dd.MM.yyyy"}}</p>
+				<i class="icon ion-android-done-all" ng-show="{{trip.date_end*1000|isPast}}"></i>
+				<i class="icon ion-android-time" ng-hide="{{trip.date_end*1000|isPast}}"></i>
 			</ion-item>
 		</ion-list>
     </ion-content>

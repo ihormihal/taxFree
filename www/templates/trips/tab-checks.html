@@ -1,6 +1,6 @@
 <ion-view>
 
-	<ion-nav-title>{{trip.from_country}} - {{trip.to_country}}</ion-nav-title>
+	<ion-nav-title>{{getById(countries,trip.info.country_enter).name}} - {{getById(countries,trip.info.country_leaving).name}}</ion-nav-title>
 	<ion-nav-buttons side="right">
 		<button class="button-clear ion-plus" ng-click="openModal()"></button>
 	</ion-nav-buttons>
