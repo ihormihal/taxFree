@@ -227,3 +227,13 @@ a {
 		direction: ltr;
 	}
 }
+.menu {
+	background-color: $positive;
+	.item-content, .item {
+		background-color: transparent;
+	}
+	.item {
+		color: #fff;
+		border-color: lighten($positive, 10%);
+	}
+}

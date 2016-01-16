@@ -53,7 +53,11 @@
         </ion-item>
         <ion-item menu-close ng-click="logout()">
           <i class="icon ion-android-exit"></i>
-          Выход
+          Выйти
+        </ion-item>
+        <ion-item menu-close ng-click="ionic.Platform.exitApp()">
+          <i class="icon ion-close-circled"></i>
+          Закрыть
         </ion-item>
       </ion-list>
     </ion-content>

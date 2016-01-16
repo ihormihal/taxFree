@@ -9283,3 +9283,11 @@ a {
     max-width: 100%;
     width: 100%;
     direction: ltr; }
+
+.menu {
+  background-color: #ef4b23; }
+  .menu .item-content, .menu .item {
+    background-color: transparent; }
+  .menu .item {
+    color: #fff;
+    border-color: #f27253; }
