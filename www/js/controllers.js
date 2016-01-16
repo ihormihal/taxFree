@@ -1,6 +1,6 @@
 angular.module('app.controllers', [])
 
-.controller('AppCtrl', function($rootScope, $scope, $state, AuthService, Catalog) {
+.controller('AppCtrl', function($ionicPlatform, $rootScope, $scope, $state, AuthService, Catalog) {
 
   if(!window.localStorage['countries']){
     Catalog.loadCountries();
@@ -29,6 +29,10 @@ angular.module('app.controllers', [])
   $scope.$on('auth-login-failed', function(e, rejection) {
     $state.go('login');
   });
+
+  $scope.exit = function() {
+    ionic.Platform.exitApp();
+  };
 
 })
 
