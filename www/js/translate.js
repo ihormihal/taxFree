@@ -1,6 +1,9 @@
 var translate =  {};
 
 translate.ru = {
+	menu: 'Меню',
+	close: 'Закрыть',
+	trips: 'Поездки',
 	authorization: 'Авторизация',
 	registration: 'Регистрация',
 	no_account_yet: 'Еще нет аккаунта?',
