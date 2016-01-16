@@ -1,7 +1,7 @@
 {
-  "name": "taxfree",
-  "version": "1.1.1",
-  "description": "taxFree: An Ionic project",
+  "name": "taxfree4you",
+  "version": "0.0.1",
+  "description": "TaxFree4U App",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",
@@ -19,24 +19,18 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-file-transfer",
     "cordova-plugin-file",
+    "cordova-plugin-camera",
     "com.sarriaroman.PhotoViewer",
     {
       "locator": "https://github.com/wymsee/cordova-imagePicker.git",
       "id": "com.synconset.imagepicker"
-    },
-    "cordova-plugin-camera"
+    }
   ],
   "cordovaPlatforms": [
-    "android",
     {
       "platform": "android",
       "version": "",
       "locator": "android"
-    },
-    {
-      "platform": "ios",
-      "version": "",
-      "locator": "ios"
     }
   ]
 }
