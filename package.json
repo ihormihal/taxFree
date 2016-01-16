@@ -26,11 +26,5 @@
       "id": "com.synconset.imagepicker"
     }
   ],
-  "cordovaPlatforms": [
-    {
-      "platform": "android",
-      "version": "",
-      "locator": "android"
-    }
-  ]
+  "cordovaPlatforms": []
 }
