@@ -42,9 +42,9 @@ angular.module('app.directives', [])
   return {
     restrict: 'A',
     link: function($scope, $element, $attrs) {
-      $element[0].onclick = function(e) {
+      $element[0].onclick = function () {
         PhotoViewer.show($attrs.src, $attrs.alt);
-      };
+      }
     }
   }
 }])
@@ -119,7 +119,7 @@ angular.module('app.directives', [])
           }
         };
         $cordovaFileTransfer.upload(
-            encodeURI("http://tax-free.jaya-test.com/app_dev.php/api/user/upload"),
+            encodeURI("http://tax-free-dev.jaya-test.com/app_dev.php/api/user/upload"),
             file,
             options)
           .then(function(result) {

@@ -18,6 +18,9 @@
         },
         "com.synconset.imagepicker": {
             "PACKAGE_NAME": "com.jayadigital.taxfree4you"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "com.jayadigital.taxfree4you"
         }
     },
     "dependent_plugins": {
