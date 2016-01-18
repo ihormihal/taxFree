@@ -24,7 +24,10 @@
       "locator": "https://github.com/wymsee/cordova-imagePicker.git",
       "id": "com.synconset.imagepicker"
     },
-    "com.sarriaroman.PhotoViewer",
+    {
+      "locator": "https://github.com/sarriaroman/photoviewer.git",
+      "id": "com.sarriaroman.PhotoViewer"
+    }
     "cordova-plugin-actionsheet",
     "cordova-plugin-x-toast",
     "cordova-plugin-dialogs",

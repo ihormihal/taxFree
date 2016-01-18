@@ -56,83 +56,79 @@ angular.module('app.directives', [])
       image: '='
     },
     templateUrl: 'templates/tpl/choose-image.html',
-    controller: function($scope, $timeout, $cordovaImagePicker, $cordovaFileTransfer, Camera) {
+    controller: function($scope, $timeout, $ionicActionSheet, $cordovaImagePicker, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
       $scope.loading = false;
       $scope.selectPhoto = function() {
 
-        window.plugins.actionsheet.show({
-          'androidTheme': window.plugins.actionsheet.ANDROID_THEMES.THEME_HOLO_LIGHT, // default is THEME_TRADITIONAL
-          'title': 'Choose image?',
-          'buttonLabels': ['Camera', 'Gallery'],
-          'androidEnableCancelButton' : true, // default false
-          'winphoneEnableCancelButton' : true, // default false
-          'addCancelButtonWithLabel': 'Cancel',
-          'position': [20, 40]
-        },
-        function(index) {
-            $timeout(function() {
-              // like other Cordova plugins (prompt, confirm) the buttonIndex is 1-based (first button is index 1)
+        try {
+          $cordovaActionSheet.show({
+            title: lngTranslate('action_choose_photo_title'),
+            buttonLabels: [lngTranslate('camera'),lngTranslate('gallery')],
+            addCancelButtonWithLabel: lngTranslate('cancel'),
+            androidEnableCancelButton : true,
+            winphoneEnableCancelButton : true
+          })
+          .then(function(btnIndex) {
+            switch (btnIndex) {
+              case 1:
+                $scope.fromCamera();
+                break;
+              case 2:
+                $scope.fromGallery();
+                break;
+              defaut:
+                break;
+            }
+          });
+        } catch (error) {
+          $ionicActionSheet.show({
+            buttons: [{
+              text: '<i class="icon ion-camera"></i> Камера'
+            }, {
+              text: '<i class="icon ion-images"></i> Галерея'
+            }],
+            buttonClicked: function(index) {
               switch (index) {
-                case 1:
+                case 0:
                   $scope.fromCamera();
                   break;
-                case 2:
+                case 1:
                   $scope.fromGallery();
                   break;
-                defaut:
-                  break;
+                  defaut:
+                    break;
               }
-            });
-          }
-        );
+              return true;
+            }
+          });
+        }
 
-
-        // $ionicActionSheet.show({
-        //   buttons: [{
-        //     text: '<i class="icon ion-camera"></i> Камера'
-        //   }, {
-        //     text: '<i class="icon ion-images"></i> Галерея'
-        //   }],
-        //   buttonClicked: function(index) {
-        //     switch (index) {
-        //       case 0:
-        //         $scope.fromCamera();
-        //         break;
-        //       case 1:
-        //         $scope.fromGallery();
-        //         break;
-        //         defaut:
-        //           break;
-        //     }
-        //     return true;
-        //   }
-        // });
       };
 
       $scope.fromGallery = function() {
-        var options = {
+        $cordovaImagePicker.getPictures({
           maximumImagesCount: 1
-        };
-        $cordovaImagePicker.getPictures(options)
-          .then(function(images) {
-            for (var i = 0; i < images.length; i++) {
-              $scope.uploadPhoto(images[i]);
-            }
-          }, function(error) {
-            alert(error);
-          });
+        })
+        .then(function(images) {
+          for (var i = 0; i < images.length; i++) {
+            $scope.uploadPhoto(images[i]);
+          }
+        }, function(error) {
+          $cordovaToast.show(error, 'short', 'top');
+        });
       };
 
       $scope.fromCamera = function() {
-        var options = {
+        $cordovaCamera.getPicture({
+          destinationType: Camera.DestinationType.FILE_URI,
+          sourceType: Camera.PictureSourceType.CAMERA,
           saveToPhotoAlbum: false
-        };
-        Camera.getPicture(options)
-          .then(function(image) {
-            $scope.uploadPhoto(image);
-          }, function(error) {
-            alert(error);
-          });
+        })
+        .then(function(image) {
+          $scope.uploadPhoto(image);
+        }, function(error) {
+          $cordovaToast.show(error, 'short', 'top');
+        });
       };
 
       $scope.uploadPhoto = function(file) {
@@ -147,18 +143,20 @@ angular.module('app.directives', [])
           }
         };
         $cordovaFileTransfer.upload(
-            encodeURI("http://tax-free-dev.jaya-test.com/app_dev.php/api/user/upload"),
-            file,
-            options)
-          .then(function(result) {
-            $scope.loading = false;
-            $scope.image = result.response + '?' + new Date().getTime();
-          }, function(error) {
-            $scope.loading = false;
-            alert("An error has occurred: Code = " + error.code);
-          }, function(progress) {
-            // constant progress updates
-          });
+          encodeURI("http://tax-free-dev.jaya-test.com/app_dev.php/api/user/upload"),
+          file,
+          options)
+        .then(function(result) {
+          $scope.loading = false;
+          $scope.image = result.response + '?' + new Date().getTime();
+          $cordovaCamera.cleanup();
+        }, function(error) {
+          $scope.loading = false;
+          cordovaCamera.cleanup();
+          $cordovaToast.show(error.code, 'short', 'top');
+        }, function(progress) {
+          // constant progress updates
+        });
       };
     }
   };

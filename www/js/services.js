@@ -265,7 +265,7 @@ angular.module('app.services', ['ngResource'])
   });
 })
 
-.service('UserService', function($rootScope, $q, User){
+.service('UserService', function($rootScope, $q, $cordovaToast, User){
   var self = {
     profile: {},
     getProfile: function(){
@@ -277,20 +277,12 @@ angular.module('app.services', ['ngResource'])
     },
     updateProfile: function(profile){
       profile.$update().then(function(){
-        window.plugins.toast.showWithOptions({
-          message: "Профиль успешно обновлен!",
-          duration: "short",
-          position: "top"
-        });
+        $cordovaToast.show(lngTranslate('toast_profile_updated'), 'short', 'top');
       },function(error){
         if(error.status == 401){
           $rootScope.$broadcast('auth-login-required', error);
         }else{
-          window.plugins.toast.showWithOptions({
-            message: error.data,
-            duration: "short",
-            position: "top"
-          });
+          $cordovaToast.show(error.data, 'short', 'top');
         }
       });
     }
@@ -330,7 +322,7 @@ angular.module('app.services', ['ngResource'])
   return self;
 })
 
-.service('TripService', function($rootScope, $q, Trip) {
+.service('TripService', function($rootScope, $q, $cordovaToast, Trip) {
   var self = {
     info: {},
     checks: {},
@@ -354,11 +346,7 @@ angular.module('app.services', ['ngResource'])
     },
     updateInfo: function(trip){
       trip.$update({id: trip.id}).then(function(){
-        window.plugins.toast.showWithOptions({
-          message: "Trip updated!",
-          duration: "short",
-          position: "top"
-        });
+        $cordovaToast.show(lngTranslate('toast_trip_updated'), 'short', 'top');
       },function(error){
         if(error.status == 401){
           $rootScope.$broadcast('auth-login-required', error);
@@ -372,21 +360,13 @@ angular.module('app.services', ['ngResource'])
       var trip = new Trip(data);
       trip.$save({id: 'add'}).then(function(data){
         q.resolve(data);
-        window.plugins.toast.showWithOptions({
-          message: "Trip created!",
-          duration: "short",
-          position: "top"
-        });
+        $cordovaToast.show(lngTranslate('toast_trip_created'), 'short', 'top');
       },function(error){
         if(error.status == 401){
           $rootScope.$broadcast('auth-login-required', error);
         }else{
           q.reject(angular.toJson({status: error.status, data: error.data}));
-          window.plugins.toast.showWithOptions({
-            message: error.data,
-            duration: "short",
-            position: "top"
-          });
+          $cordovaToast.show(error.data, 'short', 'top');
         }
       });
       return q.promise;
@@ -524,21 +504,5 @@ angular.module('app.services', ['ngResource'])
   return self;
 
 })
-
-.factory('Camera', ['$q', function($q) {
-  return {
-    getPicture: function(options) {
-      var q = $q.defer();
-
-      navigator.camera.getPicture(function(result) {
-        // Do any magic you need
-        q.resolve(result);
-      }, function(err) {
-        q.reject(err);
-      }, options);
-      return q.promise;
-    }
-  }
-}])
 
 ;

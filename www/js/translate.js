@@ -1,6 +1,10 @@
 var translate =  {};
 
 translate.ru = {
+	yes: 'Да',
+	no: 'Нет',
+	ok: 'Подтвертить',
+	cancel: 'Отменить',
 	menu: 'Меню',
 	close: 'Закрыть',
 	trips: 'Поездки',
@@ -37,5 +41,13 @@ translate.ru = {
 	terms_of_use: 'условиями использования',
 	send: 'Отправить',
 	enter_the_password_again: 'Введите пароль снова',
-	einimum_8_characters: 'Минимально 8 символов'
+	einimum_8_characters: 'Минимально 8 символов',
+	dialog_clear_cache_title: 'Очистить кеш?',
+	dialog_clear_cache_message: 'Кеш приложения будет очищен. Вы будете перенаправлены на экран авторизации.',
+	action_choose_photo_title: 'Выберите фото',
+	gallery: 'Галерея',
+	camera: 'Камера',
+	toast_profile_updated: 'Профиль успешно обновлен!',
+	toast_trip_updated: 'Поездка успешно обновлена!',
+	toast_trip_created: 'Поездка добавлена!'
 };

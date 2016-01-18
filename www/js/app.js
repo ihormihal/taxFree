@@ -91,17 +91,7 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
 })
 
 .filter('translate', function() {
-  return function(text) {
-    var lang = 'ru';
-    if(window.localStorage['lang']) {
-      lang = window.localStorage['lang'];
-    }
-    if(text in translate[lang]) {
-      return translate[lang][text];
-    }else{
-      return text;
-    }
-  }
+  return lngTranslate;
 })
 .filter('isPast', function() {
   return function(time) {
@@ -109,3 +99,15 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
   }
 })
 ;
+
+var lngTranslate = function(text){
+  var lang = 'ru';
+  if(window.localStorage['lang']) {
+    lang = window.localStorage['lang'];
+  }
+  if(text in translate[lang]) {
+    return translate[lang][text];
+  }else{
+    return text;
+  }
+};

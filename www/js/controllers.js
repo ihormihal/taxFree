@@ -36,7 +36,7 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('loginCtrl', function($scope, $state, $ionicPopup, AuthService, Catalog) {
+.controller('loginCtrl', function($scope, $state, $ionicPopup, $cordovaToast, AuthService, Catalog) {
 
   $scope.user = {
     username: 'tsvetok77@yandex.ru',
@@ -52,11 +52,7 @@ angular.module('app.controllers', [])
   });
 
   $scope.$on('auth-login-failed', function(event, data) {
-    window.plugins.toast.showWithOptions({
-      message: angular.toJson(data),
-      duration: "short",
-      position: "top"
-    });
+    $cordovaToast.show(angular.toJson(data), 'short', 'top');
   });
 
 })
@@ -153,38 +149,33 @@ angular.module('app.controllers', [])
   };
 })
 
-.controller('settingsCtrl', function($scope, $ionicPopup, $timeout, $state) {
+.controller('settingsCtrl', function($scope, $ionicPopup, $cordovaDialogs, $timeout, $state) {
   $scope.clearCache = function(){
-    // if(!navigator.notification){
-    //   var confirmPopup = $ionicPopup.confirm({
-    //     title: 'Очистить кеш',
-    //     template: 'Кеш приложения будет очищен. Вы будете перенаправлены на экран авторизации. Очистить?'
-    //   });
-    //   confirmPopup.then(function(res) {
-    //     if(res){
-    //       window.localStorage.clear();
-    //       $state.go('login');
-    //     }
-    //   });
-    //   return false;
-    // }
-    navigator.notification.confirm(
-      'Кеш приложения будет очищен. Вы будете перенаправлены на экран авторизации. Очистить?',
-      function(index){
-        switch (index) {
-          case 1:
-            window.localStorage.clear();
-            $state.go('login');
-            break;
-          case 2:
-            break;
-          default:
-            break;
+
+    try {
+      $cordovaDialogs.confirm(
+        lngTranslate('dialog_clear_cache_message'),
+        lngTranslate('dialog_clear_cache_title'),
+        [lngTranslate('yes'),lngTranslate('no')])
+      .then(function(buttonIndex) {
+        if(buttonIndex == 1){
+          window.localStorage.clear();
+          $state.go('login');
         }
-      },
-      'Подтвердите действие',
-      ['Да','Нет']
-    );
+      });
+    } catch (error) {
+      var confirmPopup = $ionicPopup.confirm({
+        title: lngTranslate('dialog_clear_cache_title'),
+        template: lngTranslate('dialog_clear_cache_message')
+      });
+      confirmPopup.then(function(res) {
+        if(res){
+          window.localStorage.clear();
+          $state.go('login');
+        }
+      });
+    }
+
   };
 })
 
