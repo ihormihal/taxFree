@@ -24,10 +24,24 @@
       "locator": "https://github.com/wymsee/cordova-imagePicker.git",
       "id": "com.synconset.imagepicker"
     },
-    "com.sarriaroman.PhotoViewer"
+    "com.sarriaroman.PhotoViewer",
+    "cordova-plugin-actionsheet",
+    "cordova-plugin-x-toast",
+    "cordova-plugin-dialogs",
+    "cordova-plugin-spinner"
   ],
   "cordovaPlatforms": [
     "android",
-    "ios"
+    "ios",
+    {
+      "platform": "android",
+      "version": "",
+      "locator": "android"
+    },
+    {
+      "platform": "ios",
+      "version": "",
+      "locator": "ios"
+    }
   ]
 }

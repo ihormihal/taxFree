@@ -231,6 +231,9 @@ a {
 	background-color: $positive;
 	.item-content, .item {
 		background-color: transparent;
+		&.activated {
+			background-color: #222;
+		}
 	}
 	.item {
 		color: #fff;

@@ -9288,6 +9288,8 @@ a {
   background-color: #ef4b23; }
   .menu .item-content, .menu .item {
     background-color: transparent; }
+    .menu .item-content.activated, .menu .item.activated {
+      background-color: #222; }
   .menu .item {
     color: #fff;
     border-color: #f27253; }

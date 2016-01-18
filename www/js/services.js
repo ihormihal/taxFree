@@ -5,8 +5,10 @@ angular.module('app.services', ['ngResource'])
 .service('Catalog', function($rootScope, $q, $http){
   var self = {
     loadCountries: function() {
+      window.SpinnerPlugin.activityStart("Loading...");
       $http.get(ApiDomain + 'api/catalog/country')
       .success(function(data, status, headers, config) {
+        window.SpinnerPlugin.activityStop();
         if(status == 200){
           window.localStorage['countries'] = angular.toJson(data);
           $rootScope.countries = data;
@@ -15,6 +17,7 @@ angular.module('app.services', ['ngResource'])
         }
       })
       .error(function (data, status, headers, config) {
+        window.SpinnerPlugin.activityStop();
         if(status == 401){
           $rootScope.$broadcast('auth-login-required', error);
         }else{
@@ -23,8 +26,10 @@ angular.module('app.services', ['ngResource'])
       });
     },
     loadTransports: function(){
+      window.SpinnerPlugin.activityStart("Loading...");
       $http.get(ApiDomain + 'api/catalog/transport')
       .success(function(data, status, headers, config) {
+        window.SpinnerPlugin.activityStop();
         if(status == 200){
           window.localStorage['transports'] = angular.toJson(data);
           $rootScope.transports = data;
@@ -33,6 +38,7 @@ angular.module('app.services', ['ngResource'])
         }
       })
       .error(function (data, status, headers, config) {
+        window.SpinnerPlugin.activityStop();
         if(status == 401){
           $rootScope.$broadcast('auth-login-required', error);
         }else{
@@ -47,6 +53,8 @@ angular.module('app.services', ['ngResource'])
 .service('AuthService', function($rootScope, $q, $state, $http) {
   var self  = {
     login: function(user) {
+
+      window.SpinnerPlugin.activityStart("Авторизация...");
       $http({
         method: 'POST',
         url: ApiDomain + 'oauth/v2/token',
@@ -62,29 +70,34 @@ angular.module('app.services', ['ngResource'])
         },
       })
       .success(function(data, status, headers, config) {
+        window.SpinnerPlugin.activityStop();
         if(data.access_token && status == 200){
           window.localStorage['token'] = 'Bearer '+ data.access_token;
           window.localStorage['refresh_token'] = data.refresh_token;
           $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
           $rootScope.$broadcast('auth-login');
         }else{
-          $rootScope.$broadcast('auth-login-failed', data.error_description);
+          $rootScope.$broadcast('auth-login-failed', data);
         }
       })
       .error(function (data, status, headers, config) {
-        $rootScope.$broadcast('auth-login-failed', status);
+        window.SpinnerPlugin.activityStop();
+        $rootScope.$broadcast('auth-login-failed', data);
       });
+
     },
 
     logout: function() {
-      window.localStorage['token'] = false;
+      window.localStorage.removeItem('token');
       delete $http.defaults.headers.common['Authorization'];
       $rootScope.$broadcast('auth-logout');
       console.log('AuthenticationService logout!');
     },
 
     refresh: function(){
+
       if(window.localStorage['refresh_token']){
+        window.SpinnerPlugin.activityStart("Авторизация...");
         $http({
           method: 'POST',
           url: ApiDomain + 'oauth/v2/token',
@@ -99,6 +112,7 @@ angular.module('app.services', ['ngResource'])
           },
         })
         .success(function(data, status, headers, config) {
+          window.SpinnerPlugin.activityStop();
           if(data.access_token && status === 200){
             window.localStorage['token'] = 'Bearer '+ data.access_token;
             window.localStorage['refresh_token'] = data.refresh_token;
@@ -109,11 +123,14 @@ angular.module('app.services', ['ngResource'])
           }
         })
         .error(function (data, status, headers, config) {
+          window.SpinnerPlugin.activityStop();
           $rootScope.$broadcast('auth-login-failed', status);
         });
       }else{
         $rootScope.$broadcast('auth-login-failed', 'Invalid refresh token');
       }
+
+      $rootScope.$broadcast('auth-login');
     }
 
   };
@@ -130,6 +147,7 @@ angular.module('app.services', ['ngResource'])
     },
 
     getToken: function(){
+      var q = $q.defer();
       $http({
         method: 'POST',
         url: ApiDomain + 'oauth/v2/token',
@@ -143,20 +161,23 @@ angular.module('app.services', ['ngResource'])
         },
       })
       .success(function(data, status, headers, config) {
+        window.SpinnerPlugin.activityStop();
         if(data.access_token && status == 200){
           window.localStorage['token'] = 'Bearer '+ data.access_token;
           $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
-          $rootScope.$broadcast('auth-login');
+          q.resolve(data);
         }else{
-          $rootScope.$broadcast('auth-login-failed', status);
+          q.reject(angular.toJson({status: status, data: data}));
         }
       })
       .error(function (data, status, headers, config) {
-        $rootScope.$broadcast('auth-login-failed', status);
+        q.reject(angular.toJson({status: status, data: data}));
       });
+      return q.promise;
     },
 
     one: function(){
+      window.SpinnerPlugin.activityStart("Loading...");
       var q = $q.defer();
       $http({
         method: 'POST',
@@ -167,6 +188,7 @@ angular.module('app.services', ['ngResource'])
         },
       })
       .success(function(data, status, headers, config) {
+        window.SpinnerPlugin.activityStop();
         if(status == 200){
           q.resolve(data);
         }else{
@@ -174,12 +196,14 @@ angular.module('app.services', ['ngResource'])
         }
       })
       .error(function (data, status, headers, config) {
+        window.SpinnerPlugin.activityStop();
         q.reject(angular.toJson({status: status, data: data}));
       });
       return q.promise;
     },
 
     two: function(){
+      window.SpinnerPlugin.activityStart("Loading...");
       var q = $q.defer();
       $http({
         method: 'POST',
@@ -190,6 +214,7 @@ angular.module('app.services', ['ngResource'])
         },
       })
       .success(function(data, status, headers, config) {
+        window.SpinnerPlugin.activityStop();
         if(status == 200){
           q.resolve(data);
         }else{
@@ -197,12 +222,14 @@ angular.module('app.services', ['ngResource'])
         }
       })
       .error(function (data, status, headers, config) {
+        window.SpinnerPlugin.activityStop();
         q.reject(angular.toJson({status: status, data: data}));
       });
       return q.promise;
     },
 
     tree: function(){
+      window.SpinnerPlugin.activityStart("Loading...");
       var q = $q.defer();
       $http({
         method: 'POST',
@@ -213,6 +240,7 @@ angular.module('app.services', ['ngResource'])
         },
       })
       .success(function(data, status, headers, config) {
+        window.SpinnerPlugin.activityStop();
         if(status == 200){
           q.resolve(data);
         }else{
@@ -220,6 +248,7 @@ angular.module('app.services', ['ngResource'])
         }
       })
       .error(function (data, status, headers, config) {
+        window.SpinnerPlugin.activityStop();
         q.reject(angular.toJson({status: status, data: data}));
       });
       return q.promise;
@@ -248,12 +277,20 @@ angular.module('app.services', ['ngResource'])
     },
     updateProfile: function(profile){
       profile.$update().then(function(){
-        console.log('User updated!');
+        window.plugins.toast.showWithOptions({
+          message: "Профиль успешно обновлен!",
+          duration: "short",
+          position: "top"
+        });
       },function(error){
         if(error.status == 401){
           $rootScope.$broadcast('auth-login-required', error);
         }else{
-          console.log(error.data);
+          window.plugins.toast.showWithOptions({
+            message: error.data,
+            duration: "short",
+            position: "top"
+          });
         }
       });
     }
@@ -273,10 +310,13 @@ angular.module('app.services', ['ngResource'])
 .service('TripListService', function($rootScope, $q, Trip) {
   var self = {
     getList: function(){
+      window.SpinnerPlugin.activityStart("Loading...");
       var q = $q.defer();
       Trip.get({id: 'list'}, function(data){
+        window.SpinnerPlugin.activityStop();
         q.resolve(data.trips);
       }, function(error){
+        window.SpinnerPlugin.activityStop();
         if(error.status == 401){
           $rootScope.$broadcast('auth-login-required', error);
         }else{
@@ -296,10 +336,13 @@ angular.module('app.services', ['ngResource'])
     checks: {},
     getInfo: function(id){
       var q = $q.defer();
+      window.SpinnerPlugin.activityStart("Loading...");
       Trip.get({id: id}, function(data){
+        window.SpinnerPlugin.activityStop();
         self.info = new Trip(data);
         q.resolve();
       }, function(error){
+        window.SpinnerPlugin.activityStop();
         if(error.status == 401){
           $rootScope.$broadcast('auth-login-required', error);
         }else{
@@ -311,12 +354,15 @@ angular.module('app.services', ['ngResource'])
     },
     updateInfo: function(trip){
       trip.$update({id: trip.id}).then(function(){
-        console.log('Trip updated!');
+        window.plugins.toast.showWithOptions({
+          message: "Trip updated!",
+          duration: "short",
+          position: "top"
+        });
       },function(error){
         if(error.status == 401){
           $rootScope.$broadcast('auth-login-required', error);
         }else{
-          q.reject(angular.toJson({status: error.status, data: error.data}));
           console.log(error.data);
         }
       });
@@ -326,13 +372,21 @@ angular.module('app.services', ['ngResource'])
       var trip = new Trip(data);
       trip.$save({id: 'add'}).then(function(data){
         q.resolve(data);
-        console.log('Trip created!');
+        window.plugins.toast.showWithOptions({
+          message: "Trip created!",
+          duration: "short",
+          position: "top"
+        });
       },function(error){
         if(error.status == 401){
           $rootScope.$broadcast('auth-login-required', error);
         }else{
           q.reject(angular.toJson({status: error.status, data: error.data}));
-          console.log(error.data);
+          window.plugins.toast.showWithOptions({
+            message: error.data,
+            duration: "short",
+            position: "top"
+          });
         }
       });
       return q.promise;

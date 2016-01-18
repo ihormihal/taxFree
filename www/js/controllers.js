@@ -18,15 +18,15 @@ angular.module('app.controllers', [])
     AuthService.logout();
   };
 
-  $scope.$on('auth-logout', function(e, rejection) {
+  $scope.$on('auth-logout', function(event, data) {
     $state.go('login');
   });
 
-  $scope.$on('auth-login-required', function(e, rejection) {
+  $scope.$on('auth-login-required', function(event, data) {
     AuthService.refresh();
   });
 
-  $scope.$on('auth-login-failed', function(e, rejection) {
+  $scope.$on('auth-login-failed', function(event, data) {
     $state.go('login');
   });
 
@@ -47,30 +47,43 @@ angular.module('app.controllers', [])
     AuthService.login($scope.user);
   };
 
-  $scope.$on('auth-login', function(e, rejection) {
+  $scope.$on('auth-login', function(event, data) {
     $state.go('main.user.profile');
+  });
+
+  $scope.$on('auth-login-failed', function(event, data) {
+    window.plugins.toast.showWithOptions({
+      message: angular.toJson(data),
+      duration: "short",
+      position: "top"
+    });
   });
 
 })
 
 .controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, RegService) {
 
-  if(!window.localStorage['token']){
-    RegService.getToken();
-  }
-
   //initialize every time when view is called
   $scope.data = RegService.data;
 
   $scope.stepOne = function() {
     RegService.data = $scope.data;
-    RegService.one()
-    .then(function(data) {
-      RegService.data.user = data.user;
-      $state.go('regTwo');
-    },function(error) {
-      alert(error);
-    });
+    if(window.localStorage['token']){
+      RegService.one()
+      .then(function(data) {
+        RegService.data.user = data.user;
+        $state.go('regTwo');
+      });
+    }else{
+      RegService.getToken()
+      .then(function(){
+        RegService.one()
+        .then(function(data) {
+          RegService.data.user = data.user;
+          $state.go('regTwo');
+        });
+      });
+    }
   };
 
   $scope.stepTwo = function() {
@@ -142,16 +155,36 @@ angular.module('app.controllers', [])
 
 .controller('settingsCtrl', function($scope, $ionicPopup, $timeout, $state) {
   $scope.clearCache = function(){
-    var confirmPopup = $ionicPopup.confirm({
-      title: 'Очистить кеш',
-      template: 'Кеш приложения будет очищен. Вы будете перенаправлены на экран авторизации. Очистить?'
-    });
-    confirmPopup.then(function(res) {
-      if(res){
-        window.localStorage.clear();
-        $state.go('login');
-      }
-    });
+    if(!navigator.notification){
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Очистить кеш',
+        template: 'Кеш приложения будет очищен. Вы будете перенаправлены на экран авторизации. Очистить?'
+      });
+      confirmPopup.then(function(res) {
+        if(res){
+          window.localStorage.clear();
+          $state.go('login');
+        }
+      });
+      return false;
+    }
+    navigator.notification.confirm(
+      'Кеш приложения будет очищен. Вы будете перенаправлены на экран авторизации. Очистить?',
+      function(index){
+        switch (index) {
+          case 1:
+            window.localStorage.clear();
+            $state.go('login');
+            break;
+          case 2:
+            break;
+          default:
+            break;
+        }
+      },
+      'Подтвердите действие',
+      ['Да','Нет']
+    );
   };
 })
 
@@ -241,7 +274,7 @@ angular.module('app.controllers', [])
     $scope.$broadcast('scroll.refreshComplete');
   };
 
-  $ionicModal.fromTemplateUrl('templates/checks/add-check.html', {
+  $ionicModal.fromTemplateUrl('templates/checks/add.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {

@@ -1,7 +1,7 @@
 angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
 
-.run(function($rootScope, $ionicPlatform, $ionicPopup, $cordovaNetwork) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork) {
 
   $ionicPlatform.ready(function() {
 
@@ -24,6 +24,10 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
     if(window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
+    }
+
+    if(window.localStorage['token']){
+      $state.go('main.user.profile');
     }
 
   });//ionic ready end
@@ -51,6 +55,30 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
   };
 
 
+  if(!window.SpinnerPlugin){
+    window.SpinnerPlugin = {
+      activityStart: function(message){
+        console.log(message);
+      },
+      activityStop: function(){
+        console.log('spinner stop');
+      }
+    };
+  }
+
+  if(!window.plugins){
+    window.plugins = {};
+  }
+
+  if(!window.plugins.toast){
+    window.plugins.toast = {
+      showWithOptions: function(options,success,error){
+        console.log(options.message);
+      }
+    };
+  }
+
+
 })
 
 .config(function($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider) {
@@ -58,7 +86,6 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
   if(window.localStorage['token']){
     $httpProvider.defaults.headers.common['Authorization'] = window.localStorage['token'];
   }
-
   $resourceProvider.defaults.stripTrailingSlashes = false;
 
 })

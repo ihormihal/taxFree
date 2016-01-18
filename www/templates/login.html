@@ -17,7 +17,7 @@
                     <input type="password" ng-model="user.password" placeholder="Password">
                 </label>
             </div>
-            <p class="text-center"><a href="#/login/password-recovery" class="white">{{'forgot_password'|translate}}</a></p>
+            <p class="text-center"><a ui-sref="passwordRecovery" class="white">{{'forgot_password'|translate}}</a></p>
             <div class="spacer" style="height: 20px;"></div>
 
             <button class="button button-block button-outline button-white up" ng-click="login()">{{'login'|translate}}</button>
