@@ -155,19 +155,19 @@ angular.module('app.controllers', [])
 
 .controller('settingsCtrl', function($scope, $ionicPopup, $timeout, $state) {
   $scope.clearCache = function(){
-    if(!navigator.notification){
-      var confirmPopup = $ionicPopup.confirm({
-        title: 'Очистить кеш',
-        template: 'Кеш приложения будет очищен. Вы будете перенаправлены на экран авторизации. Очистить?'
-      });
-      confirmPopup.then(function(res) {
-        if(res){
-          window.localStorage.clear();
-          $state.go('login');
-        }
-      });
-      return false;
-    }
+    // if(!navigator.notification){
+    //   var confirmPopup = $ionicPopup.confirm({
+    //     title: 'Очистить кеш',
+    //     template: 'Кеш приложения будет очищен. Вы будете перенаправлены на экран авторизации. Очистить?'
+    //   });
+    //   confirmPopup.then(function(res) {
+    //     if(res){
+    //       window.localStorage.clear();
+    //       $state.go('login');
+    //     }
+    //   });
+    //   return false;
+    // }
     navigator.notification.confirm(
       'Кеш приложения будет очищен. Вы будете перенаправлены на экран авторизации. Очистить?',
       function(index){
