@@ -27,7 +27,7 @@
     {
       "locator": "https://github.com/sarriaroman/photoviewer.git",
       "id": "com.sarriaroman.PhotoViewer"
-    }
+    },
     "cordova-plugin-actionsheet",
     "cordova-plugin-x-toast",
     "cordova-plugin-dialogs",
