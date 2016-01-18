@@ -131,7 +131,7 @@ angular.module('app.routes', [])
     abstract: true,
     views: {
       'menuContent': {
-        templateUrl: 'templates/trips/trip.html',
+        templateUrl: 'templates/trips/item.html',
         controller: 'tripCtrl'
       }
     }
@@ -187,8 +187,31 @@ angular.module('app.routes', [])
     cache: false,
     views: {
       'menuContent': {
-        templateUrl: 'templates/checks/check.html',
+        templateUrl: 'templates/checks/item.html',
         controller: 'checkCtrl'
+      }
+    }
+  })
+
+  //DECLARATIONS LIST
+  .state('main.declarations', {
+    url: '/declarations',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/declarations/list.html',
+        controller: 'declarationsCtrl'
+      }
+    }
+  })
+
+  //SINGLE DECLARATION
+  .state('main.declaration', {
+    url: '/declarations/:id',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/declarations/item.html',
+        controller: 'declarationCtrl'
       }
     }
   })

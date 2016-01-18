@@ -409,7 +409,7 @@ angular.module('app.services', ['ngResource'])
   var checks = [{
     id: 0,
     title: "Gucci",
-    time: '2015-11-04T22:00:00.000Z',
+    time: '1453138173',
     status: "approved",
     images: [
       {
@@ -425,7 +425,7 @@ angular.module('app.services', ['ngResource'])
   },{
     id: 1,
     title: "Nissan",
-    time: '2015-11-04T22:00:00.000Z',
+    time: '1453138173',
     status: "processed",
     images: [
       {
@@ -435,7 +435,7 @@ angular.module('app.services', ['ngResource'])
   },{
     id: 2,
     title: "Elitparfums",
-    time: '2015-11-04T22:00:00.000Z',
+    time: '1453138173',
     status: "refused",
     images: []
   }];
@@ -446,6 +446,78 @@ angular.module('app.services', ['ngResource'])
     },
     getOne: function(id){
       return checks[id];
+    }
+  };
+
+  return self;
+
+})
+
+.factory('declarationService', function($resource) {
+  var declarations = [{
+    id: 0,
+    name: "Иван Иваннон",
+    country: 1,
+    date: '1453138173',
+    time: '7200',
+    status: "approved",
+    checks: [
+      {
+        id: 372,
+        items: [{
+          title: 'iPhone 5S',
+          price: 350
+        },{
+          id: 479,
+          title: 'iPhone 6',
+          price: 550
+        }]
+      },
+      {
+        id: 479,
+        items: [{
+          title: 'iPhone 5S',
+          price: 350
+        },{
+          id: 479,
+          title: 'iPhone 6',
+          price: 550
+        }]
+      }
+    ],
+    summ: 900,
+    summ_nds: 120,
+    to_pay: 100
+  },{
+    id: 1,
+    name: "Иван Иваннон",
+    country: 2,
+    date: '1453138173',
+    time: '7200',
+    status: "refused",
+    checks: [
+      {
+        id: 372,
+        title: 'iPhone 5S',
+        price: 350
+      },
+      {
+        id: 479,
+        title: 'iPhone 6',
+        price: 550
+      }
+    ],
+    summ: 900,
+    summ_nds: 120,
+    to_pay: 100
+  }];
+
+  var self = {
+    getList: function(){
+      return declarations;
+    },
+    getOne: function(id){
+      return declarations[id];
     }
   };
 

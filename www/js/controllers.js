@@ -301,7 +301,7 @@ angular.module('app.controllers', [])
 .controller('checkCtrl', function($scope, $stateParams, $ionicModal, CheckService) {
   $scope.check = CheckService.getOne($stateParams.id);
 
-  $ionicModal.fromTemplateUrl('templates/checks/add-check.html', {
+  $ionicModal.fromTemplateUrl('templates/checks/add.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
@@ -319,6 +319,23 @@ angular.module('app.controllers', [])
     $scope.modal.remove();
   });
 
+})
+
+.controller('declarationsCtrl', function($scope, $ionicModal, declarationService) {
+  $scope.declarations = declarationService.getList();
+  $scope.doRefresh = function(){
+    $scope.declarations = declarationService.getList();
+    $scope.$broadcast('scroll.refreshComplete');
+  };
+
+})
+
+.controller('declarationCtrl', function($scope, $stateParams, $ionicModal, declarationService) {
+  $scope.declaration = declarationService.getOne($stateParams.id);
+  $scope.doRefresh = function(){
+    $scope.declaration = declarationService.getOne($stateParams.id);
+    $scope.$broadcast('scroll.refreshComplete');
+  };
 })
 
 ;

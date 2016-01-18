@@ -1,0 +1,48 @@
+<ion-view title="Просмотр декларации">
+    <ion-content padding="false" scroll="true" class="has-header">
+        <ion-refresher
+          pulling-text=""
+          on-refresh="doRefresh()">
+        </ion-refresher>
+
+        <div class="padding">
+          <p class="positive">Ф.И.О.:</p>
+          <p>{{declaration.name}}</p>
+
+          <p class="positive">Декларация по стране:</p>
+          <p>{{getById(countries,declaration.country).name}}</p>
+
+          <p class="positive">Время вылета</p>
+          <p><i class="icon ion-calendar"></i> {{declaration.date*1000|date:"dd.MM.yyyy"}} &nbsp; <i class="icon ion-clock"></i> {{declaration.time*1000|date:"HH:mm"}}</p>
+
+        </div>
+
+
+        <div class="list">
+
+          <div ng-repeat="check in declaration.checks">
+            <div class="item item-divider">Чек ID {{check.id}}</div>
+            <div class="item" ng-repeat="item in check.items">
+              {{item.title}} <span class="item-note">{{item.price | currency}}</span>
+            </div>
+          </div>
+
+          <div class="item item-divider">Итог</div>
+          <div class="item">
+            Сумма <span class="item-note item-note-large positive">{{declaration.summ | currency}}</span>
+          </div>
+          <div class="item">
+            Сумма НДС <span class="item-note item-note-large positive">{{declaration.summ_nds | currency}}</span>
+          </div>
+          <div class="item">
+            К выплате <span class="item-note item-note-large positive">{{declaration.to_pay | currency}}</span>
+          </div>
+
+        </div>
+
+        <div class="padding">
+          <a href="#" class="button button-block button-positive icon-left ion-ios-download-outline">Сохранить в PDF</a>
+        </div>
+
+    </ion-content>
+</ion-view>

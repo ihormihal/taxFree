@@ -27,7 +27,7 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
     }
 
     if(window.localStorage['token']){
-      $state.go('main.user.profile');
+      //$state.go('main.user.profile');
     }
 
   });//ionic ready end

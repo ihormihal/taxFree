@@ -1,0 +1,26 @@
+<ion-view view-title="Декларации">
+	<ion-content class="has-header">
+		<ion-refresher
+			pulling-text=""
+			on-refresh="doRefresh()">
+		</ion-refresher>
+		<ion-list>
+			<ion-item ng-repeat="declaration in declarations" ui-sref="main.declaration({id: declaration.id})">
+				<h2>{{getById(countries,declaration.country).name}}</h2>
+				<p>Покупки: <span>{{declaration.summ | currency}}</span></p>
+				<p>Возврат: <span>{{declaration.to_pay | currency}}</span></p>
+				<p>
+					<i class="icon ion-calendar"></i> {{declaration.date*1000|date:"dd.MM.yyyy"}}
+					&nbsp;
+					<i class="icon ion-clock"></i> {{declaration.time*1000|date:"HH:mm"}}
+				</p>
+				<div class="item-icon-right">
+					<i class="icon ion-android-done-all" ng-show="declaration.status == 'approved'"></i>
+					<i class="icon ion-android-time" ng-show="declaration.status == 'processed'"></i>
+					<i class="icon ion-alert-circled" ng-show="declaration.status == 'refused'"></i>
+				</div>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+
+</ion-view>

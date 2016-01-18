@@ -6,41 +6,49 @@
   <ion-content padding="false" scroll="true" class="has-header">
     <form>
       <div class="list">
-        <label class="item item-input item-select">
+        <label class="item item-input item-stacked-label">
           <div class="input-label">Страна приезда <sup>*</sup></div>
-          <select integer-model ng-model="trip.info.country_enter">
-            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
-          </select>
+          <div class="item-select">
+            <select integer-model ng-model="trip.info.country_enter">
+              <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
+            </select>
+          </div>
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">Дата приезда <sup>*</sup></div>
           <input type="date" ng-model="trip.info.date_start">
         </label>
-        <label class="item item-input item-select">
+        <label class="item item-input item-stacked-label">
           <div class="input-label">Транспорт <sup>*</sup></div>
-          <select integer-model ng-model="trip.info.transport_enter">
-            <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name}}</option>
-          </select>
+          <div class="item-select">
+            <select integer-model ng-model="trip.info.transport_enter">
+              <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name}}</option>
+            </select>
+          </div>
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">Номер рейса <sup>*</sup></div>
           <input type="text" ng-model="trip.info.race_number_enter">
         </label>
-        <label class="item item-input item-select">
+        <label class="item item-input item-stacked-label">
           <div class="input-label">Страна выезда <sup>*</sup></div>
-          <select integer-model ng-model="trip.info.country_leaving">
-            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
-          </select>
+          <div class="item-select">
+            <select integer-model ng-model="trip.info.country_leaving">
+              <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
+            </select>
+          </div>
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">Дата выезда <sup>*</sup></div>
           <input type="date" ng-model="trip.info.date_end">
         </label>
-        <label class="item item-input item-select">
+        <label class="item item-input item-stacked-label">
           <div class="input-label">Транспорт <sup>*</sup></div>
-          <select integer-model ng-model="trip.info.transport_leaving">
-            <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name}}</option>
-          </select>
+          <div class="item-select">
+            <select integer-model ng-model="trip.info.transport_leaving">
+              <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name}}</option>
+            </select>
+          </div>
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">Номер рейса <sup>*</sup></div>
