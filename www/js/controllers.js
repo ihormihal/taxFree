@@ -1,6 +1,6 @@
 angular.module('app.controllers', [])
 
-.controller('AppCtrl', function($ionicPlatform, $rootScope, $scope, $state, AuthService, Catalog) {
+.controller('AppCtrl', function($ionicPlatform, $rootScope, $scope, $state, $cordovaStatusbar, AuthService, Catalog) {
 
   if(!window.localStorage['countries']){
     Catalog.loadCountries();
@@ -30,13 +30,32 @@ angular.module('app.controllers', [])
     $state.go('login');
   });
 
+  $scope.$on('show-status-bar', function(event, data) {
+   try {
+      if(!$cordovaStatusbar.isVisible()){
+        console.log('show statusBar');
+        $cordovaStatusbar.show();
+        $cordovaStatusbar.styleHex('#e42112');
+      }
+    } catch (error) {}
+  });
+
   $scope.exit = function() {
     ionic.Platform.exitApp();
   };
 
 })
 
-.controller('loginCtrl', function($scope, $state, $ionicPopup, $cordovaToast, AuthService, Catalog) {
+.controller('loginCtrl', function($scope, $state, $ionicPopup, $cordovaStatusbar, $cordovaToast, AuthService, Catalog) {
+
+  try {
+    if($cordovaStatusbar.isVisible()){
+      $cordovaStatusbar.hide();
+    }
+  } catch (error) {
+    console.log('hide statusBar');
+    console.log(error);
+  }
 
   $scope.user = {
     username: 'tsvetok77@yandex.ru',
@@ -57,7 +76,7 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, RegService) {
+.controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, $cordovaStatusbar, RegService) {
 
   //initialize every time when view is called
   $scope.data = RegService.data;
@@ -106,7 +125,8 @@ angular.module('app.controllers', [])
   };
 })
 
-.controller('passwordRecoveryCtrl', function($scope, $state, $ionicPopup, RegService) {
+.controller('passwordRecoveryCtrl', function($scope, $state, $ionicPopup, $cordovaStatusbar, RegService) {
+
   $scope.data = RegService.data;
 
   $scope.send = function() {

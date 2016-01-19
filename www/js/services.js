@@ -271,6 +271,7 @@ angular.module('app.services', ['ngResource'])
     getProfile: function(){
       User.get({}, function(data){
         self.profile = new User(data);
+        $rootScope.$broadcast('show-status-bar');
       }, function(error){
         $rootScope.$broadcast('auth-login-required', error);
       });

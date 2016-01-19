@@ -31,7 +31,8 @@
     "cordova-plugin-actionsheet",
     "cordova-plugin-x-toast",
     "cordova-plugin-dialogs",
-    "cordova-plugin-spinner"
+    "cordova-plugin-spinner",
+    "cordova-plugin-statusbar"
   ],
   "cordovaPlatforms": [
     "android",

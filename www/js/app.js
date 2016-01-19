@@ -1,9 +1,16 @@
 angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
 
-.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, $cordovaStatusbar) {
 
   $ionicPlatform.ready(function() {
+
+    try {
+      console.log('hide statusBar');
+      $cordovaStatusbar.hide();
+    } catch (error) {
+      console.log(error);
+    }
 
     $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
       var offlineState = networkState;
@@ -15,17 +22,13 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
           ionic.Platform.exitApp();
         });
       }
-    })
+    });
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
-    if(window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-
     if(window.localStorage['token']){
       //$state.go('main.user.profile');
     }
