@@ -5,7 +5,7 @@ h1 {
 	font-weight: 100;
 }
 a {
-	color: $positive;
+	color: $assertive;
 }
 .up {
 	text-transform: uppercase;
@@ -75,7 +75,7 @@ a {
 	&.active, &.activated {
 		background-color: #fff;
 		border-color: #fff;
-		color: $positive;
+		color: $assertive;
 	}
 }
 .white {
@@ -91,7 +91,7 @@ a {
 
 }
 .input-label sup {
-	color: $positive;
+	color: $assertive;
 }
 .item-transparent-white {
 	border: none;
@@ -110,7 +110,7 @@ a {
 		border-color: white;
 	}
 	.checkbox input:after, .checkbox-icon:after {
-		border-color: $positive;
+		border-color: $assertive;
 	}
 	background: none;
 	color: white;
@@ -163,7 +163,7 @@ a {
 	}
 }
 .menu {
-	//background-color: $positive;
+	background-color: $assertive;
 	background-image: url('../img/bg-img-positive.jpg');
 	background-size: cover;
 	.item-content, .item, .bar {
@@ -185,8 +185,31 @@ a {
 }
 .input-label {
 	font-style: italic;
-	color: $positive;
+	color: $assertive;
 }
 .item-note-large {
 	font-size: 18px;
 }
+
+.custom-list .item {
+	&:first-child {
+		border-top: none;
+	}
+	.item-content {
+		p {font-weight: 300;}
+	}
+	&.item-active .item-content {
+		background-color: $calm;
+		&, h2, p {color: #fff;}
+	}
+	&.item-approved .item-content {
+		background-color: $balanced;
+		&, h2, p {color: #fff;}
+	}
+}
+.menu .logo {width: 50%;}
+.icon-huge {
+	text-align: center;
+	.icon {font-size: 80px;}
+}
+.item-image .icon {font-size: 40px;}

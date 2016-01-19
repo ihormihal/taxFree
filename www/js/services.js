@@ -478,13 +478,25 @@ angular.module('app.services', ['ngResource'])
     checks: [
       {
         id: 372,
-        title: 'iPhone 5S',
-        price: 350
+        items: [{
+          title: 'iPhone 5S',
+          price: 350
+        },{
+          id: 479,
+          title: 'iPhone 6',
+          price: 550
+        }]
       },
       {
         id: 479,
-        title: 'iPhone 6',
-        price: 550
+        items: [{
+          title: 'iPhone 5S',
+          price: 350
+        },{
+          id: 479,
+          title: 'iPhone 6',
+          price: 550
+        }]
       }
     ],
     summ: 900,

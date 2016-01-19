@@ -1,6 +1,6 @@
 <ion-side-menus enable-menu-with-back-views="false">
   <ion-side-menu-content>
-    <ion-nav-bar class="bar-positive">
+    <ion-nav-bar class="bar-assertive">
       <ion-nav-back-button></ion-nav-back-button>
       <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
@@ -10,10 +10,12 @@
   </ion-side-menu-content>
 
   <ion-side-menu side="left">
-    <ion-header-bar class="bar-positive">
-      <h1 class="title">{{'menu'|translate}}</h1>
-    </ion-header-bar>
     <ion-content>
+      <div class="spacer" style="height:20px"></div>
+      <div class="logo image">
+        <img src="img/logo-inv.png">
+      </div>
+      <div class="spacer" style="height:20px"></div>
       <ion-list>
         <ion-item menu-close ui-sref="main.user.profile">
           <i class="icon ion-person"></i>

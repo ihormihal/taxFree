@@ -7,12 +7,14 @@
 			pulling-text=""
 			on-refresh="doRefresh()">
 		</ion-refresher>
-		<ion-list>
-			<ion-item ng-repeat="trip in trips" class="item-icon-right" ui-sref="main.trip.info({id: trip.id})">
+		<ion-list class="custom-list">
+			<ion-item ng-repeat="trip in trips | orderBy:'-date_end'" ng-class="{'item-active': !(trip.date_end*1000|isPast)}" ui-sref="main.trip.info({id: trip.id})">
 				<h2>{{getById(countries,trip.country_enter).name}} - {{getById(countries,trip.country_leaving).name}}</h2>
-				<p>{{trip.date_start*1000|date:"dd.MM.yyyy"}} - {{trip.date_end*1000|date:"dd.MM.yyyy"}}</p>
-				<i class="icon ion-android-done-all" ng-show="{{trip.date_end*1000|isPast}}"></i>
-				<i class="icon ion-android-time" ng-hide="{{trip.date_end*1000|isPast}}"></i>
+				<p><i class="icon ion-calendar"></i> {{trip.date_start*1000|date:"dd.MM.yyyy"}} - {{trip.date_end*1000|date:"dd.MM.yyyy"}}</p>
+				<div class="item-icon-right">
+					<i class="icon ion-android-done-all" ng-show="trip.date_end*1000|isPast"></i>
+					<i class="icon ion-android-time" ng-hide="trip.date_end*1000|isPast"></i>
+				</div>
 			</ion-item>
 		</ion-list>
     </ion-content>
