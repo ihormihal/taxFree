@@ -163,8 +163,10 @@ a {
 	}
 }
 .menu {
-	background-color: $positive;
-	.item-content, .item {
+	//background-color: $positive;
+	background-image: url('../img/bg-img-positive.jpg');
+	background-size: cover;
+	.item-content, .item, .bar {
 		background-color: transparent;
 		&.activated {
 			background-color: #222;
@@ -172,7 +174,13 @@ a {
 	}
 	.item {
 		color: #fff;
-		border-color: lighten($positive, 10%);
+		border-color: rgba(255,255,255,0.1);
+		font-weight: 300;
+    	font-size: 18px;
+    	.icon {
+    		width: 24px;
+    		display: inline-block;
+    	}
 	}
 }
 .input-label {

@@ -9301,14 +9301,20 @@ a {
     direction: ltr; }
 
 .menu {
-  background-color: #ef4b23; }
-  .menu .item-content, .menu .item {
+  background-image: url("../img/bg-img-positive.jpg");
+  background-size: cover; }
+  .menu .item-content, .menu .item, .menu .bar {
     background-color: transparent; }
-    .menu .item-content.activated, .menu .item.activated {
+    .menu .item-content.activated, .menu .item.activated, .menu .bar.activated {
       background-color: #222; }
   .menu .item {
     color: #fff;
-    border-color: #f27253; }
+    border-color: rgba(255, 255, 255, 0.1);
+    font-weight: 300;
+    font-size: 18px; }
+    .menu .item .icon {
+      width: 24px;
+      display: inline-block; }
 
 .input-label {
   font-style: italic;
