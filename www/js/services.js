@@ -5,7 +5,7 @@ angular.module('app.services', ['ngResource'])
 .service('Catalog', function($rootScope, $q, $http){
   var self = {
     loadCountries: function() {
-      window.SpinnerPlugin.activityStart("Loading...");
+      window.SpinnerPlugin.activityStart(lngTranslate('loading'));
       $http.get(ApiDomain + 'api/catalog/country')
       .success(function(data, status, headers, config) {
         window.SpinnerPlugin.activityStop();
@@ -26,7 +26,7 @@ angular.module('app.services', ['ngResource'])
       });
     },
     loadTransports: function(){
-      window.SpinnerPlugin.activityStart("Loading...");
+      window.SpinnerPlugin.activityStart(lngTranslate('loading'));
       $http.get(ApiDomain + 'api/catalog/transport')
       .success(function(data, status, headers, config) {
         window.SpinnerPlugin.activityStop();
@@ -177,7 +177,7 @@ angular.module('app.services', ['ngResource'])
     },
 
     one: function(){
-      window.SpinnerPlugin.activityStart("Loading...");
+      window.SpinnerPlugin.activityStart(lngTranslate('loading'));
       var q = $q.defer();
       $http({
         method: 'POST',
@@ -203,7 +203,7 @@ angular.module('app.services', ['ngResource'])
     },
 
     two: function(){
-      window.SpinnerPlugin.activityStart("Loading...");
+      window.SpinnerPlugin.activityStart(lngTranslate('loading'));
       var q = $q.defer();
       $http({
         method: 'POST',
@@ -229,7 +229,7 @@ angular.module('app.services', ['ngResource'])
     },
 
     tree: function(){
-      window.SpinnerPlugin.activityStart("Loading...");
+      window.SpinnerPlugin.activityStart(lngTranslate('loading'));
       var q = $q.defer();
       $http({
         method: 'POST',
@@ -271,21 +271,22 @@ angular.module('app.services', ['ngResource'])
     getProfile: function(){
       User.get({}, function(data){
         self.profile = new User(data);
-        $rootScope.$broadcast('show-status-bar');
       }, function(error){
         $rootScope.$broadcast('auth-login-required', error);
       });
     },
     updateProfile: function(profile){
-      profile.$update().then(function(){
-        $cordovaToast.show(lngTranslate('toast_profile_updated'), 'short', 'top');
+      var q = $q.defer();
+      profile.$update().then(function(data){
+        q.resolve(data);
       },function(error){
         if(error.status == 401){
           $rootScope.$broadcast('auth-login-required', error);
         }else{
-          $cordovaToast.show(error.data, 'short', 'top');
+          q.reject(angular.toJson({status: status, data: data}));
         }
       });
+      return q.promise;
     }
   };
   self.getProfile();
@@ -302,8 +303,10 @@ angular.module('app.services', ['ngResource'])
 
 .service('TripListService', function($rootScope, $q, Trip) {
   var self = {
-    getList: function(){
-      window.SpinnerPlugin.activityStart("Loading...");
+    getList: function(refresh){
+      if(!refresh){
+        window.SpinnerPlugin.activityStart(lngTranslate('loading'));
+      }
       var q = $q.defer();
       Trip.get({id: 'list'}, function(data){
         window.SpinnerPlugin.activityStop();
@@ -329,7 +332,7 @@ angular.module('app.services', ['ngResource'])
     checks: {},
     getInfo: function(id){
       var q = $q.defer();
-      window.SpinnerPlugin.activityStart("Loading...");
+      window.SpinnerPlugin.activityStart(lngTranslate('loading'));
       Trip.get({id: id}, function(data){
         window.SpinnerPlugin.activityStop();
         self.info = new Trip(data);
@@ -369,6 +372,16 @@ angular.module('app.services', ['ngResource'])
           q.reject(angular.toJson({status: error.status, data: error.data}));
           $cordovaToast.show(error.data, 'short', 'top');
         }
+      });
+      return q.promise;
+    },
+    remove: function(id){
+      var q = $q.defer();
+      console.log(id);
+      Trip.delete({id: id}, function(){
+        q.resolve();
+      },function(error){
+        q.reject(angular.toJson({status: error.status, data: error.data}));
       });
       return q.promise;
     }

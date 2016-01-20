@@ -1,8 +1,8 @@
 <ion-view cache-view="false">
   <ion-nav-title>{{getById(countries,trip.info.country_enter).name}} - {{getById(countries,trip.info.country_leaving).name}}</ion-nav-title>
-  <!-- <ion-nav-buttons side="right">
-    <button class="button-clear ion-plus button-assertive" ng-click="addTrip()"></button>
-  </ion-nav-buttons> -->
+  <ion-nav-buttons side="right" ng-show="false">
+    <button class="button button-icon button-clear ion-ios-trash-outline" ng-click="remove()"></button>
+  </ion-nav-buttons>
   <ion-content padding="false" scroll="true" class="has-header">
     <form>
       <div class="list">

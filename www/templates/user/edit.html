@@ -1,0 +1,95 @@
+<div class="modal">
+  <ion-header-bar class="bar-assertive">
+    <h1 class="title">{{'profile_edit'|translate}}</h1>
+    <div class="buttons">
+      <button class="button button-icon button-clear ion-android-close" ng-click="closeModal()"></button>
+    </div>
+  </ion-header-bar>
+  <ion-content padding="false" scroll="true" class="has-header">
+    <form>
+      <div class="list">
+        <label class="item item-input item-stacked-label top-item">
+          <span class="input-label">{{'how_call_you'|translate}} <sup>*</sup></span>
+          <div class="item-select">
+            <select ng-model="user.profile.before_fs">
+              <option value="mr">Mr.</option>
+              <option value="mrs">Mrs.</option>
+              <option value="ms">Ms.</option>
+            </select>
+          </div>
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="user.profile.fsname" placeholder="Ф.И.О.">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <div class="input-label">{{'birthday'|translate}} <sup>*</sup></div>
+          <input type="date" ng-model="user.profile.passp_birthday">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <div class="input-label">{{'sex'|translate}} <sup>*</sup></div>
+          <div class="item-select">
+            <select ng-model="user.profile.passp_sex">
+              <option value="m">{{'m'|translate}}</option>
+              <option value="f">{{'f'|translate}}</option>
+            </select>
+          </div>
+        </label>
+        <label class="item item-input item-stacked-label">
+          <div class="input-label">{{'citizenship'|translate}} <sup>*</sup></div>
+          <div class="item-select">
+            <select integer-model ng-model="user.profile.passp_citizenship">
+              <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
+            </select>
+          </div>
+        </label>
+        <label class="item item-input item-stacked-label">
+          <div class="input-label">{{'country'|translate}} <sup>*</sup></div>
+          <div class="item-select">
+            <select integer-model ng-model="user.profile.country">
+              <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
+            </select>
+          </div>
+        </label>
+        <label class="item item-input item-stacked-label">
+          <div class="input-label">{{'passp_number'|translate}} <sup>*</sup></div>
+          <input type="text" ng-model="user.profile.passp_number" placeholder="ET000001">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <div class="input-label">{{'passp_country'|translate}} <sup>*</sup></div>
+          <div class="item-select">
+            <select integer-model ng-model="user.profile.passp_country">
+              <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
+            </select>
+          </div>
+        </label>
+        <label class="item item-input item-stacked-label">
+          <div class="input-label">{{'passp_date'|translate}} <sup>*</sup></div>
+          <input type="date" ng-model="user.profile.passp_date">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <div class="input-label">{{'email'|translate}} <sup>*</sup></div>
+          <input type="email" ng-model="user.profile.email">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <div class="input-label">{{'phone'|translate}} <sup>*</sup></div>
+          <div class="item-select">
+            <select integer-model ng-model="user.profile.phone_country">
+              <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}} {{country.phone_code}}</option>
+            </select>
+          </div>
+        </label>
+        <label class="item">
+          <input type="tel" ng-model="user.profile.phone">
+        </label>
+        <div class="item">
+          <span class="input-label">{{'photos_passport'|translate}} <sup>*</sup></span>
+          <choose-image image="user.profile.passport"></choose-image>
+        </div>
+      </div>
+      <div class="spacer" style="height:20px"></div>
+      <div class="padding">
+        <button class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
+      </div>
+    </form>
+  </ion-content>
+</div>

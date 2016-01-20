@@ -1,106 +1,50 @@
-<ion-view title="Профиль">
+<ion-view title="{{'profile'|translate}}">
+    <ion-nav-buttons side="right" ng-show="false">
+        <button class="button button-icon button-clear ion-ios-compose-outline" ng-click="openModal()"></button>
+    </ion-nav-buttons>
     <ion-content padding="false" scroll="true" class="has-header">
         <ion-refresher
             pulling-text=""
             on-refresh="doRefresh()">
         </ion-refresher>
-        <form>
-            <div class="list">
-                <label class="item item-input item-stacked-label top-item">
-                    <span class="input-label">Как к Вам обращаться? <sup>*</sup></span>
-                    <div class="item-select">
-                        <select ng-model="user.profile.before_fs">
-                            <option value="mr">Mr.</option>
-                            <option value="mrs">Mrs.</option>
-                            <option value="ms">Ms.</option>
-                        </select>
-                    </div>
-                </label>
 
-                <label class="item item-input">
-                    <input type="text" ng-model="user.profile.fsname" placeholder="Ф.И.О.">
-                </label>
+        <div class="list">
 
-                <label class="item item-input item-stacked-label">
-                    <div class="input-label">Дата рождения <sup>*</sup></div>
-                    <input type="date" ng-model="user.profile.passp_birthday">
-                </label>
+            <div class="item item-divider">{{'name'|translate}}</div>
+            <div class="item">{{user.profile.before_fs | translate}} {{user.profile.fsname}}</div>
 
-                <label class="item item-input item-stacked-label">
-                    <div class="input-label">Пол <sup>*</sup></div>
-                    <div class="item-select">
-                        <select ng-model="user.profile.passp_sex">
-                            <option value="m">Муж.</option>
-                            <option value="f">Жен.</option>
-                        </select>
-                    </div>
-                </label>
+            <div class="item item-divider">{{'birthday'|translate}}</div>
+            <div class="item">{{user.profile.passp_birthday}}</div>
 
-                <label class="item item-input item-stacked-label">
-                    <div class="input-label">Гражданство <sup>*</sup></div>
-                    <div class="item-select">
-                        <select integer-model ng-model="user.profile.passp_citizenship">
-                            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
-                        </select>
-                    </div>
-                </label>
+            <div class="item item-divider">{{'sex'|translate}}</div>
+            <div class="item">{{user.profile.passp_sex|translate}}</div>
 
-                <label class="item item-input item-stacked-label">
-                    <div class="input-label">Страна проживания <sup>*</sup></div>
-                    <div class="item-select">
-                        <select integer-model ng-model="user.profile.country">
-                            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
-                        </select>
-                    </div>
-                </label>
+            <div class="item item-divider">{{'citizenship'|translate}}</div>
+            <div class="item">{{getById(countries,user.profile.passp_citizenship).name}}</div>
 
-                <label class="item item-input item-stacked-label">
-                    <div class="input-label">Номер паспорта <sup>*</sup></div>
-                    <input type="text" ng-model="user.profile.passp_number" placeholder="ET000001">
-                </label>
+            <div class="item item-divider">{{'country'|translate}}</div>
+            <div class="item">{{getById(countries,user.profile.country).name}}</div>
 
-                <label class="item item-input item-stacked-label">
-                    <div class="input-label">Страна выдачи <sup>*</sup></div>
-                    <div class="item-select">
-                        <select integer-model ng-model="user.profile.passp_country">
-                            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
-                        </select>
-                    </div>
-                </label>
+            <div class="item item-divider">{{'passp_number'|translate}}</div>
+            <div class="item">{{user.profile.passp_number}}</div>
 
-                <label class="item item-input item-stacked-label">
-                    <div class="input-label">Срок действия <sup>*</sup></div>
-                    <input type="date" ng-model="user.profile.passp_date">
-                </label>
+            <div class="item item-divider">{{'passp_country'|translate}}</div>
+            <div class="item">{{getById(countries,user.profile.passp_country).name}}</div>
 
-                <label class="item item-input item-stacked-label">
-                    <div class="input-label">Електронная почта <sup>*</sup></div>
-                    <input type="email" ng-model="user.profile.email">
-                </label>
+            <div class="item item-divider">{{'passp_date'|translate}}</div>
+            <div class="item">{{user.profile.passp_date}}</div>
 
-                <label class="item item-input item-stacked-label">
-                    <div class="input-label">Номер телефона <sup>*</sup></div>
-                    <div class="item-select">
-                        <select integer-model ng-model="user.profile.phone_country">
-                            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}} {{country.phone_code}}</option>
-                        </select>
-                    </div>
-                </label>
+            <div class="item item-divider">{{'email'|translate}}</div>
+            <div class="item">{{user.profile.email}}</div>
 
-                <label class="item">
-                    <input type="tel" ng-model="user.profile.phone">
-                </label>
+            <div class="item item-divider">{{'phone'|translate}}</div>
+            <div class="item">{{getById(countries,user.profile.phone_country).phone_code}} {{user.profile.phone}}</div>
 
-                <div class="item">
-                    <span class="input-label">Фото загранпаспорта <sup>*</sup></span>
-                    <choose-image image="user.profile.passport"></choose-image>
-                </div>
+            <div class="item item-divider">{{'photos_passport'|translate}}</div>
+            <div class="item">
+                <img class="full-image" ng-src="http://tax-free-dev.jaya-test.com{{user.profile.passport}}" alt="" image-viewer>
             </div>
+        </div>
 
-            <div class="spacer" style="height:20px"></div>
-            <div class="padding">
-                <button class="button button-stable button-block button-assertive up" ng-click="update()">Сохранить</button>
-            </div>
-        </form>
     </ion-content>
 </ion-view>

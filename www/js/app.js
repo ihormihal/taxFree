@@ -6,9 +6,9 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
   $ionicPlatform.ready(function() {
 
     try {
-      console.log('hide statusBar');
       $cordovaStatusbar.hide();
     } catch (error) {
+      console.log('hide statusBar');
       console.log(error);
     }
 

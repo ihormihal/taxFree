@@ -20,6 +20,14 @@ angular.module('app.controllers', [])
 
   $scope.$on('auth-logout', function(event, data) {
     $state.go('login');
+    try {
+      if($cordovaStatusbar.isVisible()){
+        $cordovaStatusbar.hide();
+      }
+    } catch (error) {
+      console.log('hide statusBar');
+      console.log(error);
+    }
   });
 
   $scope.$on('auth-login-required', function(event, data) {
@@ -30,36 +38,17 @@ angular.module('app.controllers', [])
     $state.go('login');
   });
 
-  $scope.$on('show-status-bar', function(event, data) {
-   try {
-      if(!$cordovaStatusbar.isVisible()){
-        console.log('show statusBar');
-        $cordovaStatusbar.show();
-        $cordovaStatusbar.styleHex('#e42112');
-      }
-    } catch (error) {}
-  });
-
   $scope.exit = function() {
     ionic.Platform.exitApp();
   };
 
 })
 
-.controller('loginCtrl', function($scope, $state, $ionicPopup, $cordovaStatusbar, $cordovaToast, AuthService, Catalog) {
-
-  try {
-    if($cordovaStatusbar.isVisible()){
-      $cordovaStatusbar.hide();
-    }
-  } catch (error) {
-    console.log('hide statusBar');
-    console.log(error);
-  }
+.controller('loginCtrl', function($scope, $state, $ionicPopup, $cordovaToast, $cordovaStatusbar, AuthService, Catalog) {
 
   $scope.user = {
-    username: 'tsvetok77@yandex.ru',
-    password: 'PArol12345'
+    //username: 'tsvetok77@yandex.ru',
+    //password: 'PArol12345'
   };
 
   $scope.login = function() {
@@ -68,6 +57,15 @@ angular.module('app.controllers', [])
 
   $scope.$on('auth-login', function(event, data) {
     $state.go('main.user.profile');
+    try {
+      if(!$cordovaStatusbar.isVisible()){
+        $cordovaStatusbar.show();
+        $cordovaStatusbar.styleHex('#e42112');
+      }
+    } catch (error) {
+      console.log('show statusBar');
+      console.log(error);
+    }
   });
 
   $scope.$on('auth-login-failed', function(event, data) {
@@ -76,7 +74,7 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, $cordovaStatusbar, RegService) {
+.controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, RegService) {
 
   //initialize every time when view is called
   $scope.data = RegService.data;
@@ -125,7 +123,7 @@ angular.module('app.controllers', [])
   };
 })
 
-.controller('passwordRecoveryCtrl', function($scope, $state, $ionicPopup, $cordovaStatusbar, RegService) {
+.controller('passwordRecoveryCtrl', function($scope, $state, $ionicPopup, RegService) {
 
   $scope.data = RegService.data;
 
@@ -157,46 +155,59 @@ angular.module('app.controllers', [])
   };
 })
 
-.controller('userCtrl', function($scope, UserService, Catalog) {
+.controller('userCtrl', function($scope, $ionicModal, $cordovaStatusbar, $cordovaToast, UserService, Catalog) {
+
+  try {
+    if(!$cordovaStatusbar.isVisible()){
+      $cordovaStatusbar.show();
+      $cordovaStatusbar.styleHex('#e42112');
+    }
+  } catch (error) {
+    console.log('show statusBar');
+    console.log(error);
+  }
 
   $scope.user = UserService;
   $scope.update = function(){
-    $scope.user.updateProfile($scope.user.profile);
+    $scope.user.updateProfile($scope.user.profile)
+    .then(function(){
+      try {
+        $cordovaToast.show(lngTranslate('toast_profile_updated'), 'short', 'top');
+      } catch (error) {
+        console.log(lngTranslate('toast_profile_updated'));
+      }
+      $scope.closeModal();
+    },function(){
+      try {
+        $cordovaToast.show(error.data, 'short', 'top');
+      } catch (error) {
+        console.log(error.data);
+      }
+    })
   };
   $scope.doRefresh = function(){
     $scope.user.profile = UserService.getProfile();
     $scope.$broadcast('scroll.refreshComplete');
   };
-})
 
-.controller('settingsCtrl', function($scope, $ionicPopup, $cordovaDialogs, $timeout, $state) {
-  $scope.clearCache = function(){
+  $ionicModal.fromTemplateUrl('templates/user/edit.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
 
-    try {
-      $cordovaDialogs.confirm(
-        lngTranslate('dialog_clear_cache_message'),
-        lngTranslate('dialog_clear_cache_title'),
-        [lngTranslate('yes'),lngTranslate('no')])
-      .then(function(buttonIndex) {
-        if(buttonIndex == 1){
-          window.localStorage.clear();
-          $state.go('login');
-        }
-      });
-    } catch (error) {
-      var confirmPopup = $ionicPopup.confirm({
-        title: lngTranslate('dialog_clear_cache_title'),
-        template: lngTranslate('dialog_clear_cache_message')
-      });
-      confirmPopup.then(function(res) {
-        if(res){
-          window.localStorage.clear();
-          $state.go('login');
-        }
-      });
-    }
-
+  $scope.openModal = function() {
+    $scope.modal.show();
   };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+
 })
 
 .controller('helpCtrl', function($scope) {
@@ -211,8 +222,9 @@ angular.module('app.controllers', [])
   },function(error){
     alert(error);
   });
+
   $scope.doRefresh = function(){
-    TripListService.getList()
+    TripListService.getList(true)
     .then(function(data){
       $scope.trips = data;
     },function(error){
@@ -264,7 +276,7 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('tripCtrl', function($scope, $stateParams, $ionicConfig, TripService) {
+.controller('tripCtrl', function($scope, $stateParams, $ionicConfig, $cordovaDialogs, $cordovaToast, TripService) {
 
   TripService.getInfo($stateParams.id).then(function(){
     $scope.trip = TripService;
@@ -276,6 +288,31 @@ angular.module('app.controllers', [])
     $scope.trip.updateInfo($scope.trip.info);
   };
 
+  $scope.remove = function(){
+    $cordovaDialogs.confirm(
+      lngTranslate('dialog_remove_trip_message'),
+      lngTranslate('dialog_remove_trip_title'),
+      [lngTranslate('yes'),lngTranslate('no')])
+    .then(function(buttonIndex) {
+      if(buttonIndex == 1){
+        TripService.remove($scope.trip.info.id)
+        .then(function(){
+          try {
+            $cordovaToast.show(lngTranslate('toast_trip_deleted'), 'short', 'top');
+          } catch (error) {
+            console.log(lngTranslate('toast_trip_deleted'));
+          }
+          $state.go('main.trips');
+        },function(error){
+          try {
+            $cordovaToast.show(error, 'short', 'top');
+          } catch (err) {
+            console.log(error);
+          }
+        });
+      }
+    });
+  };
 })
 
 .controller('checksCtrl', function($scope, $ionicModal, CheckService) {
@@ -346,6 +383,36 @@ angular.module('app.controllers', [])
   $scope.doRefresh = function(){
     $scope.declaration = declarationService.getOne($stateParams.id);
     $scope.$broadcast('scroll.refreshComplete');
+  };
+})
+
+.controller('settingsCtrl', function($rootScope, $scope, $ionicPopup, $cordovaDialogs, $timeout, $state) {
+  $scope.clearCache = function(){
+
+    try {
+      $cordovaDialogs.confirm(
+        lngTranslate('dialog_clear_cache_message'),
+        lngTranslate('dialog_clear_cache_title'),
+        [lngTranslate('yes'),lngTranslate('no')])
+      .then(function(buttonIndex) {
+        if(buttonIndex == 1){
+          window.localStorage.clear();
+          $rootScope.$broadcast('auth-logout');
+        }
+      });
+    } catch (error) {
+      var confirmPopup = $ionicPopup.confirm({
+        title: lngTranslate('dialog_clear_cache_title'),
+        template: lngTranslate('dialog_clear_cache_message')
+      });
+      confirmPopup.then(function(res) {
+        if(res){
+          window.localStorage.clear();
+          $rootScope.$broadcast('auth-logout');
+        }
+      });
+    }
+
   };
 })
 
