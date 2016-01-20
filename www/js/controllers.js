@@ -1,5 +1,9 @@
 angular.module('app.controllers', [])
 
+/****************************************/
+/******** PRIVATE APP CONTROLLER ********/
+/****************************************/
+
 .controller('AppCtrl', function($ionicPlatform, $rootScope, $scope, $state, $cordovaStatusbar, AuthService, Catalog) {
 
   if(!window.localStorage['countries']){
@@ -44,6 +48,10 @@ angular.module('app.controllers', [])
 
 })
 
+/****************************************/
+/*********** LOGIN CONTROLLER ***********/
+/****************************************/
+
 .controller('loginCtrl', function($scope, $state, $ionicPopup, $cordovaToast, $cordovaStatusbar, AuthService, Catalog) {
 
   $scope.user = {
@@ -73,6 +81,10 @@ angular.module('app.controllers', [])
   });
 
 })
+
+/********************************/
+/******** REG CONTROLLER ********/
+/********************************/
 
 .controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, RegService) {
 
@@ -123,6 +135,10 @@ angular.module('app.controllers', [])
   };
 })
 
+/*****************************************/
+/******** PWD RECOVERY CONTROLLER ********/
+/*****************************************/
+
 .controller('passwordRecoveryCtrl', function($scope, $state, $ionicPopup, RegService) {
 
   $scope.data = RegService.data;
@@ -154,6 +170,10 @@ angular.module('app.controllers', [])
     });
   };
 })
+
+/*********************************/
+/******** USER CONTROLLER ********/
+/*********************************/
 
 .controller('userCtrl', function($scope, $ionicModal, $cordovaStatusbar, $cordovaToast, UserService, Catalog) {
 
@@ -210,9 +230,9 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('helpCtrl', function($scope) {
-
-})
+/***************************************/
+/******** TRIP LIST CONTROLLER ********/
+/***************************************/
 
 .controller('tripsCtrl', function($scope, $state, $ionicModal, TripListService, TripService) {
 
@@ -276,6 +296,10 @@ angular.module('app.controllers', [])
 
 })
 
+/****************************************/
+/******** SINGLE TRIP CONTROLLER ********/
+/****************************************/
+
 .controller('tripCtrl', function($scope, $stateParams, $ionicConfig, $cordovaDialogs, $cordovaToast, TripService) {
 
   TripService.getInfo($stateParams.id).then(function(){
@@ -315,6 +339,10 @@ angular.module('app.controllers', [])
   };
 })
 
+/***************************************/
+/******** CHECK LIST CONTROLLER ********/
+/***************************************/
+
 .controller('checksCtrl', function($scope, $ionicModal, CheckService) {
   $scope.checks = CheckService.getList();
   $scope.doRefresh = function(){
@@ -346,6 +374,10 @@ angular.module('app.controllers', [])
 
 })
 
+/*****************************************/
+/******** SINGLE CHECK CONTROLLER ********/
+/*****************************************/
+
 .controller('checkCtrl', function($scope, $stateParams, $ionicModal, CheckService) {
   $scope.check = CheckService.getOne($stateParams.id);
 
@@ -369,6 +401,10 @@ angular.module('app.controllers', [])
 
 })
 
+/*********************************************/
+/******** DECLARATION LIST CONTROLLER ********/
+/*********************************************/
+
 .controller('declarationsCtrl', function($scope, $ionicModal, declarationService) {
   $scope.declarations = declarationService.getList();
   $scope.doRefresh = function(){
@@ -378,6 +414,10 @@ angular.module('app.controllers', [])
 
 })
 
+/***********************************************/
+/******** SINGLE DECLARATION CONTROLLER ********/
+/***********************************************/
+
 .controller('declarationCtrl', function($scope, $stateParams, $ionicModal, declarationService) {
   $scope.declaration = declarationService.getOne($stateParams.id);
   $scope.doRefresh = function(){
@@ -386,32 +426,31 @@ angular.module('app.controllers', [])
   };
 })
 
+/**************************************/
+/******** HELP PAGE CONTROLLER ********/
+/**************************************/
+
+.controller('helpCtrl', function($scope) {
+
+})
+
+/*****************************************/
+/******** SETTINGS APP CONTROLLER ********/
+/*****************************************/
+
 .controller('settingsCtrl', function($rootScope, $scope, $ionicPopup, $cordovaDialogs, $timeout, $state) {
   $scope.clearCache = function(){
 
-    try {
-      $cordovaDialogs.confirm(
-        lngTranslate('dialog_clear_cache_message'),
-        lngTranslate('dialog_clear_cache_title'),
-        [lngTranslate('yes'),lngTranslate('no')])
-      .then(function(buttonIndex) {
-        if(buttonIndex == 1){
-          window.localStorage.clear();
-          $rootScope.$broadcast('auth-logout');
-        }
-      });
-    } catch (error) {
-      var confirmPopup = $ionicPopup.confirm({
-        title: lngTranslate('dialog_clear_cache_title'),
-        template: lngTranslate('dialog_clear_cache_message')
-      });
-      confirmPopup.then(function(res) {
-        if(res){
-          window.localStorage.clear();
-          $rootScope.$broadcast('auth-logout');
-        }
-      });
-    }
+    $cordovaDialogs.confirm(
+      lngTranslate('dialog_clear_cache_message'),
+      lngTranslate('dialog_clear_cache_title'),
+      [lngTranslate('yes'),lngTranslate('no')])
+    .then(function(buttonIndex) {
+      if(buttonIndex == 1){
+        window.localStorage.clear();
+        $rootScope.$broadcast('auth-logout');
+      }
+    });
 
   };
 })
