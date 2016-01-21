@@ -55,8 +55,8 @@ angular.module('app.controllers', [])
 .controller('loginCtrl', function($scope, $state, $ionicPopup, $cordovaToast, $cordovaStatusbar, AuthService, Catalog) {
 
   $scope.user = {
-    //username: 'tsvetok77@yandex.ru',
-    //password: 'PArol12345'
+    username: 'tsvetok77@yandex.ru',
+    password: 'PArol12345'
   };
 
   $scope.login = function() {
@@ -236,12 +236,6 @@ angular.module('app.controllers', [])
 
 .controller('tripsCtrl', function($scope, $state, $ionicModal, TripListService, TripService) {
 
-  TripListService.getList()
-  .then(function(data){
-    $scope.trips = data;
-  },function(error){
-    alert(error);
-  });
 
   $scope.doRefresh = function(){
     TripListService.getList(true)
@@ -252,6 +246,8 @@ angular.module('app.controllers', [])
     });
     $scope.$broadcast('scroll.refreshComplete');
   };
+
+  $scope.doRefresh();
 
   $scope.trip = {
     info: {
@@ -300,7 +296,7 @@ angular.module('app.controllers', [])
 /******** SINGLE TRIP CONTROLLER ********/
 /****************************************/
 
-.controller('tripCtrl', function($scope, $stateParams, $ionicConfig, $cordovaDialogs, $cordovaToast, TripService) {
+.controller('tripCtrl', function($scope, $state, $stateParams, $ionicConfig, $cordovaDialogs, $cordovaToast, TripService) {
 
   TripService.getInfo($stateParams.id).then(function(){
     $scope.trip = TripService;
@@ -327,6 +323,7 @@ angular.module('app.controllers', [])
             console.log(lngTranslate('toast_trip_deleted'));
           }
           $state.go('main.trips');
+          //$state.transitionTo('main.trips', {}, {reload: true});
         },function(error){
           try {
             $cordovaToast.show(error, 'short', 'top');

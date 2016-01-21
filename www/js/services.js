@@ -1,12 +1,10 @@
-var ApiDomain = 'http://tax-free-dev.jaya-test.com/app_dev.php/';
-
 angular.module('app.services', ['ngResource'])
 
 .service('Catalog', function($rootScope, $q, $http){
   var self = {
     loadCountries: function() {
       window.SpinnerPlugin.activityStart(lngTranslate('loading'));
-      $http.get(ApiDomain + 'api/catalog/country')
+      $http.get(ApiDomain + '/api/catalog/country')
       .success(function(data, status, headers, config) {
         window.SpinnerPlugin.activityStop();
         if(status == 200){
@@ -27,7 +25,7 @@ angular.module('app.services', ['ngResource'])
     },
     loadTransports: function(){
       window.SpinnerPlugin.activityStart(lngTranslate('loading'));
-      $http.get(ApiDomain + 'api/catalog/transport')
+      $http.get(ApiDomain + '/api/catalog/transport')
       .success(function(data, status, headers, config) {
         window.SpinnerPlugin.activityStop();
         if(status == 200){
@@ -57,7 +55,7 @@ angular.module('app.services', ['ngResource'])
       window.SpinnerPlugin.activityStart("Авторизация...");
       $http({
         method: 'POST',
-        url: ApiDomain + 'oauth/v2/token',
+        url: ApiDomain + '/oauth/v2/token',
         data: $rootScope.serialize({
           client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
           client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk',
@@ -100,7 +98,7 @@ angular.module('app.services', ['ngResource'])
         window.SpinnerPlugin.activityStart("Авторизация...");
         $http({
           method: 'POST',
-          url: ApiDomain + 'oauth/v2/token',
+          url: ApiDomain + '/oauth/v2/token',
           data: $rootScope.serialize({
             client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
             client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk',
@@ -150,7 +148,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: ApiDomain + 'oauth/v2/token',
+        url: ApiDomain + '/oauth/v2/token',
         data: $rootScope.serialize({
           grant_type: 'client_credentials',
           client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
@@ -181,7 +179,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: ApiDomain + 'api/user/register/one',
+        url: ApiDomain + '/api/user/register/one',
         data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -207,7 +205,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: ApiDomain + 'api/user/register/two',
+        url: ApiDomain + '/api/user/register/two',
         data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -233,7 +231,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: ApiDomain + 'api/user/register/tree',
+        url: ApiDomain + '/api/user/register/tree',
         data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -258,7 +256,7 @@ angular.module('app.services', ['ngResource'])
 })
 
 .factory('User', function ($resource) {
-  return $resource(ApiDomain + 'api/user/me', {}, {
+  return $resource(ApiDomain + '/api/user/me', {}, {
     update: {
       method: 'PUT'
     }
@@ -294,7 +292,7 @@ angular.module('app.services', ['ngResource'])
 })
 
 .factory('Trip', function($resource) {
-  return $resource(ApiDomain + 'api/trip/:id', {id: '@id'},{
+  return $resource(ApiDomain + '/api/trip/:id', {id: '@id'},{
     update: {
       method: 'PUT'
     }

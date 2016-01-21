@@ -117,6 +117,7 @@ angular.module('app.routes', [])
   //TRIPS LIST
   .state('main.trips', {
     url: '/trips',
+    cache:  false,
     views: {
       'menuContent': {
         templateUrl: 'templates/trips/list.html',

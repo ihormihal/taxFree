@@ -1,7 +1,11 @@
+var ApiDomain = 'http://tax-free-dev.jaya-test.com/app_dev.php';
+
 angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
 
 .run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, $cordovaStatusbar) {
+
+  $rootScope.ApiDomain = ApiDomain;
 
   $ionicPlatform.ready(function() {
 
