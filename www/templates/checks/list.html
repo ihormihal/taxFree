@@ -1,6 +1,6 @@
 <ion-view view-title="Чеки">
 	<ion-nav-buttons side="right">
-		<button class="button-clear ion-plus" ng-click="openModal()"></button>
+		<button class="button button-icon button-clear ion-android-add" ng-click="openModal()"></button>
 	</ion-nav-buttons>
 	<ion-content class="has-header">
 		<ion-refresher
@@ -9,7 +9,7 @@
 		</ion-refresher>
 		<ion-list>
 			<ion-item ng-repeat="check in checks" ui-sref="main.check({id: check.id})">
-				<h2>{{check.title}}</h2>
+				<h2>{{check.id}}</h2>
 				<p>
 					<i class="icon ion-calendar"></i> {{check.time|date:"dd.MM.yyyy"}}
 					&nbsp;

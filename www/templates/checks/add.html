@@ -1,17 +1,17 @@
 <div class="modal">
-  <ion-header-bar class="bar-positive">
-    <h1 class="title">Добавление чека</h1>
+  <ion-header-bar class="bar-assertive">
+    <h1 class="title">{{'check_adding'|translate}}</h1>
     <div class="buttons"><button class="button-clear ion-close" ng-click="closeModal()"></button></div>
   </ion-header-bar>
   <ion-content padding="false" scroll="true" class="has-header">
     <form>
       <div class="list">
         <div class="item">
-          <span class="input-label">Фото чека <sup>*</sup></span>
+          <span class="input-label">{{'check_photo'|translate}} <sup>*</sup></span>
           <choose-image image="profile.photo"></choose-image>
         </div>
         <div class="item">
-          <button class="button button-stable button-block button-assertive up" ng-click="addCheck()">Сохранить</button>
+          <button class="button button-stable button-block button-assertive up" ng-click="addCheck()">{{'done'|translate}}</button>
         </div>
       </div>
     </form>

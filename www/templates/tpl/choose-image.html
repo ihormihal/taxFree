@@ -1,12 +1,12 @@
 <button ng-hide="loading || image" ng-click="selectPhoto()" class="button button-block button-outline button-assertive icon-left ion-image">
-  Загрузить фото
+  {{'upload_photo'|translate}}
 </button>
 <div class="image-preview" ng-show="loading || image">
   <table class="table spinner-table">
     <tr>
       <td class="image">
         <ion-spinner icon="spiral" class="spinner-positive" ng-show="loading"></ion-spinner>
-        <img ng-show="image" ng-src="{{ApiDomain}}{{image}}" image-viewer />
+        <img ng-show="image" ng-src="{{Domain}}{{image}}" image-viewer />
       </td>
       <td class="action">
         <div class="remove" ng-click="image = null;">

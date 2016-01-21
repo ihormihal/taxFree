@@ -138,12 +138,12 @@ angular.module('app.routes', [])
     }
   })
 
-  //TRIP info
-  .state('main.trip.info', {
-    url: '/info',
+  //TRIP data
+  .state('main.trip.data', {
+    url: '/data',
     views: {
-      'info': {
-        templateUrl: 'templates/trips/tab-info.html',
+      'data': {
+        templateUrl: 'templates/trips/tab-data.html',
         controller: 'tripCtrl'
       }
     }

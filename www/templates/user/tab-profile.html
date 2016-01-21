@@ -3,10 +3,6 @@
         <button class="button button-icon button-clear ion-ios-compose-outline" ng-click="openModal()"></button>
     </ion-nav-buttons>
     <ion-content padding="false" scroll="true" class="has-header">
-        <ion-refresher
-            pulling-text=""
-            on-refresh="doRefresh()">
-        </ion-refresher>
 
         <div class="list">
 
@@ -42,7 +38,7 @@
 
             <div class="item item-divider">{{'photos_passport'|translate}}</div>
             <div class="item">
-                <img class="full-image" ng-src="http://tax-free-dev.jaya-test.com{{user.profile.passport}}" alt="" image-viewer>
+                <img class="full-image" ng-src="{{Domain}}{{user.profile.passport}}" alt="" image-viewer>
             </div>
         </div>
 

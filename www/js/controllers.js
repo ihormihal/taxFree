@@ -6,14 +6,33 @@ angular.module('app.controllers', [])
 
 .controller('AppCtrl', function($ionicPlatform, $rootScope, $scope, $state, $cordovaStatusbar, AuthService, Catalog) {
 
+  try {
+    if(!$cordovaStatusbar.isVisible()){
+      $cordovaStatusbar.show();
+      $cordovaStatusbar.styleHex('#e42112');
+    }
+  } catch (error) {
+    console.log('show statusBar');
+    console.log(error);
+  }
+
+
   if(!window.localStorage['countries']){
-    Catalog.loadCountries();
+    Catalog.query({name: 'country'}, function(data){
+      window.localStorage['countries'] = angular.toJson(data);
+    },function(error){
+      console.log(error);
+    });
   }else{
     $rootScope.countries = angular.fromJson(window.localStorage['countries']);
   }
 
   if(!window.localStorage['transports']){
-    Catalog.loadTransports();
+    Catalog.query({name: 'transport'}, function(data){
+      window.localStorage['transports'] = angular.toJson(data);
+    },function(error){
+      console.log(error);
+    });
   }else{
     $rootScope.transports = angular.fromJson(window.localStorage['transports']);
   }
@@ -21,26 +40,6 @@ angular.module('app.controllers', [])
   $scope.logout = function(){
     AuthService.logout();
   };
-
-  $scope.$on('auth-logout', function(event, data) {
-    $state.go('login');
-    try {
-      if($cordovaStatusbar.isVisible()){
-        $cordovaStatusbar.hide();
-      }
-    } catch (error) {
-      console.log('hide statusBar');
-      console.log(error);
-    }
-  });
-
-  $scope.$on('auth-login-required', function(event, data) {
-    AuthService.refresh();
-  });
-
-  $scope.$on('auth-login-failed', function(event, data) {
-    $state.go('login');
-  });
 
   $scope.exit = function() {
     ionic.Platform.exitApp();
@@ -52,7 +51,16 @@ angular.module('app.controllers', [])
 /*********** LOGIN CONTROLLER ***********/
 /****************************************/
 
-.controller('loginCtrl', function($scope, $state, $ionicPopup, $cordovaToast, $cordovaStatusbar, AuthService, Catalog) {
+.controller('loginCtrl', function($scope, $state, $ionicPopup, Toast, $cordovaStatusbar, AuthService) {
+
+  try {
+    if($cordovaStatusbar.isVisible()){
+      $cordovaStatusbar.hide();
+    }
+  } catch (error) {
+    console.log('hide statusBar');
+    console.log(error);
+  }
 
   $scope.user = {
     username: 'tsvetok77@yandex.ru',
@@ -62,23 +70,6 @@ angular.module('app.controllers', [])
   $scope.login = function() {
     AuthService.login($scope.user);
   };
-
-  $scope.$on('auth-login', function(event, data) {
-    $state.go('main.user.profile');
-    try {
-      if(!$cordovaStatusbar.isVisible()){
-        $cordovaStatusbar.show();
-        $cordovaStatusbar.styleHex('#e42112');
-      }
-    } catch (error) {
-      console.log('show statusBar');
-      console.log(error);
-    }
-  });
-
-  $scope.$on('auth-login-failed', function(event, data) {
-    $cordovaToast.show(angular.toJson(data), 'short', 'top');
-  });
 
 })
 
@@ -175,39 +166,18 @@ angular.module('app.controllers', [])
 /******** USER CONTROLLER ********/
 /*********************************/
 
-.controller('userCtrl', function($scope, $ionicModal, $cordovaStatusbar, $cordovaToast, UserService, Catalog) {
+.controller('userCtrl', function($rootScope, $scope, $ionicModal, Toast, User) {
 
-  try {
-    if(!$cordovaStatusbar.isVisible()){
-      $cordovaStatusbar.show();
-      $cordovaStatusbar.styleHex('#e42112');
-    }
-  } catch (error) {
-    console.log('show statusBar');
-    console.log(error);
-  }
+  $scope.user = {};
+  $scope.user.profile = User.get();
 
-  $scope.user = UserService;
   $scope.update = function(){
-    $scope.user.updateProfile($scope.user.profile)
-    .then(function(){
-      try {
-        $cordovaToast.show(lngTranslate('toast_profile_updated'), 'short', 'top');
-      } catch (error) {
-        console.log(lngTranslate('toast_profile_updated'));
-      }
+    User.update($scope.user.profile, function(){
+      Toast.show(lngTranslate('toast_profile_updated'));
       $scope.closeModal();
-    },function(){
-      try {
-        $cordovaToast.show(error.data, 'short', 'top');
-      } catch (error) {
-        console.log(error.data);
-      }
+    },function(error){
+      Toast.show(error);
     })
-  };
-  $scope.doRefresh = function(){
-    $scope.user.profile = UserService.getProfile();
-    $scope.$broadcast('scroll.refreshComplete');
   };
 
   $ionicModal.fromTemplateUrl('templates/user/edit.html', {
@@ -234,23 +204,27 @@ angular.module('app.controllers', [])
 /******** TRIP LIST CONTROLLER ********/
 /***************************************/
 
-.controller('tripsCtrl', function($scope, $state, $ionicModal, TripListService, TripService) {
+.controller('tripsCtrl', function($scope, $state, $ionicModal, Trips, Trip, Toast) {
 
+
+  Trips.get({},function(data){
+    $scope.trips = data.trips;
+  },function(error){
+    Toast.show(error);
+  });
 
   $scope.doRefresh = function(){
-    TripListService.getList(true)
-    .then(function(data){
-      $scope.trips = data;
-    },function(error){
-      alert(error);
+    Trips.get({}, function(data){
+      $scope.trips = data.trips;
+      $scope.$broadcast('scroll.refreshComplete');
+    }, function(error){
+      Toast.show(error);
+      $scope.$broadcast('scroll.refreshComplete');
     });
-    $scope.$broadcast('scroll.refreshComplete');
   };
 
-  $scope.doRefresh();
-
   $scope.trip = {
-    info: {
+    data: {
       time_start: 61200,
       time_end: 61200
     }
@@ -279,15 +253,13 @@ angular.module('app.controllers', [])
   };
 
   $scope.create = function(){
-    TripService.create($scope.trip.info)
-    .then(function(data){
-      if(data.id){
-        $scope.closeModal();
-        $state.go('main.trip.info', {id: data.id});
-      }
-    },function(){
-      alert(error);
-    });
+    Trip.save($scope.trip.data, function(data){
+      $scope.closeModal();
+      Toast.show(lngTranslate('toast_trip_created'));
+      $state.go('main.trip.data', {id: data.id});
+    }, function(error){
+      Toast.show(error);
+    })
   };
 
 })
@@ -296,56 +268,75 @@ angular.module('app.controllers', [])
 /******** SINGLE TRIP CONTROLLER ********/
 /****************************************/
 
-.controller('tripCtrl', function($scope, $state, $stateParams, $ionicConfig, $cordovaDialogs, $cordovaToast, TripService) {
+.controller('tripCtrl', function($scope, $state, $stateParams, $cordovaDialogs, Trip, Toast) {
 
-  TripService.getInfo($stateParams.id).then(function(){
-    $scope.trip = TripService;
+  Trip.get({id: $stateParams.id},function(data){
+    $scope.trip = data;
   },function(error){
-    alert(error);
+    Toast.show(error);
   });
 
   $scope.update = function(){
-    $scope.trip.updateInfo($scope.trip.info);
+    Trip.update($scope.trip.data, function(){
+      Toast.show(lngTranslate('toast_trip_updated'));
+    },function(error){
+      Toast.show(error);
+    });
   };
 
-  $scope.remove = function(){
+  $scope.delete = function(){
     $cordovaDialogs.confirm(
       lngTranslate('dialog_remove_trip_message'),
       lngTranslate('dialog_remove_trip_title'),
       [lngTranslate('yes'),lngTranslate('no')])
     .then(function(buttonIndex) {
       if(buttonIndex == 1){
-        TripService.remove($scope.trip.info.id)
-        .then(function(){
-          try {
-            $cordovaToast.show(lngTranslate('toast_trip_deleted'), 'short', 'top');
-          } catch (error) {
-            console.log(lngTranslate('toast_trip_deleted'));
-          }
+        Trip.delete($scope.trip.id, function(){
+          Toast.show(lngTranslate('toast_trip_deleted'));
           $state.go('main.trips');
-          //$state.transitionTo('main.trips', {}, {reload: true});
         },function(error){
-          try {
-            $cordovaToast.show(error, 'short', 'top');
-          } catch (err) {
-            console.log(error);
-          }
+          Toast.show(error);
         });
       }
     });
   };
+
 })
 
 /***************************************/
 /******** CHECK LIST CONTROLLER ********/
 /***************************************/
 
-.controller('checksCtrl', function($scope, $ionicModal, CheckService) {
-  $scope.checks = CheckService.getList();
+.controller('checksCtrl', function($scope, $ionicModal, Checks, Check) {
+
+  $scope.checks = [];
+
+  Checks.get({},function(data){
+    $scope.checks = data.checks;
+  },function(error){
+    Toast.show(error);
+  });
+
   $scope.doRefresh = function(){
-    $scope.checks = CheckService.getList();
-    $scope.$broadcast('scroll.refreshComplete');
+    Checks.get({}, function(data){
+      $scope.checks = data.checks;
+      $scope.$broadcast('scroll.refreshComplete');
+    }, function(error){
+      Toast.show(error);
+      $scope.$broadcast('scroll.refreshComplete');
+    });
   };
+
+  // $scope.complete = function(){
+  //   for(var i = 0; i < $scope.checks.length; i++){
+  //     Trip.get({id: $scope.checks[i].trip}, function(data){
+
+  //     },function(){
+  //       Toast.show(error);
+  //     });
+  //   }
+  // };
+
 
   $ionicModal.fromTemplateUrl('templates/checks/add.html', {
     scope: $scope,
@@ -365,7 +356,11 @@ angular.module('app.controllers', [])
     $scope.modal.remove();
   });
 
-  $scope.addCheck = function(){
+  $scope.update = function(){
+
+  };
+
+  $scope.create = function(){
 
   };
 
@@ -375,8 +370,39 @@ angular.module('app.controllers', [])
 /******** SINGLE CHECK CONTROLLER ********/
 /*****************************************/
 
-.controller('checkCtrl', function($scope, $stateParams, $ionicModal, CheckService) {
-  $scope.check = CheckService.getOne($stateParams.id);
+.controller('checkCtrl', function($scope, $stateParams, $ionicModal, Check) {
+
+  Check.get({id: $stateParams.id}, function(data){
+    $scope.check = data;
+  },function(error){
+    Toast.show(error);
+  });
+
+  $scope.update = function(){
+    Check.update($scope.check.data, function(){
+      Toast.show(lngTranslate('toast_check_updated'));
+    },function(error){
+      Toast.show(error);
+    });
+  };
+
+  $scope.delete = function(){
+    $cordovaDialogs.confirm(
+      lngTranslate('dialog_remove_trip_message'),
+      lngTranslate('dialog_remove_trip_title'),
+      [lngTranslate('yes'),lngTranslate('no')])
+    .then(function(buttonIndex) {
+      if(buttonIndex == 1){
+        Check.delete($scope.check.id, function(){
+          Toast.show(lngTranslate('toast_check_deleted'));
+          $state.go('main.checks');
+        },function(error){
+          Toast.show(error);
+        });
+      }
+    });
+  };
+
 
   $ionicModal.fromTemplateUrl('templates/checks/add.html', {
     scope: $scope,
@@ -395,6 +421,14 @@ angular.module('app.controllers', [])
   $scope.$on('$destroy', function() {
     $scope.modal.remove();
   });
+
+  $scope.update = function(){
+
+  };
+
+  $scope.create = function(){
+
+  };
 
 })
 

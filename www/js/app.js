@@ -1,11 +1,11 @@
 var ApiDomain = 'http://tax-free-dev.jaya-test.com/app_dev.php';
 
-angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
+angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
 
-.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, $cordovaStatusbar) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, $cordovaStatusbar, AuthService, Toast) {
 
-  $rootScope.ApiDomain = ApiDomain;
+  $rootScope.Domain = 'http://tax-free-dev.jaya-test.com/';
 
   $ionicPlatform.ready(function() {
 
@@ -53,6 +53,7 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
   };
 
   $rootScope.getById = function(items,id){
+    if(!Array.isArray(items)) return id;
     for(var i = 0; i < items.length; i++){
       if(items[i].id == id){
         return items[i];
@@ -60,6 +61,27 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
       }
     }
   };
+
+  $rootScope.$on('http-error', function(event, data) {
+    if(data.status == 401){
+      AuthService.refresh();
+    }else{
+      Toast.show(data);
+    }
+  });
+
+  $rootScope.$on('auth-login-success', function(event, data) {
+    $state.go('main.user.profile');
+  });
+
+  $rootScope.$on('auth-login-error', function(event, data) {
+    Toast.show(data);
+    $state.go('login');
+  });
+
+  $rootScope.$on('auth-logout', function(event, data) {
+    $state.go('login');
+  });
 
 
   if(!window.SpinnerPlugin){
@@ -88,23 +110,28 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
 
 })
 
-.config(function($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider) {
+.config(function($httpProvider, $resourceProvider) {
 
   if(window.localStorage['token']){
     $httpProvider.defaults.headers.common['Authorization'] = window.localStorage['token'];
   }
   $resourceProvider.defaults.stripTrailingSlashes = false;
 
+  //http error processing
+  $httpProvider.interceptors.push(function($rootScope, $q) {
+    return {
+      responseError: function(error) {
+        var q = $q.defer();
+        $rootScope.$broadcast('http-error', error);
+        q.reject(error);
+        return q.promise;
+      }
+    };
+  });
+
+
 })
 
-.filter('translate', function() {
-  return lngTranslate;
-})
-.filter('isPast', function() {
-  return function(time) {
-    return Date.now() > parseInt(time);
-  }
-})
 ;
 
 var lngTranslate = function(text){

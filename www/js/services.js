@@ -1,54 +1,18 @@
 angular.module('app.services', ['ngResource'])
 
-.service('Catalog', function($rootScope, $q, $http){
-  var self = {
-    loadCountries: function() {
-      window.SpinnerPlugin.activityStart(lngTranslate('loading'));
-      $http.get(ApiDomain + '/api/catalog/country')
-      .success(function(data, status, headers, config) {
-        window.SpinnerPlugin.activityStop();
-        if(status == 200){
-          window.localStorage['countries'] = angular.toJson(data);
-          $rootScope.countries = data;
-        }else{
-          console.error({status: status, data: data});
-        }
-      })
-      .error(function (data, status, headers, config) {
-        window.SpinnerPlugin.activityStop();
-        if(status == 401){
-          $rootScope.$broadcast('auth-login-required', error);
-        }else{
-          console.error({status: status, data: data});
-        }
-      });
-    },
-    loadTransports: function(){
-      window.SpinnerPlugin.activityStart(lngTranslate('loading'));
-      $http.get(ApiDomain + '/api/catalog/transport')
-      .success(function(data, status, headers, config) {
-        window.SpinnerPlugin.activityStop();
-        if(status == 200){
-          window.localStorage['transports'] = angular.toJson(data);
-          $rootScope.transports = data;
-        }else{
-          console.error({status: status, data: data});
-        }
-      })
-      .error(function (data, status, headers, config) {
-        window.SpinnerPlugin.activityStop();
-        if(status == 401){
-          $rootScope.$broadcast('auth-login-required', error);
-        }else{
-          console.error({status: status, data: data});
-        }
-      });
-    }
-  };
-  return self;
+/****************************************/
+/************ CATALOG SERVICE ***********/
+/****************************************/
+
+.factory('Catalog', function($resource) {
+  return $resource(ApiDomain + '/api/catalog/:name', {name: '@name'});
 })
 
-.service('AuthService', function($rootScope, $q, $state, $http) {
+/****************************************/
+/******* AUTHENTIFICATION SERVICE *******/
+/****************************************/
+
+.service('AuthService', function($rootScope, $q, $http) {
   var self  = {
     login: function(user) {
 
@@ -73,14 +37,17 @@ angular.module('app.services', ['ngResource'])
           window.localStorage['token'] = 'Bearer '+ data.access_token;
           window.localStorage['refresh_token'] = data.refresh_token;
           $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
-          $rootScope.$broadcast('auth-login');
+          $rootScope.$broadcast('auth-login-success');
+          return false;
         }else{
-          $rootScope.$broadcast('auth-login-failed', data);
+          $rootScope.$broadcast('auth-login-error', data);
+          return false;
         }
       })
       .error(function (data, status, headers, config) {
         window.SpinnerPlugin.activityStop();
-        $rootScope.$broadcast('auth-login-failed', data);
+        $rootScope.$broadcast('auth-login-error', data);
+        return false;
       });
 
     },
@@ -89,7 +56,7 @@ angular.module('app.services', ['ngResource'])
       window.localStorage.removeItem('token');
       delete $http.defaults.headers.common['Authorization'];
       $rootScope.$broadcast('auth-logout');
-      console.log('AuthenticationService logout!');
+      return false;
     },
 
     refresh: function(){
@@ -115,25 +82,34 @@ angular.module('app.services', ['ngResource'])
             window.localStorage['token'] = 'Bearer '+ data.access_token;
             window.localStorage['refresh_token'] = data.refresh_token;
             $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
-            $rootScope.$broadcast('auth-login');
+            $rootScope.$broadcast('auth-login-success');
+            return false;
           }else{
-            $rootScope.$broadcast('auth-login-failed', data.error_description);
+            $rootScope.$broadcast('auth-login-error', data);
+            return false;
           }
         })
         .error(function (data, status, headers, config) {
           window.SpinnerPlugin.activityStop();
-          $rootScope.$broadcast('auth-login-failed', status);
+          $rootScope.$broadcast('auth-login-error', status);
+          return false;
         });
       }else{
-        $rootScope.$broadcast('auth-login-failed', 'Invalid refresh token');
+        $rootScope.$broadcast('auth-login-error', {error:'empty_refresh_token'});
+        return false;
       }
 
-      $rootScope.$broadcast('auth-login');
+      $rootScope.$broadcast('auth-login-success');
+      return false;
     }
 
   };
   return self;
 })
+
+/****************************************/
+/********* REGISTRATION SERVICE *********/
+/****************************************/
 
 .service('RegService', function($rootScope, $q, $state, $http) {
   var self = {
@@ -255,6 +231,10 @@ angular.module('app.services', ['ngResource'])
   return self;
 })
 
+/****************************************/
+/************* USER SERVICE *************/
+/****************************************/
+
 .factory('User', function ($resource) {
   return $resource(ApiDomain + '/api/user/me', {}, {
     update: {
@@ -263,187 +243,42 @@ angular.module('app.services', ['ngResource'])
   });
 })
 
-.service('UserService', function($rootScope, $q, $cordovaToast, User){
-  var self = {
-    profile: {},
-    getProfile: function(){
-      User.get({}, function(data){
-        self.profile = new User(data);
-      }, function(error){
-        $rootScope.$broadcast('auth-login-required', error);
-      });
-    },
-    updateProfile: function(profile){
-      var q = $q.defer();
-      profile.$update().then(function(data){
-        q.resolve(data);
-      },function(error){
-        if(error.status == 401){
-          $rootScope.$broadcast('auth-login-required', error);
-        }else{
-          q.reject(angular.toJson({status: status, data: data}));
-        }
-      });
-      return q.promise;
-    }
-  };
-  self.getProfile();
-  return self;
+/****************************************/
+/************* TRIP SERVICE *************/
+/****************************************/
+
+.factory('Trips', function($resource) {
+  return $resource(ApiDomain + '/api/trip/list');
 })
 
 .factory('Trip', function($resource) {
-  return $resource(ApiDomain + '/api/trip/:id', {id: '@id'},{
+  return $resource(ApiDomain + '/api/trip/:id', {id: '@id'}, {
     update: {
       method: 'PUT'
     }
   });
 })
 
-.service('TripListService', function($rootScope, $q, Trip) {
-  var self = {
-    getList: function(refresh){
-      if(!refresh){
-        window.SpinnerPlugin.activityStart(lngTranslate('loading'));
-      }
-      var q = $q.defer();
-      Trip.get({id: 'list'}, function(data){
-        window.SpinnerPlugin.activityStop();
-        q.resolve(data.trips);
-      }, function(error){
-        window.SpinnerPlugin.activityStop();
-        if(error.status == 401){
-          $rootScope.$broadcast('auth-login-required', error);
-        }else{
-          q.reject(angular.toJson({status: error.status, data: error.data}));
-          console.log(error.data);
-        }
-      });
-      return q.promise;
-    }
-  };
-  return self;
-})
 
-.service('TripService', function($rootScope, $q, $cordovaToast, Trip) {
-  var self = {
-    info: {},
-    checks: {},
-    getInfo: function(id){
-      var q = $q.defer();
-      window.SpinnerPlugin.activityStart(lngTranslate('loading'));
-      Trip.get({id: id}, function(data){
-        window.SpinnerPlugin.activityStop();
-        self.info = new Trip(data);
-        q.resolve();
-      }, function(error){
-        window.SpinnerPlugin.activityStop();
-        if(error.status == 401){
-          $rootScope.$broadcast('auth-login-required', error);
-        }else{
-          q.reject(angular.toJson({status: error.status, data: error.data}));
-          console.log(error.data);
-        }
-      });
-      return q.promise;
-    },
-    updateInfo: function(trip){
-      trip.$update({id: trip.id}).then(function(){
-        $cordovaToast.show(lngTranslate('toast_trip_updated'), 'short', 'top');
-      },function(error){
-        if(error.status == 401){
-          $rootScope.$broadcast('auth-login-required', error);
-        }else{
-          console.log(error.data);
-        }
-      });
-    },
-    create: function(data){
-      var q = $q.defer();
-      var trip = new Trip(data);
-      trip.$save({id: 'add'}).then(function(data){
-        q.resolve(data);
-        $cordovaToast.show(lngTranslate('toast_trip_created'), 'short', 'top');
-      },function(error){
-        if(error.status == 401){
-          $rootScope.$broadcast('auth-login-required', error);
-        }else{
-          q.reject(angular.toJson({status: error.status, data: error.data}));
-          $cordovaToast.show(error.data, 'short', 'top');
-        }
-      });
-      return q.promise;
-    },
-    remove: function(id){
-      var q = $q.defer();
-      console.log(id);
-      Trip.delete({id: id}, function(){
-        q.resolve();
-      },function(error){
-        q.reject(angular.toJson({status: error.status, data: error.data}));
-      });
-      return q.promise;
-    }
-  };
-  return self;
+/****************************************/
+/************* CHECK SERVICE ************/
+/****************************************/
+
+.factory('Checks', function($resource) {
+  return $resource(ApiDomain + '/api/check/list');
 })
 
 .factory('Check', function($resource) {
-  return $resource('http://localhost:5000/checks/:id/', {
-    id: '@id'
-  },{
+  return $resource(ApiDomain + '/api/check/:id', {id: '@id'},{
     update: {
       method: 'PUT'
     }
   });
 })
 
-.factory('CheckService', function($resource) {
-  var checks = [{
-    id: 0,
-    title: "Gucci",
-    time: '1453138173',
-    status: "approved",
-    images: [
-      {
-        url: 'http://mycode.in.ua/app/check.jpg'
-      },
-      {
-        url: 'http://mycode.in.ua/app/check.jpg'
-      },
-      {
-        url: 'http://mycode.in.ua/app/check.jpg'
-      }
-    ]
-  },{
-    id: 1,
-    title: "Nissan",
-    time: '1453138173',
-    status: "processed",
-    images: [
-      {
-        url: 'http://mycode.in.ua/app/check.jpg'
-      }
-    ]
-  },{
-    id: 2,
-    title: "Elitparfums",
-    time: '1453138173',
-    status: "refused",
-    images: []
-  }];
-
-  var self = {
-    getList: function(){
-      return checks;
-    },
-    getOne: function(id){
-      return checks[id];
-    }
-  };
-
-  return self;
-
-})
+/****************************************/
+/********** DECLARATION SERVICE *********/
+/****************************************/
 
 .factory('declarationService', function($resource) {
   var declarations = [{

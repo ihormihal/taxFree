@@ -1,5 +1,14 @@
 angular.module('app.directives', [])
 
+.filter('translate', function() {
+  return lngTranslate;
+})
+
+.filter('isPast', function() {
+  return function(time) {
+    return Date.now() > parseInt(time);
+  }
+})
 
 .directive('input', ['dateFilter', function(dateFilter) {
   return {
@@ -56,7 +65,8 @@ angular.module('app.directives', [])
       image: '='
     },
     templateUrl: 'templates/tpl/choose-image.html',
-    controller: function($scope, $timeout, $ionicActionSheet, $cordovaImagePicker, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
+    controller: function($rootScope, $scope, $timeout, $ionicActionSheet, $cordovaImagePicker, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
+      $scope.Domain = $rootScope.Domain;
       $scope.loading = false;
       $scope.selectPhoto = function() {
 
