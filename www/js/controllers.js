@@ -16,26 +16,31 @@ angular.module('app.controllers', [])
     console.log(error);
   }
 
+  $rootScope.transports = [];
+  $rootScope.countries = [];
 
-  if(!window.localStorage['countries']){
+  if(window.localStorage['countries']){
+    $rootScope.countries = angular.fromJson(window.localStorage['countries']);
+  }else{
     Catalog.query({name: 'country'}, function(data){
+      $rootScope.countries = data;
       window.localStorage['countries'] = angular.toJson(data);
     },function(error){
       console.log(error);
     });
-  }else{
-    $rootScope.countries = angular.fromJson(window.localStorage['countries']);
   }
 
-  if(!window.localStorage['transports']){
+  if(window.localStorage['transports']){
+    $rootScope.transports = angular.fromJson(window.localStorage['transports']);
+  }else{
     Catalog.query({name: 'transport'}, function(data){
+      $rootScope.transports = data;
       window.localStorage['transports'] = angular.toJson(data);
     },function(error){
       console.log(error);
     });
-  }else{
-    $rootScope.transports = angular.fromJson(window.localStorage['transports']);
   }
+
 
   $scope.logout = function(){
     AuthService.logout();
@@ -78,6 +83,15 @@ angular.module('app.controllers', [])
 /********************************/
 
 .controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, RegService) {
+
+  try {
+    if($cordovaStatusbar.isVisible()){
+      $cordovaStatusbar.hide();
+    }
+  } catch (error) {
+    console.log('hide statusBar');
+    console.log(error);
+  }
 
   //initialize every time when view is called
   $scope.data = RegService.data;
@@ -268,7 +282,7 @@ angular.module('app.controllers', [])
 /******** SINGLE TRIP CONTROLLER ********/
 /****************************************/
 
-.controller('tripCtrl', function($scope, $state, $stateParams, $cordovaDialogs, Trip, Toast) {
+.controller('tripCtrl', function($scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Trip, Toast) {
 
   Trip.get({id: $stateParams.id},function(data){
     $scope.trip = data;
@@ -277,8 +291,9 @@ angular.module('app.controllers', [])
   });
 
   $scope.update = function(){
-    Trip.update($scope.trip.data, function(){
+    Trip.update($scope.trip, function(){
       Toast.show(lngTranslate('toast_trip_updated'));
+      $scope.closeModal();
     },function(error){
       Toast.show(error);
     });
@@ -300,6 +315,24 @@ angular.module('app.controllers', [])
       }
     });
   };
+
+  $ionicModal.fromTemplateUrl('templates/trips/edit.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
 
 })
 
@@ -469,7 +502,29 @@ angular.module('app.controllers', [])
 /******** SETTINGS APP CONTROLLER ********/
 /*****************************************/
 
-.controller('settingsCtrl', function($rootScope, $scope, $ionicPopup, $cordovaDialogs, $timeout, $state) {
+.controller('settingsCtrl', function($rootScope, $scope, $state, $ionicPopup, $cordovaDialogs, Toast) {
+
+  try {
+    if(!$cordovaStatusbar.isVisible()){
+      $cordovaStatusbar.show();
+      $cordovaStatusbar.styleHex('#e42112');
+    }
+  } catch (error) {
+    console.log('show statusBar');
+    console.log(error);
+  }
+
+  $scope.settings = {
+    language: window.localStorage['lang']
+  };
+
+  $scope.language = window.localStorage['lang'];
+
+  $scope.save = function(){
+    window.localStorage['lang'] = $scope.settings.language;
+    window.location.reload(true);
+  };
+
   $scope.clearCache = function(){
 
     $cordovaDialogs.confirm(

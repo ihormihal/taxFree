@@ -1,4 +1,4 @@
-<ion-view view-title="Декларации">
+<ion-view view-title="{{'declarations'|translate}}">
 	<ion-content class="has-header">
 		<ion-refresher
 			pulling-text=""
@@ -11,8 +11,8 @@
 				ng-class="{'item-approved': (declaration.status == 'approved'), 'item-processed': (declaration.status == 'processed'), 'item-refused': (declaration.status == 'refused')}"
 				>
 				<h2>{{getById(countries,declaration.country).name}}</h2>
-				<p>Покупки: <span>{{declaration.summ | currency}}</span></p>
-				<p>Возврат: <span>{{declaration.to_pay | currency}}</span></p>
+				<p>{{'purchases'|translate}}: <span>{{declaration.summ | currency}}</span></p>
+				<p>{{'return'|translate}}: <span>{{declaration.to_pay | currency}}</span></p>
 				<p>
 					<i class="icon ion-calendar"></i> {{declaration.date*1000|date:"dd.MM.yyyy"}}
 					&nbsp;

@@ -1,27 +1,25 @@
 var ApiDomain = 'http://tax-free-dev.jaya-test.com/app_dev.php';
 
+var Credentials = {
+  client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
+  client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk'
+}
+
 angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
 
 .run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, $cordovaStatusbar, AuthService, Toast) {
 
-  $rootScope.Domain = 'http://tax-free-dev.jaya-test.com/';
-
   $ionicPlatform.ready(function() {
 
-    try {
-      $cordovaStatusbar.hide();
-    } catch (error) {
-      console.log('hide statusBar');
-      console.log(error);
-    }
+    $rootScope.Domain = 'http://tax-free-dev.jaya-test.com/';
 
     $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
       var offlineState = networkState;
       if(offlineState){
         $ionicPopup.alert({
-          title: "Нет интернета!",
-          content: "Ваше устройство не подключено к интернету"
+          title: lngTranslate('no_internet'),
+          content: lngTranslate('no_internet_message'),
         }).then(function() {
           ionic.Platform.exitApp();
         });
@@ -134,10 +132,14 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
 
 ;
 
+if(!window.localStorage['lang']){
+  window.localStorage['lang'] = 'ru';
+}
 var lngTranslate = function(text){
-  var lang = 'ru';
   if(window.localStorage['lang']) {
     lang = window.localStorage['lang'];
+  }else{
+    lang = 'ru';
   }
   if(text in translate[lang]) {
     return translate[lang][text];

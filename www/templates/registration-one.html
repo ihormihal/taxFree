@@ -4,28 +4,28 @@
         <div class="logo image">
             <img src="img/logo.png">
         </div>
-        <h1 class="text-center white">Регистрация</h1>
-        <p class="text-center white">Шаг 1</p>
-        <p class="text-center white">Уже зарегистрированы? <a ui-sref="login" class="white">Вход</a></p>
+        <h1 class="text-center white">{{'registration'|translate}}</</h1>
+        <p class="text-center white">{{'step'|translate}} 1</p>
+        <p class="text-center white">{{'already_registered'|translate}} <a ui-sref="login" class="white">{{'login'|translate}}</a></p>
 
         <div class="spacer" style="height:20px"></div>
         <form>
             <div class="list inputs-on-background">
                 <label class="item item-input">
-                    <input type="email" ng-model="data.email" placeholder="E-mail *">
+                    <input type="email" ng-model="data.email" placeholder="{{'email'|translate}} *">
                 </label>
                 <label class="item item-input">
-                    <input type="tel" ng-model="data.phone" placeholder="Телефон *">
+                    <input type="tel" ng-model="data.phone" placeholder="{{'phone'|translate}} *">
                 </label>
                 <div class="item-transparent-white">
-                    <span class="input-label">Выберите способ подтверджения *</span>
+                    <span class="input-label">{{'select_confirmation_method'|translate}} *</span>
                     <div class="row row-no-padding">
                         <div class="col">
                             <span class="item-clear item-checkbox">
                                 <label class="checkbox">
                                     <input type="radio" ng-model="data.confirmation" value="email" checked>
                                 </label>
-                                E-mail
+                                {{'email'|translate}}
                             </span>
                         </div>
                         <div class="col">
@@ -33,13 +33,13 @@
                                 <label class="checkbox">
                                     <input type="radio" ng-model="data.confirmation" value="sms">
                                 </label>
-                                SMS
+                                {{'sms'|translate}}
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
-            <button class="button button-block button-outline button-white up" ng-click="stepOne()">Подтвердить</button>
+            <button class="button button-block button-outline button-white up" ng-click="stepOne()">{{'sudmit'|translate}}</button>
         </form>
     </ion-content>
 </ion-view>

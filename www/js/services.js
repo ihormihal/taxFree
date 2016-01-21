@@ -13,20 +13,13 @@ angular.module('app.services', ['ngResource'])
 /****************************************/
 
 .service('AuthService', function($rootScope, $q, $http) {
-  var self  = {
-    login: function(user) {
-
-      window.SpinnerPlugin.activityStart("Авторизация...");
+  var self = {
+    query: function(credentials){
+      window.SpinnerPlugin.activityStart(lngTranslate('authorization')+'...');
       $http({
         method: 'POST',
         url: ApiDomain + '/oauth/v2/token',
-        data: $rootScope.serialize({
-          client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
-          client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk',
-          grant_type: 'password',
-          username: user.username,
-          password: user.password
-        }),
+        data: $rootScope.serialize(credentials),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
@@ -49,57 +42,30 @@ angular.module('app.services', ['ngResource'])
         $rootScope.$broadcast('auth-login-error', data);
         return false;
       });
+    },
 
+    login: function(user) {
+      Credentials.grant_type = 'password';
+      Credentials.username = user.username;
+      Credentials.password = user.password;
+      self.query(Credentials);
+    },
+
+    refresh: function(){
+      if(window.localStorage['refresh_token']){
+        Credentials.grant_type = 'refresh_token';
+        Credentials.refresh_token = window.localStorage['refresh_token'];
+        self.query(Credentials);
+      }else{
+        $rootScope.$broadcast('auth-login-error', {error:'empty_refresh_token'});
+        return false;
+      }
     },
 
     logout: function() {
       window.localStorage.removeItem('token');
       delete $http.defaults.headers.common['Authorization'];
       $rootScope.$broadcast('auth-logout');
-      return false;
-    },
-
-    refresh: function(){
-
-      if(window.localStorage['refresh_token']){
-        window.SpinnerPlugin.activityStart("Авторизация...");
-        $http({
-          method: 'POST',
-          url: ApiDomain + '/oauth/v2/token',
-          data: $rootScope.serialize({
-            client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
-            client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk',
-            grant_type: 'refresh_token',
-            refresh_token: window.localStorage['refresh_token']
-          }),
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-          },
-        })
-        .success(function(data, status, headers, config) {
-          window.SpinnerPlugin.activityStop();
-          if(data.access_token && status === 200){
-            window.localStorage['token'] = 'Bearer '+ data.access_token;
-            window.localStorage['refresh_token'] = data.refresh_token;
-            $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
-            $rootScope.$broadcast('auth-login-success');
-            return false;
-          }else{
-            $rootScope.$broadcast('auth-login-error', data);
-            return false;
-          }
-        })
-        .error(function (data, status, headers, config) {
-          window.SpinnerPlugin.activityStop();
-          $rootScope.$broadcast('auth-login-error', status);
-          return false;
-        });
-      }else{
-        $rootScope.$broadcast('auth-login-error', {error:'empty_refresh_token'});
-        return false;
-      }
-
-      $rootScope.$broadcast('auth-login-success');
       return false;
     }
 
@@ -258,7 +224,6 @@ angular.module('app.services', ['ngResource'])
     }
   });
 })
-
 
 /****************************************/
 /************* CHECK SERVICE ************/

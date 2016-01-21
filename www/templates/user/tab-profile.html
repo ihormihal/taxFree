@@ -4,13 +4,13 @@
     </ion-nav-buttons>
     <ion-content padding="false" scroll="true" class="has-header">
 
-        <div class="list">
+        <div class="list custom-list">
 
             <div class="item item-divider">{{'name'|translate}}</div>
             <div class="item">{{user.profile.before_fs | translate}} {{user.profile.fsname}}</div>
 
             <div class="item item-divider">{{'birthday'|translate}}</div>
-            <div class="item">{{user.profile.passp_birthday}}</div>
+            <div class="item">{{user.profile.passp_birthday*1000|date:'dd/MM/yyyy'}}</div>
 
             <div class="item item-divider">{{'sex'|translate}}</div>
             <div class="item">{{user.profile.passp_sex|translate}}</div>
@@ -21,14 +21,14 @@
             <div class="item item-divider">{{'country'|translate}}</div>
             <div class="item">{{getById(countries,user.profile.country).name}}</div>
 
-            <div class="item item-divider">{{'passp_number'|translate}}</div>
+            <div class="item item-divider">{{'passport_number'|translate}}</div>
             <div class="item">{{user.profile.passp_number}}</div>
 
-            <div class="item item-divider">{{'passp_country'|translate}}</div>
+            <div class="item item-divider">{{'passport_country'|translate}}</div>
             <div class="item">{{getById(countries,user.profile.passp_country).name}}</div>
 
-            <div class="item item-divider">{{'passp_date'|translate}}</div>
-            <div class="item">{{user.profile.passp_date}}</div>
+            <div class="item item-divider">{{'passport_date'|translate}}</div>
+            <div class="item">{{user.profile.passp_date*1000|date:'dd/MM/yyyy'}}</div>
 
             <div class="item item-divider">{{'email'|translate}}</div>
             <div class="item">{{user.profile.email}}</div>
@@ -36,10 +36,11 @@
             <div class="item item-divider">{{'phone'|translate}}</div>
             <div class="item">{{getById(countries,user.profile.phone_country).phone_code}} {{user.profile.phone}}</div>
 
-            <div class="item item-divider">{{'photos_passport'|translate}}</div>
+            <div class="item item-divider">{{'passport_photo'|translate}}</div>
             <div class="item">
                 <img class="full-image" ng-src="{{Domain}}{{user.profile.passport}}" alt="" image-viewer>
             </div>
+
         </div>
 
     </ion-content>

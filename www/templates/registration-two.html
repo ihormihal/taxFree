@@ -4,9 +4,9 @@
         <div class="logo image">
             <img src="img/logo.png">
         </div>
-        <h1 class="text-center white" ng-show="data.confirmation == 'sms'">Enter your SMS code</h1>
-        <h1 class="text-center white" ng-show="data.confirmation == 'email'">Enter code from recived email</h1>
-        <p class="text-center white">You need to confirm your code during 1 hour</p>
+        <h1 class="text-center white" ng-show="data.confirmation == 'sms'">{{'enter_your_sms_code'|translate}}</h1>
+        <h1 class="text-center white" ng-show="data.confirmation == 'email'">{{'enter_code_from_recived_email'|translate}}</h1>
+        <p class="text-center white">{{'you_need_to_confirm_your_code_during_1_hour'|translate}}</p>
 
         <div class="spacer" style="height:20px"></div>
         <form>
@@ -17,10 +17,10 @@
             </div>
             <div class="spacer" style="height:20px"></div>
             <p class="text-center">
-                <a ui-sref="regOne" class="white">Back to sign up form</a>
+                <a ui-sref="regOne" class="white">{{'back_to_signup_form'|translate}}</a>
             </p>
             <div class="spacer" style="height:20px"></div>
-            <button class="button button-block button-outline button-white up" ng-click="stepTwo()">Подтвердить</button>
+            <button class="button button-block button-outline button-white up" ng-click="stepTwo()">{{'done'|translate}}</button>
         </form>
     </ion-content>
 </ion-view>

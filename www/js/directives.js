@@ -10,12 +10,12 @@ angular.module('app.directives', [])
   }
 })
 
-.directive('input', ['dateFilter', function(dateFilter) {
+.directive('input', function(dateFilter) {
   return {
     restrict: 'E',
     require: '?ngModel',
     link: function($scope, $element, $attrs, ngModel) {
-      if (typeof $attrs.type !== 'undefined' && $attrs.type === 'date' && ngModel) {
+      if (typeof $attrs.type !== 'undefined' && ($attrs.type === 'date'|| $attrs.type === 'time') && ngModel) {
         ngModel.$formatters.push(function(value) {
           return new Date(value * 1000);
         });
@@ -25,7 +25,7 @@ angular.module('app.directives', [])
       }
     }
   }
-}])
+})
 
 .directive('integerModel', [function() {
   return {

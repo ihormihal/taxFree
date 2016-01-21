@@ -4,67 +4,66 @@
         <div class="logo image">
             <img src="img/logo.png">
         </div>
-        <h1 class="text-center">Регистрация</h1>
-        <p class="text-center">Шаг 2</p>
-        <p class="text-center positive">Личные данные</p>
+        <h1 class="text-center">{{'registration'|translate}}</h1>
+        <p class="text-center">{{'step'|translate}} 2</p>
+        <p class="text-center positive">{{'personal_data'|translate}}</p>
 
         <div class="spacer" style="height:20px"></div>
         <form>
             <div class="list">
                 <label class="item item-input item-stacked-label">
-                    <span class="input-label">Как к Вам обращаться? <sup>*</sup></span>
+                    <span class="input-label">{{'how_call_you'|translate}} <sup>*</sup></span>
                     <div class="item-select">
-                        <select ng-model="user.honorific">
-                            <option>Mr.</option>
-                            <option>Mrs.</option>
-                            <option>Ms.</option>
+                        <select ng-model="user.before_fs">
+                            <option>{{'mr'|translate}}</option>
+                            <option>{{'mrs'|translate}}</option>
+                            <option>{{'ms'|translate}}</option>
                         </select>
                     </div>
                 </label>
                 <label class="item item-input">
-                    <input type="text" ng-model="user.fullname" placeholder="Ф.И.О." required>
+                    <input type="text" ng-model="user.fsname" placeholder="{{'name'|translate}}" required>
                 </label>
                 <label class="item item-input item-stacked-label">
-                    <div class="input-label">Страна проживания <sup>*</sup></div>
+                    <div class="input-label">{{'country_of_residence'|translate}} <sup>*</sup></div>
                     <div class="item-select">
-                        <select ng-model="user.country">
-                            <option value="ua">Украина</option>
-                            <option value="ru">Россия</option>
+                        <select integer-model ng-model="user.country">
+                          <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
                         </select>
                     </div>
                 </label>
-                <label class="item item-input item-stacked-label">
-                    <span class="input-label">Домашний адрес <sup>*</sup></span>
+                <!-- <label class="item item-input item-stacked-label">
+                    <span class="input-label">{{'home_address'|translate}} <sup>*</sup></span>
                     <input type="text" ng-model="user.address" placeholder="Город, улица, дом, квартира" required>
-                </label>
+                </label> -->
                 <div class="item">
-                    <span class="input-label">Фото загранпаспорта <sup>*</sup></span>
-                    <choose-image image="user.photo"></choose-image>
+                    <span class="input-label">{{'passport_photo'|translate}} <sup>*</sup></span>
+                    <choose-image image="user.photo" data-upload="/api/user/register/upload"></choose-image>
                 </div>
                 <label class="item item-input item-stacked-label">
-                    <span class="input-label">Пароль *</span>
-                    <input type="password" ng-model="user.password" placeholder="Минимально 8 символов" required>
+                    <span class="input-label">{{'password'|translate}} *</span>
+                    <input type="password" ng-model="user.password" placeholder="{{'minimum_8_characters'|translate}}" required>
                 </label>
                 <label class="item item-input item-stacked-label">
-                    <span class="input-label">Подтверждение пароля *
+                    <span class="input-label">{{'password_confirmation'|translate}} *
                         <span
                         ng-show="password_confirm !== undefined && password_confirm !== user.password"
                         class="error">
-                            Пароли не совпадают
+                            {{'password_not_mutch'|translate}}
                         </span>
                     </span>
-                    <input type="password" ng-model="password_confirm" placeholder="Введите пароль снова" required>
+                    <input type="password" ng-model="password_confirm" placeholder="{{'minimum_8_characters'|translate}}" required>
                 </label>
                 <div class="item item-checkbox">
                     <label class="checkbox">
                         <input type="checkbox">
                     </label>
-                    Согласен с <a href="#">условиями использования</a>
+                    {{'agree_with'|translate}} <a href="#">{{'terms_of_use'|translate}}</a>
                 </div>
             </div>
             <div class="spacer" style="height:20px"></div>
             <div class="padding">
-                <button class="button button-stable button-block button-assertive up" ng-click="stepThree()">Отправить</button>
+                <button class="button button-stable button-block button-assertive up" ng-click="stepThree()">{{'submit'|translate}}</button>
             </div>
         </form>
     </ion-content>

@@ -1,4 +1,4 @@
-<ion-view title="Просмотр декларации">
+<ion-view title="{{'declaration_view'|translate}}">
     <ion-content padding="false" scroll="true" class="has-header">
         <ion-refresher
           pulling-text=""
@@ -6,7 +6,6 @@
         </ion-refresher>
 
         <div class="list">
-
 
           <div class="item item-thumbnail-right" href="#">
             <div class="item-image balanced" ng-show="declaration.status == 'approved'">
@@ -24,36 +23,36 @@
               <i class="icon ion-alert-circled"></i>
               <p><span class="assertive">{{declaration.status|translate}}</span></p>
             </div>
-            <p>Имя:</p>
+            <p>{{'name'|translate}}:</p>
             <h2>{{declaration.name}}</h2>
-            <p>Декларация по стране:</p>
+            <p>{{'declaration_country'|translate}}:</p>
             <h2>{{getById(countries,declaration.country).name}}</h2>
-            <p>Время вылета:</p>
+            <p>{{'time_departure'|translate}}:</p>
             <p><i class="icon ion-calendar"></i> {{declaration.date*1000|date:"dd.MM.yyyy"}} &nbsp; <i class="icon ion-clock"></i> {{declaration.time*1000|date:"HH:mm"}}</p>
           </div>
 
           <div ng-repeat="check in declaration.checks">
-            <div class="item item-divider">Чек ID {{check.id}}</div>
+            <div class="item item-divider">{{'check'|translate}} ID {{check.id}}</div>
             <div class="item" ng-repeat="item in check.items">
               {{item.title}} <span class="item-note">{{item.price | currency}}</span>
             </div>
           </div>
 
-          <div class="item item-divider">Итог</div>
+          <div class="item item-divider">{{'total'|translate}}</div>
           <div class="item">
-            Сумма <span class="item-note item-note-large assertive">{{declaration.summ | currency}}</span>
+            {{'sum'|translate}} <span class="item-note item-note-large assertive">{{declaration.summ | currency}}</span>
           </div>
           <div class="item">
-            Сумма НДС <span class="item-note item-note-large assertive">{{declaration.summ_nds | currency}}</span>
+            {{'sum_vat'|translate}} <span class="item-note item-note-large assertive">{{declaration.summ_nds | currency}}</span>
           </div>
           <div class="item">
-            К выплате <span class="item-note item-note-large assertive">{{declaration.to_pay | currency}}</span>
+            {{'to_payoff'|translate}} <span class="item-note item-note-large assertive">{{declaration.to_pay | currency}}</span>
           </div>
 
         </div>
 
         <div class="padding">
-          <a href="#" class="button button-block button-assertive icon-left ion-ios-download-outline">Сохранить в PDF</a>
+          <a href="#" class="button button-block button-assertive icon-left ion-ios-download-outline">{{'save_to_pdf'|translate}}</a>
         </div>
 
     </ion-content>
