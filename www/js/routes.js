@@ -130,6 +130,7 @@ angular.module('app.routes', [])
   .state('main.trip', {
     url: '/trips/:id',
     abstract: true,
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/trips/item.html',
@@ -143,8 +144,7 @@ angular.module('app.routes', [])
     url: '/data',
     views: {
       'data': {
-        templateUrl: 'templates/trips/tab-data.html',
-        controller: 'tripCtrl'
+        templateUrl: 'templates/trips/tab-data.html'
       }
     }
   })
@@ -154,8 +154,7 @@ angular.module('app.routes', [])
     url: '/checks',
     views: {
       'checks': {
-        templateUrl: 'templates/trips/tab-checks.html',
-        controller: 'tripCtrl'
+        templateUrl: 'templates/trips/tab-checks.html'
       }
     }
   })
@@ -165,8 +164,7 @@ angular.module('app.routes', [])
     url: '/declarations',
     views: {
       'declarations': {
-        templateUrl: 'templates/trips/tab-declarations.html',
-        controller: 'tripCtrl'
+        templateUrl: 'templates/trips/tab-declarations.html'
       }
     }
   })

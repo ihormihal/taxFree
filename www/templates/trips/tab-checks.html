@@ -1,20 +1,24 @@
-<ion-view>
-  <ion-nav-title>{{getById(countries,trip.info.country_enter).name}} - {{getById(countries,trip.info.country_leaving).name}}</ion-nav-title>
+<ion-view view-title="{{'checks'|translate}}">
+
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-android-add" ng-click="addCheck()"></button>
+  </ion-nav-buttons>
   <ion-content class="has-header">
-    <ion-refresher pulling-text="" on-refresh="doRefresh()">
+    <ion-refresher
+      pulling-text=""
+      on-refresh="doRefresh()">
     </ion-refresher>
     <ion-list>
-      <ion-item ng-repeat="check in checks" ui-sref="main.check({id: check.id})">
-        <h2>{{check.title}}</h2>
-        <p>
-          <i class="icon ion-calendar"></i> {{check.time|date:"dd.MM.yyyy"}} &nbsp;
-          <i class="icon ion-clock"></i> {{check.time|date:"HH:mm"}}
-        </p>
+      <ion-item ng-repeat="check in trip.checks" ui-sref="main.check({id: check})">
+        <h2>{{'check'|translate}} ID {{check}}</h2>
+        <p><i class="icon ion-android-map"></i> {{getById(countries,trip.country_enter).name}} - {{getById(countries,trip.country_leaving).name}}</p>
         <div class="item-icon-right">
           <i class="icon ion-android-done-all" ng-show="check.status == 'approved'"></i>
           <i class="icon ion-android-time" ng-show="check.status == 'processed'"></i>
+          <i class="icon ion-alert-circled" ng-show="check.status == 'refused'"></i>
         </div>
       </ion-item>
     </ion-list>
   </ion-content>
+
 </ion-view>

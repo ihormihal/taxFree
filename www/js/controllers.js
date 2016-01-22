@@ -290,6 +290,7 @@ angular.module('app.controllers', [])
     Toast.show(error);
   });
 
+
   $scope.update = function(){
     Trip.update($scope.trip, function(){
       Toast.show(lngTranslate('toast_trip_updated'));
@@ -320,18 +321,32 @@ angular.module('app.controllers', [])
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
-    $scope.modal = modal;
+    $scope.modalTrip = modal;
   });
 
-  $scope.openModal = function() {
-    $scope.modal.show();
+  $ionicModal.fromTemplateUrl('templates/checks/add.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modalCheck = modal;
+  });
+
+  $scope.editTrip = function(){
+    $scope.modalTrip.show();
   };
+
+  $scope.addCheck = function(){
+   $scope.modalCheck.show();
+  };
+
   $scope.closeModal = function() {
-    $scope.modal.hide();
+    $scope.modalTrip.hide();
+    $scope.modalCheck.hide();
   };
 
   $scope.$on('$destroy', function() {
-    $scope.modal.remove();
+    $scope.modalTrip.remove();
+    $scope.modalCheck.remove();
   });
 
 })
@@ -405,7 +420,7 @@ angular.module('app.controllers', [])
 /******** SINGLE CHECK CONTROLLER ********/
 /*****************************************/
 
-.controller('checkCtrl', function($rootScope, $scope, $stateParams, $ionicModal, Check, Trip) {
+.controller('checkCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Trip) {
 
   Check.get({id: $stateParams.id}, function(data){
     $scope.check = data;
@@ -437,8 +452,8 @@ angular.module('app.controllers', [])
 
   $scope.delete = function(){
     $cordovaDialogs.confirm(
-      lngTranslate('dialog_remove_trip_message'),
-      lngTranslate('dialog_remove_trip_title'),
+      lngTranslate('dialog_remove_check_message'),
+      lngTranslate('dialog_remove_check_title'),
       [lngTranslate('yes'),lngTranslate('no')])
     .then(function(buttonIndex) {
       if(buttonIndex == 1){
