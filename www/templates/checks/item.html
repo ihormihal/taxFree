@@ -1,19 +1,22 @@
 <ion-view>
-  <ion-nav-title>{{check.title}}</ion-nav-title>
+  <ion-nav-title>{{'check'|translate}} ID {{check.id}}</ion-nav-title>
   <ion-nav-buttons side="right">
     <button class="button button-icon button-clear ion-android-add" ng-click="openModal()"></button>
   </ion-nav-buttons>
   <ion-content padding="true" scroll="true" class="has-header">
-    <h1>{{check.id}}</h1>
+    <h1>{{'check'|translate}} ID {{check.id}}</h1>
+    <p><i class="icon ion-android-map"></i> {{check.country_enter}} - {{check.country_leaving}}</p>
     <div class="card card-image" ng-repeat="file in check.files">
       <div class="item item-image">
+        <div ng-click="deletePhoto($index)" class="text-right padding"><i class="icon ion-close"></i></div>
+        <ion-spinner icon="spiral" class="spinner-positive" ng-show="loading"></ion-spinner>
         <img ng-src="{{file}}" alt="">
       </div>
     </div>
     <form>
       <div class="list">
         <div>
-          <choose-image image="profile.photo"></choose-image>
+          <choose-image image="" url="/api/check/upload"></choose-image>
         </div>
         <div>
           <button class="button button-stable button-block button-assertive up" ng-click="closeModal()">{{'done'|translate}}</button>

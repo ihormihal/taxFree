@@ -50,10 +50,15 @@ angular.module('app.directives', [])
 .directive('imageViewer', [function() {
   return {
     restrict: 'A',
+    scope: true,
     link: function($scope, $element, $attrs) {
+      $scope.loading = true;
       $element[0].onclick = function () {
         PhotoViewer.show($attrs.src, $attrs.alt);
       }
+      $element.bind('load', function() {
+        $scope.loading = false;
+      });
     }
   }
 }])
@@ -62,7 +67,8 @@ angular.module('app.directives', [])
   return {
     restrict: 'E',
     scope: {
-      image: '='
+      image: '=',
+      url: '@'
     },
     templateUrl: 'templates/tpl/choose-image.html',
     controller: function($rootScope, $scope, $timeout, $ionicActionSheet, $cordovaImagePicker, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
@@ -153,7 +159,7 @@ angular.module('app.directives', [])
           }
         };
         $cordovaFileTransfer.upload(
-          encodeURI("http://tax-free-dev.jaya-test.com/app_dev.php/api/user/upload"),
+          encodeURI(ApiDomain + $scope.url),
           file,
           options)
         .then(function(result) {

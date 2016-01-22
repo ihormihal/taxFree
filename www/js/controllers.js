@@ -340,12 +340,13 @@ angular.module('app.controllers', [])
 /******** CHECK LIST CONTROLLER ********/
 /***************************************/
 
-.controller('checksCtrl', function($scope, $ionicModal, Checks, Check) {
+.controller('checksCtrl', function($rootScope, $scope, $ionicModal, Checks, Check, Trip, Toast) {
 
   $scope.checks = [];
 
   Checks.get({},function(data){
     $scope.checks = data.checks;
+    $scope.complete($scope.checks);
   },function(error){
     Toast.show(error);
   });
@@ -353,6 +354,7 @@ angular.module('app.controllers', [])
   $scope.doRefresh = function(){
     Checks.get({}, function(data){
       $scope.checks = data.checks;
+      $scope.complete($scope.checks);
       $scope.$broadcast('scroll.refreshComplete');
     }, function(error){
       Toast.show(error);
@@ -360,16 +362,16 @@ angular.module('app.controllers', [])
     });
   };
 
-  // $scope.complete = function(){
-  //   for(var i = 0; i < $scope.checks.length; i++){
-  //     Trip.get({id: $scope.checks[i].trip}, function(data){
+  $scope.complete = function(checks){
+    angular.forEach(checks, function(check, index){
+        Trip.get({id: check.trip}, function(data){
+          $scope.checks[index].country_enter = $rootScope.getById($rootScope.countries,data.country_enter).name;
+          $scope.checks[index].country_leaving = $rootScope.getById($rootScope.countries,data.country_leaving).name;
+        },function(){
 
-  //     },function(){
-  //       Toast.show(error);
-  //     });
-  //   }
-  // };
-
+        });
+    });
+  };
 
   $ionicModal.fromTemplateUrl('templates/checks/add.html', {
     scope: $scope,
@@ -403,13 +405,27 @@ angular.module('app.controllers', [])
 /******** SINGLE CHECK CONTROLLER ********/
 /*****************************************/
 
-.controller('checkCtrl', function($scope, $stateParams, $ionicModal, Check) {
+.controller('checkCtrl', function($rootScope, $scope, $stateParams, $ionicModal, Check, Trip) {
 
   Check.get({id: $stateParams.id}, function(data){
     $scope.check = data;
+    $scope.complete(data);
   },function(error){
     Toast.show(error);
   });
+
+  $scope.complete = function(check){
+    Trip.get({id: check.trip}, function(data){
+      $scope.check.country_enter = $rootScope.getById($rootScope.countries,data.country_enter).name;
+      $scope.check.country_leaving = $rootScope.getById($rootScope.countries,data.country_leaving).name;
+    },function(){
+
+    });
+  };
+
+  $scope.deletePhoto = function(index){
+    $scope.check.files.splice(index,1);
+  };
 
   $scope.update = function(){
     Check.update($scope.check.data, function(){
