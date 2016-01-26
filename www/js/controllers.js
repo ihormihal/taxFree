@@ -1,55 +1,19 @@
 angular.module('app.controllers', [])
 
 /****************************************/
-/******** PRIVATE APP CONTROLLER ********/
+/*********** START CONTROLLER ***********/
 /****************************************/
 
-.controller('AppCtrl', function($ionicPlatform, $rootScope, $scope, $state, $cordovaStatusbar, AuthService, Catalog) {
-
-  try {
-    if(!$cordovaStatusbar.isVisible()){
-      $cordovaStatusbar.show();
-      $cordovaStatusbar.styleHex('#e42112');
-    }
-  } catch (error) {
-    console.log('show statusBar');
-    console.log(error);
-  }
-
-  $rootScope.transports = [];
-  $rootScope.countries = [];
-
-  if(window.localStorage['countries']){
-    $rootScope.countries = angular.fromJson(window.localStorage['countries']);
-  }else{
-    Catalog.query({name: 'country'}, function(data){
-      $rootScope.countries = data;
-      window.localStorage['countries'] = angular.toJson(data);
-    },function(error){
-      console.log(error);
-    });
-  }
-
-  if(window.localStorage['transports']){
-    $rootScope.transports = angular.fromJson(window.localStorage['transports']);
-  }else{
-    Catalog.query({name: 'transport'}, function(data){
-      $rootScope.transports = data;
-      window.localStorage['transports'] = angular.toJson(data);
-    },function(error){
-      console.log(error);
-    });
-  }
-
-
-  $scope.logout = function(){
-    AuthService.logout();
+.controller('startCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+  $scope.next = function() {
+    $ionicSlideBoxDelegate.next();
   };
-
-  $scope.exit = function() {
-    ionic.Platform.exitApp();
+  $scope.previous = function() {
+    $ionicSlideBoxDelegate.previous();
   };
-
+  $scope.slideChanged = function(index) {
+    $scope.slideIndex = index;
+  };
 })
 
 /****************************************/
@@ -176,6 +140,58 @@ angular.module('app.controllers', [])
   };
 })
 
+/****************************************/
+/******** PRIVATE APP CONTROLLER ********/
+/****************************************/
+
+.controller('AppCtrl', function($ionicPlatform, $rootScope, $scope, $state, $cordovaStatusbar, AuthService, Catalog) {
+
+  try {
+    if(!$cordovaStatusbar.isVisible()){
+      $cordovaStatusbar.show();
+      $cordovaStatusbar.styleHex('#e42112');
+    }
+  } catch (error) {
+    console.log('show statusBar');
+    console.log(error);
+  }
+
+  $rootScope.transports = [];
+  $rootScope.countries = [];
+
+  if(window.localStorage['countries']){
+    $rootScope.countries = angular.fromJson(window.localStorage['countries']);
+  }else{
+    Catalog.query({name: 'country'}, function(data){
+      $rootScope.countries = data;
+      window.localStorage['countries'] = angular.toJson(data);
+    },function(error){
+      console.log(error);
+    });
+  }
+
+  if(window.localStorage['transports']){
+    $rootScope.transports = angular.fromJson(window.localStorage['transports']);
+  }else{
+    Catalog.query({name: 'transport'}, function(data){
+      $rootScope.transports = data;
+      window.localStorage['transports'] = angular.toJson(data);
+    },function(error){
+      console.log(error);
+    });
+  }
+
+
+  $scope.logout = function(){
+    AuthService.logout();
+  };
+
+  $scope.exit = function() {
+    ionic.Platform.exitApp();
+  };
+
+})
+
 /*********************************/
 /******** USER CONTROLLER ********/
 /*********************************/
@@ -282,7 +298,7 @@ angular.module('app.controllers', [])
 /******** SINGLE TRIP CONTROLLER ********/
 /****************************************/
 
-.controller('tripCtrl', function($scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Trip, Toast) {
+.controller('tripCtrl', function($scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Trip, Check, Toast) {
 
   Trip.get({id: $stateParams.id},function(data){
     $scope.trip = data;
@@ -336,7 +352,8 @@ angular.module('app.controllers', [])
   };
 
   $scope.addCheck = function(){
-   $scope.modalCheck.show();
+    $scope.check = {trip: $stateParams.id, files: []};
+    $scope.modalCheck.show();
   };
 
   $scope.closeModal = function() {
@@ -349,6 +366,14 @@ angular.module('app.controllers', [])
     $scope.modalCheck.remove();
   });
 
+  $scope.saveCheck = function(){
+    Check.update($scope.check, function(){
+      Toast.show(lngTranslate('toast_check_created'));
+    },function(error){
+      Toast.show(error);
+    });
+  };
+
 })
 
 /***************************************/
@@ -357,8 +382,7 @@ angular.module('app.controllers', [])
 
 .controller('checksCtrl', function($rootScope, $scope, $ionicModal, Checks, Check, Trip, Toast) {
 
-  $scope.checks = [];
-
+  window.SpinnerPlugin.activityStart(lngTranslate('loading'));
   Checks.get({},function(data){
     $scope.checks = data.checks;
     $scope.complete($scope.checks);
@@ -367,6 +391,7 @@ angular.module('app.controllers', [])
   });
 
   $scope.doRefresh = function(){
+    window.SpinnerPlugin.activityStart(lngTranslate('loading'));
     Checks.get({}, function(data){
       $scope.checks = data.checks;
       $scope.complete($scope.checks);
@@ -382,37 +407,44 @@ angular.module('app.controllers', [])
         Trip.get({id: check.trip}, function(data){
           $scope.checks[index].country_enter = $rootScope.getById($rootScope.countries,data.country_enter).name;
           $scope.checks[index].country_leaving = $rootScope.getById($rootScope.countries,data.country_leaving).name;
+          if(index == (checks.length -1)){
+            window.SpinnerPlugin.activityStop();
+          }
         },function(){
-
+          if(index == (checks.length -1)){
+            window.SpinnerPlugin.activityStop();
+          }
         });
     });
   };
 
-  $ionicModal.fromTemplateUrl('templates/checks/add.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
+  // $ionicModal.fromTemplateUrl('templates/checks/add.html', {
+  //   scope: $scope,
+  //   animation: 'slide-in-up'
+  // }).then(function(modal) {
+  //   $scope.modalCheck = modal;
+  // });
 
-  $scope.openModal = function() {
-    $scope.modal.show();
-  };
-  $scope.closeModal = function() {
-    $scope.modal.hide();
-  };
+  // $scope.addCheck = function(){
+  //   $scope.check = {trip: $stateParams.id, files: []};
+  //   $scope.modalCheck.show();
+  // };
 
-  $scope.$on('$destroy', function() {
-    $scope.modal.remove();
-  });
+  // $scope.closeModal = function() {
+  //   $scope.modalCheck.hide();
+  // };
 
-  $scope.update = function(){
+  // $scope.$on('$destroy', function() {
+  //   $scope.modalCheck.remove();
+  // });
 
-  };
-
-  $scope.create = function(){
-
-  };
+  // $scope.saveCheck = function(){
+  //   Check.update($scope.check, function(){
+  //     Toast.show(lngTranslate('toast_check_created'));
+  //   },function(error){
+  //     Toast.show(error);
+  //   });
+  // };
 
 })
 
@@ -420,10 +452,12 @@ angular.module('app.controllers', [])
 /******** SINGLE CHECK CONTROLLER ********/
 /*****************************************/
 
-.controller('checkCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Trip) {
+.controller('checkCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Toast, Trip) {
 
+  window.SpinnerPlugin.activityStart(lngTranslate('loading'));
   Check.get({id: $stateParams.id}, function(data){
     $scope.check = data;
+    $scope.check.images = []; //for new images
     $scope.complete(data);
   },function(error){
     Toast.show(error);
@@ -433,8 +467,9 @@ angular.module('app.controllers', [])
     Trip.get({id: check.trip}, function(data){
       $scope.check.country_enter = $rootScope.getById($rootScope.countries,data.country_enter).name;
       $scope.check.country_leaving = $rootScope.getById($rootScope.countries,data.country_leaving).name;
+      window.SpinnerPlugin.activityStop();
     },function(){
-
+      window.SpinnerPlugin.activityStop();
     });
   };
 
@@ -443,7 +478,10 @@ angular.module('app.controllers', [])
   };
 
   $scope.update = function(){
-    Check.update($scope.check.data, function(){
+    for (var i = 0; i < $scope.check.images.length; i++){
+      $scope.check.files.push($scope.check.images[i]);
+    }
+    Check.update({id: $scope.check.id}, $scope.check, function(){
       Toast.show(lngTranslate('toast_check_updated'));
     },function(error){
       Toast.show(error);
@@ -486,10 +524,6 @@ angular.module('app.controllers', [])
     $scope.modal.remove();
   });
 
-  $scope.update = function(){
-
-  };
-
   $scope.create = function(){
 
   };
@@ -500,11 +534,26 @@ angular.module('app.controllers', [])
 /******** DECLARATION LIST CONTROLLER ********/
 /*********************************************/
 
-.controller('declarationsCtrl', function($scope, $ionicModal, declarationService) {
-  $scope.declarations = declarationService.getList();
+.controller('declarationsCtrl', function($scope, $ionicModal, Declarations) {
+
+  window.SpinnerPlugin.activityStart(lngTranslate('loading'));
+
+  Declarations.query({},function(data){
+    $scope.declarations = data;
+    window.SpinnerPlugin.activityStop();
+  },function(error){
+    window.SpinnerPlugin.activityStop();
+    Toast.show(error);
+  });
+
   $scope.doRefresh = function(){
-    $scope.declarations = declarationService.getList();
-    $scope.$broadcast('scroll.refreshComplete');
+    Declarations.query({},function(data){
+      $scope.$broadcast('scroll.refreshComplete');
+      $scope.declarations = data;
+    },function(error){
+      $scope.$broadcast('scroll.refreshComplete');
+      Toast.show(error);
+    });
   };
 
 })
@@ -513,12 +562,27 @@ angular.module('app.controllers', [])
 /******** SINGLE DECLARATION CONTROLLER ********/
 /***********************************************/
 
-.controller('declarationCtrl', function($scope, $stateParams, $ionicModal, declarationService) {
-  $scope.declaration = declarationService.getOne($stateParams.id);
+.controller('declarationCtrl', function($scope, $stateParams, $ionicModal, Declaration, DeclarationService) {
+  Declaration.get({id: $stateParams.id},function(data){
+    $scope.declaration = data;
+  },function(error){
+    Toast.show(error);
+  });
+
   $scope.doRefresh = function(){
-    $scope.declaration = declarationService.getOne($stateParams.id);
-    $scope.$broadcast('scroll.refreshComplete');
+    Declaration.get({id: $stateParams.id},function(data){
+      $scope.$broadcast('scroll.refreshComplete');
+      $scope.declaration = data;
+    },function(error){
+      $scope.$broadcast('scroll.refreshComplete');
+      Toast.show(error);
+    });
   };
+  $scope.deliveryMethod = function(method){
+    //save method DeclarationService
+    Toast.show('success');
+  };
+
 })
 
 /**************************************/

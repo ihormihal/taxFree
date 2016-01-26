@@ -245,88 +245,18 @@ angular.module('app.services', ['ngResource'])
 /********** DECLARATION SERVICE *********/
 /****************************************/
 
-.factory('declarationService', function($resource) {
-  var declarations = [{
-    id: 0,
-    name: "Иван Иваннон",
-    country: 1,
-    date: '1453138173',
-    time: '7200',
-    status: "approved",
-    checks: [
-      {
-        id: 372,
-        items: [{
-          title: 'iPhone 5S',
-          price: 350
-        },{
-          id: 479,
-          title: 'iPhone 6',
-          price: 550
-        }]
-      },
-      {
-        id: 479,
-        items: [{
-          title: 'iPhone 5S',
-          price: 350
-        },{
-          id: 479,
-          title: 'iPhone 6',
-          price: 550
-        }]
-      }
-    ],
-    summ: 900,
-    summ_nds: 120,
-    to_pay: 100
-  },{
-    id: 1,
-    name: "Иван Иваннон",
-    country: 2,
-    date: '1453138173',
-    time: '7200',
-    status: "refused",
-    checks: [
-      {
-        id: 372,
-        items: [{
-          title: 'iPhone 5S',
-          price: 350
-        },{
-          id: 479,
-          title: 'iPhone 6',
-          price: 550
-        }]
-      },
-      {
-        id: 479,
-        items: [{
-          title: 'iPhone 5S',
-          price: 350
-        },{
-          id: 479,
-          title: 'iPhone 6',
-          price: 550
-        }]
-      }
-    ],
-    summ: 900,
-    summ_nds: 120,
-    to_pay: 100
-  }];
+.factory('Declarations', function($resource) {
+  return $resource(ApiDomain + '/api/declaration/list');
+})
 
-  var self = {
-    getList: function(){
-      return declarations;
-    },
-    getOne: function(id){
-      return declarations[id];
-    }
-  };
+.factory('Declaration', function($resource) {
+  return $resource(ApiDomain + '/api/declaration/:id', {id: '@id'});
+})
 
-  return self;
+.factory('DeclarationService', function($resource) {
+  return  {
 
+  }
 })
 
 ;

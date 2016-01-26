@@ -9,6 +9,13 @@ angular.module('app.routes', [])
   $stateProvider
 
   // LOGIN
+  .state('start', {
+    url: '/start',
+    templateUrl: 'templates/start.html',
+    controller: 'startCtrl'
+  })
+
+  // LOGIN
   .state('login', {
     url: '/login',
     templateUrl: 'templates/login.html',
@@ -162,6 +169,7 @@ angular.module('app.routes', [])
   //TRIP declarations
   .state('main.trip.declarations', {
     url: '/declarations',
+    cache:  false,
     views: {
       'declarations': {
         templateUrl: 'templates/trips/tab-declarations.html'
@@ -172,6 +180,7 @@ angular.module('app.routes', [])
   //CHECKS LIST
   .state('main.checks', {
     url: '/checks',
+    cache:  false,
     views: {
       'menuContent': {
         templateUrl: 'templates/checks/list.html',
@@ -195,6 +204,7 @@ angular.module('app.routes', [])
   //DECLARATIONS LIST
   .state('main.declarations', {
     url: '/declarations',
+    cache:  false,
     views: {
       'menuContent': {
         templateUrl: 'templates/declarations/list.html',

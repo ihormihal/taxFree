@@ -63,15 +63,16 @@ angular.module('app.directives', [])
   }
 }])
 
-.directive('chooseImage', [function() {
+.directive('passportImage', [function() {
   return {
     restrict: 'E',
     scope: {
       image: '=',
-      url: '@'
+      url: '@',
+      userid: '@'
     },
     templateUrl: 'templates/tpl/choose-image.html',
-    controller: function($rootScope, $scope, $timeout, $ionicActionSheet, $cordovaImagePicker, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
+    controller: function($rootScope, $scope, $timeout, $ionicActionSheet, $cordovaImagePicker, $cordovaDialogs, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
       $scope.Domain = $rootScope.Domain;
       $scope.loading = false;
       $scope.selectPhoto = function() {
@@ -150,25 +151,148 @@ angular.module('app.directives', [])
       $scope.uploadPhoto = function(file) {
         $scope.loading = true;
         var options = {
-          fileKey: "file",
+          headers: {'Authorization': window.localStorage['token']},
+          fileKey: "passport",
           fileName: "photo.jpg",
           chunkedMode: false,
           mimeType: "image/jpeg",
           params: {
-            userid: 10
+            user: $scope.userid
           }
         };
         $cordovaFileTransfer.upload(
           encodeURI(ApiDomain + $scope.url),
           file,
           options)
-        .then(function(result) {
+        .then(function(data) {
           $scope.loading = false;
-          $scope.image = result.response + '?' + new Date().getTime();
+          var response = angular.fromJson(data.response);
+          if(response.status == 'success'){
+            $scope.image = response.file;
+          }else{
+            $cordovaDialogs.alert(angular.toJson(data), 'Error');
+          }
+          $cordovaCamera.cleanup();
+        }, function(error) {
+          $cordovaDialogs.alert(angular.toJson(error), 'Error');
+          $scope.loading = false;
+          $cordovaCamera.cleanup();
+          $cordovaToast.show(error.code, 'short', 'top');
+        }, function(progress) {
+          // constant progress updates
+        });
+      };
+    }
+  };
+}])
+
+.directive('chooseImages', [function() {
+  return {
+    restrict: 'E',
+    scope: {
+      images: '=',
+      url: '@'
+    },
+    templateUrl: 'templates/tpl/choose-images.html',
+    controller: function($rootScope, $scope, $timeout, $ionicActionSheet, $cordovaImagePicker, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
+      $scope.Domain = $rootScope.Domain;
+
+      $scope.selectPhoto = function() {
+
+        try {
+          $cordovaActionSheet.show({
+            title: lngTranslate('action_choose_photo_title'),
+            buttonLabels: [lngTranslate('camera'),lngTranslate('gallery')],
+            addCancelButtonWithLabel: lngTranslate('cancel'),
+            androidEnableCancelButton : true,
+            winphoneEnableCancelButton : true
+          })
+          .then(function(btnIndex) {
+            switch (btnIndex) {
+              case 1:
+                $scope.fromCamera();
+                break;
+              case 2:
+                $scope.fromGallery();
+                break;
+              defaut:
+                break;
+            }
+          });
+        } catch (error) {
+          $ionicActionSheet.show({
+            buttons: [{
+              text: '<i class="icon ion-camera"></i> Камера'
+            }, {
+              text: '<i class="icon ion-images"></i> Галерея'
+            }],
+            buttonClicked: function(index) {
+              switch (index) {
+                case 0:
+                  $scope.fromCamera();
+                  break;
+                case 1:
+                  $scope.fromGallery();
+                  break;
+                  defaut:
+                    break;
+              }
+              return true;
+            }
+          });
+        }
+
+      };
+
+      $scope.fromGallery = function() {
+        $cordovaImagePicker.getPictures({
+          maximumImagesCount: 10
+        })
+        .then(function(files) {
+          for (var i = 0; i < files.length; i++) {
+            $scope.images.push({src: '', loading: true});
+            $scope.uploadPhoto(files[i],i);
+          }
+        }, function(error) {
+          $cordovaToast.show(error, 'short', 'top');
+        });
+      };
+
+      $scope.fromCamera = function() {
+        $cordovaCamera.getPicture({
+          destinationType: Camera.DestinationType.FILE_URI,
+          sourceType: Camera.PictureSourceType.CAMERA,
+          saveToPhotoAlbum: false
+        })
+        .then(function(image) {
+          $scope.images.push({src: '', loading: true});
+          $scope.uploadPhoto(image,0);
+        }, function(error) {
+          $cordovaToast.show(error, 'short', 'top');
+        });
+      };
+
+      $scope.uploadPhoto = function(file, i) {
+        var options = {
+          headers: {'Authorization': window.localStorage['token']},
+          fileKey: "file",
+          fileName: "photo.jpg",
+          chunkedMode: false,
+          mimeType: "image/jpeg",
+          params: {}
+        };
+        $cordovaFileTransfer.upload(
+          encodeURI(ApiDomain + $scope.url),
+          file,
+          options)
+        .then(function(data) {
+          var src = angular.fromJson(data.response);
+          $scope.images[i].src = src[0];
+          $scope.images[i].loading = false;
           $cordovaCamera.cleanup();
         }, function(error) {
           $scope.loading = false;
-          cordovaCamera.cleanup();
+          $cordovaCamera.cleanup();
           $cordovaToast.show(error.code, 'short', 'top');
         }, function(progress) {
           // constant progress updates

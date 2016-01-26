@@ -83,7 +83,7 @@
         </label>
         <div class="item">
           <span class="input-label">{{'passport_photo'|translate}} <sup>*</sup></span>
-          <choose-image image="user.profile.passport" url="/api/user/upload"></choose-image>
+          <passport-image image="user.profile.passport" url="/api/user/upload" userid="{{user.profile.id}}"></passport-image>
         </div>
       </div>
       <div class="spacer" style="height:20px"></div>

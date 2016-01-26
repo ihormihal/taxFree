@@ -8,23 +8,17 @@
 			<ion-item
 				ng-repeat="declaration in declarations"
 				ui-sref="main.declaration({id: declaration.id})"
-				ng-class="{'item-approved': (declaration.status == 'approved'), 'item-processed': (declaration.status == 'processed'), 'item-refused': (declaration.status == 'refused')}"
+				ng-class="{'item-approved': (declaration.status == 'paid'), 'item-processed': (declaration.status == 'shipping'), 'item-refused': (declaration.status == 'refused')}"
 				>
-				<h2>{{getById(countries,declaration.country).name}}</h2>
-				<p>{{'purchases'|translate}}: <span>{{declaration.summ | currency}}</span></p>
-				<p>{{'return'|translate}}: <span>{{declaration.to_pay | currency}}</span></p>
-				<p>
-					<i class="icon ion-calendar"></i> {{declaration.date*1000|date:"dd.MM.yyyy"}}
-					&nbsp;
-					<i class="icon ion-clock"></i> {{declaration.time*1000|date:"HH:mm"}}
-				</p>
+				<h2>{{'declaration'|translate}} ID {{declaration.id}}</h2>
+				<p>{{getById(countries,declaration.country).name}}</p>
 				<div class="item-icon-right">
-					<i class="icon ion-android-done-all" ng-show="declaration.status == 'approved'"></i>
-					<i class="icon ion-android-time calm" ng-show="declaration.status == 'processed'"></i>
-					<i class="icon ion-alert-circled assertive" ng-show="declaration.status == 'refused'"></i>
+					<i class="icon ion-android-done-all" ng-show="declaration.status == 'paid'"></i>
+					<i class="icon ion-android-car calm" ng-show="declaration.status == 'shipping'"></i>
+					<i class="icon ion-clock assertive" ng-show="declaration.status == 'created'"></i>
+					<i class="icon ion-clock assertive" ng-show="declaration.status == 'created_changes'"></i>
 				</div>
 			</ion-item>
 		</ion-list>
 	</ion-content>
-
 </ion-view>

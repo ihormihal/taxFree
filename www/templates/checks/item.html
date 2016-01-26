@@ -10,16 +10,16 @@
       <div class="item item-image">
         <div ng-click="deletePhoto($index)" class="text-right padding"><i class="icon ion-close"></i></div>
         <ion-spinner icon="spiral" class="spinner-positive" ng-show="loading"></ion-spinner>
-        <img ng-src="{{file}}" alt="">
+        <img ng-src="{{file}}" image-viewer>
       </div>
     </div>
     <form>
       <div class="list">
         <div>
-          <choose-image image="" url="/api/check/upload"></choose-image>
+          <choose-images images="check.images" url="/api/check/upload"></choose-images>
         </div>
         <div>
-          <button class="button button-stable button-block button-assertive up" ng-click="closeModal()">{{'done'|translate}}</button>
+          <button class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
         </div>
       </div>
     </form>
