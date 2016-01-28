@@ -1,15 +1,14 @@
 <ion-view hide-nav-bar="true">
-    <ion-content padding="false" class="">
-        <div class="spacer" style="height:20px"></div>
-        <div class="logo image">
+    <ion-content padding="false">
+
+        <div class="logo image mt20">
             <img src="img/logo.png">
         </div>
         <h1 class="text-center">{{'registration'|translate}}</h1>
         <p class="text-center">{{'step'|translate}} 2</p>
         <p class="text-center positive">{{'personal_data'|translate}}</p>
 
-        <div class="spacer" style="height:20px"></div>
-        <form>
+        <div class="box mt20">
             <div class="list">
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">{{'how_call_you'|translate}} <sup>*</sup></span>
@@ -32,10 +31,6 @@
                         </select>
                     </div>
                 </label>
-                <!-- <label class="item item-input item-stacked-label">
-                    <span class="input-label">{{'home_address'|translate}} <sup>*</sup></span>
-                    <input type="text" ng-model="user.address" placeholder="Город, улица, дом, квартира" required>
-                </label> -->
                 <div class="item">
                     <span class="input-label">{{'passport_photo'|translate}} <sup>*</sup></span>
                     <choose-image image="user.photo" url="/api/user/register/upload"></choose-image>
@@ -61,10 +56,11 @@
                     {{'agree_with'|translate}} <a href="#">{{'terms_of_use'|translate}}</a>
                 </div>
             </div>
-            <div class="spacer" style="height:20px"></div>
-            <div class="padding">
+
+            <div class="padding mt20">
                 <button class="button button-stable button-block button-assertive up" ng-click="stepThree()">{{'submit'|translate}}</button>
             </div>
-        </form>
+
+        </div>
     </ion-content>
 </ion-view>

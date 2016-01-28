@@ -1,15 +1,14 @@
 <ion-view class="main-background" hide-nav-bar="true">
-    <ion-content padding="true" class="">
-        <div class="spacer" style="height:20px"></div>
-        <div class="logo image">
+    <ion-content padding="true">
+
+        <div class="logo image mt20">
             <img src="img/logo.png">
         </div>
         <h1 class="text-center white">{{'registration'|translate}}</h1>
         <p class="text-center white">{{'step'|translate}} 1</p>
         <p class="text-center white">{{'already_registered'|translate}} <a ui-sref="login" class="white">{{'login'|translate}}</a></p>
 
-        <div class="spacer" style="height:20px"></div>
-        <form>
+        <div class="box mt20">
             <div class="list inputs-on-background">
                 <label class="item item-input">
                     <input type="email" ng-model="data.email" placeholder="{{'email'|translate}} *">
@@ -39,7 +38,11 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="box mt20">
             <button class="button button-block button-outline button-white up" ng-click="stepOne()">{{'submit'|translate}}</button>
-        </form>
+        </div>
+
     </ion-content>
 </ion-view>
