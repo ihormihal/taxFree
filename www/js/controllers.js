@@ -205,8 +205,6 @@ angular.module('app.controllers', [])
     User.update($scope.user.profile, function(){
       Toast.show(lngTranslate('toast_profile_updated'));
       $scope.closeModal();
-    },function(error){
-      Toast.show(error);
     })
   };
 
@@ -239,8 +237,6 @@ angular.module('app.controllers', [])
 
   Trips.get({},function(data){
     $scope.trips = data.trips;
-  },function(error){
-    Toast.show(error);
   });
 
   $scope.doRefresh = function(){
@@ -248,7 +244,6 @@ angular.module('app.controllers', [])
       $scope.trips = data.trips;
       $scope.$broadcast('scroll.refreshComplete');
     }, function(error){
-      Toast.show(error);
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
@@ -287,9 +282,7 @@ angular.module('app.controllers', [])
       $scope.closeModal();
       Toast.show(lngTranslate('toast_trip_created'));
       $state.go('main.trip.data', {id: data.id});
-    }, function(error){
-      Toast.show(error);
-    })
+    });
   };
 
 })
@@ -302,8 +295,6 @@ angular.module('app.controllers', [])
 
   Trip.get({id: $stateParams.id},function(data){
     $scope.trip = data;
-  },function(error){
-    Toast.show(error);
   });
 
 
@@ -311,8 +302,6 @@ angular.module('app.controllers', [])
     Trip.update($scope.trip, function(){
       Toast.show(lngTranslate('toast_trip_updated'));
       $scope.closeModal();
-    },function(error){
-      Toast.show(error);
     });
   };
 
@@ -326,8 +315,6 @@ angular.module('app.controllers', [])
         Trip.delete($scope.trip.id, function(){
           Toast.show(lngTranslate('toast_trip_deleted'));
           $state.go('main.trips');
-        },function(error){
-          Toast.show(error);
         });
       }
     });
@@ -382,22 +369,19 @@ angular.module('app.controllers', [])
 
 .controller('checksCtrl', function($rootScope, $scope, $ionicModal, Checks, Check, Trip, Toast) {
 
+  var scrollRefresh = false;
+
   window.SpinnerPlugin.activityStart(lngTranslate('loading'));
   Checks.get({},function(data){
     $scope.checks = data.checks;
     $scope.complete($scope.checks);
-  },function(error){
-    Toast.show(error);
   });
 
   $scope.doRefresh = function(){
-    window.SpinnerPlugin.activityStart(lngTranslate('loading'));
     Checks.get({}, function(data){
       $scope.checks = data.checks;
       $scope.complete($scope.checks);
-      $scope.$broadcast('scroll.refreshComplete');
     }, function(error){
-      Toast.show(error);
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
@@ -409,10 +393,12 @@ angular.module('app.controllers', [])
           $scope.checks[index].country_leaving = $rootScope.getById($rootScope.countries,data.country_leaving).name;
           if(index == (checks.length -1)){
             window.SpinnerPlugin.activityStop();
+            $scope.$broadcast('scroll.refreshComplete');
           }
         },function(){
           if(index == (checks.length -1)){
             window.SpinnerPlugin.activityStop();
+            $scope.$broadcast('scroll.refreshComplete');
           }
         });
     });
@@ -459,8 +445,6 @@ angular.module('app.controllers', [])
     $scope.check = data;
     $scope.check.images = []; //for new images
     $scope.complete(data);
-  },function(error){
-    Toast.show(error);
   });
 
   $scope.complete = function(check){
@@ -483,8 +467,6 @@ angular.module('app.controllers', [])
     }
     Check.update({id: $scope.check.id}, $scope.check, function(){
       Toast.show(lngTranslate('toast_check_updated'));
-    },function(error){
-      Toast.show(error);
     });
   };
 
@@ -498,8 +480,6 @@ angular.module('app.controllers', [])
         Check.delete($scope.check.id, function(){
           Toast.show(lngTranslate('toast_check_deleted'));
           $state.go('main.checks');
-        },function(error){
-          Toast.show(error);
         });
       }
     });
@@ -543,7 +523,6 @@ angular.module('app.controllers', [])
     window.SpinnerPlugin.activityStop();
   },function(error){
     window.SpinnerPlugin.activityStop();
-    Toast.show(error);
   });
 
   $scope.doRefresh = function(){
@@ -552,7 +531,6 @@ angular.module('app.controllers', [])
       $scope.declarations = data;
     },function(error){
       $scope.$broadcast('scroll.refreshComplete');
-      Toast.show(error);
     });
   };
 
@@ -565,8 +543,6 @@ angular.module('app.controllers', [])
 .controller('declarationCtrl', function($scope, $stateParams, $ionicModal, Declaration, DeclarationService) {
   Declaration.get({id: $stateParams.id},function(data){
     $scope.declaration = data;
-  },function(error){
-    Toast.show(error);
   });
 
   $scope.doRefresh = function(){
@@ -575,7 +551,6 @@ angular.module('app.controllers', [])
       $scope.declaration = data;
     },function(error){
       $scope.$broadcast('scroll.refreshComplete');
-      Toast.show(error);
     });
   };
   $scope.deliveryMethod = function(method){

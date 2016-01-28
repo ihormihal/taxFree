@@ -9363,3 +9363,16 @@ a {
   background-color: #fff;
   text-align: center;
   font-weight: 300; }
+
+.app-version {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  color: #eee; }
+
+.hidden {
+  visibility: hidden; }
+
+.visible {
+  visibility: visible; }

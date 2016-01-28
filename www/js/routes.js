@@ -103,6 +103,7 @@ angular.module('app.routes', [])
 
   .state('main.user.profile', {
     url: '/profile',
+    cache: false,
     views: {
       'profile': {
         templateUrl: 'templates/user/tab-profile.html',
@@ -113,6 +114,7 @@ angular.module('app.routes', [])
 
   .state('main.user.password', {
     url: '/password',
+    cache: false,
     views: {
       'password': {
         templateUrl: 'templates/user/tab-password.html',

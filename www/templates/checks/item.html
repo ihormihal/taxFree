@@ -1,20 +1,20 @@
 <ion-view>
   <ion-nav-title>{{'check'|translate}} ID {{check.id}}</ion-nav-title>
   <ion-nav-buttons side="right">
-    <button class="button button-icon button-clear ion-ios-trash-outline" ng-click="delete()"></button>
+    <button ng-class="{visible: check.editable}" class="button button-icon button-clear ion-ios-trash-outline hidden" ng-click="delete()"></button>
   </ion-nav-buttons>
   <ion-content padding="true" scroll="true" class="has-header">
     <h1>{{'check'|translate}} ID {{check.id}}</h1>
     <p><i class="icon ion-android-map"></i> {{check.country_enter}} - {{check.country_leaving}}</p>
     <div class="card card-image" ng-repeat="file in check.files">
       <div class="item item-image">
-        <div ng-click="deletePhoto($index)" class="text-right padding"><i class="icon ion-close"></i></div>
+        <div ng-show="check.editable" ng-click="deletePhoto($index)" class="text-right padding"><i class="icon ion-close"></i></div>
         <ion-spinner icon="spiral" class="spinner-positive" ng-show="loading"></ion-spinner>
         <img ng-src="{{file}}" image-viewer>
       </div>
     </div>
     <form>
-      <div class="list">
+      <div class="list" ng-show="check.editable">
         <div>
           <choose-images images="check.images" url="/api/check/upload"></choose-images>
         </div>

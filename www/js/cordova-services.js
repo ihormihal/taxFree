@@ -14,5 +14,13 @@ angular.module('app.cordova', [])
 			}
 		}
 	}
-
 })
+
+.service('Alert', function($cordovaDialogs){
+	return {
+		show: function(data){
+			$cordovaDialogs.alert(data.message, data.title);
+		}
+	}
+})
+

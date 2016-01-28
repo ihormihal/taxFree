@@ -8,7 +8,7 @@ var Credentials = {
 angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
 
-.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, $cordovaStatusbar, AuthService, Toast) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, $cordovaStatusbar, AuthService, Toast, Alert) {
 
   $ionicPlatform.ready(function() {
 
@@ -64,7 +64,30 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
     if(data.status == 401){
       AuthService.refresh();
     }else{
-      Toast.show(data);
+      var message = '';
+      var isMessage= false;
+      if(data.data){
+        if(data.data.error){
+          if(data.data.error.message){
+            message = data.data.error.message + '. ';
+            isMessage = true;
+          }
+          if(data.data.error.message){
+            message += 'Error code: '+data.data.error.code;
+            isMessage = true;
+          }
+          if(data.data.error_description){
+            message += data.data.error_description + '. ';
+            isMessage = true;
+          }
+        }
+      }
+      isMessage= false;
+      if(isMessage){
+        Alert.show({message: message, title: 'Error'});
+      }else{
+        Alert.show({message: angular.toJson(data), title: 'Error'});
+      }
     }
   });
 

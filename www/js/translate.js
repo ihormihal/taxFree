@@ -8,7 +8,7 @@ translate.ru = {
 	app_language: 'Язык',
 	approved: 'Готово',
 	authorization: 'Авторизация',
-	back_to_signup_form: 'вернуться к форме регистрации',
+	back_to_signup_form: 'Вернуться к форме регистрации',
 	birthday: 'Дата рождения',
 	camera: 'Камера',
 	cancel: 'Отменить',
