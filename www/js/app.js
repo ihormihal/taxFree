@@ -61,6 +61,7 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
   };
 
   $rootScope.$on('http-error', function(event, data) {
+    window.SpinnerPlugin.activityStop();
     if(data.status == 401){
       AuthService.refresh();
     }else{
@@ -89,6 +90,7 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
         Alert.show({message: angular.toJson(data), title: 'Error'});
       }
     }
+    return false;
   });
 
   $rootScope.$on('auth-login-success', function(event, data) {

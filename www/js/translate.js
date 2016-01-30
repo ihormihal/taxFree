@@ -9,6 +9,7 @@ translate.ru = {
 	approved: 'Готово',
 	authorization: 'Авторизация',
 	back_to_signup_form: 'Вернуться к форме регистрации',
+	back_to_recovery_form: 'Вернуться к форме восстановления',
 	birthday: 'Дата рождения',
 	camera: 'Камера',
 	cancel: 'Отменить',
@@ -17,6 +18,7 @@ translate.ru = {
 	check_photo: 'Фото чека',
 	checks: 'Чеки',
 	choose_delivery_method: 'Выберите способ доставки',
+	choose_drecovery_method: 'Выберите способ восстановления пароля',
 	citizenship: 'Гражданство',
 	close: 'Закрыть',
 	confirm: 'Подтвердить',
@@ -46,6 +48,7 @@ translate.ru = {
 	enter_code_from_recived_email: 'Введите код полученный на E-mail',
 	enter_password_: 'Введите пароль',
 	enter_the_password_again: 'Введите пароль снова',
+	enter_your_email_or_phone: 'Введите Ваш e-mail или телефон',
 	enter_your_sms_code: 'Введите код из SMS',
 	f: 'Жен.',
 	forgot_password: 'Забыли пароль?',
@@ -101,6 +104,8 @@ translate.ru = {
 	saved: 'Сохранено!',
 	save_to_pdf: 'Сохранить в PDF',
 	select_confirmation_method: 'Выберите способ подтверждения',
+	send_an_email: 'Отправить на E-mail',
+	send_via_sms: 'Отправить в SMS',
 	settings: 'Настройки',
 	sex: 'Пол',
 	shipping: 'Доставка',
@@ -135,7 +140,9 @@ translate.ru = {
 	trips: 'Поездки',
 	upload_photo: 'Загрузить фото',
 	yes: 'Да',
-	you_need_to_confirm_your_code_during_1_hour: 'Вам необходимо ввести код в течение 1 часа'
+	you_need_to_confirm_your_code_during_1_hour: 'Вам необходимо ввести код в течение 1 часа',
+	your_phone: 'Ваш телефон',
+	your_email: 'Ваш E-mail'
 };
 
 translate.en = {
@@ -147,6 +154,7 @@ translate.en = {
 	approved: 'Approved',
 	authorization: 'Authorization',
 	back_to_signup_form: 'Return to the registration form',
+	back_to_recovery_form: 'Back to recovery form',
 	birthday: 'Born',
 	camera: 'Camera',
 	cancel: 'Cancel',
@@ -155,6 +163,7 @@ translate.en = {
 	check_photo: 'Photo check',
 	checks: 'Checks',
 	choose_delivery_method: 'Choose delivery method',
+	choose_drecovery_method: 'Choose the way to recover your password',
 	citizenship: 'Citizenship',
 	close: 'Close',
 	confirm: 'Confirm',
@@ -181,10 +190,11 @@ translate.en = {
 	dialog_remove_trip_title: 'Remove the trip?',
 	done: 'Done',
 	email: 'E-mail',
-	enter_code_from_recived_email: 'Enter the code received on the E-mail',
+	enter_code_from_recived_email: 'Enter code from recived e-mail',
 	enter_password_: 'Enter the password',
 	enter_the_password_again: 'Enter the password again',
-	enter_your_sms_code: 'Enter the code of the SMS',
+	enter_your_email_or_phone: 'Enter your e-mail or phone',
+	enter_your_sms_code: 'Enter your SMS code',
 	f: 'Female',
 	forgot_password: 'Forgot Password?',
 	gallery: 'Gallery',
@@ -239,6 +249,8 @@ translate.en = {
 	saved: 'Saved!',
 	save_to_pdf: 'Save as PDF',
 	select_confirmation_method: 'Choose how to confirm',
+	send_an_email: 'Send an e-mail',
+	send_via_sms: 'Send via SMS',
 	settings: 'Settings',
 	sex: 'Sex',
 	shipping: 'Shipping',
@@ -273,5 +285,7 @@ translate.en = {
 	trips: 'Trips',
 	upload_photo: 'Upload photos',
 	yes: 'Yes',
-	you_need_to_confirm_your_code_during_1_hour: 'You need to confirm your code during 1 hour'
+	you_need_to_confirm_your_code_during_1_hour: 'You need to confirm your code during 1 hour',
+	your_phone: 'Your phone',
+	your_email: 'Your email'
 };

@@ -1,7 +1,7 @@
 <ion-view cache-view="false">
   <ion-nav-title>{{'trip_view'|translate}}</ion-nav-title>
   <ion-nav-buttons side="right" ng-show="false">
-    <button class="button button-icon button-clear ion-ios-compose-outline" ng-click="editTrip()"></button>
+    <button ng-class="{visible: trip.editable}" class="button button-icon button-clear ion-ios-compose-outline hidden" ng-click="editTrip()"></button>
   </ion-nav-buttons>
   <ion-content padding="false" scroll="true" class="has-header">
 

@@ -41,22 +41,22 @@ angular.module('app.routes', [])
   })
 
   // Password Recovery
-  .state('passwordRecovery', {
-    url: '/password-recovery',
-    templateUrl: 'templates/password-recovery.html',
-    controller: 'passwordRecoveryCtrl'
+  .state('passwordOne', {
+    url: '/password-one',
+    templateUrl: 'templates/password-recovery-one.html',
+    controller: 'passwordCtrl'
   })
   // Password Recovery Conformation
-  .state('passwordRecoveryConformation', {
-    url: '/password-recovery-conformation',
-    templateUrl: 'templates/password-recovery-conformation.html',
-    controller: 'passwordRecoveryCtrl'
+  .state('passwordTwo', {
+    url: '/password-two',
+    templateUrl: 'templates/password-recovery-two.html',
+    controller: 'passwordCtrl'
   })
   // Password Reset
-  .state('passwordReset', {
-    url: '/password-reset',
-    templateUrl: 'templates/password-reset.html',
-    controller: 'passwordRecoveryCtrl'
+  .state('passwordThree', {
+    url: '/password-three',
+    templateUrl: 'templates/password-recovery-three.html',
+    controller: 'passwordCtrl'
   })
 
   //main
@@ -65,6 +65,18 @@ angular.module('app.routes', [])
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
+  })
+
+  //SETTINGS
+  .state('main.dashboard', {
+    url: '/dashboard',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/dashboard.html',
+        controller: 'dashboardCtrl'
+      }
+    }
   })
 
   //SETTINGS

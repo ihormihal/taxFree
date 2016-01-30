@@ -1,7 +1,7 @@
 <div class="modal">
   <ion-header-bar class="bar-assertive">
     <div class="buttons">
-      <button class="button button-icon button-clear ion-ios-trash-outline" ng-click="delete()"></button>
+      <button ng-class="{visible: trip.deletable}" class="button button-icon button-clear ion-ios-trash-outline hidden" ng-click="delete()"></button>
     </div>
     <h1 class="title">{{'trip_editing'|translate}}</h1>
     <div class="buttons">

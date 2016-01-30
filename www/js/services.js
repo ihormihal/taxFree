@@ -38,7 +38,6 @@ angular.module('app.services', ['ngResource'])
         }
       })
       .error(function (data, status, headers, config) {
-        window.SpinnerPlugin.activityStop();
         $rootScope.$broadcast('auth-login-error', data);
         return false;
       });
@@ -109,9 +108,6 @@ angular.module('app.services', ['ngResource'])
         }else{
           q.reject(angular.toJson({status: status, data: data}));
         }
-      })
-      .error(function (data, status, headers, config) {
-        q.reject(angular.toJson({status: status, data: data}));
       });
       return q.promise;
     },
@@ -135,10 +131,6 @@ angular.module('app.services', ['ngResource'])
           q.reject(angular.toJson({status: status, data: data}));
         }
       })
-      .error(function (data, status, headers, config) {
-        window.SpinnerPlugin.activityStop();
-        q.reject(angular.toJson({status: status, data: data}));
-      });
       return q.promise;
     },
 
@@ -160,10 +152,6 @@ angular.module('app.services', ['ngResource'])
         }else{
           q.reject(angular.toJson({status: status, data: data}));
         }
-      })
-      .error(function (data, status, headers, config) {
-        window.SpinnerPlugin.activityStop();
-        q.reject(angular.toJson({status: status, data: data}));
       });
       return q.promise;
     },
@@ -186,15 +174,97 @@ angular.module('app.services', ['ngResource'])
         }else{
           q.reject(angular.toJson({status: status, data: data}));
         }
-      })
-      .error(function (data, status, headers, config) {
-        window.SpinnerPlugin.activityStop();
-        q.reject(angular.toJson({status: status, data: data}));
       });
       return q.promise;
     }
   };
   return self;
+})
+
+/****************************************/
+/********** PASSWORDS SERVICE ***********/
+/****************************************/
+.service('PasswordService', function($rootScope, $q, $state, $http) {
+
+  var self = {
+
+    data: null,
+
+    one: function(){
+      var q = $q.defer();
+      $http({
+        method: 'POST',
+        url: ApiDomain + '/api/user/resetpassword',
+        data: $rootScope.serialize(self.data),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        },
+      })
+      .success(function(data, status, headers, config) {
+        if(status == 200){
+          q.resolve(data);
+        }else{
+          q.reject(angular.toJson({status: status, data: data}));
+        }
+      });
+      return q.promise;
+    },
+
+    two: function(){
+      var q = $q.defer();
+      $http({
+        method: 'POST',
+        url: ApiDomain + '/api/user/resetpassword/confirm',
+        data: $rootScope.serialize(self.data),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        },
+      })
+      .success(function(data, status, headers, config) {
+        if(status == 200){
+          q.resolve(data);
+        }else{
+          q.reject(angular.toJson({status: status, data: data}));
+        }
+      });
+      return q.promise;
+    },
+
+    update: function(data){
+      var q = $q.defer();
+      q.resolve(data);
+      return q.promise;
+
+      // var q = $q.defer();
+      // $http({
+      //   method: 'POST',
+      //   url: ApiDomain + '/api/user/setpassword/token',
+      //   data: $rootScope.serialize(data),
+      //   headers: {
+      //     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+      //   },
+      // })
+      // .success(function(data, status, headers, config) {
+      //   if(status == 200){
+      //     q.resolve(data);
+      //   }else{
+      //     q.reject(angular.toJson({status: status, data: data}));
+      //   }
+      // });
+      // return q.promise;
+
+    }
+  };
+  return self;
+
+})
+
+/****************************************/
+/********** DASHBOARD SERVICE ***********/
+/****************************************/
+
+.factory('Dashboard', function($resource) {
+  return $resource(ApiDomain + '/api/catalog/:name', {name: '@name'});
 })
 
 /****************************************/

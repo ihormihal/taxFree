@@ -85,8 +85,6 @@ angular.module('app.controllers', [])
     RegService.two()
     .then(function(data) {
       $state.go('regThree');
-    },function(error) {
-      alert(error);
     });
   };
 
@@ -98,8 +96,6 @@ angular.module('app.controllers', [])
     RegService.three()
     .then(function(data) {
       $state.go('main.user.profile');
-    },function(error) {
-      alert(error);
     });
   };
 })
@@ -108,36 +104,54 @@ angular.module('app.controllers', [])
 /******** PWD RECOVERY CONTROLLER ********/
 /*****************************************/
 
-.controller('passwordRecoveryCtrl', function($scope, $state, $ionicPopup, RegService) {
+.controller('passwordCtrl', function($scope, $state, RegService, PasswordService) {
 
-  $scope.data = RegService.data;
+  //initialize every time when view is called
+  $scope.data = {
+    sendTo: 'email',
+    contact: ''
+  };
 
-  $scope.send = function() {
-    RegService.passwordRecovery($scope.data.email, $scope.data.phone, $scope.data.type)
+  $scope.stepOne = function() {
+    $scope.doStepOne();
+    if(window.localStorage['token']){
+      $scope.doStepOne();
+    }else{
+      RegService.getToken()
+      .then(function(){
+        $scope.doStepOne();
+      });
+    }
+  };
+
+  $scope.doStepOne = function() {
+    PasswordService.data = $scope.data;
+    PasswordService.one()
     .then(function(data) {
-      $state.go('passwordRecoveryConformation');
-    },function(data) {
-      alert(error);
+      $state.go('passwordTwo');
     });
   };
 
-  $scope.confirm = function() {
-    RegService.confirm($scope.data.code)
+  $scope.stepTwo = function() {
+    PasswordService.data.code = $scope.data.code;
+    PasswordService.two()
     .then(function(data) {
-      $state.go('passwordReset');
-    },function(error) {
-      alert(error);
+      $state.go('regThree');
     });
   };
 
-  $scope.restore = function() {
-    RegService.passwordRestore($scope.data.password)
+  $scope.stepThree= function() {
+    PasswordService.data.code = $scope.data.code;
+    PasswordService.two()
     .then(function(data) {
-      $state.go('signin');
-    },function(error) {
-      alert(error);
+      $state.go('regThree');
     });
   };
+
+  $scope.stepThree = function(){
+
+  };
+
 })
 
 /****************************************/
@@ -193,18 +207,53 @@ angular.module('app.controllers', [])
 })
 
 /*********************************/
+/***** DASHBOARD CONTROLLER ******/
+/*********************************/
+
+.controller('dashboardCtrl', function($scope) {
+})
+
+/*********************************/
 /******** USER CONTROLLER ********/
 /*********************************/
 
-.controller('userCtrl', function($rootScope, $scope, $ionicModal, Toast, User) {
+.controller('userCtrl', function($rootScope, $scope, $ionicModal, Toast, User, PasswordService) {
 
-  $scope.user = {};
-  $scope.user.profile = User.get();
+  $scope.user = {
+    profile: null,
+    password: {
+      old: '',
+      new: '',
+      new_confirm: '',
+    }
+  };
+
+  $scope.passwordResetEnabled = false;
+
+  $scope.$watch('user.password', function(){
+    if($scope.user.password.new.length > 7 && $scope.user.password.new == $scope.user.password.new_confirm){
+      $scope.passwordResetEnabled = true;
+    }else{
+      $scope.passwordResetEnabled = false;
+    }
+  }, true);
+
+  User.get({}, function(data){
+    $scope.user.profile = data;
+  }, function(error){
+  });
 
   $scope.update = function(){
     User.update($scope.user.profile, function(){
       Toast.show(lngTranslate('toast_profile_updated'));
       $scope.closeModal();
+    })
+  };
+
+  $scope.setPassowrd = function(){
+    PasswordService.update({password: $scope.user.password.new})
+    .then(function(){
+      Toast.show(lngTranslate('toast_password_updated'));
     })
   };
 
