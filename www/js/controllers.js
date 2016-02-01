@@ -5,15 +5,6 @@ angular.module('app.controllers', [])
 /****************************************/
 
 .controller('startCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
-  try {
-    if($cordovaStatusbar.isVisible()){
-      $cordovaStatusbar.hide();
-    }
-  } catch (error) {
-    console.log('hide statusBar');
-    console.log(error);
-  }
-
   $scope.next = function() {
     $ionicSlideBoxDelegate.next();
   };
@@ -29,16 +20,7 @@ angular.module('app.controllers', [])
 /*********** LOGIN CONTROLLER ***********/
 /****************************************/
 
-.controller('loginCtrl', function($scope, $state, $ionicPopup, Toast, $cordovaStatusbar, AuthService) {
-
-  try {
-    if($cordovaStatusbar.isVisible()){
-      $cordovaStatusbar.hide();
-    }
-  } catch (error) {
-    console.log('hide statusBar');
-    console.log(error);
-  }
+.controller('loginCtrl', function($scope, $state, $ionicPopup, Toast, AuthService) {
 
   $scope.user = {
     username: 'tsvetok77@yandex.ru',
@@ -56,15 +38,6 @@ angular.module('app.controllers', [])
 /********************************/
 
 .controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, RegService, Catalog) {
-
-  try {
-    if($cordovaStatusbar.isVisible()){
-      $cordovaStatusbar.hide();
-    }
-  } catch (error) {
-    console.log('hide statusBar');
-    console.log(error);
-  }
 
   $rootScope.transports = [];
   $rootScope.countries = [];
@@ -182,17 +155,8 @@ angular.module('app.controllers', [])
 /******** PRIVATE APP CONTROLLER ********/
 /****************************************/
 
-.controller('AppCtrl', function($ionicPlatform, $rootScope, $scope, $state, $cordovaStatusbar, AuthService, Catalog) {
+.controller('AppCtrl', function($ionicPlatform, $rootScope, $scope, $state, AuthService, Catalog) {
 
-  try {
-    if(!$cordovaStatusbar.isVisible()){
-      $cordovaStatusbar.show();
-      $cordovaStatusbar.styleHex('#e42112');
-    }
-  } catch (error) {
-    console.log('show statusBar');
-    console.log(error);
-  }
 
   $rootScope.transports = [];
   $rootScope.countries = [];
@@ -235,15 +199,7 @@ angular.module('app.controllers', [])
 /*********************************/
 
 .controller('dashboardCtrl', function($scope) {
-  try {
-    if(!$cordovaStatusbar.isVisible()){
-      $cordovaStatusbar.show();
-      $cordovaStatusbar.styleHex('#e42112');
-    }
-  } catch (error) {
-    console.log('show statusBar');
-    console.log(error);
-  }
+
 })
 
 /*********************************/
@@ -675,16 +631,6 @@ angular.module('app.controllers', [])
 /*****************************************/
 
 .controller('settingsCtrl', function($rootScope, $scope, $state, $ionicPopup, $cordovaDialogs, Toast) {
-
-  try {
-    if(!$cordovaStatusbar.isVisible()){
-      $cordovaStatusbar.show();
-      $cordovaStatusbar.styleHex('#e42112');
-    }
-  } catch (error) {
-    console.log('show statusBar');
-    console.log(error);
-  }
 
   $scope.settings = {
     language: window.localStorage['lang']

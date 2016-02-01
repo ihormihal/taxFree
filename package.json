@@ -1,6 +1,6 @@
 {
   "name": "taxfree4you",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "TaxFree4U App",
   "dependencies": {
     "gulp": "^3.5.6",
@@ -31,7 +31,6 @@
     "cordova-plugin-actionsheet",
     "cordova-plugin-x-toast",
     "cordova-plugin-dialogs",
-    "cordova-plugin-statusbar",
     {
       "locator": "https://github.com/Justin-Credible/cordova-plugin-spinner",
       "id": "cordova-plugin-spinner"

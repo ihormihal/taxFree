@@ -8,7 +8,7 @@ var Credentials = {
 angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
 
-.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, $cordovaStatusbar, AuthService, Toast, Alert) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, AuthService, Toast, Alert) {
 
   $ionicPlatform.ready(function() {
 
@@ -100,26 +100,10 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
   $rootScope.$on('auth-login-error', function(event, data) {
     Toast.show(data);
     $state.go('login');
-      try {
-      if($cordovaStatusbar.isVisible()){
-        $cordovaStatusbar.hide();
-      }
-    } catch (error) {
-      console.log('hide statusBar');
-      console.log(error);
-    }
   });
 
   $rootScope.$on('auth-logout', function(event, data) {
     $state.go('login');
-      try {
-      if($cordovaStatusbar.isVisible()){
-        $cordovaStatusbar.hide();
-      }
-    } catch (error) {
-      console.log('hide statusBar');
-      console.log(error);
-    }
   });
 
 
