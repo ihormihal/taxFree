@@ -5,6 +5,15 @@ angular.module('app.controllers', [])
 /****************************************/
 
 .controller('startCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+  try {
+    if($cordovaStatusbar.isVisible()){
+      $cordovaStatusbar.hide();
+    }
+  } catch (error) {
+    console.log('hide statusBar');
+    console.log(error);
+  }
+
   $scope.next = function() {
     $ionicSlideBoxDelegate.next();
   };
@@ -46,7 +55,7 @@ angular.module('app.controllers', [])
 /******** REG CONTROLLER ********/
 /********************************/
 
-.controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, RegService) {
+.controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, RegService, Catalog) {
 
   try {
     if($cordovaStatusbar.isVisible()){
@@ -55,6 +64,20 @@ angular.module('app.controllers', [])
   } catch (error) {
     console.log('hide statusBar');
     console.log(error);
+  }
+
+  $rootScope.transports = [];
+  $rootScope.countries = [];
+
+  if(window.localStorage['countries']){
+    $rootScope.countries = angular.fromJson(window.localStorage['countries']);
+  }else{
+    Catalog.query({name: 'country'}, function(data){
+      $rootScope.countries = data;
+      window.localStorage['countries'] = angular.toJson(data);
+    },function(error){
+      console.log(error);
+    });
   }
 
   //initialize every time when view is called
@@ -211,6 +234,15 @@ angular.module('app.controllers', [])
 /*********************************/
 
 .controller('dashboardCtrl', function($scope) {
+  try {
+    if(!$cordovaStatusbar.isVisible()){
+      $cordovaStatusbar.show();
+      $cordovaStatusbar.styleHex('#e42112');
+    }
+  } catch (error) {
+    console.log('show statusBar');
+    console.log(error);
+  }
 })
 
 /*********************************/
@@ -281,27 +313,22 @@ angular.module('app.controllers', [])
 /******** TRIP LIST CONTROLLER ********/
 /***************************************/
 
-.controller('tripsCtrl', function($scope, $state, $ionicModal, Trips, Trip, Toast) {
+.controller('tripsCtrl', function($scope, $state, $ionicModal, Trips, Trip, Toast, AppData) {
 
 
   Trips.get({},function(data){
     $scope.trips = data.trips;
+    AppData.trips = data.trips;
   });
 
   $scope.doRefresh = function(){
     Trips.get({}, function(data){
       $scope.trips = data.trips;
+      AppData.trips = data.trips;
       $scope.$broadcast('scroll.refreshComplete');
     }, function(error){
       $scope.$broadcast('scroll.refreshComplete');
     });
-  };
-
-  $scope.trip = {
-    data: {
-      time_start: 61200,
-      time_end: 61200
-    }
   };
 
   $ionicModal.fromTemplateUrl('templates/trips/add.html', {
@@ -323,11 +350,12 @@ angular.module('app.controllers', [])
   });
 
   $scope.addTrip = function(){
+    $scope.trip = {id: 'add', time_start: 61200, time_end: 61200};
     $scope.openModal();
   };
 
   $scope.create = function(){
-    Trip.save($scope.trip.data, function(data){
+    Trip.add($scope.trip.data, function(data){
       $scope.closeModal();
       Toast.show(lngTranslate('toast_trip_created'));
       $state.go('main.trip.data', {id: data.id});
@@ -346,6 +374,38 @@ angular.module('app.controllers', [])
     $scope.trip = data;
   });
 
+  $ionicModal.fromTemplateUrl('templates/trips/edit.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modalTrip = modal;
+  });
+
+  $ionicModal.fromTemplateUrl('templates/trips/add-check.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modalCheck = modal;
+  });
+
+  $scope.editTrip = function(){
+    $scope.modalTrip.show();
+  };
+
+  $scope.addCheck = function(){
+    $scope.check = {id: 'add', trip: $stateParams.id, files: []};
+    $scope.modalCheck.show();
+  };
+
+  $scope.closeModal = function() {
+    $scope.modalTrip.hide();
+    $scope.modalCheck.hide();
+  };
+
+  $scope.$on('$destroy', function() {
+    $scope.modalTrip.remove();
+    $scope.modalCheck.remove();
+  });
 
   $scope.update = function(){
     Trip.update($scope.trip, function(){
@@ -369,41 +429,8 @@ angular.module('app.controllers', [])
     });
   };
 
-  $ionicModal.fromTemplateUrl('templates/trips/edit.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.modalTrip = modal;
-  });
-
-  $ionicModal.fromTemplateUrl('templates/checks/add.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.modalCheck = modal;
-  });
-
-  $scope.editTrip = function(){
-    $scope.modalTrip.show();
-  };
-
-  $scope.addCheck = function(){
-    $scope.check = {trip: $stateParams.id, files: []};
-    $scope.modalCheck.show();
-  };
-
-  $scope.closeModal = function() {
-    $scope.modalTrip.hide();
-    $scope.modalCheck.hide();
-  };
-
-  $scope.$on('$destroy', function() {
-    $scope.modalTrip.remove();
-    $scope.modalCheck.remove();
-  });
-
-  $scope.saveCheck = function(){
-    Check.update($scope.check, function(){
+  $scope.createCheck = function(){
+    Check.add($scope.check, function(){
       Toast.show(lngTranslate('toast_check_created'));
     },function(error){
       Toast.show(error);
@@ -416,7 +443,7 @@ angular.module('app.controllers', [])
 /******** CHECK LIST CONTROLLER ********/
 /***************************************/
 
-.controller('checksCtrl', function($rootScope, $scope, $ionicModal, Checks, Check, Trip, Toast) {
+.controller('checksCtrl', function($rootScope, $scope, $ionicModal, Checks, Check, Trip, Trips, Toast, AppData) {
 
   var scrollRefresh = false;
 
@@ -429,57 +456,74 @@ angular.module('app.controllers', [])
   $scope.doRefresh = function(){
     Checks.get({}, function(data){
       $scope.checks = data.checks;
-      $scope.complete($scope.checks);
+      $scope.complete();
     }, function(error){
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
 
-  $scope.complete = function(checks){
-    angular.forEach(checks, function(check, index){
-        Trip.get({id: check.trip}, function(data){
-          $scope.checks[index].country_enter = $rootScope.getById($rootScope.countries,data.country_enter).name;
-          $scope.checks[index].country_leaving = $rootScope.getById($rootScope.countries,data.country_leaving).name;
-          if(index == (checks.length -1)){
-            window.SpinnerPlugin.activityStop();
-            $scope.$broadcast('scroll.refreshComplete');
-          }
-        },function(){
-          if(index == (checks.length -1)){
-            window.SpinnerPlugin.activityStop();
-            $scope.$broadcast('scroll.refreshComplete');
-          }
-        });
+  if(AppData.trips.length == 0){
+    Trips.get({},function(data){
+      AppData.trips = data.trips;
+    });
+  }
+
+  var getCountryName = function(){
+    angular.forEach($scope.checks, function(check, i){
+      angular.forEach(AppData.trips, function(trip, j){
+        if(trip.id == check.trip){
+          $scope.checks[i].country_enter = $rootScope.getById($rootScope.countries,trip.country_enter).name;
+          $scope.checks[i].country_leaving = $rootScope.getById($rootScope.countries,trip.country_leaving).name;
+        }
+      });
+    });
+    $scope.$broadcast('scroll.refreshComplete');
+    console.log(AppData.trips);
+  };
+
+  $scope.complete = function(){
+    if(AppData.trips.length == 0){
+      Trips.get({},function(data){
+        AppData.trips = data.trips;
+        getCountryName();
+      });
+    }else{
+      getCountryName();
+    }
+  };
+
+  Trips.get({},function(data){
+    $scope.trips = data.trips;
+  });
+
+  $ionicModal.fromTemplateUrl('templates/checks/add.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modalCheck = modal;
+  });
+
+  $scope.addCheck = function(){
+    $scope.check = {id: 'add', files: []};
+    $scope.modalCheck.show();
+  };
+
+  $scope.closeModal = function() {
+    $scope.modalCheck.hide();
+  };
+
+  $scope.$on('$destroy', function() {
+    $scope.modalCheck.remove();
+  });
+
+  $scope.createCheck = function(){
+    Check.add($scope.check, function(){
+      Toast.show(lngTranslate('toast_check_created'));
+    },function(error){
+      Toast.show(error);
     });
   };
 
-  // $ionicModal.fromTemplateUrl('templates/checks/add.html', {
-  //   scope: $scope,
-  //   animation: 'slide-in-up'
-  // }).then(function(modal) {
-  //   $scope.modalCheck = modal;
-  // });
-
-  // $scope.addCheck = function(){
-  //   $scope.check = {trip: $stateParams.id, files: []};
-  //   $scope.modalCheck.show();
-  // };
-
-  // $scope.closeModal = function() {
-  //   $scope.modalCheck.hide();
-  // };
-
-  // $scope.$on('$destroy', function() {
-  //   $scope.modalCheck.remove();
-  // });
-
-  // $scope.saveCheck = function(){
-  //   Check.update($scope.check, function(){
-  //     Toast.show(lngTranslate('toast_check_created'));
-  //   },function(error){
-  //     Toast.show(error);
-  //   });
-  // };
 
 })
 
@@ -510,6 +554,25 @@ angular.module('app.controllers', [])
     $scope.check.files.splice(index,1);
   };
 
+
+  $ionicModal.fromTemplateUrl('templates/checks/add.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+
   $scope.update = function(){
     for (var i = 0; i < $scope.check.images.length; i++){
       $scope.check.files.push($scope.check.images[i]);
@@ -532,29 +595,6 @@ angular.module('app.controllers', [])
         });
       }
     });
-  };
-
-
-  $ionicModal.fromTemplateUrl('templates/checks/add.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  $scope.openModal = function() {
-    $scope.modal.show();
-  };
-  $scope.closeModal = function() {
-    $scope.modal.hide();
-  };
-
-  $scope.$on('$destroy', function() {
-    $scope.modal.remove();
-  });
-
-  $scope.create = function(){
-
   };
 
 })

@@ -8,14 +8,6 @@
   <ion-content padding="false" scroll="true" class="has-header">
     <form>
       <div class="list">
-        <label class="item item-input item-stacked-label">
-          <div class="input-label">{{'trip'|translate}} <sup>*</sup></div>
-          <div class="item-select">
-            <select integer-model ng-model="check.trip">
-              <option ng-repeat="trip in trips" value="{{trip.id}}">{{getById(countries,trip.country_enter).name}} - {{getById(countries,trip.country_leaving).name}}</option>
-            </select>
-          </div>
-        </label>
         <div class="item">
           <span class="input-label">{{'check_photo'|translate}} <sup>*</sup></span>
           <choose-images images="check.files" url="/api/check/upload"></choose-images>

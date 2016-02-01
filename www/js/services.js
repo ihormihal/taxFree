@@ -260,6 +260,16 @@ angular.module('app.services', ['ngResource'])
 })
 
 /****************************************/
+/****** APP PRIVATE DATA SERVICE ********/
+/****************************************/
+
+.service('AppData', function($rootScope) {
+  return {
+    trips: []
+  }
+})
+
+/****************************************/
 /********** DASHBOARD SERVICE ***********/
 /****************************************/
 
@@ -291,6 +301,9 @@ angular.module('app.services', ['ngResource'])
   return $resource(ApiDomain + '/api/trip/:id', {id: '@id'}, {
     update: {
       method: 'PUT'
+    },
+    add: {
+      method: 'POST'
     }
   });
 })
@@ -307,6 +320,9 @@ angular.module('app.services', ['ngResource'])
   return $resource(ApiDomain + '/api/check/:id', {id: '@id'},{
     update: {
       method: 'PUT'
+    },
+    add: {
+      method: 'POST'
     }
   });
 })

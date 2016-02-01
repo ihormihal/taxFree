@@ -9395,6 +9395,8 @@ a {
 .slider-slide {
   background-size: cover;
   background-position: center center; }
+  .slider-slide .white {
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8); }
 
 #start-step-1 {
   background-image: url(../images/start_slide_1.jpg); }
