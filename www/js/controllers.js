@@ -531,18 +531,18 @@ angular.module('app.controllers', [])
 /******** SINGLE CHECK CONTROLLER ********/
 /*****************************************/
 
-.controller('checkCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Toast, Trip, AppData) {
+.controller('checkCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Toast, Trips, AppData) {
 
   window.SpinnerPlugin.activityStart(lngTranslate('loading'));
   Check.get({id: $stateParams.id}, function(data){
     $scope.check = data;
     $scope.check.images = []; //for new images
-    $scope.complete(data);
+    $scope.complete();
   });
 
   var getCountryName = function(){
     angular.forEach(AppData.trips, function(trip){
-      if(trip.id == check.trip){
+      if(trip.id == $scope.check.trip){
         $scope.check.country_enter = $rootScope.getById($rootScope.countries,trip.country_enter).name;
         $scope.check.country_leaving = $rootScope.getById($rootScope.countries,trip.country_leaving).name;
       }
