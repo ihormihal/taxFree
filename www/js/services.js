@@ -203,6 +203,7 @@ angular.module('app.services', ['ngResource'])
       .success(function(data, status, headers, config) {
         if(status == 200){
           q.resolve(data);
+
         }else{
           q.reject(angular.toJson({status: status, data: data}));
         }

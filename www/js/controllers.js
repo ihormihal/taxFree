@@ -136,7 +136,6 @@ angular.module('app.controllers', [])
   };
 
   $scope.stepOne = function() {
-    $scope.doStepOne();
     if(window.localStorage['token']){
       $scope.doStepOne();
     }else{
