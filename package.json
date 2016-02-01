@@ -32,7 +32,10 @@
     "cordova-plugin-x-toast",
     "cordova-plugin-dialogs",
     "cordova-plugin-spinner",
-    "cordova-plugin-statusbar"
+    {
+      "locator": "https://github.com/Justin-Credible/cordova-plugin-spinner",
+      "id": "cordova-plugin-spinner"
+    }
   ],
   "cordovaPlatforms": [
     "android",
