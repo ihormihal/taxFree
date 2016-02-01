@@ -478,7 +478,7 @@ angular.module('app.controllers', [])
       });
     });
     $scope.$broadcast('scroll.refreshComplete');
-    console.log(AppData.trips);
+    window.SpinnerPlugin.activityStop();
   };
 
   $scope.complete = function(){
@@ -531,7 +531,7 @@ angular.module('app.controllers', [])
 /******** SINGLE CHECK CONTROLLER ********/
 /*****************************************/
 
-.controller('checkCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Toast, Trip) {
+.controller('checkCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Toast, Trip, AppData) {
 
   window.SpinnerPlugin.activityStart(lngTranslate('loading'));
   Check.get({id: $stateParams.id}, function(data){
@@ -540,14 +540,26 @@ angular.module('app.controllers', [])
     $scope.complete(data);
   });
 
-  $scope.complete = function(check){
-    Trip.get({id: check.trip}, function(data){
-      $scope.check.country_enter = $rootScope.getById($rootScope.countries,data.country_enter).name;
-      $scope.check.country_leaving = $rootScope.getById($rootScope.countries,data.country_leaving).name;
-      window.SpinnerPlugin.activityStop();
-    },function(){
-      window.SpinnerPlugin.activityStop();
+  var getCountryName = function(){
+    angular.forEach(AppData.trips, function(trip){
+      if(trip.id == check.trip){
+        $scope.check.country_enter = $rootScope.getById($rootScope.countries,trip.country_enter).name;
+        $scope.check.country_leaving = $rootScope.getById($rootScope.countries,trip.country_leaving).name;
+      }
     });
+    $scope.$broadcast('scroll.refreshComplete');
+    window.SpinnerPlugin.activityStop();
+  };
+
+  $scope.complete = function(){
+    if(AppData.trips.length == 0){
+      Trips.get({},function(data){
+        AppData.trips = data.trips;
+        getCountryName();
+      });
+    }else{
+      getCountryName();
+    }
   };
 
   $scope.deletePhoto = function(index){
