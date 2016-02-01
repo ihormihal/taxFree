@@ -100,10 +100,26 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
   $rootScope.$on('auth-login-error', function(event, data) {
     Toast.show(data);
     $state.go('login');
+      try {
+      if($cordovaStatusbar.isVisible()){
+        $cordovaStatusbar.hide();
+      }
+    } catch (error) {
+      console.log('hide statusBar');
+      console.log(error);
+    }
   });
 
   $rootScope.$on('auth-logout', function(event, data) {
     $state.go('login');
+      try {
+      if($cordovaStatusbar.isVisible()){
+        $cordovaStatusbar.hide();
+      }
+    } catch (error) {
+      console.log('hide statusBar');
+      console.log(error);
+    }
   });
 
 

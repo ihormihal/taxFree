@@ -127,7 +127,7 @@ angular.module('app.controllers', [])
 /******** PWD RECOVERY CONTROLLER ********/
 /*****************************************/
 
-.controller('passwordCtrl', function($scope, $state, RegService, PasswordService) {
+.controller('passwordCtrl', function($scope, $state, Alert, RegService, PasswordService, Toast) {
 
   //initialize every time when view is called
   $scope.data = {
@@ -150,7 +150,11 @@ angular.module('app.controllers', [])
     PasswordService.data = $scope.data;
     PasswordService.one()
     .then(function(data) {
-      $state.go('passwordTwo');
+      if($scope.data.sendTo == 'email'){
+        Alert.show({message: lngTranslate('password_email_message'), title: lngTranslate('password_email_title')});
+      }else{
+        $state.go('passwordTwo');
+      }
     });
   };
 
@@ -158,20 +162,18 @@ angular.module('app.controllers', [])
     PasswordService.data.code = $scope.data.code;
     PasswordService.two()
     .then(function(data) {
-      $state.go('regThree');
+      PasswordService.data.token = data.token;
+      $state.go('passwordThree');
     });
   };
 
-  $scope.stepThree= function() {
-    PasswordService.data.code = $scope.data.code;
-    PasswordService.two()
+  $scope.stepThree = function() {
+    PasswordService.data.password = $scope.data.password;
+    PasswordService.three()
     .then(function(data) {
-      $state.go('regThree');
+      Toast.show(lngTranslate('password_restore_success'));
+      $state.go('login');
     });
-  };
-
-  $scope.stepThree = function(){
-
   };
 
 })
@@ -223,7 +225,7 @@ angular.module('app.controllers', [])
   };
 
   $scope.exit = function() {
-    ionic.Platform.exitApp();
+    $ionicPlatform.exitApp();
   };
 
 })
