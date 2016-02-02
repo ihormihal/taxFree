@@ -9248,6 +9248,9 @@ a {
 .item-image .icon {
   font-size: 40px; }
 
+.bg-assertive {
+  background-color: #ef473a; }
+
 .item-clear {
   position: relative;
   display: block;
@@ -9409,6 +9412,55 @@ a {
 
 #start-step-4 {
   background-image: url(../images/start_slide_4.jpg); }
+
+.dashboard-list .item {
+  border: none;
+  background: transparent; }
+
+.dashboard-list h2 {
+  font-size: 22px; }
+
+.dashboard-list .dashboard-item {
+  background-size: 100% auto;
+  font-weight: 100; }
+  .dashboard-list .dashboard-item .item-content {
+    line-height: 16px;
+    padding: 0;
+    transition: 0.09s all linear; }
+    .dashboard-list .dashboard-item .item-content .item {
+      white-space: normal; }
+      .dashboard-list .dashboard-item .item-content .item .left {
+        display: block;
+        float: left;
+        width: 80%; }
+        .dashboard-list .dashboard-item .item-content .item .left .icon {
+          display: block;
+          width: 25px;
+          float: left;
+          height: 50px; }
+      .dashboard-list .dashboard-item .item-content .item .item-note {
+        display: block;
+        float: left;
+        width: 20%;
+        font-size: 10px;
+        text-align: right; }
+    .dashboard-list .dashboard-item .item-content.ng-hide {
+      line-height: 0px; }
+    .dashboard-list .dashboard-item .item-content.ng-hide-add, .dashboard-list .dashboard-item .item-content.ng-hide-remove {
+      display: block !important; }
+  .dashboard-list .dashboard-item.dark * {
+    color: #fff !important; }
+  .dashboard-list .dashboard-item.light * {
+    color: #000 !important; }
+
+#dashboard-item-1 {
+  background-image: url(../images/rome.jpg); }
+
+#dashboard-item-2 {
+  background-image: url(../images/london.jpg); }
+
+#dashboard-item-3 {
+  background-image: url(../images/ny.jpg); }
 
 .platform-android .view-container .tabs-top .tabs {
   top: 44px !important; }

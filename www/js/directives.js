@@ -10,19 +10,24 @@ angular.module('app.directives', [])
   }
 })
 
-.directive('input', function(dateFilter) {
+
+.directive('datetime', function(dateFilter) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     require: '?ngModel',
     link: function($scope, $element, $attrs, ngModel) {
-      if (typeof $attrs.type !== 'undefined' && ($attrs.type === 'date'|| $attrs.type === 'time') && ngModel) {
-        ngModel.$formatters.push(function(value) {
-          return new Date(value * 1000);
-        });
-        ngModel.$parsers.push(function(value) {
-          return value.getTime() / 1000;
-        });
-      }
+
+      ngModel.$formatters.push(function(modelValue) {
+        return new Date(parseInt(modelValue) * 1000);
+      });
+
+      ngModel.$parsers.push(function(viewValue) {
+        if (viewValue instanceof Date) {
+          var timestamp = viewValue.getTime() / 1000;
+          return Math.abs(timestamp);
+        }
+      });
+
     }
   }
 })
@@ -33,12 +38,12 @@ angular.module('app.directives', [])
     require: '?ngModel',
     link: function($scope, $element, $attrs, ngModel) {
       ngModel.$formatters.push(function(value) {
-        if(value !== undefined){
+        if(value !== null && value !== undefined){
           return value.toString();
         }
       });
       ngModel.$parsers.push(function(value) {
-        if(value !== undefined){
+        if(value !== null){
           return parseInt(value);
         }
       });
@@ -251,7 +256,7 @@ angular.module('app.directives', [])
         .then(function(files) {
           for (var i = 0; i < files.length; i++) {
             $scope.images.push({src: '', loading: true});
-            $scope.uploadPhoto(files[i],i);
+            $scope.uploadPhoto(files[i],$scope.images.length - 1);
           }
         }, function(error) {
           $cordovaToast.show(error, 'short', 'top');
@@ -266,7 +271,7 @@ angular.module('app.directives', [])
         })
         .then(function(image) {
           $scope.images.push({src: '', loading: true});
-          $scope.uploadPhoto(image,0);
+          $scope.uploadPhoto(image,$scope.images.length - 1);
         }, function(error) {
           $cordovaToast.show(error, 'short', 'top');
         });

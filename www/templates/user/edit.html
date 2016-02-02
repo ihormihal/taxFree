@@ -23,7 +23,7 @@
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">{{'birthday'|translate}} <sup>*</sup></div>
-          <input type="date" ng-model="user.profile.passp_birthday">
+          <input datetime type="date" min="1900-01-01" max="2010-01-01" ng-model="user.profile.passp_birthday">
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">{{'sex'|translate}} <sup>*</sup></div>
@@ -64,7 +64,7 @@
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">{{'passport_date'|translate}} <sup>*</sup></div>
-          <input type="date" ng-model="user.profile.passp_date">
+          <input datetime type="date" min="1990-01-01" ng-model="user.profile.passp_date">
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">{{'email'|translate}} <sup>*</sup></div>

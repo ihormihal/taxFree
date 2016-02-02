@@ -153,9 +153,23 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
   });
 
 
-})
+});
 
-;
+var getTimestamp = function(value){
+  if(value instanceof Date){
+    return value.getTime() / 1000;
+  }else{
+    return value;
+  }
+};
+
+var getDate = function(value){
+  if(parseInt(value)){
+    return new Date(parseInt(value) * 1000);
+  }else{
+    return value;
+  }
+};
 
 if(!window.localStorage['lang']){
   window.localStorage['lang'] = 'ru';

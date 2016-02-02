@@ -23,8 +23,8 @@ angular.module('app.controllers', [])
 .controller('loginCtrl', function($scope, $state, $ionicPopup, Toast, AuthService) {
 
   $scope.user = {
-    username: 'tsvetok77@yandex.ru',
-    password: 'PArol12345'
+    username: 'ihor.mihal@gmail.com',
+    password: ''
   };
 
   $scope.login = function() {
@@ -199,7 +199,16 @@ angular.module('app.controllers', [])
 /*********************************/
 
 .controller('dashboardCtrl', function($scope) {
-
+  $scope.toggleGroup = function(group) {
+    if ($scope.isGroupShown(group)) {
+      $scope.shownGroup = null;
+    } else {
+      $scope.shownGroup = group;
+    }
+  };
+  $scope.isGroupShown = function(group) {
+    return $scope.shownGroup === group;
+  };
 })
 
 /*********************************/
@@ -307,12 +316,18 @@ angular.module('app.controllers', [])
   });
 
   $scope.addTrip = function(){
-    $scope.trip = {id: 'add', time_start: 61200, time_end: 61200};
+    $scope.trip = {id: 'add'};
     $scope.openModal();
   };
 
   $scope.create = function(){
-    Trip.add($scope.trip.data, function(data){
+
+    // $scope.trip.date_start = getTimestamp($scope.trip.date_start);
+    // $scope.trip.date_end = getTimestamp($scope.trip.date_end);
+    // $scope.trip.time_start = getTimestamp($scope.trip.time_start);
+    // $scope.trip.time_end = getTimestamp($scope.trip.time_end);
+
+    Trip.add($scope.trip, function(data){
       $scope.closeModal();
       Toast.show(lngTranslate('toast_trip_created'));
       $state.go('main.trip.data', {id: data.id});
@@ -405,7 +420,7 @@ angular.module('app.controllers', [])
   var scrollRefresh = false;
 
   window.SpinnerPlugin.activityStart(lngTranslate('loading'));
-  Checks.get({},function(data){
+  Checks.query({},function(data){
     $scope.checks = data.checks;
     $scope.complete($scope.checks);
   });
@@ -473,7 +488,7 @@ angular.module('app.controllers', [])
     $scope.modalCheck.remove();
   });
 
-  $scope.createCheck = function(){
+  $scope.create = function(){
     Check.add($scope.check, function(){
       Toast.show(lngTranslate('toast_check_created'));
     },function(error){

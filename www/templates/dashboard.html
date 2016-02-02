@@ -1,5 +1,52 @@
-<ion-view title="Help">
-    <ion-content padding="'true'" scroll="false" class="has-header">
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </ion-content>
+<ion-view title="Dashboard">
+	<ion-content class="has-header bg-assertive">
+		<div class="list dashboard-list">
+
+			<div id="dashboard-item-1" class="item dashboard-item light" ng-class="{active: isGroupShown(1)}">
+				<div class="item item-heading" ng-click="toggleGroup(1)"><h2>Требует действий (2)</h2></div>
+				<div class="item item-content" ng-show="isGroupShown(1)">
+					<div class="list">
+						<div class="item"><span class="left">У Вас есть 48 часов чтобы добавить чеки в поездку Украина - Франция</span><span class="item-note">05.12.2015</span></div>
+						<div class="item"><span class="left">У Вас есть 48 часов чтобы добавить чеки в поездку Украина - Франция</span><span class="item-note">05.12.2015</span></div>
+					</div>
+				</div>
+			</div>
+
+			<div id="dashboard-item-2" class="item dashboard-item dark" ng-class="{active: isGroupShown(2)}">
+				<div class="item item-heading" ng-click="toggleGroup(2)"><h2>События (5)</h2></div>
+				<div class="item item-content" ng-show="isGroupShown(2)">
+					<div class="list">
+						<div class="item item-icon"><span class="left"><i class="icon ion-email"></i>Поездка Украина - Англия (30.11 - 05.12.2015) успешно добавлена</span><span class="item-note">05.12.2015</span></div>
+						<div class="item item-icon"><span class="left"><i class="icon ion-email"></i>Вы успешно загрузили 5 чеков в поездку Украина - Германия</span><span class="item-note">05.12.2015</span></div>
+						<div class="item item-icon"><span class="left"><i class="icon ion-email"></i>Изменения в Вашем профиле подтверждены</span><span class="item-note">05.12.2015</span></div>
+						<div class="item item-icon"><span class="left"><i class="icon ion-email"></i>Поездка Украина - Англия (30.11 - 05.12.2015) успешно добавлена</span><span class="item-note">05.12.2015</span></div>
+						<div class="item item-icon"><span class="left"><i class="icon ion-email"></i>Выплачено $ 250 по поездке Украина - США</span><span class="item-note">05.12.2015</span></div>
+					</div>
+				</div>
+			</div>
+
+			<div id="dashboard-item-3" class="item dashboard-item light" ng-class="{active: isGroupShown(3)}">
+				<div class="item item-heading" ng-click="toggleGroup(3)"><h2>Выплаты $ 400 | $1400</h2></div>
+				<div class="item item-content" ng-show="isGroupShown(3)">
+					<div class="list">
+						<div class="item">
+							<p>Последняя подтвержденная выплата</p>
+							<h2>$ 400</h2>
+							<p>Украина - Англия (30.11 - 05.12.2015) </p>
+						</div>
+						<div class="item">
+							<p>Всего выплачено</p>
+							<h2>$ 1400</h2>
+							<p>Поездок: 7</p>
+							<p>Сумма покупок:  $ 9 451</p>
+							<br>
+							<p>Чеков: 7</p>
+							<p>Деклараций:  $ 9 451</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</ion-content>
 </ion-view>

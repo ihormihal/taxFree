@@ -57,7 +57,9 @@ a {color: $assertive;}
 }
 .item-image .icon {font-size: 40px;}
 
-
+.bg-assertive {
+	background-color: #ef473a;
+}
 
 //////////////////////////
 //FORMS
@@ -232,6 +234,7 @@ a {color: $assertive;}
 	}
 }
 
+
 //////////////////////////
 //SLIDER-BOX
 //////////////////////////
@@ -258,6 +261,72 @@ a {color: $assertive;}
 }
 #start-step-4 {
 	background-image: url(../images/start_slide_4.jpg);
+}
+
+//////////////////////////
+//DASHBOARD
+//////////////////////////
+////// ACCORDION
+.dashboard-list {
+	.item {
+		border: none;
+		background: transparent;
+	}
+	h2 {
+		font-size: 22px;
+	}
+	.dashboard-item {
+		background-size: 100% auto;
+		font-weight: 100;
+		.item-content {
+			line-height: 16px;
+			padding: 0;
+			transition: 0.09s all linear;
+			.item {
+				white-space: normal;
+				.left {
+					display: block;
+					float: left;
+					width: 80%;
+					.icon {
+						display: block;
+					    width: 25px;
+					    float: left;
+					    height: 50px;
+					}
+				}
+				.item-note {
+					display: block;
+					float: left;
+					width: 20%;
+					font-size: 10px;
+					text-align: right;
+				}
+			}
+			&.ng-hide {
+				line-height: 0px;
+			}
+			&.ng-hide-add, &.ng-hide-remove {
+				display: block !important;
+			}
+		}
+		&.dark {
+			* {color: #fff !important;}
+		}
+		&.light {
+			* {color: #000 !important;}
+		}
+	}
+}
+
+#dashboard-item-1 {
+	background-image: url(../images/rome.jpg);
+}
+#dashboard-item-2 {
+	background-image: url(../images/london.jpg);
+}
+#dashboard-item-3 {
+	background-image: url(../images/ny.jpg);
 }
 
 //////////////////////////
