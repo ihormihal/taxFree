@@ -91,10 +91,16 @@ a {color: $assertive;}
 	.input-label {
 		width: 100%;
 	}
-	.item-input {
+	.item-input, .item-select {
 		border: none;
 		margin-bottom: 10px;
 		border-radius: 2px;
+	}
+	.item-select {
+		select {
+			direction: ltr;
+			left: 0;
+		}
 	}
 }
 
@@ -266,6 +272,10 @@ a {color: $assertive;}
 //////////////////////////
 //DASHBOARD
 //////////////////////////
+.dashboard {
+	background-size: cover;
+	background-image: url(../img/london.jpg);
+}
 ////// ACCORDION
 .dashboard-list {
 	.item {
@@ -276,18 +286,17 @@ a {color: $assertive;}
 		font-size: 22px;
 	}
 	.dashboard-item {
-		background-size: 100% auto;
-		font-weight: 100;
 		.item-content {
-			line-height: 16px;
+			height: auto;
 			padding: 0;
-			transition: 0.09s all linear;
+			//transition: 0.3s line-height ease;
 			.item {
 				white-space: normal;
 				.left {
 					display: block;
 					float: left;
 					width: 80%;
+					padding-right: 15px;
 					.icon {
 						display: block;
 					    width: 25px;
@@ -301,32 +310,30 @@ a {color: $assertive;}
 					width: 20%;
 					font-size: 10px;
 					text-align: right;
+					color: #000;
 				}
 			}
 			&.ng-hide {
-				line-height: 0px;
+				height: 0;
 			}
 			&.ng-hide-add, &.ng-hide-remove {
 				display: block !important;
 			}
 		}
-		&.dark {
-			* {color: #fff !important;}
-		}
-		&.light {
-			* {color: #000 !important;}
-		}
 	}
 }
 
 #dashboard-item-1 {
-	background-image: url(../images/rome.jpg);
+	background-color: rgba(0,0,0,0.7);
+	h2, .item, .item-note, p {color: #fff;}
 }
 #dashboard-item-2 {
-	background-image: url(../images/london.jpg);
+	background-color: rgba(0,0,0,0.5);
+	h2, .item, .item-note, p {color: #fff;}
 }
 #dashboard-item-3 {
-	background-image: url(../images/ny.jpg);
+	background-color: rgba(0,0,0,0.3);
+	h2, .item, .item-note, p {color: #fff;}
 }
 
 //////////////////////////

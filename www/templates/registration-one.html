@@ -10,11 +10,17 @@
 
         <div class="box mt20">
             <div class="list inputs-on-background">
+                <label class="item item-select">
+                    <select integer-model ng-model="data.country">
+                        <option value="">{{'country'|translate}} *</option>
+                        <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
+                    </select>
+                </label>
                 <label class="item item-input">
                     <input type="email" ng-model="data.email" placeholder="{{'email'|translate}} *">
                 </label>
                 <label class="item item-input">
-                    <input type="tel" ng-model="data.phone" placeholder="{{'phone'|translate}} *">
+                    <input type="number" min="10" max="10" ng-model="data.phone" placeholder="{{'phone'|translate}} *">
                 </label>
                 <div class="item-transparent-white">
                     <span class="input-label">{{'select_confirmation_method'|translate}} *</span>

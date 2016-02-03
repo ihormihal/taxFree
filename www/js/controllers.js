@@ -42,6 +42,12 @@ angular.module('app.controllers', [])
   $rootScope.transports = [];
   $rootScope.countries = [];
 
+  $scope.data = {
+    country: '',
+    confirmation: 'sms'
+  };
+  RegService.data = $scope.data;
+
   if(window.localStorage['countries']){
     $rootScope.countries = angular.fromJson(window.localStorage['countries']);
   }else{
@@ -59,21 +65,21 @@ angular.module('app.controllers', [])
   $scope.stepOne = function() {
     RegService.data = $scope.data;
     if(window.localStorage['token']){
-      RegService.one()
-      .then(function(data) {
-        RegService.data.user = data.user;
-        $state.go('regTwo');
-      });
+      $scope.doStepOne();
     }else{
       RegService.getToken()
       .then(function(){
-        RegService.one()
-        .then(function(data) {
-          RegService.data.user = data.user;
-          $state.go('regTwo');
-        });
+        $scope.doStepOne();
       });
     }
+  };
+
+  $scope.doStepOne = function(){
+    RegService.one()
+    .then(function(data) {
+      RegService.data.user = data.user;
+      $state.go('regTwo');
+    });
   };
 
   $scope.stepTwo = function() {
@@ -148,6 +154,15 @@ angular.module('app.controllers', [])
       $state.go('login');
     });
   };
+
+  $scope.passwordSetEnabled = false;
+  $scope.$watchGroup('data.password, data.password_confirm', function(){
+    if($scope.data.password.length > 7 && $scope.data.password == $scope.data.password_confirm){
+      $scope.passwordSetEnabled = true;
+    }else{
+      $scope.passwordSetEnabled = false;
+    }
+  }, true);
 
 })
 
@@ -283,11 +298,13 @@ angular.module('app.controllers', [])
 
 
   Trips.get({},function(data){
+    console.log('get_trips');
     $scope.trips = data.trips;
     AppData.trips = data.trips;
   });
 
   $scope.doRefresh = function(){
+    console.log('get_trips');
     Trips.get({}, function(data){
       $scope.trips = data.trips;
       AppData.trips = data.trips;
@@ -321,11 +338,6 @@ angular.module('app.controllers', [])
   };
 
   $scope.create = function(){
-
-    // $scope.trip.date_start = getTimestamp($scope.trip.date_start);
-    // $scope.trip.date_end = getTimestamp($scope.trip.date_end);
-    // $scope.trip.time_start = getTimestamp($scope.trip.time_start);
-    // $scope.trip.time_end = getTimestamp($scope.trip.time_end);
 
     Trip.add($scope.trip, function(data){
       $scope.closeModal();
@@ -402,8 +414,13 @@ angular.module('app.controllers', [])
   };
 
   $scope.createCheck = function(){
-    Check.add($scope.check, function(){
+    var check = {id: 'add', trip: $scope.check.trip, files: []};
+    for(var i = 0; i < $scope.check.files.length; i++){
+      check.files.push($scope.check.files[i].src);
+    }
+    Check.add(check, function(data){
       Toast.show(lngTranslate('toast_check_created'));
+      $state.go('main.check', {id: data.id});
     },function(error){
       Toast.show(error);
     });
@@ -415,17 +432,19 @@ angular.module('app.controllers', [])
 /******** CHECK LIST CONTROLLER ********/
 /***************************************/
 
-.controller('checksCtrl', function($rootScope, $scope, $ionicModal, Checks, Check, Trip, Trips, Toast, AppData) {
+.controller('checksCtrl', function($rootScope, $scope, $state, $ionicModal, Checks, Check, Trip, Trips, Toast, AppData) {
 
   var scrollRefresh = false;
 
   window.SpinnerPlugin.activityStart(lngTranslate('loading'));
-  Checks.query({},function(data){
+  console.log('get_checks');
+  Checks.get({},function(data){
     $scope.checks = data.checks;
     $scope.complete($scope.checks);
   });
 
   $scope.doRefresh = function(){
+    console.log('get_checks');
     Checks.get({}, function(data){
       $scope.checks = data.checks;
       $scope.complete();
@@ -435,14 +454,16 @@ angular.module('app.controllers', [])
   };
 
   if(AppData.trips.length == 0){
+    console.log('get_trips');
     Trips.get({},function(data){
+      $scope.trips = data.trips;
       AppData.trips = data.trips;
     });
   }
 
   var getCountryName = function(){
     angular.forEach($scope.checks, function(check, i){
-      angular.forEach(AppData.trips, function(trip, j){
+      angular.forEach(AppData.trips, function(trip){
         if(trip.id == check.trip){
           $scope.checks[i].country_enter = $rootScope.getById($rootScope.countries,trip.country_enter).name;
           $scope.checks[i].country_leaving = $rootScope.getById($rootScope.countries,trip.country_leaving).name;
@@ -455,6 +476,7 @@ angular.module('app.controllers', [])
 
   $scope.complete = function(){
     if(AppData.trips.length == 0){
+      console.log('get_trips');
       Trips.get({},function(data){
         AppData.trips = data.trips;
         getCountryName();
@@ -463,10 +485,6 @@ angular.module('app.controllers', [])
       getCountryName();
     }
   };
-
-  Trips.get({},function(data){
-    $scope.trips = data.trips;
-  });
 
   $ionicModal.fromTemplateUrl('templates/checks/add.html', {
     scope: $scope,
@@ -489,8 +507,13 @@ angular.module('app.controllers', [])
   });
 
   $scope.create = function(){
-    Check.add($scope.check, function(){
+    var check = {id: 'add', trip: $scope.check.trip, files: []};
+    for(var i = 0; i < $scope.check.files.length; i++){
+      check.files.push($scope.check.files[i].src);
+    }
+    Check.add(check, function(data){
       Toast.show(lngTranslate('toast_check_created'));
+      $state.go('main.check', {id: data.id});
     },function(error){
       Toast.show(error);
     });
@@ -525,6 +548,7 @@ angular.module('app.controllers', [])
 
   $scope.complete = function(){
     if(AppData.trips.length == 0){
+      console.log('get_trips');
       Trips.get({},function(data){
         AppData.trips = data.trips;
         getCountryName();
