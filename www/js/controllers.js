@@ -254,7 +254,6 @@ angular.module('app.controllers', [])
   });
 
   $scope.update = function(){
-    alert(angular.toJson($scope.user.profile));
     User.update($scope.user.profile, function(){
       Toast.show(lngTranslate('toast_profile_updated'));
       $scope.closeModal();
