@@ -48,14 +48,23 @@ angular.module('app.controllers', [])
   };
   RegService.data = $scope.data;
 
-  if(window.localStorage['countries']){
-    $rootScope.countries = angular.fromJson(window.localStorage['countries']);
+  var loadCountries = function(){
+    if(window.localStorage['countries']){
+      $rootScope.countries = angular.fromJson(window.localStorage['countries']);
+    }else{
+      Catalog.query({name: 'country'}, function(data){
+        $rootScope.countries = data;
+        window.localStorage['countries'] = angular.toJson(data);
+      });
+    }
+  };
+
+  if(window.localStorage['token']){
+    loadCountries();
   }else{
-    Catalog.query({name: 'country'}, function(data){
-      $rootScope.countries = data;
-      window.localStorage['countries'] = angular.toJson(data);
-    },function(error){
-      console.log(error);
+    RegService.getToken()
+    .then(function(){
+      loadCountries();
     });
   }
 
@@ -63,18 +72,6 @@ angular.module('app.controllers', [])
   $scope.data = RegService.data;
 
   $scope.stepOne = function() {
-    RegService.data = $scope.data;
-    if(window.localStorage['token']){
-      $scope.doStepOne();
-    }else{
-      RegService.getToken()
-      .then(function(){
-        $scope.doStepOne();
-      });
-    }
-  };
-
-  $scope.doStepOne = function(){
     RegService.one()
     .then(function(data) {
       RegService.data.user = data.user;
