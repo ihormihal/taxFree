@@ -1,6 +1,6 @@
 {
   "name": "taxfree4you",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "TaxFree4U App",
   "dependencies": {
     "gulp": "^3.5.6",

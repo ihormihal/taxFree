@@ -39,14 +39,12 @@ angular.module('app.controllers', [])
 
 .controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, RegService, Catalog) {
 
+  //initialize every time when view is called
+  $scope.data = RegService.data;
+
+  window.localStorage['token'] = '';
   $rootScope.transports = [];
   $rootScope.countries = [];
-
-  $scope.data = {
-    country: '',
-    confirmation: 'sms'
-  };
-  RegService.data = $scope.data;
 
   var loadCountries = function(){
     if(window.localStorage['countries']){
@@ -59,19 +57,15 @@ angular.module('app.controllers', [])
     }
   };
 
-  if(window.localStorage['token']){
+  RegService.getToken()
+  .then(function(){
     loadCountries();
-  }else{
-    RegService.getToken()
-    .then(function(){
-      loadCountries();
-    });
-  }
-
-  //initialize every time when view is called
-  $scope.data = RegService.data;
+  });
 
   $scope.stepOne = function() {
+    RegService.data.country = $scope.data.country;
+    RegService.data.phone = $scope.data.phone;
+    RegService.data.email = $scope.data.email;
     RegService.one()
     .then(function(data) {
       RegService.data.user = data.user;
@@ -81,6 +75,7 @@ angular.module('app.controllers', [])
 
   $scope.stepTwo = function() {
     RegService.data.code = $scope.data.code;
+    console.log(RegService.data);
     RegService.two()
     .then(function(data) {
       $state.go('regThree');
@@ -91,12 +86,28 @@ angular.module('app.controllers', [])
     RegService.data.password = $scope.data.password;
     RegService.data.before_fs = $scope.data.before_fs;
     RegService.data.fs_name = $scope.data.fsname;
+    RegService.data.country = $scope.data.country;
     RegService.data.address = $scope.data.address;
     RegService.three()
     .then(function(data) {
       $state.go('main.user.profile');
     });
   };
+
+
+  $scope.formDisabled = true;
+  $scope.$watch('data', function(){
+    if($scope.data.accept_terms && $scope.data.password && $scope.data.password_confirm){
+      if($scope.data.password == $scope.data.password_confirm && $scope.data.password.length > 7){
+        $scope.formDisabled = false;
+      }else{
+        $scope.formDisabled = true;
+      }
+    }else{
+      $scope.formDisabled = true;
+    }
+  }, true);
+
 })
 
 /*****************************************/
@@ -106,10 +117,7 @@ angular.module('app.controllers', [])
 .controller('passwordCtrl', function($scope, $state, Alert, RegService, PasswordService, Toast) {
 
   //initialize every time when view is called
-  $scope.data = {
-    sendTo: 'email',
-    contact: ''
-  };
+  $scope.data = PasswordService.data;
 
   $scope.stepOne = function() {
     if(window.localStorage['token']){
@@ -123,7 +131,8 @@ angular.module('app.controllers', [])
   };
 
   $scope.doStepOne = function() {
-    PasswordService.data = $scope.data;
+    PasswordService.data.contact = $scope.data.contact;
+    PasswordService.data.sendTo = $scope.data.sendTo;
     PasswordService.one()
     .then(function(data) {
       if($scope.data.sendTo == 'email'){
@@ -152,12 +161,16 @@ angular.module('app.controllers', [])
     });
   };
 
-  $scope.passwordSetEnabled = false;
-  $scope.$watchGroup('data.password, data.password_confirm', function(){
-    if($scope.data.password.length > 7 && $scope.data.password == $scope.data.password_confirm){
-      $scope.passwordSetEnabled = true;
+  $scope.formDisabled = true;
+  $scope.$watch('data', function(){
+    if($scope.data.accept_terms && $scope.data.password && $scope.data.password_confirm){
+      if($scope.data.password == $scope.data.password_confirm && $scope.data.password.length > 7){
+        $scope.formDisabled = false;
+      }else{
+        $scope.formDisabled = true;
+      }
     }else{
-      $scope.passwordSetEnabled = false;
+      $scope.formDisabled = true;
     }
   }, true);
 
@@ -231,26 +244,12 @@ angular.module('app.controllers', [])
 
   $scope.user = {
     profile: null,
-    password: {
-      old: '',
-      new: '',
-      new_confirm: '',
-    }
+    password: '',
+    password_confirm: ''
   };
-
-  $scope.passwordResetEnabled = false;
-
-  $scope.$watch('user.password', function(){
-    if($scope.user.password.new.length > 7 && $scope.user.password.new == $scope.user.password.new_confirm){
-      $scope.passwordResetEnabled = true;
-    }else{
-      $scope.passwordResetEnabled = false;
-    }
-  }, true);
 
   User.get({}, function(data){
     $scope.user.profile = data;
-  }, function(error){
   });
 
   $scope.update = function(){
@@ -261,9 +260,11 @@ angular.module('app.controllers', [])
   };
 
   $scope.setPassowrd = function(){
-    PasswordService.update({password: $scope.user.password.new})
+    PasswordService.update({password: $scope.user.password})
     .then(function(){
       Toast.show(lngTranslate('toast_password_updated'));
+      $scope.user.password = '';
+      $scope.user.password_confirm = '';
     })
   };
 
@@ -284,6 +285,19 @@ angular.module('app.controllers', [])
   $scope.$on('$destroy', function() {
     $scope.modal.remove();
   });
+
+  $scope.formDisabled = true;
+  $scope.$watch('user', function(){
+    if($scope.user.password && $scope.user.password_confirm){
+      if($scope.user.password == $scope.user.password_confirm && $scope.user.password.length > 7){
+        $scope.formDisabled = false;
+      }else{
+        $scope.formDisabled = true;
+      }
+    }else{
+      $scope.formDisabled = true;
+    }
+  }, true);
 
 })
 

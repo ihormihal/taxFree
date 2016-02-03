@@ -79,10 +79,12 @@ angular.module('app.services', ['ngResource'])
 .service('RegService', function($rootScope, $q, $state, $http) {
   var self = {
     data: {
-      email: 'ihor.mihal@gmail.com',
-      phone: '0734058015',
-      confirmation: 'email',
-      country: 1
+      email: '',
+      phone: '',
+      confirmation: 'sms',
+      password: '',
+      password_confirm: '',
+      accept_terms: false
     },
 
     getToken: function(){
@@ -156,12 +158,12 @@ angular.module('app.services', ['ngResource'])
       return q.promise;
     },
 
-    tree: function(){
+    three: function(){
       window.SpinnerPlugin.activityStart(lngTranslate('loading'));
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: ApiDomain + '/api/user/register/tree',
+        url: ApiDomain + '/api/user/register/three',
         data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -188,7 +190,12 @@ angular.module('app.services', ['ngResource'])
 
   var self = {
 
-    data: null,
+    data: {
+      sendTo: 'sms',
+      contact: '',
+      password: '',
+      password_confirm: ''
+    },
 
     one: function(){
       var q = $q.defer();
