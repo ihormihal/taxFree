@@ -9251,6 +9251,12 @@ a {
 .bg-assertive {
   background-color: #ef473a; }
 
+.spinner svg {
+  width: 28px;
+  height: 28px;
+  stroke: #F06C21;
+  fill: #F06C21; }
+
 .item-clear {
   position: relative;
   display: block;
