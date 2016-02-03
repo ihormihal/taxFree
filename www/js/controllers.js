@@ -254,6 +254,7 @@ angular.module('app.controllers', [])
   });
 
   $scope.update = function(){
+    alert(angular.toJson($scope.user.profile));
     User.update($scope.user.profile, function(){
       Toast.show(lngTranslate('toast_profile_updated'));
       $scope.closeModal();
@@ -293,22 +294,21 @@ angular.module('app.controllers', [])
 
 .controller('tripsCtrl', function($scope, $state, $ionicModal, Trips, Trip, Toast, AppData) {
 
-
-  Trips.get({},function(data){
-    console.log('get_trips');
-    $scope.trips = data.trips;
-    AppData.trips = data.trips;
-  });
-
-  $scope.doRefresh = function(){
-    console.log('get_trips');
-    Trips.get({}, function(data){
+  $scope.load = function(){
+    Trips.get({},function(data){
       $scope.trips = data.trips;
       AppData.trips = data.trips;
-      $scope.$broadcast('scroll.refreshComplete');
-    }, function(error){
+      if($scope.trips.length == 0){
+        Toast.show(lngTranslate('no_data'));
+      }
       $scope.$broadcast('scroll.refreshComplete');
     });
+  };
+
+  $scope.load();
+
+  $scope.doRefresh = function(){
+    $scope.load();
   };
 
   $ionicModal.fromTemplateUrl('templates/trips/add.html', {
@@ -433,21 +433,22 @@ angular.module('app.controllers', [])
 
   var scrollRefresh = false;
 
+  $scope.load = function(){
+    console.log('get_checks');
+    Checks.get({},function(data){
+      $scope.checks = data.checks;
+      $scope.complete($scope.checks);
+      if($scope.checks.length == 0){
+        Toast.show(lngTranslate('no_data'));
+      }
+    });
+  };
+
   window.SpinnerPlugin.activityStart(lngTranslate('loading'));
-  console.log('get_checks');
-  Checks.get({},function(data){
-    $scope.checks = data.checks;
-    $scope.complete($scope.checks);
-  });
+  $scope.load();
 
   $scope.doRefresh = function(){
-    console.log('get_checks');
-    Checks.get({}, function(data){
-      $scope.checks = data.checks;
-      $scope.complete();
-    }, function(error){
-      $scope.$broadcast('scroll.refreshComplete');
-    });
+    $scope.load();
   };
 
   if(AppData.trips.length == 0){
@@ -610,22 +611,20 @@ angular.module('app.controllers', [])
 
 .controller('declarationsCtrl', function($scope, $ionicModal, Declarations) {
 
-  window.SpinnerPlugin.activityStart(lngTranslate('loading'));
-
-  Declarations.query({},function(data){
-    $scope.declarations = data;
-    window.SpinnerPlugin.activityStop();
-  },function(error){
-    window.SpinnerPlugin.activityStop();
-  });
+  $scope.load = function(){
+    console.log('get_declarations');
+    Declarations.query({},function(data){
+      $scope.declarations = data;
+      if($scope.declarations.length == 0){
+        Toast.show(lngTranslate('no_data'));
+        $scope.$broadcast('scroll.refreshComplete');
+      }
+    });
+  };
+  $scope.load();
 
   $scope.doRefresh = function(){
-    Declarations.query({},function(data){
-      $scope.$broadcast('scroll.refreshComplete');
-      $scope.declarations = data;
-    },function(error){
-      $scope.$broadcast('scroll.refreshComplete');
-    });
+    $scope.load();
   };
 
 })
