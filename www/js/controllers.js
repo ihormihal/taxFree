@@ -623,8 +623,8 @@ angular.module('app.controllers', [])
       $scope.declarations = data;
       if($scope.declarations.length == 0){
         Toast.show(lngTranslate('no_data'));
-        $scope.$broadcast('scroll.refreshComplete');
       }
+      $scope.$broadcast('scroll.refreshComplete');
     });
   };
   $scope.load();
@@ -639,7 +639,7 @@ angular.module('app.controllers', [])
 /******** SINGLE DECLARATION CONTROLLER ********/
 /***********************************************/
 
-.controller('declarationCtrl', function($scope, $stateParams, $ionicModal, Declaration, DeclarationService) {
+.controller('declarationCtrl', function($scope, $stateParams, $ionicModal, Declaration, DeclarationService, Toast) {
   Declaration.get({id: $stateParams.id},function(data){
     $scope.declaration = data;
   });
@@ -650,8 +650,6 @@ angular.module('app.controllers', [])
     Declaration.get({id: $stateParams.id},function(data){
       $scope.$broadcast('scroll.refreshComplete');
       $scope.declaration = data;
-    },function(error){
-      $scope.$broadcast('scroll.refreshComplete');
     });
   };
 

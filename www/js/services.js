@@ -364,7 +364,11 @@ angular.module('app.services', ['ngResource'])
 })
 
 .factory('Declaration', function($resource) {
-  return $resource(ApiDomain + '/api/declaration/:id', {id: '@id'});
+  return $resource(ApiDomain + '/api/declaration/:id', {id: '@id'},{
+    update: {
+      method: 'POST'
+    }
+  });
 })
 
 .factory('DeclarationService', function($resource) {
