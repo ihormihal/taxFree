@@ -23,7 +23,7 @@ angular.module('app.controllers', [])
 .controller('loginCtrl', function($scope, $state, $ionicPopup, Toast, AuthService) {
 
   $scope.user = {
-    username: 'ihor.mihal@gmail.com',
+    username: '',
     password: ''
   };
 
@@ -348,7 +348,6 @@ angular.module('app.controllers', [])
   };
 
   $scope.create = function(){
-
     Trip.add($scope.trip, function(data){
       $scope.closeModal();
       Toast.show(lngTranslate('toast_trip_created'));
@@ -464,14 +463,6 @@ angular.module('app.controllers', [])
     $scope.load();
   };
 
-  if(AppData.trips.length == 0){
-    console.log('get_trips');
-    Trips.get({},function(data){
-      $scope.trips = data.trips;
-      AppData.trips = data.trips;
-    });
-  }
-
   var getCountryName = function(){
     angular.forEach($scope.checks, function(check, i){
       angular.forEach(AppData.trips, function(trip){
@@ -490,9 +481,11 @@ angular.module('app.controllers', [])
       console.log('get_trips');
       Trips.get({},function(data){
         AppData.trips = data.trips;
+        $scope.trips = data.trips;
         getCountryName();
       });
     }else{
+      $scope.trips = AppData.trips;
       getCountryName();
     }
   };
@@ -622,7 +615,7 @@ angular.module('app.controllers', [])
 /******** DECLARATION LIST CONTROLLER ********/
 /*********************************************/
 
-.controller('declarationsCtrl', function($scope, $ionicModal, Declarations) {
+.controller('declarationsCtrl', function($scope, $ionicModal, Declarations, Toast) {
 
   $scope.load = function(){
     console.log('get_declarations');
@@ -651,6 +644,8 @@ angular.module('app.controllers', [])
     $scope.declaration = data;
   });
 
+  $scope.deliverySelected = false;
+
   $scope.doRefresh = function(){
     Declaration.get({id: $stateParams.id},function(data){
       $scope.$broadcast('scroll.refreshComplete');
@@ -659,9 +654,12 @@ angular.module('app.controllers', [])
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
+
   $scope.deliveryMethod = function(method){
-    //save method DeclarationService
-    Toast.show('success');
+    Declaration.update({id: $stateParams.id, type: method}, function(data){
+      Toast.show('success');
+      $scope.deliverySelected = true;
+    });
   };
 
 })

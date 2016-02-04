@@ -9336,6 +9336,10 @@ a {
   background-size: cover;
   background-position: center center; }
 
+.card-image img {
+  width: 100%;
+  vertical-align: middle; }
+
 .menu {
   background-color: #F06C21;
   background-image: url("../img/bg-img-positive.jpg");

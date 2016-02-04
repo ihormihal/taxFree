@@ -28,7 +28,7 @@
             <h2>{{getById(countries,declaration.country).name}}</h2>
           </div>
 
-          <div class="" ng-show="declaration.status == 'created' || declaration.status == 'created_changes'">
+          <div ng-show="(declaration.status == 'created' || declaration.status == 'created_changes') && !deliverySelected">
             <div class="item"><label for="">{{'choose_delivery_method'|translate}}:</label></div>
             <div class="row">
               <div class="col">
@@ -66,9 +66,9 @@
 
         </div>
 
-        <div class="padding" ng-show="declaration.file">
+        <!-- <div class="padding" ng-show="declaration.file">
           <a href="{{declaration.file}}" class="button button-block button-assertive icon-left ion-ios-download-outline">{{'save_to_pdf'|translate}}</a>
-        </div>
+        </div> -->
 
     </ion-content>
 </ion-view>

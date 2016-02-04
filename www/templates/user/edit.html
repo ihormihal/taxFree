@@ -46,6 +46,7 @@
           <div class="input-label">{{'country'|translate}} <sup>*</sup></div>
           <div class="item-select">
             <select integer-model ng-model="user.profile.country">
+              <option value="">{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
             </select>
           </div>
@@ -58,6 +59,7 @@
           <div class="input-label">{{'passport_country'|translate}} <sup>*</sup></div>
           <div class="item-select">
             <select integer-model ng-model="user.profile.passp_country">
+              <option value="">{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
             </select>
           </div>
@@ -74,6 +76,7 @@
           <div class="input-label">{{'phone'|translate}} <sup>*</sup></div>
           <div class="item-select">
             <select integer-model ng-model="user.profile.phone_country">
+              <option value="">{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}} {{country.phone_code}}</option>
             </select>
           </div>

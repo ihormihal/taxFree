@@ -175,6 +175,10 @@ a {color: $assertive;}
 //////////////////////////
 //WIDGETS
 //////////////////////////
+.card-image img {
+	width: 100%;
+	vertical-align: middle;
+}
 .menu {
 	background-color: $assertive;
 	background-image: url('../img/bg-img-positive.jpg');

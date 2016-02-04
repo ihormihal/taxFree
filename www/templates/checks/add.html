@@ -12,6 +12,7 @@
           <div class="input-label">{{'trip'|translate}} <sup>*</sup></div>
           <div class="item-select">
             <select integer-model ng-model="check.trip">
+              <option value="">{{'empty'|translate}}</option>
               <option ng-repeat="trip in trips" value="{{trip.id}}">{{getById(countries,trip.country_enter).name}} - {{getById(countries,trip.country_leaving).name}}</option>
             </select>
           </div>
