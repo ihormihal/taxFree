@@ -7,17 +7,21 @@
 			pulling-text=""
 			on-refresh="doRefresh()">
 		</ion-refresher>
-		<ion-list>
-			<ion-item ng-repeat="check in checks" ui-sref="main.check({id: check.id})">
+		<div class="list">
+			<div ng-repeat="check in checks" ui-sref="main.check({id: check.id})" class="item status-{{check.status}}">
 				<h2>{{'check'|translate}} ID {{check.id}}</h2>
 				<p><i class="icon ion-android-map"></i> {{check.country_enter}} - {{check.country_leaving}}</p>
 				<div class="item-icon-right">
-					<i class="icon ion-android-done-all" ng-show="check.status == 'approved'"></i>
+					<i class="icon ion-star" ng-show="check.status == 'new'"></i>
+					<i class="icon ion-load-b" ng-show="check.status == 'client-response'"></i>
+					<i class="icon ion-help-circled" ng-show="check.status == 'request'"></i>
+					<i class="icon ion-android-done-all" ng-show="check.status == 'signed'"></i>
+					<i class="icon ion-calculator" ng-show="check.status == 'digitalized'"></i>
 					<i class="icon ion-android-time" ng-show="check.status == 'processed'"></i>
 					<i class="icon ion-alert-circled" ng-show="check.status == 'refused'"></i>
 				</div>
-			</ion-item>
-		</ion-list>
+			</div>
+		</div>
 	</ion-content>
 
 </ion-view>

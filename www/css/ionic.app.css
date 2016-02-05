@@ -9184,6 +9184,11 @@ a {
 .visible {
   visibility: visible; }
 
+.hide {
+  display: none; }
+  .hide.hide-false {
+    display: block; }
+
 .white {
   color: #fff; }
 
@@ -9393,21 +9398,32 @@ a {
     .image-preview .action .remove {
       line-height: 100px; }
 
-.custom-list .item:first-child {
-  border-top: none; }
-
-.custom-list .item .item-content p {
-  font-weight: 300; }
-
-.custom-list .item.item-active .item-content {
-  background-color: #11c1f3; }
-  .custom-list .item.item-active .item-content, .custom-list .item.item-active .item-content h2, .custom-list .item.item-active .item-content p {
+.item.status-new, .item.status-active, .item.status-created, .item.created_changes, .item.status-request {
+  background-color: #F06C21;
+  border-color: #fff; }
+  .item.status-new .item-icon-right .icon, .item.status-new h2, .item.status-new p, .item.status-active .item-icon-right .icon, .item.status-active h2, .item.status-active p, .item.status-created .item-icon-right .icon, .item.status-created h2, .item.status-created p, .item.created_changes .item-icon-right .icon, .item.created_changes h2, .item.created_changes p, .item.status-request .item-icon-right .icon, .item.status-request h2, .item.status-request p {
     color: #fff; }
 
-.custom-list .item.item-approved .item-content {
-  background-color: #33cd5f; }
-  .custom-list .item.item-approved .item-content, .custom-list .item.item-approved .item-content h2, .custom-list .item.item-approved .item-content p {
+.item.status-refused {
+  border-color: #fff; }
+  .item.status-refused .item-icon-right .icon, .item.status-refused h2, .item.status-refused p {
+    color: #777; }
+
+.item p {
+  color: #000; }
+
+.item.status-bar {
+  border: none; }
+  .item.status-bar p {
     color: #fff; }
+  .item.status-bar.status-signed {
+    background-color: #01CB00; }
+  .item.status-bar.status-digitalized {
+    background-color: #00BCD4; }
+  .item.status-bar.status-client-response {
+    background-color: #009688; }
+  .item.status-bar.status-refused {
+    background-color: #aaa; }
 
 .slider {
   height: 100%; }

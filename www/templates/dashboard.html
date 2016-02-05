@@ -5,48 +5,46 @@
       </ion-nav-buttons>
     </ion-nav-bar>
 	<ion-content>
+		<ion-refresher
+			pulling-text=""
+			on-refresh="doRefresh()">
+		</ion-refresher>
 		<div class="list dashboard-list">
 
 			<div id="dashboard-item-1" class="item dashboard-item light" ng-class="{active: isGroupShown(1)}">
-				<div class="item item-heading" ng-click="toggleGroup(1)"><h2><i class="icon ion-android-refresh"></i> Требует действий (2)</h2></div>
+				<div class="item item-heading" ng-click="toggleGroup(1)"><h2><i class="icon ion-android-refresh"></i> {{'actions'|translate}} ({{noactionlist.notifications.length}})</h2></div>
 				<div class="item item-content" ng-show="isGroupShown(1)">
 					<div class="list">
-						<div class="item"><span class="left">У Вас есть 48 часов чтобы добавить чеки в поездку Украина - Франция</span><span class="item-note">05.12.2015</span></div>
-						<div class="item"><span class="left">У Вас есть 48 часов чтобы добавить чеки в поездку Украина - Франция</span><span class="item-note">05.12.2015</span></div>
+						<div class="item item-icon" ng-repeat="action in noactionlist.notifications">
+							<span class="left"><i class="icon ion-alert-circled"></i>{{action.message}}</span><span class="item-note">{{action.created|date}}</span>
+						</div>
 					</div>
 				</div>
 			</div>
 
 			<div id="dashboard-item-2" class="item dashboard-item dark" ng-class="{active: isGroupShown(2)}">
-				<div class="item item-heading" ng-click="toggleGroup(2)"><h2><i class="icon ion-paper-airplane"></i> События (5)</h2></div>
+				<div class="item item-heading" ng-click="toggleGroup(2)"><h2><i class="icon ion-paper-airplane"></i> {{'events'|translate}} ({{actionlist.notifications.length}})</h2></div>
 				<div class="item item-content" ng-show="isGroupShown(2)">
 					<div class="list">
-						<div class="item item-icon"><span class="left"><i class="icon ion-email"></i>Поездка Украина - Англия (30.11 - 05.12.2015) успешно добавлена</span><span class="item-note">05.12.2015</span></div>
-						<div class="item item-icon"><span class="left"><i class="icon ion-email"></i>Вы успешно загрузили 5 чеков в поездку Украина - Германия</span><span class="item-note">05.12.2015</span></div>
-						<div class="item item-icon"><span class="left"><i class="icon ion-email"></i>Изменения в Вашем профиле подтверждены</span><span class="item-note">05.12.2015</span></div>
-						<div class="item item-icon"><span class="left"><i class="icon ion-email"></i>Поездка Украина - Англия (30.11 - 05.12.2015) успешно добавлена</span><span class="item-note">05.12.2015</span></div>
-						<div class="item item-icon"><span class="left"><i class="icon ion-email"></i>Выплачено $ 250 по поездке Украина - США</span><span class="item-note">05.12.2015</span></div>
+						<div class="item item-icon" ng-repeat="action in actionlist.notifications">
+							<span class="left"><i class="icon ion-chatbubble-working"></i>{{action.message}}</span><span class="item-note">{{action.created|date}}</span>
+						</div>
 					</div>
 				</div>
 			</div>
 
 			<div id="dashboard-item-3" class="item dashboard-item light" ng-class="{active: isGroupShown(3)}">
-				<div class="item item-heading" ng-click="toggleGroup(3)"><h2><i class="icon ion-card"></i> Выплаты $ 400 | $1400</h2></div>
+				<div class="item item-heading" ng-click="toggleGroup(3)"><h2><i class="icon ion-card"></i> {{'payments'|translate}} {{allpayments.all_payments_total.sum|currency}}</h2></div>
 				<div class="item item-content" ng-show="isGroupShown(3)">
 					<div class="list">
-						<div class="item">
-							<p>Последняя подтвержденная выплата</p>
-							<h2>$ 400</h2>
-							<p>Украина - Англия (30.11 - 05.12.2015) </p>
+						<div class="item" ng-show="lastapprovedpayment.last_paid_declaration.length">
+
 						</div>
-						<div class="item">
-							<p>Всего выплачено</p>
-							<h2>$ 1400</h2>
-							<p>Поездок: 7</p>
-							<p>Сумма покупок:  $ 9 451</p>
-							<br>
-							<p>Чеков: 7</p>
-							<p>Деклараций:  $ 9 451</p>
+						<div class="item" ng-show="allpayments.all_payments_total">
+							<p>{{'total_paid'|translate}}</p>
+							<h2>{{allpayments.all_payments_total.sum|currency}}</h2>
+							<p>{{'trips'|translate}}: {{allpayments.all_payments_total.trip_count}}</p>
+							<p>{{'checks'|translate}}: {{allpayments.all_payments_total.check_count}}</p>
 						</div>
 					</div>
 				</div>

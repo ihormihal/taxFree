@@ -205,7 +205,8 @@ angular.module('app.controllers', [])
 /***** DASHBOARD CONTROLLER ******/
 /*********************************/
 
-.controller('dashboardCtrl', function($scope) {
+.controller('dashboardCtrl', function($scope, Dashboard) {
+
   $scope.toggleGroup = function(group) {
     if ($scope.isGroupShown(group)) {
       $scope.shownGroup = null;
@@ -216,6 +217,31 @@ angular.module('app.controllers', [])
   $scope.isGroupShown = function(group) {
     return $scope.shownGroup === group;
   };
+
+
+  $scope.load = function(){
+    Dashboard.get({request: 'action/list'}, function(data){
+      $scope.actionlist = data;
+    });
+    Dashboard.get({request: 'allpayments'}, function(data){
+      $scope.allpayments = data;
+    });
+    Dashboard.get({request: 'lastapprovedpayment'}, function(data){
+      $scope.lastapprovedpayment = data;
+    });
+    Dashboard.get({request: 'noaction/list'}, function(data){
+      $scope.noactionlist = data;
+    });
+    $scope.$broadcast('scroll.refreshComplete');
+  };
+
+  $scope.load();
+
+  $scope.doRefresh = function(){
+    $scope.load();
+  };
+
+
 })
 
 /*********************************/
@@ -290,14 +316,19 @@ angular.module('app.controllers', [])
 .controller('tripsCtrl', function($scope, $state, $ionicModal, Trips, Trip, Toast, AppData) {
 
   $scope.load = function(){
-    Trips.get({},function(data){
-      $scope.trips = data.trips;
-      AppData.trips = data.trips;
-      if($scope.trips.length == 0){
-        Toast.show(lngTranslate('no_data'));
-      }
+    try {
+      Trips.get({},function(data){
+        $scope.trips = data.trips;
+        AppData.trips = data.trips;
+        if($scope.trips.length == 0){
+          Toast.show(lngTranslate('no_data'));
+        }
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+    } catch (error) {
+      Toast.show(lngTranslate('no_data'));
       $scope.$broadcast('scroll.refreshComplete');
-    });
+    }
   };
 
   $scope.load();
@@ -336,6 +367,20 @@ angular.module('app.controllers', [])
       $state.go('main.trip.data', {id: data.id});
     });
   };
+
+  $scope.$watch('trip.date_start', function(){
+    if(!$scope.trip) return false;
+    if($scope.trip.date_end < $scope.trip.date_start){
+      $scope.trip.date_end = $scope.trip.date_start;
+    }
+  });
+
+  $scope.$watch('trip.date_end', function(){
+    if(!$scope.trip) return false;
+    if($scope.trip.date_end < $scope.trip.date_start){
+      $scope.trip.date_start = $scope.trip.date_end;
+    }
+  });
 
 })
 
@@ -423,6 +468,20 @@ angular.module('app.controllers', [])
     });
   };
 
+  $scope.$watch('trip.date_start', function(){
+    if(!$scope.trip) return false;
+    if($scope.trip.date_end < $scope.trip.date_start){
+      $scope.trip.date_end = $scope.trip.date_start;
+    }
+  });
+
+  $scope.$watch('trip.date_end', function(){
+    if(!$scope.trip) return false;
+    if($scope.trip.date_end < $scope.trip.date_start){
+      $scope.trip.date_start = $scope.trip.date_end;
+    }
+  });
+
 })
 
 /***************************************/
@@ -433,18 +492,20 @@ angular.module('app.controllers', [])
 
   var scrollRefresh = false;
 
+  $scope.checks = [];
   $scope.load = function(){
-    console.log('get_checks');
     Checks.get({},function(data){
-      $scope.checks = data.checks;
-      $scope.complete($scope.checks);
+      if(data.checks){
+        $scope.checks = data.checks;
+      }
       if($scope.checks.length == 0){
         Toast.show(lngTranslate('no_data'));
+      }else{
+        $scope.complete($scope.checks);
       }
     });
   };
 
-  window.SpinnerPlugin.activityStart(lngTranslate('loading'));
   $scope.load();
 
   $scope.doRefresh = function(){
@@ -452,6 +513,7 @@ angular.module('app.controllers', [])
   };
 
   var getCountryName = function(){
+    $scope.$broadcast('scroll.refreshComplete');
     angular.forEach($scope.checks, function(check, i){
       angular.forEach(AppData.trips, function(trip){
         if(trip.id == check.trip){
@@ -460,13 +522,10 @@ angular.module('app.controllers', [])
         }
       });
     });
-    $scope.$broadcast('scroll.refreshComplete');
-    window.SpinnerPlugin.activityStop();
   };
 
   $scope.complete = function(){
     if(AppData.trips.length == 0){
-      console.log('get_trips');
       Trips.get({},function(data){
         AppData.trips = data.trips;
         $scope.trips = data.trips;
@@ -606,15 +665,15 @@ angular.module('app.controllers', [])
 .controller('declarationsCtrl', function($scope, $ionicModal, Declarations, Toast) {
 
   $scope.load = function(){
-    console.log('get_declarations');
-    Declarations.query({},function(data){
-      $scope.declarations = data;
+    Declarations.get({},function(data){
+      $scope.declarations = data.declarations;
       if($scope.declarations.length == 0){
         Toast.show(lngTranslate('no_data'));
       }
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
+
   $scope.load();
 
   $scope.doRefresh = function(){

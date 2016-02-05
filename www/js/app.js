@@ -94,7 +94,7 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
   });
 
   $rootScope.$on('auth-login-success', function(event, data) {
-    $state.go('main.user.profile');
+    $state.go('main.dashboard');
   });
 
   $rootScope.$on('auth-login-error', function(event, data) {
@@ -172,13 +172,13 @@ var getDate = function(value){
 };
 
 if(!window.localStorage['lang']){
-  window.localStorage['lang'] = 'ru';
+  window.localStorage['lang'] = 'en';
 }
 var lngTranslate = function(text){
   if(window.localStorage['lang']) {
     lang = window.localStorage['lang'];
   }else{
-    lang = 'ru';
+    lang = 'en';
   }
   if(text in translate[lang]) {
     return translate[lang][text];

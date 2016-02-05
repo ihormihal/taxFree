@@ -10,6 +10,13 @@ a {color: $assertive;}
 .hidden {visibility: hidden;}
 .visible {visibility: visible;}
 
+.hide {
+	display: none;
+	&.hide-false {
+		display: block;
+	}
+}
+
 .white {color: #fff;}
 .underline {text-decoration: underline;}
 .thin {font-weight: 300;}
@@ -243,20 +250,42 @@ a {color: $assertive;}
 		}
 	}
 }
-.custom-list .item {
-	&:first-child {
-		border-top: none;
+
+.item {
+	&.status-new, &.status-active, &.status-created, &.created_changes, &.status-request {
+		background-color: #F06C21;
+		border-color: #fff;
+		.item-icon-right .icon, h2, p {color: #fff;}
 	}
-	.item-content {
-		p {font-weight: 300;}
+	&.status-signed, &.status-complete {
 	}
-	&.item-active .item-content {
-		background-color: $calm;
-		&, h2, p {color: #fff;}
+	&.status-processed, &.status-shipping {
 	}
-	&.item-approved .item-content {
-		background-color: $balanced;
-		&, h2, p {color: #fff;}
+	&.status-validated {
+
+	}
+	&.status-refused {
+		border-color: #fff;
+		.item-icon-right .icon, h2, p {color: #777;}
+	}
+	p {
+		color: #000;
+	}
+}
+.item.status-bar {
+	border: none;
+	p {color: #fff;}
+	&.status-signed {
+		background-color: #01CB00;
+	}
+	&.status-digitalized {
+		background-color: #00BCD4;
+	}
+	&.status-client-response {
+		background-color: #009688;
+	}
+	&.status-refused {
+		background-color: #aaa;
 	}
 }
 

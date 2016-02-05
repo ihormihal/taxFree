@@ -309,7 +309,7 @@ angular.module('app.services', ['ngResource'])
 /****************************************/
 
 .factory('Dashboard', function($resource) {
-  return $resource(ApiDomain + '/api/catalog/:name', {name: '@name'});
+  return $resource(ApiDomain + '/api/dashboard/:request', {request: '@request'});
 })
 
 /****************************************/
