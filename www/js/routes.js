@@ -18,6 +18,7 @@ angular.module('app.routes', [])
   // LOGIN
   .state('login', {
     url: '/login',
+    cache: false,
     templateUrl: 'templates/login.html',
     controller: 'loginCtrl'
   })

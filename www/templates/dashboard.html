@@ -1,5 +1,5 @@
-<ion-view title="TaxFree4U" class="dashboard">
-	<ion-nav-bar class="bar-assertive">
+<ion-view title="" class="dashboard">
+	<ion-nav-bar class="bar-transparent">
       <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
       </ion-nav-buttons>
@@ -8,7 +8,7 @@
 		<div class="list dashboard-list">
 
 			<div id="dashboard-item-1" class="item dashboard-item light" ng-class="{active: isGroupShown(1)}">
-				<div class="item item-heading" ng-click="toggleGroup(1)"><h2>Требует действий (2)</h2></div>
+				<div class="item item-heading" ng-click="toggleGroup(1)"><h2><i class="icon ion-android-refresh"></i> Требует действий (2)</h2></div>
 				<div class="item item-content" ng-show="isGroupShown(1)">
 					<div class="list">
 						<div class="item"><span class="left">У Вас есть 48 часов чтобы добавить чеки в поездку Украина - Франция</span><span class="item-note">05.12.2015</span></div>
@@ -18,7 +18,7 @@
 			</div>
 
 			<div id="dashboard-item-2" class="item dashboard-item dark" ng-class="{active: isGroupShown(2)}">
-				<div class="item item-heading" ng-click="toggleGroup(2)"><h2>События (5)</h2></div>
+				<div class="item item-heading" ng-click="toggleGroup(2)"><h2><i class="icon ion-paper-airplane"></i> События (5)</h2></div>
 				<div class="item item-content" ng-show="isGroupShown(2)">
 					<div class="list">
 						<div class="item item-icon"><span class="left"><i class="icon ion-email"></i>Поездка Украина - Англия (30.11 - 05.12.2015) успешно добавлена</span><span class="item-note">05.12.2015</span></div>
@@ -31,7 +31,7 @@
 			</div>
 
 			<div id="dashboard-item-3" class="item dashboard-item light" ng-class="{active: isGroupShown(3)}">
-				<div class="item item-heading" ng-click="toggleGroup(3)"><h2>Выплаты $ 400 | $1400</h2></div>
+				<div class="item item-heading" ng-click="toggleGroup(3)"><h2><i class="icon ion-card"></i> Выплаты $ 400 | $1400</h2></div>
 				<div class="item item-content" ng-show="isGroupShown(3)">
 					<div class="list">
 						<div class="item">

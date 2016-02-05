@@ -5,7 +5,7 @@
   </ion-nav-buttons>
   <ion-content padding="true" scroll="true" class="has-header">
     <h1>{{'check'|translate}} ID {{check.id}}</h1>
-    <p><i class="icon ion-android-map"></i> {{check.country_enter}} - {{check.country_leaving}}</p>
+    <p ui-sref="main.trip.data({id: check.trip})"><i class="icon ion-android-map"></i> {{check.country_enter}} - {{check.country_leaving}}</p>
     <div class="card card-image" ng-repeat="file in check.files">
       <div class="item item-image">
         <div ng-show="check.editable" ng-click="deletePhoto($index)" class="text-right padding"><i class="icon ion-close"></i></div>

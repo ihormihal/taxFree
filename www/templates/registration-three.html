@@ -1,7 +1,9 @@
 <ion-view hide-nav-bar="true">
     <ion-content padding="false">
 
-        <div class="logo image mt20">
+        <div class="mt20"></div>
+        <div class="mt20"></div>
+        <div class="logo image">
             <img src="img/logo.png">
         </div>
         <h1 class="text-center">{{'registration'|translate}}</h1>
@@ -9,14 +11,15 @@
         <p class="text-center positive">{{'personal_data'|translate}}</p>
 
         <div class="box mt20">
-            <div class="list">
+            <form name="form" class="list">
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">{{'how_call_you'|translate}} <sup>*</sup></span>
                     <div class="item-select">
-                        <select ng-model="data.before_fs">
-                            <option>{{'mr'|translate}}</option>
-                            <option>{{'mrs'|translate}}</option>
-                            <option>{{'ms'|translate}}</option>
+                        <select ng-model="data.before_fs" required>
+                            <option value="">{{'empty'|translate}}</option>
+                            <option value="mr">{{'mr'|translate}}</option>
+                            <option value="mrs">{{'mrs'|translate}}</option>
+                            <option value="miss">{{'ms'|translate}}</option>
                         </select>
                     </div>
                 </label>
@@ -26,7 +29,7 @@
                 <label class="item item-input item-stacked-label">
                     <div class="input-label">{{'country_of_residence'|translate}} <sup>*</sup></div>
                     <div class="item-select">
-                        <select integer-model ng-model="data.country">
+                        <select integer-model ng-model="data.country" required>
                             <option value="">{{'empty'|translate}}</option>
                             <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
                         </select>
@@ -38,11 +41,11 @@
                 </div>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">{{'password'|translate}} *</span>
-                    <input type="password" ng-model="data.password" placeholder="{{'minimum_8_characters'|translate}}" required>
+                    <input type="password" minlength="8" ng-model="data.password" placeholder="{{'minimum_8_characters'|translate}}" required>
                 </label>
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">{{'password_confirmation'|translate}} *</span>
-                    <input type="password" ng-model="data.password_confirm" placeholder="{{'minimum_8_characters'|translate}}" required>
+                    <input type="password" minlength="8" ng-model="data.password_confirm" placeholder="{{'minimum_8_characters'|translate}}" required>
                 </label>
                 <div class="item item-checkbox">
                     <label class="checkbox checkbox-assertive">
@@ -50,9 +53,9 @@
                     </label>
                     {{'agree_with'|translate}} <a href="#">{{'terms_of_use'|translate}}</a>
                 </div>
-            </div>
+            </form>
             <div class="padding mt20">
-                <button ng-class="{disabled: formDisabled}" class="button button-stable button-block button-assertive up" ng-click="stepThree()">{{'submit'|translate}}</button>
+                <button ng-class="{disabled: !(form.$valid && data.accept_terms && data.password == data.password_confirm)}" class="button button-stable button-block button-assertive up" ng-click="stepThree()">{{'submit'|translate}}</button>
             </div>
 
         </div>

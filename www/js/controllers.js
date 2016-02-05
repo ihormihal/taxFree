@@ -27,6 +27,13 @@ angular.module('app.controllers', [])
     password: ''
   };
 
+  if(AuthService.data.email){
+    $scope.user.username = AuthService.data.email;
+  }
+  if(AuthService.data.password){
+    $scope.user.password = AuthService.data.password;
+  }
+
   $scope.login = function() {
     AuthService.login($scope.user);
   };
@@ -37,7 +44,7 @@ angular.module('app.controllers', [])
 /******** REG CONTROLLER ********/
 /********************************/
 
-.controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, RegService, Catalog) {
+.controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, AuthService, RegService, Catalog, Toast) {
 
   //initialize every time when view is called
   $scope.data = RegService.data;
@@ -90,23 +97,11 @@ angular.module('app.controllers', [])
     RegService.data.address = $scope.data.address;
     RegService.three()
     .then(function(data) {
-      $state.go('main.user.profile');
+      Toast.show(lngTranslate('registration_success'));
+      AuthService.data = {email: RegService.data.email, password: RegService.data.password};
+      $state.go('login');
     });
   };
-
-
-  $scope.formDisabled = true;
-  $scope.$watch('data', function(){
-    if($scope.data.accept_terms && $scope.data.password && $scope.data.password_confirm){
-      if($scope.data.password == $scope.data.password_confirm && $scope.data.password.length > 7){
-        $scope.formDisabled = false;
-      }else{
-        $scope.formDisabled = true;
-      }
-    }else{
-      $scope.formDisabled = true;
-    }
-  }, true);
 
 })
 
@@ -160,19 +155,6 @@ angular.module('app.controllers', [])
       $state.go('login');
     });
   };
-
-  $scope.formDisabled = true;
-  $scope.$watch('data', function(){
-    if($scope.data.accept_terms && $scope.data.password && $scope.data.password_confirm){
-      if($scope.data.password == $scope.data.password_confirm && $scope.data.password.length > 7){
-        $scope.formDisabled = false;
-      }else{
-        $scope.formDisabled = true;
-      }
-    }else{
-      $scope.formDisabled = true;
-    }
-  }, true);
 
 })
 
@@ -360,12 +342,18 @@ angular.module('app.controllers', [])
 /****************************************/
 /******** SINGLE TRIP CONTROLLER ********/
 /****************************************/
-
 .controller('tripCtrl', function($scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Trip, Check, Toast) {
 
   Trip.get({id: $stateParams.id},function(data){
     $scope.trip = data;
   });
+
+  $scope.doRefresh = function(){
+    Trip.get({id: $stateParams.id},function(data){
+      $scope.trip = data;
+    });
+    $scope.$broadcast('scroll.refreshComplete');
+  };
 
   $ionicModal.fromTemplateUrl('templates/trips/edit.html', {
     scope: $scope,
@@ -655,8 +643,8 @@ angular.module('app.controllers', [])
 
   $scope.deliveryMethod = function(method){
     Declaration.update({id: $stateParams.id, type: method}, function(data){
-      Toast.show('success');
-      $scope.deliverySelected = true;
+      Toast.show(lngTranslate('delivery_method_success')+': ' + lngTranslate(method));
+      $scope.doRefresh();
     });
   };
 

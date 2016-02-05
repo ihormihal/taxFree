@@ -6,76 +6,94 @@
     </div>
   </ion-header-bar>
   <ion-content padding="false" scroll="true" class="has-header">
-    <div class="list">
+
+    <form name="form" class="list">
+
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'country_arrival'|translate}} <sup>*</sup></div>
         <div class="item-select">
-          <select integer-model ng-model="trip.country_enter">
+          <select integer-model ng-model="trip.country_enter" required>
             <option value="">{{'empty'|translate}}</option>
             <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
           </select>
         </div>
       </label>
+
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'date_arrival'|translate}} <sup>*</sup></div>
-        <input datetime type="date" ng-model="trip.date_start" />
+        <input datetime type="date" ng-model="trip.date_start" required>
       </label>
+
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'time_arrival'|translate}} <sup>*</sup></div>
-        <input datetime type="time" ng-model="trip.time_start">
+        <input datetime type="time" ng-model="trip.time_start" required>
       </label>
+
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'transport'|translate}} <sup>*</sup></div>
         <div class="item-select">
-          <select integer-model ng-model="trip.transport_enter">
+          <select integer-model ng-model="trip.transport_enter" required>
             <option value="">{{'empty'|translate}}</option>
             <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name}}</option>
           </select>
         </div>
       </label>
+
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'passage_number'|translate}} <sup>*</sup></div>
-        <input type="text" ng-model="trip.race_number_enter">
+        <input type="text" ng-model="trip.race_number_enter" required>
       </label>
+
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'country_departure'|translate}} <sup>*</sup></div>
         <div class="item-select">
-          <select integer-model ng-model="trip.country_leaving">
+          <select integer-model ng-model="trip.country_leaving" required>
             <option value="">{{'empty'|translate}}</option>
             <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
           </select>
         </div>
       </label>
+
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'date_departure'|translate}} <sup>*</sup></div>
-        <input datetime type="date" ng-model="trip.date_end" />
+        <input datetime type="date" ng-model="trip.date_end" required>
       </label>
+
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'time_departure'|translate}} <sup>*</sup></div>
-        <input datetime type="time" ng-model="trip.time_end">
+        <input datetime type="time" ng-model="trip.time_end" required>
       </label>
+
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'transport'|translate}} <sup>*</sup></div>
         <div class="item-select">
-          <select integer-model ng-model="trip.transport_leaving">
+          <select integer-model ng-model="trip.transport_leaving" required>
             <option value="">{{'empty'|translate}}</option>
             <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name}}</option>
           </select>
         </div>
       </label>
+
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'passage_number'|translate}} <sup>*</sup></div>
-        <input type="text" ng-model="trip.race_number_leaving">
+        <input type="text" ng-model="trip.race_number_leaving" required>
       </label>
+
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'residence_address'|translate}} <sup>*</sup></div>
-        <input type="text" ng-model="trip.address">
+        <input type="text" ng-model="trip.address" required>
       </label>
-    </div>
+
+      <div class="padding">
+        <button ng-class="{disabled: !form.$valid}" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
+      </div>
+
+    </form>
 
     <div class="padding">
-      <button class="button button-stable button-block button-assertive up" ng-click="create()">{{'done'|translate}}</button>
+      <button ng-class="{disabled: !form.$valid}" class="button button-stable button-block button-assertive up" ng-click="create()">{{'done'|translate}}</button>
     </div>
+
   </ion-content>
 
 </ion-view>

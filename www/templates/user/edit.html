@@ -6,29 +6,30 @@
     </div>
   </ion-header-bar>
   <ion-content padding="false" scroll="true" class="has-header">
-    <form>
+    <form name="form">
       <div class="list">
         <label class="item item-input item-stacked-label top-item">
           <span class="input-label">{{'how_call_you'|translate}} <sup>*</sup></span>
           <div class="item-select">
             <select ng-model="user.profile.before_fs">
-              <option value="mr">Mr.</option>
-              <option value="mrs">Mrs.</option>
-              <option value="ms">Ms.</option>
+              <option value="mr">{{'mr'|translate}}</option>
+              <option value="mrs">{{'mrs'|translate}}</option>
+              <option value="miss">{{'ms'|translate}}</option>
             </select>
           </div>
         </label>
         <label class="item item-input">
-          <input type="text" ng-model="user.profile.fsname" placeholder="Ф.И.О.">
+          <input type="text" ng-model="user.profile.fsname" placeholder="Ф.И.О." required>
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">{{'birthday'|translate}} <sup>*</sup></div>
-          <input datetime type="date" ng-model="user.profile.passp_birthday">
+          <input datetime type="date" ng-model="user.profile.passp_birthday" required>
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">{{'sex'|translate}} <sup>*</sup></div>
           <div class="item-select">
-            <select ng-model="user.profile.passp_sex">
+            <select ng-model="user.profile.passp_sex" required>
+              <option value="">{{'empty'|translate}}</option>
               <option value="m">{{'m'|translate}}</option>
               <option value="f">{{'f'|translate}}</option>
             </select>
@@ -37,7 +38,8 @@
         <label class="item item-input item-stacked-label">
           <div class="input-label">{{'citizenship'|translate}} <sup>*</sup></div>
           <div class="item-select">
-            <select integer-model ng-model="user.profile.passp_citizenship">
+            <select integer-model ng-model="user.profile.passp_citizenship" required>
+              <option value="">{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
             </select>
           </div>
@@ -45,7 +47,7 @@
         <label class="item item-input item-stacked-label">
           <div class="input-label">{{'country'|translate}} <sup>*</sup></div>
           <div class="item-select">
-            <select integer-model ng-model="user.profile.country">
+            <select integer-model ng-model="user.profile.country" required>
               <option value="">{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
             </select>
@@ -53,12 +55,12 @@
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">{{'passport_number'|translate}} <sup>*</sup></div>
-          <input type="text" ng-model="user.profile.passp_number" placeholder="ET000001">
+          <input type="text" minlength="8" ng-model="user.profile.passp_number" placeholder="ET000001" required>
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">{{'passport_country'|translate}} <sup>*</sup></div>
           <div class="item-select">
-            <select integer-model ng-model="user.profile.passp_country">
+            <select integer-model ng-model="user.profile.passp_country" required>
               <option value="">{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
             </select>
@@ -66,32 +68,35 @@
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">{{'passport_date'|translate}} <sup>*</sup></div>
-          <input datetime type="date" ng-model="user.profile.passp_date">
+          <input datetime type="date" ng-model="user.profile.passp_date" required>
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">{{'email'|translate}} <sup>*</sup></div>
-          <input type="email" ng-model="user.profile.email">
+          <input type="email" ng-model="user.profile.email" required>
         </label>
         <label class="item item-input item-stacked-label">
           <div class="input-label">{{'phone'|translate}} <sup>*</sup></div>
           <div class="item-select">
-            <select integer-model ng-model="user.profile.phone_country">
+            <select integer-model ng-model="user.profile.phone_country" required>
               <option value="">{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}} {{country.phone_code}}</option>
             </select>
           </div>
         </label>
         <label class="item">
-          <input type="tel" ng-model="user.profile.phone">
+          <input type="tel" ng-model="user.profile.phone" required>
         </label>
         <div class="item">
           <span class="input-label">{{'passport_photo'|translate}} <sup>*</sup></span>
           <passport-image image="user.profile.passport" url="/api/user/upload" userid="{{user.profile.id}}"></passport-image>
         </div>
       </div>
-      <div class="padding">
-        <button class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
-      </div>
+
     </form>
+
+    <div class="padding">
+      <button ng-class="{disabled: !(form.$valid && user.profile.passport)}" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
+    </div>
+
   </ion-content>
 </div>

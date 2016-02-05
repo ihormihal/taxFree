@@ -67,6 +67,15 @@ a {color: $assertive;}
   stroke: #F06C21;
   fill: #F06C21;
 }
+.text-disabled {color: #ccc;}
+
+.bar.bar-transparent {
+	background-color: rgba(0, 0, 0, 0.7);
+	border-color: transparent;
+	.button-clear {
+		color: #fff;
+	}
+}
 
 //////////////////////////
 //FORMS
@@ -295,14 +304,18 @@ a {color: $assertive;}
 	}
 	h2 {
 		font-size: 22px;
+		font-weight: 100;
+		i {width: 44px; display: inline-block; text-align: center;}
 	}
 	.dashboard-item {
+		&, .item-heading {padding: 16px 0;}
 		.item-content {
-			height: auto;
+			height: 300px;
 			padding: 0;
-			//transition: 0.3s line-height ease;
+			transition: 0.3s height ease;
 			.item {
 				white-space: normal;
+				font-size: 12px;
 				.left {
 					display: block;
 					float: left;

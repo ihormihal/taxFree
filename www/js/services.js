@@ -14,6 +14,12 @@ angular.module('app.services', ['ngResource'])
 
 .service('AuthService', function($rootScope, $q, $http) {
   var self = {
+
+    data: {
+      username: '',
+      password: ''
+    },
+
     query: function(credentials){
       window.SpinnerPlugin.activityStart(lngTranslate('authorization')+'...');
       $http({
@@ -63,6 +69,7 @@ angular.module('app.services', ['ngResource'])
 
     logout: function() {
       window.localStorage.removeItem('token');
+      window.localStorage.removeItem('refresh_token');
       delete $http.defaults.headers.common['Authorization'];
       $rootScope.$broadcast('auth-logout');
       return false;

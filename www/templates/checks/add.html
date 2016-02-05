@@ -22,7 +22,7 @@
           <choose-images images="check.files" url="/api/check/upload"></choose-images>
         </div>
         <div class="item">
-          <button class="button button-stable button-block button-assertive up" ng-click="create()">{{'done'|translate}}</button>
+          <button ng-class="{disabled: !(check.trip && check.files.length > 0)}" class="button button-stable button-block button-assertive up" ng-click="create()">{{'done'|translate}}</button>
         </div>
       </div>
     </form>

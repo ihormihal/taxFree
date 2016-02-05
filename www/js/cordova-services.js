@@ -8,7 +8,7 @@ angular.module('app.cordova', [])
 				message = angular.toJson(message);
 			}
 			try {
-				$cordovaToast.show(message, 'short', 'top');
+				$cordovaToast.show(message, 'short', 'bottom');
 			} catch (error) {
 				console.log(data);
 			}
