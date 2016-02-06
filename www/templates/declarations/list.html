@@ -6,7 +6,7 @@
 		</ion-refresher>
 		<div class="list">
 			<div
-				ng-repeat="declaration in declarations"
+				ng-repeat="declaration in declarations  | orderBy : '-id'"
 				ui-sref="main.declaration({id: declaration.id})"
 				class="item status-{{declaration.status}}"
 				>

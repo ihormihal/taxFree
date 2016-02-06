@@ -8,7 +8,7 @@
 			on-refresh="doRefresh()">
 		</ion-refresher>
 		<div class="list">
-			<div ng-repeat="check in checks" ui-sref="main.check({id: check.id})" class="item status-{{check.status}}">
+			<div ng-repeat="check in checks | orderBy : '-id'" ui-sref="main.check({id: check.id})" class="item status-{{check.status}}">
 				<h2>{{'check'|translate}} ID {{check.id}}</h2>
 				<p><i class="icon ion-android-map"></i> {{check.country_enter}} - {{check.country_leaving}}</p>
 				<div class="item-icon-right">

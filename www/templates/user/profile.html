@@ -6,6 +6,12 @@
         <button ng-class="{visible: user.profile.editable}" class="button button-icon button-clear ion-ios-compose-outline hidden" ng-click="openModal()"></button>
     </ion-nav-buttons>
     <ion-content padding="false" class="has-header">
+
+        <ion-refresher
+            pulling-text=""
+            on-refresh="doRefresh()">
+        </ion-refresher>
+
         <div class="hide hide-{{user.profile.editable}} padding status-bar text-center assertive">
             <p>{{'profile_wait'|translate}}</p>
         </div>

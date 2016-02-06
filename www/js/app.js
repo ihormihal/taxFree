@@ -8,7 +8,7 @@ var Credentials = {
 angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
 
-.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, AuthService, Toast, Alert) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, AuthService, Alert) {
 
   $ionicPlatform.ready(function() {
 
@@ -77,7 +77,7 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
           }
         }
       }
-      isMessage = false;
+      //isMessage = false;
       if(isMessage){
         Alert.show({message: message, title: 'Error'});
       }else{
@@ -108,7 +108,6 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
   });
 
   $rootScope.$on('auth-login-error', function(event, data) {
-    Toast.show(data);
     $state.go('login');
   });
 
