@@ -1,6 +1,6 @@
 {
   "name": "taxfree4you",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "description": "TaxFree4U App",
   "dependencies": {
     "gulp": "^3.5.6",
@@ -19,6 +19,7 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-file-transfer",
     "cordova-plugin-file",
+    "cordova-open",
     "cordova-plugin-camera",
     {
       "locator": "https://github.com/wymsee/cordova-imagePicker.git",

@@ -17,12 +17,7 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
     $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
       var offlineState = networkState;
       if(offlineState){
-        $ionicPopup.alert({
-          title: lngTranslate('no_internet'),
-          content: lngTranslate('no_internet_message'),
-        }).then(function() {
-          ionic.Platform.exitApp();
-        });
+        Alert.show({message: lngTranslate('no_internet_message'), title: lngTranslate('no_internet')});
       }
     });
 
@@ -30,12 +25,6 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
     // for form inputs)
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if(window.localStorage['token']){
-      $state.go('main.dashboard');
-    }
-    if(!window.localStorage['ready']){
-      $state.go('start');
     }
 
   });//ionic ready end
@@ -65,35 +54,53 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
 
   $rootScope.$on('http-error', function(event, data) {
     window.SpinnerPlugin.activityStop();
-    if(data.status == 401){
-      AuthService.refresh();
-    }else{
+    $rootScope.$broadcast('scroll.refreshComplete');
+
+    console.log(data.status);
+
+    var showErrorMsg = function(data){
       var message = '';
       var isMessage= false;
-      if(data.data){
-        if(data.data.error){
-          if(data.data.error.message){
-            message = data.data.error.message + '. ';
+      if(data){
+        if(data.error){
+          if(data.error.message){
+            message = data.error.message + '. ';
             isMessage = true;
           }
-          if(data.data.error.message){
-            message += 'Error code: '+data.data.error.code;
+          if(data.error.message){
+            message += 'Error code: '+data.error.code;
             isMessage = true;
           }
-          if(data.data.error_description){
-            message += data.data.error_description + '. ';
+          if(data.error_description){
+            message += data.error_description + '. ';
             isMessage = true;
           }
         }
       }
-      isMessage= false;
+      isMessage = false;
       if(isMessage){
         Alert.show({message: message, title: 'Error'});
       }else{
         Alert.show({message: angular.toJson(data), title: 'Error'});
       }
+    };
+
+    switch (data.status) {
+      case 0:
+        Alert.show({message: lngTranslate('no_internet_message'), title: lngTranslate('no_internet')});
+        return false;
+        break;
+      case 401:
+        AuthService.refresh();
+        return false;
+        break;
+      default:
+        showErrorMsg(data.data);
+        return false;
     }
+
     return false;
+
   });
 
   $rootScope.$on('auth-login-success', function(event, data) {

@@ -12,19 +12,25 @@ angular.module('app.services', ['ngResource'])
 /******* AUTHENTIFICATION SERVICE *******/
 /****************************************/
 
-.service('AuthService', function($rootScope, $q, $http) {
+.service('AuthService', function($rootScope, $q, $http, Toast) {
 
   var self = {
 
-    data: {},
+    credentials: {
+      username: null,
+      password: null,
+      grant_type: null,
+      client_id: Credentials.client_id,
+      client_secret: Credentials.client_secret,
+      refresh_token: null
+    },
 
-    query: function(credentials){
-      var q = $q.defer();
+    query: function(){
       window.SpinnerPlugin.activityStart(lngTranslate('authorization')+'...');
       $http({
         method: 'POST',
         url: ApiDomain + '/oauth/v2/token',
-        data: $rootScope.serialize(credentials),
+        data: $rootScope.serialize(self.credentials),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
@@ -33,21 +39,29 @@ angular.module('app.services', ['ngResource'])
         window.SpinnerPlugin.activityStop();
         if(data.access_token && status == 200){
 
-          if(credentials.username){
-            self.data.username = credentials.username;
-            window.localStorage['username'] = credentials.username;
+          if(self.credentials.username){
+            window.localStorage['username'] = self.credentials.username;
           }
-          if(credentials.password){
-            self.data.username = credentials.password;
-            window.localStorage['password'] = credentials.password;
+          if(self.credentials.password){
+            window.localStorage['password'] = self.credentials.password;
           }
 
           window.localStorage['token'] = 'Bearer '+ data.access_token;
           window.localStorage['refresh_token'] = data.refresh_token;
+          self.credentials.refresh_token = data.refresh_token;
+
           $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
-          $rootScope.$broadcast('auth-login-success');
-          q.resolve(data);
+
+          if(self.credentials.grant_type == 'password'){
+            $rootScope.$broadcast('auth-login-success');
+          }
+
+          if(self.credentials.grant_type == 'refresh_token'){
+            Toast.show(lngTranslate('error_general'));
+          }
+
           return false;
+
         }else{
           $rootScope.$broadcast('auth-login-error', data);
           return false;
@@ -55,28 +69,23 @@ angular.module('app.services', ['ngResource'])
       })
       .error(function (data, status, headers, config) {
         $rootScope.$broadcast('auth-login-error', data);
-        q.reject(angular.toJson({status: status, data: data}));
         return false; //do not intercept error in app.js
       });
-      return q.promise;
     },
 
-    login: function(user) {
-      Credentials.grant_type = 'password';
-      Credentials.username = user.username;
-      Credentials.password = user.password;
-
-      self.data.username = user.username;
-      self.data.password = user.password;
-
-      self.query(Credentials);
+    login: function() {
+      self.credentials.grant_type = 'password';
+      self.query();
     },
 
     refresh: function(){
+      self.credentials.grant_type = 'refresh_token';
+      if(self.credentials.refresh_token){
+        self.query();
+      }
       if(window.localStorage['refresh_token']){
-        Credentials.grant_type = 'refresh_token';
-        Credentials.refresh_token = window.localStorage['refresh_token'];
-        self.query(Credentials);
+        self.credentials.refresh_token = window.localStorage['refresh_token'];
+        self.query();
       }else{
         $rootScope.$broadcast('auth-login-error', {error:'empty_refresh_token'});
         return false;
@@ -86,6 +95,7 @@ angular.module('app.services', ['ngResource'])
     logout: function() {
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('refresh_token');
+      self.credentials.refresh_token = null;
       delete $http.defaults.headers.common['Authorization'];
       $rootScope.$broadcast('auth-logout');
       return false;
@@ -93,8 +103,12 @@ angular.module('app.services', ['ngResource'])
 
   };
 
-  if(window.localStorage['username']) self.data.username = window.localStorage['username'];
-  if(window.localStorage['password']) self.data.password = window.localStorage['password'];
+  if(window.localStorage['username']){
+    self.credentials.username = window.localStorage['username'];
+  }
+  if(window.localStorage['password']){
+    self.credentials.password = window.localStorage['password'];
+  }
 
   return self;
 })
@@ -103,7 +117,7 @@ angular.module('app.services', ['ngResource'])
 /********* REGISTRATION SERVICE *********/
 /****************************************/
 
-.service('RegService', function($rootScope, $q, $state, $http) {
+.service('RegService', function($rootScope, $q, $state, $http, AuthService) {
   var self = {
     data: {
       email: '',
@@ -115,15 +129,12 @@ angular.module('app.services', ['ngResource'])
     },
 
     getToken: function(){
+      AuthService.credentials.grant_type = 'client_credentials';
       var q = $q.defer();
       $http({
         method: 'POST',
         url: ApiDomain + '/oauth/v2/token',
-        data: $rootScope.serialize({
-          grant_type: 'client_credentials',
-          client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
-          client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk'
-        }),
+        data: $rootScope.serialize(AuthService.credentials),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
@@ -283,33 +294,9 @@ angular.module('app.services', ['ngResource'])
         }
       });
       return q.promise;
-    },
-
-    update: function(data){
-      var q = $q.defer();
-      q.resolve(data);
-      return q.promise;
-
-      // var q = $q.defer();
-      // $http({
-      //   method: 'POST',
-      //   url: ApiDomain + '/api/user/setpassword/token',
-      //   data: $rootScope.serialize(data),
-      //   headers: {
-      //     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-      //   },
-      // })
-      // .success(function(data, status, headers, config) {
-      //   if(status == 200){
-      //     q.resolve(data);
-      //   }else{
-      //     q.reject(angular.toJson({status: status, data: data}));
-      //   }
-      // });
-      // return q.promise;
-
     }
   };
+
   return self;
 
 })

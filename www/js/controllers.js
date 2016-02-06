@@ -24,20 +24,19 @@ angular.module('app.controllers', [])
 
   window.localStorage['ready'] = true;
 
-  $scope.user = {
-    username: '',
-    password: ''
-  };
+  $scope.user = {};
 
-  if(AuthService.data.username){
-    $scope.user.username = AuthService.data.username;
+  if(AuthService.credentials.username){
+    $scope.user.username = AuthService.credentials.username;
   }
-  if(AuthService.data.password){
-    $scope.user.password = AuthService.data.password;
+  if(AuthService.credentials.password){
+    $scope.user.password = AuthService.credentials.password;
   }
 
   $scope.login = function() {
-    AuthService.login($scope.user);
+    AuthService.credentials.username = $scope.user.username;
+    AuthService.credentials.password = $scope.user.password;
+    AuthService.login();
   };
 
 })
@@ -100,7 +99,7 @@ angular.module('app.controllers', [])
     RegService.three()
     .then(function(data) {
       Toast.show(lngTranslate('registration_success'));
-      AuthService.data = {email: RegService.data.email, password: RegService.data.password};
+      AuthService.credentials = {username: RegService.data.email, password: RegService.data.password};
       $state.go('login');
     });
   };
@@ -247,12 +246,10 @@ angular.module('app.controllers', [])
 /******** USER CONTROLLER ********/
 /*********************************/
 
-.controller('userCtrl', function($rootScope, $scope, $ionicModal, Toast, User, PasswordService) {
+.controller('userCtrl', function($rootScope, $scope, $ionicModal, Toast, User) {
 
   $scope.user = {
-    profile: null,
-    password: '',
-    password_confirm: ''
+    profile: null
   };
 
   User.get({}, function(data){
@@ -263,15 +260,6 @@ angular.module('app.controllers', [])
     User.update($scope.user.profile, function(){
       Toast.show(lngTranslate('toast_profile_updated'));
       $scope.closeModal();
-    })
-  };
-
-  $scope.setPassowrd = function(){
-    PasswordService.update({password: $scope.user.password})
-    .then(function(){
-      Toast.show(lngTranslate('toast_password_updated'));
-      $scope.user.password = '';
-      $scope.user.password_confirm = '';
     })
   };
 
@@ -293,19 +281,6 @@ angular.module('app.controllers', [])
     $scope.modal.remove();
   });
 
-  $scope.formDisabled = true;
-  $scope.$watch('user', function(){
-    if($scope.user.password && $scope.user.password_confirm){
-      if($scope.user.password == $scope.user.password_confirm && $scope.user.password.length > 7){
-        $scope.formDisabled = false;
-      }else{
-        $scope.formDisabled = true;
-      }
-    }else{
-      $scope.formDisabled = true;
-    }
-  }, true);
-
 })
 
 /***************************************/
@@ -316,8 +291,10 @@ angular.module('app.controllers', [])
 
   $scope.load = function(){
     Trips.get({},function(data){
-      $scope.trips = data.trips;
-      AppData.trips = data.trips;
+      $scope.trips = data.trips.sort(function(a, b){
+        return parseInt(a.id) > parseInt(b.id) ? -1 : 1;
+      });
+      AppData.trips = $scope.trips;
       if($scope.trips.length == 0){
         Toast.show(lngTranslate('no_data'));
       }
@@ -481,7 +458,6 @@ angular.module('app.controllers', [])
 
 .controller('checksCtrl', function($rootScope, $scope, $state, $ionicModal, Checks, Check, Trip, Trips, Toast, AppData) {
 
-  var scrollRefresh = false;
 
   $scope.checks = [];
   $scope.check = {id: 'add', files: []};
@@ -489,7 +465,9 @@ angular.module('app.controllers', [])
   $scope.load = function(){
     Checks.get({},function(data){
       if(data.checks){
-        $scope.checks = data.checks;
+        $scope.checks = data.checks.sort(function(a, b){
+          return parseInt(a.id) > parseInt(b.id) ? -1 : 1;
+        });
       }
       if($scope.checks.length == 0){
         Toast.show(lngTranslate('no_data'));
@@ -651,7 +629,9 @@ angular.module('app.controllers', [])
 
   $scope.load = function(){
     Declarations.get({},function(data){
-      $scope.declarations = data.declarations;
+      $scope.declarations = data.declarations.sort(function(a, b){
+        return parseInt(a.id) > parseInt(b.id) ? -1 : 1;
+      });
       if($scope.declarations.length == 0){
         Toast.show(lngTranslate('no_data'));
       }
@@ -671,24 +651,76 @@ angular.module('app.controllers', [])
 /******** SINGLE DECLARATION CONTROLLER ********/
 /***********************************************/
 
-.controller('declarationCtrl', function($scope, $stateParams, $ionicModal, Declaration, DeclarationService, Toast) {
-  Declaration.get({id: $stateParams.id},function(data){
-    $scope.declaration = data;
-  });
+.controller('declarationCtrl', function($scope, $stateParams, $cordovaFileTransfer, $ionicModal, Declaration, DeclarationService, Toast) {
 
-  $scope.deliverySelected = false;
+  $scope.file = {
+    exist: false,
+    name: null,
+    path: null
+  };
 
   $scope.doRefresh = function(){
     Declaration.get({id: $stateParams.id},function(data){
       $scope.$broadcast('scroll.refreshComplete');
       $scope.declaration = data;
+      //$scope.declaration.file = 'http://mycode.in.ua/app/Declaration.pdf'; //for test
+
+      $scope.file.name = $scope.declaration.file.split("/").pop();
+      try {
+        $scope.file.path = cordova.file.externalRootDirectory + $scope.file.name;
+      } catch (error) {
+        console.log(error);
+      }
+
+      //Check for the downloaded file.
+      try {
+        window.resolveLocalFileSystemURL($scope.file.path,function(){
+          $scope.file.exist = true;
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
     });
+
   };
+  $scope.doRefresh();
 
   $scope.deliveryMethod = function(method){
     Declaration.update({id: $stateParams.id, type: method}, function(data){
       Toast.show(lngTranslate('delivery_method_success')+': ' + lngTranslate(method));
       $scope.doRefresh();
+    });
+  };
+
+  $scope.download = function() {
+
+    var options = {
+      headers: {'Authorization': window.localStorage['token']}
+    };
+
+    $cordovaFileTransfer.download($scope.declaration.file, $scope.file.path, options, true)
+    .then(function (result) {
+      Toast.show(lngTranslate('download_success'));
+      $scope.file.exist = true;
+      $scope.$apply();
+    }, function (error) {
+      Toast.show(lngTranslate('download_error'));
+    }, function (progress) {
+      // PROGRESS HANDLING GOES HERE
+    });
+
+  };
+
+  $scope.openfile = function(){
+    cordova.plugins.disusered.open($scope.file.path, function(){
+      //success
+    }, function(){
+      if (code === 1) {
+        Toast.show(lngTranslate('open_file_error'));
+      } else {
+        Toast.show(lngTranslate('undefined_error'));
+      }
     });
   };
 
@@ -752,7 +784,9 @@ angular.module('app.controllers', [])
     .then(function(buttonIndex) {
       if(buttonIndex == 1){
         window.localStorage.clear();
-        AuthService.data = {};
+        AuthService.credentials.username = null;
+        AuthService.credentials.password = null;
+        AuthService.credentials.refresh_token = null;
         AuthService.logout();
         $state.go('start');
       }

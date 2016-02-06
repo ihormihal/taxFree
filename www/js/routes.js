@@ -125,34 +125,12 @@ angular.module('app.routes', [])
   })
 
   //PROFILE
-  .state('main.user', {
-    url: "/user",
-    abstract: true,
+  .state('main.profile', {
+    url: "/profile",
+    cache:  false,
     views: {
       'menuContent': {
-        templateUrl: "templates/user/user.html",
-        controller: 'userCtrl'
-      }
-    }
-  })
-
-  .state('main.user.profile', {
-    url: '/profile',
-    cache: false,
-    views: {
-      'profile': {
-        templateUrl: 'templates/user/tab-profile.html',
-        controller: 'userCtrl'
-      }
-    }
-  })
-
-  .state('main.user.password', {
-    url: '/password',
-    cache: false,
-    views: {
-      'password': {
-        templateUrl: 'templates/user/tab-password.html',
+        templateUrl: "templates/user/profile.html",
         controller: 'userCtrl'
       }
     }
@@ -266,5 +244,11 @@ angular.module('app.routes', [])
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
+
+  if(window.localStorage['ready']){
+    $urlRouterProvider.otherwise('/login');
+  }else{
+    $urlRouterProvider.otherwise('/start');
+  }
 
 });
