@@ -72,7 +72,7 @@ angular.module('app.directives', [])
   return {
     restrict: 'E',
     scope: {
-      file: '=',
+      image: '=',
       url: '@',
       userid: '@'
     },
@@ -132,9 +132,7 @@ angular.module('app.directives', [])
           maximumImagesCount: 1
         })
         .then(function(images) {
-          for (var i = 0; i < images.length; i++) {
-            $scope.uploadPhoto(images[i]);
-          }
+          $scope.uploadPhoto(images[0]);
         }, function(error) {
           $cordovaToast.show(error, 'short', 'top');
         });
@@ -173,10 +171,11 @@ angular.module('app.directives', [])
           $scope.loading = false;
           var response = angular.fromJson(data.response);
           if(response.status == 'success'){
-            $scope.file = response.file;
+            $scope.image = response.file;
           }else{
-            $cordovaDialogs.alert(angular.toJson(data), 'Error');
+            $cordovaToast.show(angular.toJson(data), 'short', 'top');
           }
+          $scope.$apply();
           $cordovaCamera.cleanup();
         }, function(error) {
           $cordovaDialogs.alert(angular.toJson(error), 'Error');
@@ -195,14 +194,12 @@ angular.module('app.directives', [])
   return {
     restrict: 'E',
     scope: {
-      files: '=',
+      images: '=',
       url: '@'
     },
     templateUrl: 'templates/tpl/choose-images.html',
     controller: function($rootScope, $scope, $timeout, $ionicActionSheet, $cordovaImagePicker, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
       $scope.Domain = $rootScope.Domain;
-
-      $scope.images = [];
 
       $scope.selectPhoto = function() {
 
@@ -241,8 +238,8 @@ angular.module('app.directives', [])
                 case 1:
                   $scope.fromGallery();
                   break;
-                  defaut:
-                    break;
+                defaut:
+                  break;
               }
               return true;
             }
@@ -296,7 +293,6 @@ angular.module('app.directives', [])
           var src = angular.fromJson(data.response);
           $scope.images[i].src = src[0];
           $scope.images[i].loading = false;
-          $scope.files.push($scope.images[i].src);
           $scope.$apply();
           $cordovaCamera.cleanup();
         }, function(error) {

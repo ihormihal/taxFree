@@ -10,10 +10,10 @@
       <div class="list">
         <div class="item">
           <span class="input-label">{{'check_photo'|translate}} <sup>*</sup></span>
-          <choose-images files="check.files" url="/api/check/upload"></choose-images>
+          <choose-images images="check.images" url="/api/check/upload"></choose-images>
         </div>
         <div class="item">
-          <button ng-class="{disabled: check.files.length == 0}" class="button button-stable button-block button-assertive up" ng-click="createCheck()">{{'done'|translate}}</button>
+          <button ng-class="{disabled: check.images.length == 0}" class="button button-stable button-block button-assertive up" ng-click="createCheck()">{{'done'|translate}}</button>
         </div>
       </div>
     </form>

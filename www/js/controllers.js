@@ -360,8 +360,7 @@ angular.module('app.controllers', [])
 /****************************************/
 .controller('tripCtrl', function($scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Trip, Check, Toast) {
 
-  $scope.check = {id: 'add', trip: $stateParams.id, files: []};
-
+  $scope.check = {id: 'add', trip: $stateParams.id, files: [], images: []};
   Trip.get({id: $stateParams.id},function(data){
     $scope.trip = data;
   });
@@ -428,6 +427,10 @@ angular.module('app.controllers', [])
   };
 
   $scope.createCheck = function(){
+    angular.forEach($scope.check.images, function(image){
+      $scope.check.files.push(image.src);
+    });
+    $scope.check.images = [];
     Check.add($scope.check, function(data){
       Toast.show(lngTranslate('toast_check_created'));
       $state.go('main.check', {id: data.id});
@@ -457,10 +460,8 @@ angular.module('app.controllers', [])
 /***************************************/
 
 .controller('checksCtrl', function($rootScope, $scope, $state, $ionicModal, Checks, Check, Trip, Trips, Toast, AppData) {
-
-
   $scope.checks = [];
-  $scope.check = {id: 'add', files: []};
+  $scope.check = {id: 'add', trip: '', files: [], images: []};
 
   $scope.load = function(){
     Checks.get({},function(data){
@@ -529,6 +530,10 @@ angular.module('app.controllers', [])
   });
 
   $scope.create = function(){
+    angular.forEach($scope.check.images, function(image){
+      $scope.check.files.push(image.src);
+    });
+    $scope.check.images = [];
     Check.add($scope.check, function(data){
       Toast.show(lngTranslate('toast_check_created'));
       $state.go('main.check', {id: data.id});
@@ -545,7 +550,6 @@ angular.module('app.controllers', [])
 /*****************************************/
 
 .controller('checkCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Toast, Trips, AppData) {
-
   window.SpinnerPlugin.activityStart(lngTranslate('loading'));
   Check.get({id: $stateParams.id}, function(data){
     $scope.check = data;
@@ -579,7 +583,6 @@ angular.module('app.controllers', [])
     $scope.check.files.splice(index,1);
   };
 
-
   $ionicModal.fromTemplateUrl('templates/checks/add.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -599,6 +602,10 @@ angular.module('app.controllers', [])
   });
 
   $scope.update = function(){
+    angular.forEach($scope.check.images, function(image){
+      $scope.check.files.push(image.src);
+    });
+    $scope.check.images = [];
     Check.update({id: $scope.check.id}, $scope.check, function(){
       Toast.show(lngTranslate('toast_check_updated'));
     });

@@ -25,10 +25,10 @@
     <form class="padding">
       <div class="list" ng-show="check.editable">
         <div>
-          <choose-images images="check.files" url="/api/check/upload"></choose-images>
+          <choose-images images="check.images" url="/api/check/upload"></choose-images>
         </div>
         <div>
-          <button ng-disabled="check.files.length == 0" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
+          <button ng-disabled="check.images.length == 0" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
         </div>
       </div>
     </form>
