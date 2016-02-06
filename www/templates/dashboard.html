@@ -9,43 +9,49 @@
 			pulling-text=""
 			on-refresh="doRefresh()">
 		</ion-refresher>
-		<div class="list dashboard-list">
+		<div class="dashboard-list">
 
-			<div id="dashboard-item-1" class="item dashboard-item light" ng-class="{active: isGroupShown(1)}">
-				<div class="item item-heading" ng-click="toggleGroup(1)"><h2><i class="icon ion-android-refresh"></i> {{'actions'|translate}} ({{noactionlist.notifications.length}})</h2></div>
-				<div class="item item-content" ng-show="isGroupShown(1)">
-					<div class="list">
-						<div class="item item-icon" ng-repeat="action in noactionlist.notifications">
-							<span class="left"><i class="icon ion-alert-circled"></i>{{action.message}}</span><span class="item-note">{{action.created|date}}</span>
-						</div>
+			<div id="dashboard-item-1" class="item dashboard-item" ng-class="{active: itemActive == 0}">
+				<div class="item item-icon-left item-heading" ng-click="toggleItem(0)">
+					<i class="icon ion-load-b"></i>
+					{{'actions'|translate}} ({{noactionlist.notifications.length}})
+				</div>
+				<div class="item-content">
+					<div class="item" ng-repeat="action in noactionlist.notifications">
+						{{action.message}}
+						<div class="date"><i class="icon ion-ios-timer-outline"></i> {{action.created}}</div>
 					</div>
 				</div>
 			</div>
 
-			<div id="dashboard-item-2" class="item dashboard-item dark" ng-class="{active: isGroupShown(2)}">
-				<div class="item item-heading" ng-click="toggleGroup(2)"><h2><i class="icon ion-paper-airplane"></i> {{'events'|translate}} ({{actionlist.notifications.length}})</h2></div>
-				<div class="item item-content" ng-show="isGroupShown(2)">
-					<div class="list">
-						<div class="item item-icon" ng-repeat="action in actionlist.notifications">
-							<span class="left"><i class="icon ion-chatbubble-working"></i>{{action.message}}</span><span class="item-note">{{action.created|date}}</span>
-						</div>
+			<div id="dashboard-item-2" class="item dashboard-item" ng-class="{active: itemActive == 1}">
+				<div class="item item-icon-left item-heading" ng-click="toggleItem(1)">
+					<i class="icon ion-paper-airplane"></i>
+					{{'events'|translate}} ({{actionlist.notifications.length}})
+				</div>
+				<div class="item-content">
+					<div class="item" ng-repeat="action in actionlist.notifications">
+						{{action.message}}
+						<div class="date"><i class="icon ion-ios-timer-outline"></i> {{action.created}}</div>
 					</div>
 				</div>
 			</div>
 
-			<div id="dashboard-item-3" class="item dashboard-item light" ng-class="{active: isGroupShown(3)}">
-				<div class="item item-heading" ng-click="toggleGroup(3)"><h2><i class="icon ion-card"></i> {{'payments'|translate}} {{allpayments.all_payments_total.sum|currency}}</h2></div>
-				<div class="item item-content" ng-show="isGroupShown(3)">
-					<div class="list">
-						<div class="item" ng-show="lastapprovedpayment.last_paid_declaration.length">
+			<div id="dashboard-item-3" class="item dashboard-item" ng-class="{active: itemActive == 2}">
+				<div class="item item-icon-left item-heading" ng-click="toggleItem(2)">
+					<i class="icon ion-card"></i>
+					{{'payments'|translate}}  {{allpayments.all_payments_total.sum|currency}}
+				</div>
+				<div class="item-content">
+					<div class="item" ng-show="lastapprovedpayment.last_paid_declaration.length">
 
-						</div>
-						<div class="item" ng-show="allpayments.all_payments_total">
-							<p>{{'total_paid'|translate}}</p>
-							<h2>{{allpayments.all_payments_total.sum|currency}}</h2>
-							<p>{{'trips'|translate}}: {{allpayments.all_payments_total.trip_count}}</p>
-							<p>{{'checks'|translate}}: {{allpayments.all_payments_total.check_count}}</p>
-						</div>
+					</div>
+					<div class="item" ng-show="allpayments.all_payments_total">
+						{{'total_paid'|translate}}: {{allpayments.all_payments_total.sum|currency}}
+						<br>
+						{{'trips'|translate}}: {{allpayments.all_payments_total.trip_count}}
+						<br>
+						{{'checks'|translate}}: {{allpayments.all_payments_total.check_count}}
 					</div>
 				</div>
 			</div>

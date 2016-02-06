@@ -72,7 +72,7 @@ angular.module('app.directives', [])
   return {
     restrict: 'E',
     scope: {
-      image: '=',
+      file: '=',
       url: '@',
       userid: '@'
     },
@@ -173,7 +173,7 @@ angular.module('app.directives', [])
           $scope.loading = false;
           var response = angular.fromJson(data.response);
           if(response.status == 'success'){
-            $scope.image = response.file;
+            $scope.file = response.file;
           }else{
             $cordovaDialogs.alert(angular.toJson(data), 'Error');
           }
@@ -195,12 +195,14 @@ angular.module('app.directives', [])
   return {
     restrict: 'E',
     scope: {
-      images: '=',
+      files: '=',
       url: '@'
     },
     templateUrl: 'templates/tpl/choose-images.html',
     controller: function($rootScope, $scope, $timeout, $ionicActionSheet, $cordovaImagePicker, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
       $scope.Domain = $rootScope.Domain;
+
+      $scope.images = [];
 
       $scope.selectPhoto = function() {
 
@@ -294,6 +296,8 @@ angular.module('app.directives', [])
           var src = angular.fromJson(data.response);
           $scope.images[i].src = src[0];
           $scope.images[i].loading = false;
+          $scope.files.push($scope.images[i].src);
+          $scope.$apply();
           $cordovaCamera.cleanup();
         }, function(error) {
           $scope.loading = false;

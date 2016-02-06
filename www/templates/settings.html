@@ -1,25 +1,21 @@
 <ion-view title="{{'settings'|translate}}">
-    <ion-content scroll="false" class="has-header">
-    	<form>
+	<ion-content scroll="false" class="has-header">
+		<form>
 			<div class="list">
 				<button class="button button-stable button-block button-assertive up" ng-click="clearCache()">{{'reset'|translate}}!</button>
-
-		        <label class="item item-input item-stacked-label top-item">
-		          <span class="input-label">{{'app_language'|translate}}</span>
-		          <div class="item-select">
-		            <select ng-model="settings.language">
-		              <option value="ru">Русский</option>
-		              <option value="en">English</option>
-		            </select>
-		          </div>
-		        </label>
-
-		        <div class="item">
-		        	<button class="button button-stable button-block button-assertive up" ng-click="save()">{{'save'|translate}}!</button>
-		        </div>
-
-	        </div>
-        </form>
-
-    </ion-content>
+				<label class="item item-input item-stacked-label top-item">
+					<span class="input-label">{{'app_language'|translate}}</span>
+					<div class="item-select">
+						<select ng-model="settings.language">
+							<option value="ru">Русский</option>
+							<option value="en">English</option>
+						</select>
+					</div>
+				</label>
+				<div class="item">
+					<button class="button button-stable button-block button-assertive up" ng-click="save()">{{'save'|translate}}!</button>
+				</div>
+			</div>
+		</form>
+	</ion-content>
 </ion-view>

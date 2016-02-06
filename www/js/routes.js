@@ -91,13 +91,35 @@ angular.module('app.routes', [])
     }
   })
 
-  //HELP
-  .state('main.help', {
-    url: '/help',
+  //ABOUT
+  .state('main.about', {
+    url: '/about',
     views: {
       'menuContent': {
-        templateUrl: 'templates/help.html',
-        controller: 'helpCtrl'
+        templateUrl: 'templates/about.html',
+        controller: 'aboutCtrl'
+      }
+    }
+  })
+
+  //FAQ
+  .state('main.faq', {
+    url: '/faq',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/faq.html',
+        controller: 'faqCtrl'
+      }
+    }
+  })
+
+  //TERMS
+  .state('main.terms', {
+    url: '/terms',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/terms.html',
+        controller: 'termsCtrl'
       }
     }
   })

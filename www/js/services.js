@@ -13,14 +13,13 @@ angular.module('app.services', ['ngResource'])
 /****************************************/
 
 .service('AuthService', function($rootScope, $q, $http) {
+
   var self = {
 
-    data: {
-      username: '',
-      password: ''
-    },
+    data: {},
 
     query: function(credentials){
+      var q = $q.defer();
       window.SpinnerPlugin.activityStart(lngTranslate('authorization')+'...');
       $http({
         method: 'POST',
@@ -33,10 +32,21 @@ angular.module('app.services', ['ngResource'])
       .success(function(data, status, headers, config) {
         window.SpinnerPlugin.activityStop();
         if(data.access_token && status == 200){
+
+          if(credentials.username){
+            self.data.username = credentials.username;
+            window.localStorage['username'] = credentials.username;
+          }
+          if(credentials.password){
+            self.data.username = credentials.password;
+            window.localStorage['password'] = credentials.password;
+          }
+
           window.localStorage['token'] = 'Bearer '+ data.access_token;
           window.localStorage['refresh_token'] = data.refresh_token;
           $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
           $rootScope.$broadcast('auth-login-success');
+          q.resolve(data);
           return false;
         }else{
           $rootScope.$broadcast('auth-login-error', data);
@@ -45,14 +55,20 @@ angular.module('app.services', ['ngResource'])
       })
       .error(function (data, status, headers, config) {
         $rootScope.$broadcast('auth-login-error', data);
-        return false;
+        q.reject(angular.toJson({status: status, data: data}));
+        return false; //do not intercept error in app.js
       });
+      return q.promise;
     },
 
     login: function(user) {
       Credentials.grant_type = 'password';
       Credentials.username = user.username;
       Credentials.password = user.password;
+
+      self.data.username = user.username;
+      self.data.password = user.password;
+
       self.query(Credentials);
     },
 
@@ -76,6 +92,10 @@ angular.module('app.services', ['ngResource'])
     }
 
   };
+
+  if(window.localStorage['username']) self.data.username = window.localStorage['username'];
+  if(window.localStorage['password']) self.data.password = window.localStorage['password'];
+
   return self;
 })
 
@@ -310,6 +330,14 @@ angular.module('app.services', ['ngResource'])
 
 .factory('Dashboard', function($resource) {
   return $resource(ApiDomain + '/api/dashboard/:request', {request: '@request'});
+})
+
+.factory('DashboardAction', function($resource) {
+  return $resource(ApiDomain + '/api/dashboard/action/:request', {request: '@request'});
+})
+
+.factory('DashboardNoaction', function($resource) {
+  return $resource(ApiDomain + '/api/dashboard/noaction/:request', {request: '@request'});
 })
 
 /****************************************/

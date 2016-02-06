@@ -1,0 +1,16 @@
+<ion-view title="{{'faq'|translate}}">
+	<ion-content class="has-header">
+		<div class="accordeon">
+			<div class="accordeon-item" ng-repeat="item in faq" ng-class="{active: itemActive == $index}">
+				<div class="item item-divider item-icon-right heading" ng-click="toggleItem($index)">
+					{{item.heading}}
+					<i class="icon ion-android-arrow-dropdown"></i>
+					<i class="icon ion-android-arrow-dropup"></i>
+				</div>
+				<div class="content">
+					<div class="item content-item" ng-repeat="p in item.content"><p>{{p}}</p></div>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

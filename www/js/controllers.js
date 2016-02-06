@@ -22,13 +22,15 @@ angular.module('app.controllers', [])
 
 .controller('loginCtrl', function($scope, $state, $ionicPopup, Toast, AuthService) {
 
+  window.localStorage['ready'] = true;
+
   $scope.user = {
     username: '',
     password: ''
   };
 
-  if(AuthService.data.email){
-    $scope.user.username = AuthService.data.email;
+  if(AuthService.data.username){
+    $scope.user.username = AuthService.data.username;
   }
   if(AuthService.data.password){
     $scope.user.password = AuthService.data.password;
@@ -130,11 +132,12 @@ angular.module('app.controllers', [])
     PasswordService.data.sendTo = $scope.data.sendTo;
     PasswordService.one()
     .then(function(data) {
-      if($scope.data.sendTo == 'email'){
-        Alert.show({message: lngTranslate('password_email_message'), title: lngTranslate('password_email_title')});
-      }else{
-        $state.go('passwordTwo');
-      }
+      // if($scope.data.sendTo == 'email'){
+      //   Alert.show({message: lngTranslate('password_email_message'), title: lngTranslate('password_email_title')});
+      // }else{
+      //   $state.go('passwordTwo');
+      // }
+      $state.go('passwordTwo');
     });
   };
 
@@ -195,9 +198,6 @@ angular.module('app.controllers', [])
     AuthService.logout();
   };
 
-  $scope.exit = function() {
-    $ionicPlatform.exitApp();
-  };
 
 })
 
@@ -205,22 +205,21 @@ angular.module('app.controllers', [])
 /***** DASHBOARD CONTROLLER ******/
 /*********************************/
 
-.controller('dashboardCtrl', function($scope, Dashboard) {
+.controller('dashboardCtrl', function($scope, Dashboard, DashboardAction, DashboardNoaction) {
 
-  $scope.toggleGroup = function(group) {
-    if ($scope.isGroupShown(group)) {
-      $scope.shownGroup = null;
-    } else {
-      $scope.shownGroup = group;
+  $scope.itemActive = 0;
+
+  $scope.toggleItem = function(index){
+    if($scope.itemActive == index){
+      $scope.itemActive = null;
+    }else{
+      $scope.itemActive = index;
     }
-  };
-  $scope.isGroupShown = function(group) {
-    return $scope.shownGroup === group;
-  };
+  }
 
 
   $scope.load = function(){
-    Dashboard.get({request: 'action/list'}, function(data){
+    DashboardAction.get({request: 'list'}, function(data){
       $scope.actionlist = data;
     });
     Dashboard.get({request: 'allpayments'}, function(data){
@@ -229,7 +228,7 @@ angular.module('app.controllers', [])
     Dashboard.get({request: 'lastapprovedpayment'}, function(data){
       $scope.lastapprovedpayment = data;
     });
-    Dashboard.get({request: 'noaction/list'}, function(data){
+    DashboardNoaction.get({request: 'list'}, function(data){
       $scope.noactionlist = data;
     });
     $scope.$broadcast('scroll.refreshComplete');
@@ -316,19 +315,14 @@ angular.module('app.controllers', [])
 .controller('tripsCtrl', function($scope, $state, $ionicModal, Trips, Trip, Toast, AppData) {
 
   $scope.load = function(){
-    try {
-      Trips.get({},function(data){
-        $scope.trips = data.trips;
-        AppData.trips = data.trips;
-        if($scope.trips.length == 0){
-          Toast.show(lngTranslate('no_data'));
-        }
-        $scope.$broadcast('scroll.refreshComplete');
-      });
-    } catch (error) {
-      Toast.show(lngTranslate('no_data'));
+    Trips.get({},function(data){
+      $scope.trips = data.trips;
+      AppData.trips = data.trips;
+      if($scope.trips.length == 0){
+        Toast.show(lngTranslate('no_data'));
+      }
       $scope.$broadcast('scroll.refreshComplete');
-    }
+    });
   };
 
   $scope.load();
@@ -389,6 +383,8 @@ angular.module('app.controllers', [])
 /****************************************/
 .controller('tripCtrl', function($scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Trip, Check, Toast) {
 
+  $scope.check = {id: 'add', trip: $stateParams.id, files: []};
+
   Trip.get({id: $stateParams.id},function(data){
     $scope.trip = data;
   });
@@ -419,7 +415,6 @@ angular.module('app.controllers', [])
   };
 
   $scope.addCheck = function(){
-    $scope.check = {id: 'add', trip: $stateParams.id, files: []};
     $scope.modalCheck.show();
   };
 
@@ -456,11 +451,7 @@ angular.module('app.controllers', [])
   };
 
   $scope.createCheck = function(){
-    var check = {id: 'add', trip: $scope.check.trip, files: []};
-    for(var i = 0; i < $scope.check.files.length; i++){
-      check.files.push($scope.check.files[i].src);
-    }
-    Check.add(check, function(data){
+    Check.add($scope.check, function(data){
       Toast.show(lngTranslate('toast_check_created'));
       $state.go('main.check', {id: data.id});
     },function(error){
@@ -493,6 +484,8 @@ angular.module('app.controllers', [])
   var scrollRefresh = false;
 
   $scope.checks = [];
+  $scope.check = {id: 'add', files: []};
+
   $scope.load = function(){
     Checks.get({},function(data){
       if(data.checks){
@@ -500,6 +493,7 @@ angular.module('app.controllers', [])
       }
       if($scope.checks.length == 0){
         Toast.show(lngTranslate('no_data'));
+        $scope.$broadcast('scroll.refreshComplete');
       }else{
         $scope.complete($scope.checks);
       }
@@ -545,7 +539,6 @@ angular.module('app.controllers', [])
   });
 
   $scope.addCheck = function(){
-    $scope.check = {id: 'add', files: []};
     $scope.modalCheck.show();
   };
 
@@ -558,11 +551,7 @@ angular.module('app.controllers', [])
   });
 
   $scope.create = function(){
-    var check = {id: 'add', trip: $scope.check.trip, files: []};
-    for(var i = 0; i < $scope.check.files.length; i++){
-      check.files.push($scope.check.files[i].src);
-    }
-    Check.add(check, function(data){
+    Check.add($scope.check, function(data){
       Toast.show(lngTranslate('toast_check_created'));
       $state.go('main.check', {id: data.id});
     },function(error){
@@ -599,7 +588,6 @@ angular.module('app.controllers', [])
 
   $scope.complete = function(){
     if(AppData.trips.length == 0){
-      console.log('get_trips');
       Trips.get({},function(data){
         AppData.trips = data.trips;
         getCountryName();
@@ -633,9 +621,6 @@ angular.module('app.controllers', [])
   });
 
   $scope.update = function(){
-    for (var i = 0; i < $scope.check.images.length; i++){
-      $scope.check.files.push($scope.check.images[i]);
-    }
     Check.update({id: $scope.check.id}, $scope.check, function(){
       Toast.show(lngTranslate('toast_check_updated'));
     });
@@ -710,10 +695,34 @@ angular.module('app.controllers', [])
 })
 
 /**************************************/
-/******** HELP PAGE CONTROLLER ********/
+/******** ABOUT PAGE CONTROLLER *******/
 /**************************************/
 
-.controller('helpCtrl', function($scope) {
+.controller('aboutCtrl', function($scope) {
+
+})
+
+/**************************************/
+/******** FAQ PAGE CONTROLLER *********/
+/**************************************/
+
+.controller('faqCtrl', function($scope) {
+  $scope.itemActive = null;
+  $scope.toggleItem = function(index){
+    if($scope.itemActive == index){
+      $scope.itemActive = null;
+    }else{
+      $scope.itemActive = index;
+    }
+  }
+  $scope.faq = content.faq;
+})
+
+/**************************************/
+/******** TERMS PAGE CONTROLLER *******/
+/**************************************/
+
+.controller('termsCtrl', function($scope) {
 
 })
 
@@ -721,7 +730,7 @@ angular.module('app.controllers', [])
 /******** SETTINGS APP CONTROLLER ********/
 /*****************************************/
 
-.controller('settingsCtrl', function($rootScope, $scope, $state, $ionicPopup, $cordovaDialogs, Toast) {
+.controller('settingsCtrl', function($rootScope, $scope, $state, $ionicPopup, $cordovaDialogs, Toast, AuthService) {
 
   $scope.settings = {
     language: window.localStorage['lang']
@@ -743,7 +752,9 @@ angular.module('app.controllers', [])
     .then(function(buttonIndex) {
       if(buttonIndex == 1){
         window.localStorage.clear();
-        $rootScope.$broadcast('auth-logout');
+        AuthService.data = {};
+        AuthService.logout();
+        $state.go('start');
       }
     });
 

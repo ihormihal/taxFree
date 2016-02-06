@@ -37,22 +37,17 @@
           <i class="icon ion-document-text"></i>
           {{'declarations'|translate}}
         </ion-item>
-        <!--
-    		<ion-item menu-close ui-sref="main.transactions">
-          <i class="icon ion-android-sync"></i>
-          Транзакции
-        </ion-item>
-    		<ion-item menu-close ui-sref="main.cards">
-          <i class="icon ion-card"></i>
-          Карты
-        </ion-item>
-    		<ion-item menu-close ui-sref="main.bonuses">
-          <i class="icon ion-ribbon-a"></i>
-          Бонусы
-        </ion-item> -->
-    		<ion-item menu-close ui-sref="main.help">
+    		<ion-item menu-close ui-sref="main.about">
           <i class="icon ion-information-circled"></i>
-          {{'help'|translate}}
+          {{'about'|translate}}
+        </ion-item>
+        <ion-item menu-close ui-sref="main.faq">
+          <i class="icon ion-help-circled"></i>
+          {{'faq'|translate}}
+        </ion-item>
+        <ion-item menu-close ui-sref="main.terms">
+          <i class="icon ion-ribbon-b"></i>
+          {{'terms'|translate}}
         </ion-item>
     		<ion-item menu-close ui-sref="main.settings">
           <i class="icon ion-gear-b"></i>
@@ -61,10 +56,6 @@
         <ion-item menu-close ng-click="logout()">
           <i class="icon ion-android-exit"></i>
           {{'logout'|translate}}
-        </ion-item>
-        <ion-item menu-close ui-sref="start">
-          <i class="icon ion-load-b"></i>
-          {{'start'|translate}}
         </ion-item>
       </ion-list>
     </ion-content>

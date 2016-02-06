@@ -32,7 +32,10 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
     if(window.localStorage['token']){
-      //$state.go('main.user.profile');
+      $state.go('main.dashboard');
+    }
+    if(!window.localStorage['ready']){
+      $state.go('start');
     }
 
   });//ionic ready end
