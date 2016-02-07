@@ -23,8 +23,9 @@ angular.module('app.directives', [])
 
       ngModel.$parsers.push(function(viewValue) {
         if (viewValue instanceof Date) {
-          var timestamp = viewValue.getTime() / 1000;
-          return Math.abs(timestamp);
+          var offset = new Date().getTimezoneOffset() * 60;
+          var timestamp = viewValue.getTime() / 1000 - offset;
+          return Math.abs(timestamp); //prevent negative values
         }
       });
 

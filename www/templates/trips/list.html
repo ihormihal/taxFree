@@ -9,7 +9,7 @@
 		</ion-refresher>
 		<div class="list">
 			<div class="item" ng-repeat="trip in trips | orderBy:'-date_end'" ng-class="{'status-active': !(trip.date_end*1000|isPast) , 'status-complete': (trip.date_end*1000|isPast)}" ui-sref="main.trip.data({id: trip.id})">
-				<h2>{{getById(countries,trip.country_enter).name}} - {{getById(countries,trip.country_leaving).name}}</h2>
+				<h2>{{getById(countries,trip.country_enter).name}} - {{getById(countries,trip.country_leaving).name}} (ID {{trip.id}})</h2>
 				<p><i class="icon ion-calendar"></i> {{trip.date_start*1000|date:"dd.MM.yyyy"}} - {{trip.date_end*1000|date:"dd.MM.yyyy"}}</p>
 				<div class="item-icon-right">
 					<i class="icon ion-android-done-all" ng-show="trip.date_end*1000|isPast"></i>
