@@ -99,7 +99,8 @@ angular.module('app.controllers', [])
     RegService.three()
     .then(function(data) {
       Toast.show(lngTranslate('registration_success'));
-      AuthService.credentials = {username: RegService.data.email, password: RegService.data.password};
+      AuthService.credentials.username = RegService.data.email;
+      AuthService.credentials.password = RegService.data.password;
       $state.go('login');
     });
   };
@@ -191,7 +192,6 @@ angular.module('app.controllers', [])
       console.log(error);
     });
   }
-
 
   $scope.logout = function(){
     AuthService.logout();
@@ -291,12 +291,11 @@ angular.module('app.controllers', [])
 /******** TRIP LIST CONTROLLER ********/
 /***************************************/
 
-.controller('tripsCtrl', function($scope, $state, $ionicModal, Trips, Trip, Toast, AppData) {
+.controller('tripsCtrl', function($scope, $state, $ionicModal, Trips, Trip, Toast) {
 
   $scope.load = function(){
     Trips.get({},function(data){
       $scope.trips = data.trips;
-      AppData.trips = $scope.trips;
       if($scope.trips.length == 0){
         Toast.show(lngTranslate('no_data'));
       }
@@ -360,7 +359,7 @@ angular.module('app.controllers', [])
 /****************************************/
 /******** SINGLE TRIP CONTROLLER ********/
 /****************************************/
-.controller('tripCtrl', function($scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Trip, Check, Declaration, Toast) {
+.controller('tripCtrl', function($scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Trip, TripChecks, TripDeclarations, Toast) {
 
   $scope.check = {id: 'add', trip: $stateParams.id, files: [], images: []};
 
@@ -376,29 +375,29 @@ angular.module('app.controllers', [])
   $scope.doRefresh();
 
   $scope.loadChecks = function(){
-    $scope.checks = [];
-    if($state.current.name == 'main.trip.checks' && $scope.trip.checks.length == 0){
-      Toast.show(lngTranslate('no_data'));
-    }
-    angular.forEach($scope.trip.checks, function(check, index){
-      Check.get({id: check}, function(data){
-        $scope.checks.push(data);
+    if($scope.trip.checks.length == 0){
+      if($state.current.name == 'main.trip.checks'){
+        Toast.show(lngTranslate('no_data'));
+      }
+    }else{
+      TripChecks.get({id: $stateParams.id},function(data){
+        $scope.checks = data.checks;
       });
-      $scope.$broadcast('scroll.refreshComplete');
-    });
+    }
+    $scope.$broadcast('scroll.refreshComplete');
   };
 
   $scope.loadDeclarations = function(){
-    $scope.declarations = [];
-    if($state.current.name == 'main.trip.declarations' && $scope.trip.declarations.length == 0){
-      Toast.show(lngTranslate('no_data'));
-    }
-    angular.forEach($scope.trip.declarations, function(declaration, index){
-      Declaration.get({id: declaration},function(data){
-        $scope.declarations.push(data);
+    if($scope.trip.declarations.length == 0){
+      if($state.current.name == 'main.trip.declarations'){
+        Toast.show(lngTranslate('no_data'));
+      }
+    }else{
+      TripDeclarations.get({id: $stateParams.id},function(data){
+        $scope.declarations = data.checks;
       });
-      $scope.$broadcast('scroll.refreshComplete');
-    });
+    }
+    $scope.$broadcast('scroll.refreshComplete');
   };
 
   $ionicModal.fromTemplateUrl('templates/trips/edit.html', {
@@ -488,51 +487,36 @@ angular.module('app.controllers', [])
 /******** CHECK LIST CONTROLLER ********/
 /***************************************/
 
-.controller('checksCtrl', function($rootScope, $scope, $state, $ionicModal, Checks, Check, Trip, Trips, Toast, AppData) {
+.controller('checksCtrl', function($rootScope, $scope, $state, $ionicModal, Checks, Check, Trip, Trips, Toast) {
   $scope.checks = [];
   $scope.check = {id: 'add', trip: '', files: [], images: []};
 
-  $scope.load = function(){
+  $scope.doRefresh = function(){
     Checks.get({},function(data){
       $scope.checks = data.checks;
       if($scope.checks.length == 0){
         Toast.show(lngTranslate('no_data'));
         $scope.$broadcast('scroll.refreshComplete');
-      }else{
-        $scope.complete($scope.checks);
       }
+      Trips.get({},function(data){
+        $scope.trips = data.trips;
+        $scope.complete();
+      });
     });
   };
 
-  $scope.load();
+  $scope.doRefresh();
 
-  $scope.doRefresh = function(){
-    $scope.load();
-  };
-
-  var getCountryName = function(){
+  $scope.complete = function(){
     $scope.$broadcast('scroll.refreshComplete');
     angular.forEach($scope.checks, function(check, i){
-      angular.forEach(AppData.trips, function(trip){
+      angular.forEach($scope.trips, function(trip){
         if(trip.id == check.trip){
           $scope.checks[i].country_enter = $rootScope.getById($rootScope.countries,trip.country_enter).name;
           $scope.checks[i].country_leaving = $rootScope.getById($rootScope.countries,trip.country_leaving).name;
         }
       });
     });
-  };
-
-  $scope.complete = function(){
-    if(AppData.trips.length == 0){
-      Trips.get({},function(data){
-        AppData.trips = data.trips;
-        $scope.trips = data.trips;
-        getCountryName();
-      });
-    }else{
-      $scope.trips = AppData.trips;
-      getCountryName();
-    }
   };
 
   $ionicModal.fromTemplateUrl('templates/checks/add.html', {
@@ -574,7 +558,7 @@ angular.module('app.controllers', [])
 /******** SINGLE CHECK CONTROLLER ********/
 /*****************************************/
 
-.controller('checkCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Toast, Trips, AppData) {
+.controller('checkCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Toast, Trips) {
   window.SpinnerPlugin.activityStart(lngTranslate('loading'));
   Check.get({id: $stateParams.id}, function(data){
     $scope.check = data;
@@ -583,7 +567,7 @@ angular.module('app.controllers', [])
   });
 
   var getCountryName = function(){
-    angular.forEach(AppData.trips, function(trip){
+    angular.forEach($scope.trips, function(trip){
       if(trip.id == $scope.check.trip){
         $scope.check.country_enter = $rootScope.getById($rootScope.countries,trip.country_enter).name;
         $scope.check.country_leaving = $rootScope.getById($rootScope.countries,trip.country_leaving).name;
@@ -594,14 +578,10 @@ angular.module('app.controllers', [])
   };
 
   $scope.complete = function(){
-    if(AppData.trips.length == 0){
-      Trips.get({},function(data){
-        AppData.trips = data.trips;
-        getCountryName();
-      });
-    }else{
+    Trips.get({},function(data){
+      $scope.trips = data.trips;
       getCountryName();
-    }
+    });
   };
 
   $scope.deletePhoto = function(index){

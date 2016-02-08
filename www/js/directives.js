@@ -143,6 +143,8 @@ angular.module('app.directives', [])
         $cordovaCamera.getPicture({
           destinationType: Camera.DestinationType.FILE_URI,
           sourceType: Camera.PictureSourceType.CAMERA,
+          encodingType: Camera.EncodingType.JPEG,
+          correctOrientation: true,
           saveToPhotoAlbum: false
         })
         .then(function(image) {
@@ -267,6 +269,9 @@ angular.module('app.directives', [])
         $cordovaCamera.getPicture({
           destinationType: Camera.DestinationType.FILE_URI,
           sourceType: Camera.PictureSourceType.CAMERA,
+          encodingType: Camera.EncodingType.JPEG,
+          mediaType: Camera.MediaType.PICTURE,
+          correctOrientation: true,
           saveToPhotoAlbum: false
         })
         .then(function(image) {

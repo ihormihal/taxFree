@@ -305,12 +305,6 @@ angular.module('app.services', ['ngResource'])
 /****** APP PRIVATE DATA SERVICE ********/
 /****************************************/
 
-.service('AppData', function($rootScope) {
-  return {
-    trips: []
-  }
-})
-
 /****************************************/
 /********** DASHBOARD SERVICE ***********/
 /****************************************/
@@ -356,6 +350,14 @@ angular.module('app.services', ['ngResource'])
       method: 'POST'
     }
   });
+})
+
+.factory('TripChecks', function($resource) {
+  return $resource(ApiDomain + '/api/trip/:id/checks', {id: '@id'});
+})
+
+.factory('TripDeclarations', function($resource) {
+  return $resource(ApiDomain + '/api/trip/:id/declarations', {id: '@id'});
 })
 
 /****************************************/
