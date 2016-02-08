@@ -111,7 +111,7 @@ angular.module('app.controllers', [])
 /******** PWD RECOVERY CONTROLLER ********/
 /*****************************************/
 
-.controller('passwordCtrl', function($scope, $state, Alert, RegService, PasswordService, Toast) {
+.controller('passwordCtrl', function($scope, $state, Alert, RegService, PasswordService, AuthService, Toast) {
 
   //initialize every time when view is called
   $scope.data = PasswordService.data;
@@ -132,11 +132,6 @@ angular.module('app.controllers', [])
     PasswordService.data.sendTo = $scope.data.sendTo;
     PasswordService.one()
     .then(function(data) {
-      // if($scope.data.sendTo == 'email'){
-      //   Alert.show({message: lngTranslate('password_email_message'), title: lngTranslate('password_email_title')});
-      // }else{
-      //   $state.go('passwordTwo');
-      // }
       $state.go('passwordTwo');
     });
   };
@@ -155,6 +150,7 @@ angular.module('app.controllers', [])
     PasswordService.three()
     .then(function(data) {
       Toast.show(lngTranslate('password_restore_success'));
+      AuthService.credentials.password = PasswordService.data.password;
       $state.go('login');
     });
   };
