@@ -355,7 +355,7 @@ angular.module('app.controllers', [])
 /****************************************/
 /******** SINGLE TRIP CONTROLLER ********/
 /****************************************/
-.controller('tripCtrl', function($scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Trip, TripChecks, TripDeclarations, Toast) {
+.controller('tripCtrl', function($scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Trip, TripChecks, TripDeclarations, Check, Toast) {
 
   $scope.check = {id: 'add', trip: $stateParams.id, files: [], images: []};
 
@@ -673,20 +673,21 @@ angular.module('app.controllers', [])
       //$scope.declaration.file = 'http://mycode.in.ua/app/Declaration.pdf'; //for test
 
       var fileDirectoty = '';
-      if(ionic.Platform.isIOS()){
-        fileDirectoty = cordova.file.documentsDirectory;
-        /* file /var/mobile/Containers/Data/Application/<UUID>/Documents/ */
-      }else{
-        fileDirectoty = cordova.file.externalDataDirectory;
-        /* Android/data/<app-id>/files */
-      }
 
       $scope.file.name = $scope.declaration.file.split("/").pop();
       try {
-        $scope.file.path = fileDirectoty + $scope.file.name;
+        if(ionic.Platform.isIOS()){
+          fileDirectoty = cordova.file.documentsDirectory;
+          /* file /var/mobile/Containers/Data/Application/<UUID>/Documents/ */
+        }else{
+          fileDirectoty = cordova.file.externalDataDirectory;
+          /* Android/data/<app-id>/files */
+        }
       } catch (error) {
         console.log(error);
       }
+
+      $scope.file.path = fileDirectoty + $scope.file.name;
 
       //Check for the downloaded file.
       try {
