@@ -669,17 +669,17 @@ angular.module('app.controllers', [])
     Declaration.get({id: $stateParams.id},function(data){
       $scope.$broadcast('scroll.refreshComplete');
       $scope.declaration = data;
-      $scope.declaration.file = 'http://mycode.in.ua/app/Declaration.pdf'; //for test
+      //$scope.declaration.file = 'http://mycode.in.ua/app/Declaration.pdf'; //for test
 
-      // if(ionic.Platform.isIOS()){
-      //   var fileDirectoty = cordova.file.applicationStorageDirectory;
-      // }else{
-      //   var fileDirectoty
-      // }
+      if(ionic.Platform.isIOS()){
+        var fileDirectoty = cordova.file.applicationStorageDirectory;
+      }else{
+        var fileDirectoty = cordova.file.externalRootDirectory;
+      }
 
       $scope.file.name = $scope.declaration.file.split("/").pop();
       try {
-        $scope.file.path = cordova.file.dataDirectory + $scope.file.name;
+        $scope.file.path = fileDirectoty + $scope.file.name;
       } catch (error) {
         console.log(error);
       }
