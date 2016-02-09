@@ -672,10 +672,18 @@ angular.module('app.controllers', [])
 
       //$scope.declaration.file = 'http://mycode.in.ua/app/Declaration.pdf'; //for test
 
+      var fileDirectoty = '';
+      if(ionic.Platform.isIOS()){
+        fileDirectoty = cordova.file.documentsDirectory;
+        /* file /var/mobile/Containers/Data/Application/<UUID>/Documents/ */
+      }else{
+        fileDirectoty = cordova.file.externalDataDirectory;
+        /* Android/data/<app-id>/files */
+      }
 
       $scope.file.name = $scope.declaration.file.split("/").pop();
       try {
-        $scope.file.path = cordova.file.documentsDirectory + $scope.file.name;
+        $scope.file.path = fileDirectoty + $scope.file.name;
       } catch (error) {
         console.log(error);
       }
