@@ -681,6 +681,8 @@ angular.module('app.controllers', [])
         fileDirectoty = fs.root.fullPath;
       });
 
+      fileDirectoty = 'cdvfile://localhost/persistent/com.jayadigital.taxfree4youApp/';
+
       $scope.file.name = $scope.declaration.file.split("/").pop();
       try {
         $scope.file.path = fileDirectoty + $scope.file.name;
