@@ -669,7 +669,7 @@ angular.module('app.controllers', [])
     Declaration.get({id: $stateParams.id},function(data){
       $scope.$broadcast('scroll.refreshComplete');
       $scope.declaration = data;
-      $scope.declaration.file = 'http://mycode.in.ua/app/Declaration.pdf'; //for test
+      //$scope.declaration.file = 'http://mycode.in.ua/app/Declaration.pdf'; //for test
 
       $scope.file.name = $scope.declaration.file.split("/").pop();
       try {
