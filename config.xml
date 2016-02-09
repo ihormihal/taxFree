@@ -14,6 +14,9 @@
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
   <preference name="Fullscreen" value="false" />
+  <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+  <preference name="iosPersistentFileLocation" value="Library" />
+  <preference name="iosPersistentFileLocation" value="Compatibility" />
   <preference name="android-windowSoftInputMode" value="adjustResize" />
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
