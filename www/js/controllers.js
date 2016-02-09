@@ -670,11 +670,15 @@ angular.module('app.controllers', [])
       $scope.$broadcast('scroll.refreshComplete');
       $scope.declaration = data;
       //$scope.declaration.file = 'http://mycode.in.ua/app/Declaration.pdf'; //for test
-
+      var fileDirectoty = '';
       if(ionic.Platform.isIOS()){
         var fileDirectoty = cordova.file.applicationStorageDirectory;
       }else{
         var fileDirectoty = cordova.file.externalRootDirectory;
+      }
+
+      window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+        fileDirectoty = fs.root.fullPath;
       }
 
       $scope.file.name = $scope.declaration.file.split("/").pop();
