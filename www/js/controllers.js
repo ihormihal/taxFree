@@ -673,7 +673,7 @@ angular.module('app.controllers', [])
 
       $scope.file.name = $scope.declaration.file.split("/").pop();
       try {
-        $scope.file.path = cordova.file.externalRootDirectory + $scope.file.name;
+        $scope.file.path = cordova.file.applicationStorageDirectory + $scope.file.name;
       } catch (error) {
         console.log(error);
       }
