@@ -679,7 +679,7 @@ angular.module('app.controllers', [])
 
       window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
         fileDirectoty = fs.root.fullPath;
-      }
+      });
 
       $scope.file.name = $scope.declaration.file.split("/").pop();
       try {
