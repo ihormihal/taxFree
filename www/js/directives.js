@@ -69,150 +69,30 @@ angular.module('app.directives', [])
   }
 }])
 
-.directive('passportImage', [function() {
-  return {
-    restrict: 'E',
-    scope: {
-      image: '=',
-      url: '@',
-      userid: '@'
-    },
-    templateUrl: 'templates/tpl/choose-image.html',
-    controller: function($rootScope, $scope, $timeout, $ionicActionSheet, $cordovaImagePicker, $cordovaDialogs, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
-      $scope.Domain = $rootScope.Domain;
-      $scope.loading = false;
-      $scope.selectPhoto = function() {
-
-        try {
-          $cordovaActionSheet.show({
-            title: lngTranslate('action_choose_photo_title'),
-            buttonLabels: [lngTranslate('camera'),lngTranslate('gallery')],
-            addCancelButtonWithLabel: lngTranslate('cancel'),
-            androidEnableCancelButton : true,
-            winphoneEnableCancelButton : true
-          })
-          .then(function(btnIndex) {
-            switch (btnIndex) {
-              case 1:
-                $scope.fromCamera();
-                break;
-              case 2:
-                $scope.fromGallery();
-                break;
-              defaut:
-                break;
-            }
-          });
-        } catch (error) {
-          $ionicActionSheet.show({
-            buttons: [{
-              text: '<i class="icon ion-camera"></i> Камера'
-            }, {
-              text: '<i class="icon ion-images"></i> Галерея'
-            }],
-            buttonClicked: function(index) {
-              switch (index) {
-                case 0:
-                  $scope.fromCamera();
-                  break;
-                case 1:
-                  $scope.fromGallery();
-                  break;
-                  defaut:
-                    break;
-              }
-              return true;
-            }
-          });
-        }
-
-      };
-
-      $scope.fromGallery = function() {
-        $cordovaImagePicker.getPictures({
-          maximumImagesCount: 1
-        })
-        .then(function(images) {
-          $scope.uploadPhoto(images[0]);
-        }, function(error) {
-          $cordovaToast.show(error, 'short', 'top');
-        });
-      };
-
-      $scope.fromCamera = function() {
-        $cordovaCamera.getPicture({
-          destinationType: Camera.DestinationType.FILE_URI,
-          sourceType: Camera.PictureSourceType.CAMERA,
-          encodingType: Camera.EncodingType.JPEG,
-          correctOrientation: true,
-          saveToPhotoAlbum: false
-        })
-        .then(function(image) {
-          $scope.uploadPhoto(image);
-        }, function(error) {
-          $cordovaToast.show(error, 'short', 'top');
-        });
-      };
-
-      $scope.uploadPhoto = function(file) {
-        $scope.loading = true;
-        var options = {
-          headers: {'Authorization': window.localStorage['token']},
-          fileKey: "passport",
-          fileName: "photo.jpg",
-          chunkedMode: false,
-          mimeType: "image/jpeg",
-          params: {
-            user: $scope.userid
-          }
-        };
-        $cordovaFileTransfer.upload(
-          encodeURI(ApiDomain + $scope.url),
-          file,
-          options)
-        .then(function(data) {
-          $scope.loading = false;
-          var response = angular.fromJson(data.response);
-          if(response.status == 'success'){
-            $scope.image = response.file;
-          }else{
-            $cordovaToast.show(angular.toJson(data), 'short', 'top');
-          }
-          $scope.$apply();
-          $cordovaCamera.cleanup();
-        }, function(error) {
-          $cordovaDialogs.alert(angular.toJson(error), 'Error');
-          $scope.loading = false;
-          $cordovaCamera.cleanup();
-          $cordovaToast.show(error.code, 'short', 'top');
-        }, function(progress) {
-          // constant progress updates
-        });
-      };
-    }
-  };
-}])
 
 .directive('chooseImages', [function() {
   return {
     restrict: 'E',
     scope: {
       images: '=',
-      url: '@'
+      params: '='
     },
     templateUrl: 'templates/tpl/choose-images.html',
-    controller: function($rootScope, $scope, $timeout, $ionicActionSheet, $cordovaImagePicker, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
-      $scope.Domain = $rootScope.Domain;
+    controller: function($scope, $element, $attrs, $timeout, $cordovaImagePicker, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
+
+      if($attrs.single == 'true'){
+        $scope.single = true;
+      }
 
       $scope.selectPhoto = function() {
 
         try {
           $cordovaActionSheet.show({
             title: lngTranslate('action_choose_photo_title'),
-            buttonLabels: [lngTranslate('camera'),lngTranslate('gallery')],
+            buttonLabels: [lngTranslate('camera'), lngTranslate('gallery')],
             addCancelButtonWithLabel: lngTranslate('cancel'),
-            androidEnableCancelButton : true,
-            winphoneEnableCancelButton : true
+            androidEnableCancelButton: true,
+            winphoneEnableCancelButton: true
           })
           .then(function(btnIndex) {
             switch (btnIndex) {
@@ -222,43 +102,23 @@ angular.module('app.directives', [])
               case 2:
                 $scope.fromGallery();
                 break;
-              defaut:
-                break;
+                defaut: break;
             }
           });
         } catch (error) {
-          $ionicActionSheet.show({
-            buttons: [{
-              text: '<i class="icon ion-camera"></i> Камера'
-            }, {
-              text: '<i class="icon ion-images"></i> Галерея'
-            }],
-            buttonClicked: function(index) {
-              switch (index) {
-                case 0:
-                  $scope.fromCamera();
-                  break;
-                case 1:
-                  $scope.fromGallery();
-                  break;
-                defaut:
-                  break;
-              }
-              return true;
-            }
-          });
+          console.log(error);
         }
 
       };
 
       $scope.fromGallery = function() {
         $cordovaImagePicker.getPictures({
-          maximumImagesCount: 10
+          maximumImagesCount: ($scope.single ? 1 : 10)
         })
         .then(function(files) {
           for (var i = 0; i < files.length; i++) {
-            $scope.images.push({src: '', loading: true});
-            $scope.uploadPhoto(files[i],$scope.images.length - 1);
+            $scope.images.push({src: files[i], progress: 0, error: false});
+            $scope.uploadPhoto(files[i], $scope.images.length - 1);
           }
         }, function(error) {
           $cordovaToast.show(error, 'short', 'top');
@@ -275,40 +135,112 @@ angular.module('app.directives', [])
           saveToPhotoAlbum: false
         })
         .then(function(image) {
-          $scope.images.push({src: '', loading: true});
-          $scope.uploadPhoto(image,$scope.images.length - 1);
+          $scope.images.push({src: image, progress: 0, error: false});
+          $scope.uploadPhoto(image, $scope.images.length - 1);
         }, function(error) {
-          $cordovaToast.show(error, 'short', 'top');
+          $cordovaToast.show(angular.toJson(error), 'short', 'top');
         });
       };
 
       $scope.uploadPhoto = function(file, i) {
         var options = {
-          headers: {'Authorization': window.localStorage['token']},
+          headers: {
+            'Authorization': window.localStorage['token']
+          },
           fileKey: "file",
           fileName: "photo.jpg",
           chunkedMode: false,
           mimeType: "image/jpeg",
-          params: {}
+          params: $scope.params
         };
+        var time = new Date().getTime();
         $cordovaFileTransfer.upload(
-          encodeURI(ApiDomain + $scope.url),
+          encodeURI(window.AppSettings.domain + $attrs.url),
           file,
           options)
         .then(function(data) {
-          var src = angular.fromJson(data.response);
-          $scope.images[i].src = src[0];
-          $scope.images[i].loading = false;
-          $scope.$apply();
+          var response = angular.fromJson(data.response);
+          if($scope.single){
+            $scope.images[i].src = response.file
+          }else{
+            $scope.images[i].src = response[0];
+          }
+          $scope.images[i].progress = 100;
+          $scope.images[i].error = false;
           $cordovaCamera.cleanup();
         }, function(error) {
-          $scope.loading = false;
+          $scope.images[i].error = true;
           $cordovaCamera.cleanup();
           $cordovaToast.show(error.code, 'short', 'top');
         }, function(progress) {
-          // constant progress updates
+          $scope.images[i].progress = Math.floor(progress.loaded*100/progress.total);
         });
       };
     }
   };
-}]);
+}])
+
+.directive('progressBar', [function() {
+  return {
+    restrict: 'E',
+    scope: {
+      progress: '='
+    },
+    templateUrl: 'templates/tpl/progress-bar.html',
+    controller: function($scope, $element, $attrs) {
+      var circleRadius = parseInt($attrs.radius);
+      //circleRadius = 90;
+      var stokeWidth = parseInt($attrs.width);
+      //stokeWidth = 10;
+      var circleCenter = circleRadius + stokeWidth;
+      var viewSize = circleCenter * 2;
+
+      var dashLength = 2 * Math.PI * circleRadius;
+      var dashOffset = dashLength/4;
+
+      $scope.offset = 0;
+      var svg = $element[0].getElementsByTagName('svg')[0];
+      var emptyBar = $element[0].getElementsByTagName('circle')[0];
+      var progressBar = $element[0].getElementsByTagName('circle')[1];
+
+      svg.setAttribute('width',viewSize);
+      svg.setAttribute('height',viewSize);
+
+      emptyBar.setAttribute('cx',circleCenter);
+      emptyBar.setAttribute('cy',circleCenter);
+      progressBar.setAttribute('cx',circleCenter);
+      progressBar.setAttribute('cy',circleCenter);
+
+      emptyBar.setAttribute('stroke-dasharray',dashLength);
+      //progressBar.setAttribute('stroke-dashoffset',dashOffset);
+
+      progressBar.setAttribute('stroke-dasharray',dashLength);
+      //progressBar.setAttribute('stroke-dashoffset',dashOffset);
+
+      emptyBar.setAttribute('r',circleRadius);
+      progressBar.setAttribute('r',circleRadius);
+
+      emptyBar.setAttribute('stroke-width',stokeWidth);
+      progressBar.setAttribute('stroke-width',stokeWidth);
+
+
+      $scope.$watch('progress', function(progress){
+        var value = parseInt(progress);
+        if (isNaN(value)) {
+          value = 0;
+        }else{
+          var r = progressBar.getAttribute('r');
+          var c = Math.PI*(r*2);
+
+          if (value < 0) { value = 0;}
+          if (value > 100) { value = 100;}
+
+          $scope.offset = ((100-value)/100)*dashLength;
+        }
+      });
+    }
+  }
+}])
+
+
+;

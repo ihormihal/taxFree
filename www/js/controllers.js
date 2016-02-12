@@ -245,18 +245,23 @@ angular.module('app.controllers', [])
 .controller('userCtrl', function($rootScope, $scope, $ionicModal, Toast, User) {
 
   $scope.user = {
-    profile: null
+    profile: null,
+    images: [],
+    params: {}
   };
 
   $scope.doRefresh = function(){
     User.get({}, function(data){
       $scope.user.profile = data;
+      $scope.user.params = {userid: $scope.user.profile.id};
+      $scope.user.images[0] = {src: $scope.user.profile.passport, progress: 100, error: false};
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
   $scope.doRefresh();
 
   $scope.update = function(){
+    $scope.user.profile.passport = $scope.user.images[0].src;
     User.update($scope.user.profile, function(){
       Toast.show(lngTranslate('toast_profile_updated'));
       $scope.closeModal();

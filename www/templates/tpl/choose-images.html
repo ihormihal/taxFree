@@ -1,19 +1,23 @@
-<button ng-click="selectPhoto()" class="button button-block button-outline button-assertive icon-left ion-image">
+<button ng-click="selectPhoto()" class="button button-block button-outline button-assertive icon-left ion-image" ng-hide="images.length && single">
   {{'upload_photo'|translate}}
 </button>
-<div class="image-preview" ng-show="loading || images.length">
-  <table class="table spinner-table">
-    <tr ng-repeat="image in images">
-      <td class="image">
-        <ion-spinner icon="spiral" class="spinner-positive" ng-show="image.loading"></ion-spinner>
-        <img ng-show="image.src" ng-src="{{image.src}}" image-viewer />
-      </td>
-      <td class="action">
-        <div class="remove" ng-click="images.splice($index,1);">
-          <i class="icon ion-android-close"></i>
-        </div>
-      </td>
-    </tr>
-  </table>
+
+<div class="image-preview" ng-show="images.length">
+  <div class="image" ng-repeat="image in images" ng-class="{loading: image.progress !== 100}">
+    <img ng-show="image.src" ng-src="{{image.src}}" image-viewer />
+
+    <div class="background"></div>
+    <div class="progress">
+      <progress-bar
+        radius="48",
+        width="2"
+        progress="image.progress"
+      >
+      </progress-bar>
+    </div>
+
+    <div class="remove" ng-click="images.splice($index,1)"><i class="icon ion-close"></i></div>
+
+  </div>
 </div>
 <span class="err" ng-show="errorMsg">{{errorMsg}}</span>

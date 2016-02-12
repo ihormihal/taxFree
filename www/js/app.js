@@ -1,3 +1,7 @@
+window.AppSettings = {
+  domain: 'http://tax-free-4u.com/'
+};
+
 var ApiDomain = 'http://tax-free-4u.com';
 //var ApiDomain = 'http://tax-free-dev.jaya-test.com/app_dev.php';
 
@@ -6,14 +10,14 @@ var Credentials = {
   client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk'
 }
 
-angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
+angular.module('app', ['ionic', 'ngCordova', 'angular-circular-progress', 'app.cordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
 
 .run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, AuthService, Alert) {
 
   $ionicPlatform.ready(function() {
 
-    $rootScope.Domain = 'http://tax-free-4u.com/';
+    $rootScope.Domain = window.AppSettings.domain;
     //$rootScope.Domain = 'http://tax-free-dev.jaya-test.com/';
 
     $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
@@ -51,6 +55,23 @@ angular.module('app', ['ionic', 'ngCordova', 'app.cordova', 'app.controllers', '
         return items[i];
         break;
       }
+    }
+  };
+
+  $rootScope.isLoaded = function(images){
+    if(!images) {
+      return false;
+    }
+    for(var i = 0; i < images.length; i++){
+      if(images[i].progress < 100){
+        return false; //if one time not ready - return false
+      }
+    }
+    //else return
+    if(images.length > 0){
+      return true; //true if are images
+    }else{
+      return false; //false if array is empty
     }
   };
 
