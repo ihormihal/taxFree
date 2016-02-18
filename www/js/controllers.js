@@ -295,8 +295,8 @@ angular.module('app.controllers', [])
 .controller('tripsCtrl', function($scope, $state, $ionicModal, Trips, Trip, Toast) {
 
   $scope.load = function(){
-    Trips.get({},function(data){
-      $scope.trips = data.trips;
+    Trips.query({},function(data){
+      $scope.trips = data;
       if($scope.trips.length == 0){
         Toast.show(lngTranslate('no_data'));
       }
@@ -381,8 +381,8 @@ angular.module('app.controllers', [])
         Toast.show(lngTranslate('no_data'));
       }
     }else{
-      TripChecks.get({id: $stateParams.id},function(data){
-        $scope.checks = data.checks;
+      TripChecks.query({id: $stateParams.id},function(data){
+        $scope.checks = data;
       });
     }
     $scope.$broadcast('scroll.refreshComplete');
@@ -394,8 +394,8 @@ angular.module('app.controllers', [])
         Toast.show(lngTranslate('no_data'));
       }
     }else{
-      TripDeclarations.get({id: $stateParams.id},function(data){
-        $scope.declarations = data.checks;
+      TripDeclarations.query({id: $stateParams.id},function(data){
+        $scope.declarations = data;
       });
     }
     $scope.$broadcast('scroll.refreshComplete');
@@ -499,8 +499,8 @@ angular.module('app.controllers', [])
         Toast.show(lngTranslate('no_data'));
         $scope.$broadcast('scroll.refreshComplete');
       }
-      Trips.get({},function(data){
-        $scope.trips = data.trips;
+      Trips.query({},function(data){
+        $scope.trips = data;
         $scope.complete();
       });
     });
@@ -579,8 +579,8 @@ angular.module('app.controllers', [])
   };
 
   $scope.complete = function(){
-    Trips.get({},function(data){
-      $scope.trips = data.trips;
+    Trips.query({},function(data){
+      $scope.trips = data;
       getCountryName();
     });
   };
@@ -638,11 +638,11 @@ angular.module('app.controllers', [])
 /******** DECLARATION LIST CONTROLLER ********/
 /*********************************************/
 
-.controller('declarationsCtrl', function($scope, $ionicModal, Declarations, Toast) {
+.controller('declarationsCtrl', function($scope, Declarations, Toast) {
 
   $scope.load = function(){
-    Declarations.get({},function(data){
-      $scope.declarations = data.declarations;
+    Declarations.query({},function(data){
+      $scope.declarations = data;
       if($scope.declarations.length == 0){
         Toast.show(lngTranslate('no_data'));
       }
@@ -662,7 +662,7 @@ angular.module('app.controllers', [])
 /******** SINGLE DECLARATION CONTROLLER ********/
 /***********************************************/
 
-.controller('declarationCtrl', function($scope, $stateParams, $cordovaFileTransfer, $ionicModal, Declaration, DeclarationService, Toast) {
+.controller('declarationCtrl', function($scope, $stateParams, $cordovaFileTransfer, Declaration, Toast) {
 
   $scope.file = {
     exist: false,
@@ -743,6 +743,68 @@ angular.module('app.controllers', [])
       } else {
         Toast.show(lngTranslate('undefined_error'));
       }
+    });
+  };
+
+})
+
+/*****************************************/
+/********** CARD LIST CONTROLLER *********/
+/*****************************************/
+
+.controller('cardsCtrl', function($scope, Cards, Toast){
+
+  $scope.load = function(){
+    Cards.get({},function(data){
+      $scope.cards = data.cards;
+      if($scope.cards.length == 0){
+        Toast.show(lngTranslate('no_data'));
+      }
+      $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
+
+  $scope.load();
+
+  $scope.doRefresh = function(){
+    $scope.load();
+  };
+
+})
+
+
+/*****************************************/
+/********** CARD ITEM CONTROLLER *********/
+/*****************************************/
+
+.controller('cardCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Card, Toast) {
+
+  Card.get({id: $stateParams.id}, function(data){
+    $scope.card = data;
+  });
+
+
+  $ionicModal.fromTemplateUrl('templates/cards/add.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+
+  $scope.update = function(){
+    Card.update({id: $scope.card.id}, $scope.card, function(){
+      Toast.show(lngTranslate('toast_card_updated'));
     });
   };
 

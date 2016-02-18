@@ -1,9 +1,10 @@
 window.AppSettings = {
-  domain: 'http://tax-free-4u.com/'
+  //domain: 'http://tax-free-4u.com/'
+  domain: 'http://tax-free-dev.jaya-test.com/app_dev.php/'
 };
 
-var ApiDomain = 'http://tax-free-4u.com';
-//var ApiDomain = 'http://tax-free-dev.jaya-test.com/app_dev.php';
+//var ApiDomain = 'http://tax-free-4u.com';
+var ApiDomain = 'http://tax-free-dev.jaya-test.com/app_dev.php';
 
 var Credentials = {
   client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',

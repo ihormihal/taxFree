@@ -401,4 +401,20 @@ angular.module('app.services', ['ngResource'])
   }
 })
 
+/****************************************/
+/************* CARDS SERVICE ************/
+/****************************************/
+
+.factory('Cards', function($resource) {
+  return $resource(ApiDomain + '/api/card/list');
+})
+
+.factory('Card', function($resource) {
+  return $resource(ApiDomain + '/api/card/:id', {id: '@id'},{
+    update: {
+      method: 'POST'
+    }
+  });
+})
+
 ;

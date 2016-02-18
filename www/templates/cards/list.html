@@ -1,0 +1,24 @@
+<ion-view view-title="{{'cards'|translate}}">
+	<ion-content class="has-header">
+		<ion-refresher
+			pulling-text=""
+			on-refresh="doRefresh()">
+		</ion-refresher>
+		<div class="list">
+			<div
+				ng-repeat="card in cards  | orderBy : '-id'"
+				ui-sref="main.card({id: card.id})"
+				class="item status-{{card.status}}"
+				>
+				<h2>{{'card'|translate}} ID {{card.id}}</h2>
+				<p>{{getById(countries,card.country).name}}</p>
+				<div class="item-icon-right">
+					<i class="icon ion-android-done-all" ng-show="card.status == 'paid'"></i>
+					<i class="icon ion-paper-airplane" ng-show="card.status == 'shipping'"></i>
+					<i class="icon ion-star" ng-show="card.status == 'created'"></i>
+					<i class="icon ion-star" ng-show="card.status == 'created_changes'"></i>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

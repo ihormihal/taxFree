@@ -240,6 +240,30 @@ angular.module('app.routes', [])
     }
   })
 
+    //DECLARATIONS LIST
+  .state('main.cards', {
+    url: '/cards',
+    cache:  false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/cards/list.html',
+        controller: 'cardsCtrl'
+      }
+    }
+  })
+
+  //SINGLE DECLARATION
+  .state('main.card', {
+    url: '/cards/:id',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/cards/item.html',
+        controller: 'cardCtrl'
+      }
+    }
+  })
+
   ;
 
   // if none of the above states are matched, use this as the fallback
