@@ -84,7 +84,7 @@
           </div>
         </label>
         <label class="item">
-          <input type="tel" ng-model="user.profile.phone" required>
+          <input type="tel" ui-mask="(999) 999-9999" ui-mask-placeholder ng-model="user.profile.phone" required>
         </label>
         <div class="item">
           <span class="input-label">{{'passport_photo'|translate}} <sup>*</sup></span>

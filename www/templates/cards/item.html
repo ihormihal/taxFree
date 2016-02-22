@@ -14,14 +14,12 @@
             <div class="item item-divider">{{'card_number'|translate}}</div>
             <div class="item">{{card.number}}</div>
 
-            <div class="item item-divider">{{'expireMonth'|translate}}</div>
-            <div class="item">{{card.expire_month}}</div>
+            <div class="item item-divider">{{'expire_date'|translate}}</div>
+            <div class="item">{{card.expireMonth}}/{{card.expireYear}}</div>
 
-            <div class="item item-divider">{{'expireYear'|translate}}</div>
-            <div class="item">{{card.expire_year}}</div>
-
-            <div class="item item-divider">{{'is_default'|translate}}</div>
-            <div class="item">{{card.isDefault}}</div>
+            <div ng-show="card.isDefault" class="item status-bar status-selected">
+              <p>{{'is_default_card'|translate}}</p>
+            </div>
 
         </div>
 

@@ -374,6 +374,9 @@ a {color: $assertive;}
 	&.status-refused {
 		background-color: #aaa;
 	}
+	&.status-selected {
+		background-color: #01CB00;
+	}
 }
 
 

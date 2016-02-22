@@ -760,6 +760,9 @@ angular.module('app.controllers', [])
       if($scope.cards.length == 0){
         Toast.show(lngTranslate('no_data'));
       }
+      for(var i = 0; i < $scope.cards.length; i++){
+        $scope.cards[i].num = '**** **** **** '+$scope.cards[i].number.substr(7,4);
+      }
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
@@ -793,7 +796,7 @@ angular.module('app.controllers', [])
     $scope.card.expire_month = $scope.card.expire_date.getMonth() + 1;
     $scope.card.expire_year = $scope.card.expire_date.getFullYear();
     Card.add($scope.card, function(data){
-      Toast.show(lngTranslate('toast_card_created'));
+      Toast.show(lngTranslate('toast_card_added'));
       $state.go('main.card', {id: data.id});
     });
   };
@@ -809,10 +812,11 @@ angular.module('app.controllers', [])
 
   Card.get({id: $stateParams.id}, function(data){
     $scope.card = data.card;
+    $scope.card.expire_date = new Date($scope.card.expireYear,$scope.card.expireMonth-1,1);
   });
 
 
-  $ionicModal.fromTemplateUrl('templates/cards/add.html', {
+  $ionicModal.fromTemplateUrl('templates/cards/edit.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
@@ -830,7 +834,24 @@ angular.module('app.controllers', [])
     $scope.modal.remove();
   });
 
+  $scope.delete = function(){
+    $cordovaDialogs.confirm(
+      lngTranslate('dialog_remove_card_message'),
+      lngTranslate('dialog_remove_card_title'),
+      [lngTranslate('yes'),lngTranslate('no')])
+    .then(function(buttonIndex) {
+      if(buttonIndex == 1){
+        Card.delete($scope.check.id, function(){
+          Toast.show(lngTranslate('toast_card_deleted'));
+          $state.go('main.cards');
+        });
+      }
+    });
+  };
+
   $scope.update = function(){
+    $scope.card.expire_month = $scope.card.expire_date.getMonth() + 1;
+    $scope.card.expire_year = $scope.card.expire_date.getFullYear();
     Card.update({id: $scope.card.id}, $scope.card, function(){
       Toast.show(lngTranslate('toast_card_updated'));
     });

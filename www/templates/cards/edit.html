@@ -14,27 +14,22 @@
 
   <ion-content padding="false" scroll="true" class="has-header">
 
-    <form class="list">
+    <form name="form" class="list">
 
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'card_number'|translate}} <sup>*</sup></div>
-        <input type="text" ng-model="card.number" required>
+        <input type="text" ui-mask="9999-9999-9999-9999" ui-mask-placeholder ng-model="card.number" required>
       </label>
 
       <label class="item item-input item-stacked-label">
-        <div class="input-label">{{'expire_month'|translate}} <sup>*</sup></div>
-        <input type="text" ng-model="card.expire_month" required>
-      </label>
-
-      <label class="item item-input item-stacked-label">
-        <div class="input-label">{{'expire_year'|translate}} <sup>*</sup></div>
-        <input type="text" ng-model="card.expire_year" required>
+        <div class="input-label">{{'expire_date'|translate}} <sup>*</sup></div>
+        <input type="month" ng-model="card.expire_date" required>
       </label>
 
       <div class="item item-toggle">
-        {{'set_as_default'|translate}}
+        {{'set_as_default_card'|translate}}
         <label class="toggle toggle-assertive">
-          <input type="checkbox" ng-model="card.is_default">
+          <input type="checkbox" ng-model="card.isDefault" ng-true-value="1" ng-false-value="0">
           <div class="track"><div class="handle"></div></div>
         </label>
       </div>

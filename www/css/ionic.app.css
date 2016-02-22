@@ -9501,6 +9501,8 @@ a {
     background-color: #009688; }
   .item.status-bar.status-refused {
     background-color: #aaa; }
+  .item.status-bar.status-selected {
+    background-color: #01CB00; }
 
 .slider {
   height: 100%; }

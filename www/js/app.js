@@ -11,7 +11,7 @@ var Credentials = {
   client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk'
 }
 
-angular.module('app', ['ionic', 'ngCordova', 'angular-circular-progress', 'app.cordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
+angular.module('app', ['ionic', 'ngCordova', 'ui.mask', 'app.cordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
 
 .run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, AuthService, Alert) {
