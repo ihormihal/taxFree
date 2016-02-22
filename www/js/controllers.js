@@ -810,11 +810,19 @@ angular.module('app.controllers', [])
 
 .controller('cardCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Card, Toast) {
 
-  Card.get({id: $stateParams.id}, function(data){
-    $scope.card = data.card;
-    $scope.card.expire_date = new Date($scope.card.expireYear,$scope.card.expireMonth-1,1);
-  });
+  $scope.load = function(){
+    Card.get({id: $stateParams.id}, function(data){
+      $scope.card = data.card;
+      $scope.card.expire_date = new Date($scope.card.expireYear,$scope.card.expireMonth-1,1);
+      $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
 
+  $scope.load();
+
+  $scope.doRefresh = function(){
+    $scope.load();
+  };
 
   $ionicModal.fromTemplateUrl('templates/cards/edit.html', {
     scope: $scope,
