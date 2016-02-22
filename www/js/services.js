@@ -413,6 +413,9 @@ angular.module('app.services', ['ngResource'])
   return $resource(ApiDomain + '/api/card/:id', {id: '@id'},{
     update: {
       method: 'POST'
+    },
+    add: {
+      method: 'POST'
     }
   });
 })

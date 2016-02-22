@@ -547,8 +547,6 @@ angular.module('app.controllers', [])
     Check.add($scope.check, function(data){
       Toast.show(lngTranslate('toast_check_created'));
       $state.go('main.check', {id: data.id});
-    },function(error){
-      Toast.show(error);
     });
   };
 
@@ -752,7 +750,9 @@ angular.module('app.controllers', [])
 /********** CARD LIST CONTROLLER *********/
 /*****************************************/
 
-.controller('cardsCtrl', function($scope, Cards, Toast){
+.controller('cardsCtrl', function($scope, $ionicModal, Cards, Card, Toast){
+
+  $scope.card = {id: 'add', is_default: 0};
 
   $scope.load = function(){
     Cards.get({},function(data){
@@ -770,6 +770,34 @@ angular.module('app.controllers', [])
     $scope.load();
   };
 
+  $ionicModal.fromTemplateUrl('templates/cards/add.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.add = function(){
+    $scope.modal.show();
+  };
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+
+  $scope.create = function(){
+    $scope.card.expire_month = $scope.card.expire_date.getMonth() + 1;
+    $scope.card.expire_year = $scope.card.expire_date.getFullYear();
+    Card.add($scope.card, function(data){
+      Toast.show(lngTranslate('toast_card_created'));
+      $state.go('main.card', {id: data.id});
+    });
+  };
+
 })
 
 
@@ -780,7 +808,7 @@ angular.module('app.controllers', [])
 .controller('cardCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Card, Toast) {
 
   Card.get({id: $stateParams.id}, function(data){
-    $scope.card = data;
+    $scope.card = data.card;
   });
 
 

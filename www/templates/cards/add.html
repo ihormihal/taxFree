@@ -6,29 +6,24 @@
   </div>
   </ion-header-bar>
   <ion-content padding="false" scroll="true" class="has-header">
-    <form class="list">
 
-    <label class="item item-input item-stacked-label">
-      <div class="input-label">{{'card_number'|translate}} <sup>*</sup></div>
-      <input type="text" ng-model="card.card_number" required>
-    </label>
-    <label class="item item-input item-stacked-label">
-      <div class="input-label">{{'experie_month'|translate}} <sup>*</sup></div>
-      <input type="text" ng-model="card.experie_month" required>
-    </label>
-    <label class="item item-input item-stacked-label">
-      <div class="input-label">{{'experie_year'|translate}} <sup>*</sup></div>
-      <input type="text" ng-model="card.experie_year" required>
-    </label>
-
-    <div class="item item-toggle">
-      {{'set_as_default'|translate}}
-      <label class="toggle toggle-assertive">
-        <input type="checkbox" ng-model="card.default">
-        <div class="track"><div class="handle"></div></div>
+    <form name="form" class="list">
+      <label class="item item-input item-stacked-label">
+        <div class="input-label">{{'card_number'|translate}} <sup>*</sup></div>
+        <input type="text" ng-model="card.number" required>
       </label>
-    </div>
-
+      <label class="item item-input item-stacked-label">
+        <div class="input-label">{{'expire_date'|translate}} <sup>*</sup></div>
+        <input type="month" ng-model="card.expire_date" required>
+      </label>
+      {{card.expire_date}}
+      <div class="item item-toggle">
+        {{'set_as_default'|translate}}
+        <label class="toggle toggle-assertive">
+          <input type="checkbox" ng-model="card.is_default">
+          <div class="track"><div class="handle"></div></div>
+        </label>
+      </div>
     </form>
 
     <div class="padding">

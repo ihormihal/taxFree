@@ -1,0 +1,29 @@
+<ion-view title="{{'card'|translate}}">
+    <ion-nav-buttons side="right">
+      <button class="button button-icon button-clear ion-ios-compose-outline" ng-click="openModal()"></button>
+    </ion-nav-buttons>
+    <ion-content padding="false" class="has-header">
+
+        <ion-refresher
+          pulling-text=""
+          on-refresh="doRefresh()">
+        </ion-refresher>
+
+        <div class="list custom-list">
+
+            <div class="item item-divider">{{'card_number'|translate}}</div>
+            <div class="item">{{card.number}}</div>
+
+            <div class="item item-divider">{{'expireMonth'|translate}}</div>
+            <div class="item">{{card.expire_month}}</div>
+
+            <div class="item item-divider">{{'expireYear'|translate}}</div>
+            <div class="item">{{card.expire_year}}</div>
+
+            <div class="item item-divider">{{'is_default'|translate}}</div>
+            <div class="item">{{card.isDefault}}</div>
+
+        </div>
+
+    </ion-content>
+</ion-view>
