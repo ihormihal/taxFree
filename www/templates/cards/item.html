@@ -11,15 +11,15 @@
 
         <div class="list custom-list">
 
+            <div ng-show="card.isDefault" class="item status-bar status-selected">
+              <p>{{'is_default_card'|translate}}</p>
+            </div>
+
             <div class="item item-divider">{{'card_number'|translate}}</div>
             <div class="item">{{card.number}}</div>
 
             <div class="item item-divider">{{'expire_date'|translate}}</div>
             <div class="item">{{card.expireMonth}}/{{card.expireYear}}</div>
-
-            <div ng-show="card.isDefault" class="item status-bar status-selected">
-              <p>{{'is_default_card'|translate}}</p>
-            </div>
 
         </div>
 
