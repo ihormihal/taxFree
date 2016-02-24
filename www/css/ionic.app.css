@@ -9256,6 +9256,19 @@ a {
   .ul-list li {
     padding: 8px 0; }
 
+.item .input-label .error-message {
+  display: none; }
+
+.item.error {
+  background-color: #FFCEB7; }
+  .item.error input {
+    background-color: #FFCEB7; }
+  .item.error .input-label .error-message {
+    display: inline-block;
+    color: #ff4f00;
+    font-size: 12px;
+    margin-left: 5px; }
+
 .image {
   width: 100%;
   overflow: hidden; }

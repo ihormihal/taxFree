@@ -752,6 +752,11 @@ angular.module('app.controllers', [])
 
 .controller('cardsCtrl', function($scope, $ionicModal, Cards, Card, Toast){
 
+  $scope.valid = {
+    number: false,
+    date: false
+  };
+
   $scope.card = {id: 'add', is_default: 0};
 
   $scope.load = function(){
@@ -772,6 +777,26 @@ angular.module('app.controllers', [])
   $scope.doRefresh = function(){
     $scope.load();
   };
+
+  $scope.$watch('card', function(){
+
+    if($scope.card.number){
+      if($scope.card.number.toString().length == 12){
+        $scope.valid.number = true;
+      }else{
+        $scope.valid.number = false;
+      }
+    }
+
+    var now = new Date();
+    if($scope.card.expire_date < now){
+      $scope.valid.date = false;
+    }else{
+      $scope.valid.date = true;
+    }
+
+
+  }, true);
 
   $ionicModal.fromTemplateUrl('templates/cards/add.html', {
     scope: $scope,
@@ -810,6 +835,13 @@ angular.module('app.controllers', [])
 
 .controller('cardCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Card, Toast) {
 
+  $scope.valid = {
+    number: false,
+    date: false
+  };
+
+  $scope.card = null;
+
   $scope.load = function(){
     Card.get({id: $stateParams.id}, function(data){
       $scope.card = data.card;
@@ -823,6 +855,27 @@ angular.module('app.controllers', [])
   $scope.doRefresh = function(){
     $scope.load();
   };
+
+  $scope.$watch('card', function(){
+
+    if($scope.card){
+      if($scope.card.number.toString().length == 12){
+        $scope.valid.number = true;
+      }else{
+        $scope.valid.number = false;
+      }
+
+
+      var now = new Date();
+      if($scope.card.expire_date < now){
+        $scope.valid.date = false;
+      }else{
+        $scope.valid.date = true;
+      }
+    }
+
+
+  }, true);
 
   $ionicModal.fromTemplateUrl('templates/cards/edit.html', {
     scope: $scope,

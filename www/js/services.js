@@ -412,7 +412,7 @@ angular.module('app.services', ['ngResource'])
 .factory('Card', function($resource) {
   return $resource(ApiDomain + '/api/card/:id', {id: '@id'},{
     update: {
-      method: 'POST'
+      method: 'PUT'
     },
     add: {
       method: 'POST'

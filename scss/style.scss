@@ -67,6 +67,19 @@ a {color: $assertive;}
 		padding: 8px 0;
 	}
 }
+.item .input-label .error-message {display: none;}
+.item.error {
+	background-color: #FFCEB7;
+	input {
+		background-color: #FFCEB7;
+	}
+	.input-label .error-message {
+		display: inline-block;
+		color: $assertiveAccent;
+		font-size: 12px;
+		margin-left: 5px;
+	}
+}
 
 .image {
 	width: 100%;
