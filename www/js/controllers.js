@@ -805,6 +805,7 @@ angular.module('app.controllers', [])
     $scope.card.expire_month = $scope.card.expire_date.getMonth() + 1;
     $scope.card.expire_year = $scope.card.expire_date.getFullYear();
     Card.add($scope.card, function(data){
+      $scope.modal.hide();
       Toast.show(lngTranslate('toast_card_added'));
       $state.go('main.card', {id: data.id});
     });
@@ -898,6 +899,7 @@ angular.module('app.controllers', [])
     $scope.card.expire_month = $scope.card.expire_date.getMonth() + 1;
     $scope.card.expire_year = $scope.card.expire_date.getFullYear();
     Card.update({id: $scope.card.id}, $scope.card, function(){
+      $scope.modal.hide();
       Toast.show(lngTranslate('toast_card_updated'));
     });
   };
