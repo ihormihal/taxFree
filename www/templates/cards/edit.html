@@ -37,7 +37,7 @@
     </form>
 
     <div class="padding">
-      <button ng-class="{disabled: !form.$valid}" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
+      <button ng-class="{disabled: !(valid.date && form.$valid)}" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
     </div>
 
   </ion-content>

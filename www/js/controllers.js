@@ -738,7 +738,7 @@ angular.module('app.controllers', [])
 /********** CARD LIST CONTROLLER *********/
 /*****************************************/
 
-.controller('cardsCtrl', function($scope, $ionicModal, Cards, Card, Toast){
+.controller('cardsCtrl', function($scope, $state, $ionicModal, Cards, Card, Toast){
 
   $scope.valid = {
     number: false,
@@ -765,7 +765,7 @@ angular.module('app.controllers', [])
   $scope.$watch('card', function(){
 
     if($scope.card.number){
-      if($scope.card.number.toString().length == 12){
+      if($scope.card.number.toString().length == 16){
         $scope.valid.number = true;
       }else{
         $scope.valid.number = false;
@@ -818,7 +818,7 @@ angular.module('app.controllers', [])
 /********** CARD ITEM CONTROLLER *********/
 /*****************************************/
 
-.controller('cardCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Card, Toast) {
+.controller('cardCtrl', function($rootScope, $scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Card, Toast) {
 
   $scope.valid = {
     number: false,
@@ -844,7 +844,7 @@ angular.module('app.controllers', [])
   $scope.$watch('card', function(){
 
     if($scope.card){
-      if($scope.card.number.toString().length == 12){
+      if($scope.card.number.toString().length == 16){
         $scope.valid.number = true;
       }else{
         $scope.valid.number = false;
@@ -887,7 +887,7 @@ angular.module('app.controllers', [])
       [lngTranslate('yes'),lngTranslate('no')])
     .then(function(buttonIndex) {
       if(buttonIndex == 1){
-        Card.delete($scope.check.id, function(){
+        Card.delete({id: $scope.card.id}, function(){
           Toast.show(lngTranslate('toast_card_deleted'));
           $state.go('main.cards');
         });

@@ -13,10 +13,10 @@
 				<h2>{{'declaration'|translate}} ID {{declaration.id}}</h2>
 				<p>{{getById(countries,declaration.country).name}}</p>
 				<div class="item-icon-right">
-					<i class="icon ion-android-done-all" ng-show="declaration.status == 'paid'"></i>
-					<i class="icon ion-paper-airplane" ng-show="declaration.status == 'shipping'"></i>
-					<i class="icon ion-star" ng-show="declaration.status == 'created'"></i>
-					<i class="icon ion-star" ng-show="declaration.status == 'created_changes'"></i>
+					<i class="icon ion-android-done" ng-show="declaration.status == 'paid'"></i>
+					<i class="icon ion-ios-paperplane" ng-show="declaration.status == 'shipping'"></i>
+					<i class="icon ion-load-c" ng-show="declaration.status == 'created'"></i>
+					<i class="icon ion-load-c" ng-show="declaration.status == 'created_changes'"></i>
 				</div>
 			</div>
 		</div>

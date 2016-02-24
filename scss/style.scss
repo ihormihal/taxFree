@@ -108,11 +108,6 @@ a {color: $assertive;}
 	width: 30%;
 	margin: 40px auto 20px auto;
 }
-.icon-huge {
-	text-align: center;
-	.icon {font-size: 80px;}
-}
-.item-image .icon {font-size: 40px;}
 
 .bg-assertive {
 	background-color: $assertive;
@@ -365,18 +360,25 @@ a {color: $assertive;}
 		}
 	}
 }
+.box {
+	padding: 8px 16px;
+	&.row {
+		padding: 0 11px;
+	}
+}
+.row {
+	.button {margin: 0;}
+}
 
 .item {
 	.item-icon-right {color: #777;}
 	&.status-new, &.status-active, &.status-created, &.created_changes, &.status-request {
 		.item-icon-right {color: $assertive;}
 	}
-	&.status-signed, &.status-complete {
+	&.status-signed, &.status-complete, &.status-paid {
 		.item-icon-right {color: $balanced;}
 	}
-	&.status-processed, &.status-shipping {
-	}
-	&.status-digitalized {
+	&.status-processed, &.status-shipping, &.status-digitalized {
 		.item-icon-right {color: #00BCD4;}
 	}
 	&.status-validated {
@@ -387,6 +389,19 @@ a {color: $assertive;}
 	}
 	p {
 		color: #000;
+	}
+
+	&.declaration-shipping {
+		background-color: #00BCD4;
+		color: #fff;
+		.item-icon-right {color: #fff;}
+		border-color: #00BCD4;
+	}
+	&.declaration-created, &.declaration-created_changes {
+		background-color: $assertive;
+		color: #fff;
+		.item-icon-right {color: #fff;}
+		border-color: $assertive;
 	}
 }
 .item.status-bar {

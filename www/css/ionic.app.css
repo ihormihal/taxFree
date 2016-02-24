@@ -9294,14 +9294,6 @@ a {
   width: 30%;
   margin: 40px auto 20px auto; }
 
-.icon-huge {
-  text-align: center; }
-  .icon-huge .icon {
-    font-size: 80px; }
-
-.item-image .icon {
-  font-size: 40px; }
-
 .bg-assertive {
   background-color: #f39736; }
 
@@ -9505,16 +9497,24 @@ a {
     .image-preview .action .remove {
       line-height: 100px; }
 
+.box {
+  padding: 8px 16px; }
+  .box.row {
+    padding: 0 11px; }
+
+.row .button {
+  margin: 0; }
+
 .item .item-icon-right {
   color: #777; }
 
 .item.status-new .item-icon-right, .item.status-active .item-icon-right, .item.status-created .item-icon-right, .item.created_changes .item-icon-right, .item.status-request .item-icon-right {
   color: #f39736; }
 
-.item.status-signed .item-icon-right, .item.status-complete .item-icon-right {
+.item.status-signed .item-icon-right, .item.status-complete .item-icon-right, .item.status-paid .item-icon-right {
   color: #33cd5f; }
 
-.item.status-digitalized .item-icon-right {
+.item.status-processed .item-icon-right, .item.status-shipping .item-icon-right, .item.status-digitalized .item-icon-right {
   color: #00BCD4; }
 
 .item.status-refused .item-icon-right .icon, .item.status-refused h2, .item.status-refused p {
@@ -9522,6 +9522,20 @@ a {
 
 .item p {
   color: #000; }
+
+.item.declaration-shipping {
+  background-color: #00BCD4;
+  color: #fff;
+  border-color: #00BCD4; }
+  .item.declaration-shipping .item-icon-right {
+    color: #fff; }
+
+.item.declaration-created, .item.declaration-created_changes {
+  background-color: #f39736;
+  color: #fff;
+  border-color: #f39736; }
+  .item.declaration-created .item-icon-right, .item.declaration-created_changes .item-icon-right {
+    color: #fff; }
 
 .item.status-bar {
   border: none; }

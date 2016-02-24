@@ -10,6 +10,21 @@ angular.module('app.directives', [])
   }
 })
 
+.filter('cardNumber', function() {
+  return function(num) {
+    if(num){
+      var number = num.split('');
+      var string = '';
+      for(var i = 0; i < number.length; i++){
+        if(i%4 == 0 && i !== 0){
+          string += '-';
+        }
+        string += number[i];
+      }
+      return string;
+    }
+  }
+})
 
 .directive('datetime', function(dateFilter) {
   return {

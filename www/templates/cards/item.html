@@ -9,17 +9,21 @@
           on-refresh="load()">
         </ion-refresher>
 
-        <div class="list custom-list">
+        <div class="list">
 
             <div ng-show="card.is_default" class="item status-bar status-selected">
               <p><i class="icon ion-android-done"></i> {{'is_default_card'|translate}}</p>
             </div>
 
-            <div class="item item-divider">{{'card_number'|translate}}</div>
-            <div class="item">{{card.number}}</div>
+            <div class="item">
+              <span class="label">{{'card_number'|translate}}</span>
+              <span class="value">{{card.number|cardNumber}}</span>
+            </div>
 
-            <div class="item item-divider">{{'expire_date'|translate}}</div>
-            <div class="item">{{card.expire_month}}/{{card.expire_year}}</div>
+            <div class="item">
+              <span class="label">{{'expire_date'|translate}}</span>
+              <span class="value">{{card.expire_date|date:'MM/yyyy'}}</span>
+            </div>
 
         </div>
 
