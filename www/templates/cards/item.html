@@ -6,20 +6,20 @@
 
         <ion-refresher
           pulling-text=""
-          on-refresh="doRefresh()">
+          on-refresh="load()">
         </ion-refresher>
 
         <div class="list custom-list">
 
-            <div ng-show="card.isDefault" class="item status-bar status-selected">
-              <p>{{'is_default_card'|translate}}</p>
+            <div ng-show="card.is_default" class="item status-bar status-selected">
+              <p><i class="icon ion-android-done"></i> {{'is_default_card'|translate}}</p>
             </div>
 
             <div class="item item-divider">{{'card_number'|translate}}</div>
             <div class="item">{{card.number}}</div>
 
             <div class="item item-divider">{{'expire_date'|translate}}</div>
-            <div class="item">{{card.expireMonth}}/{{card.expireYear}}</div>
+            <div class="item">{{card.expire_month}}/{{card.expire_year}}</div>
 
         </div>
 

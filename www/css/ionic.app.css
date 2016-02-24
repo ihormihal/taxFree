@@ -9256,6 +9256,20 @@ a {
   .ul-list li {
     padding: 8px 0; }
 
+.list .item h2 {
+  color: #f39736; }
+
+.item span.label {
+  display: inline-block;
+  float: left;
+  font-size: 14px;
+  color: #555; }
+
+.item span.value {
+  display: inline-block;
+  float: right;
+  margin-left: 5px; }
+
 .item .input-label .error-message {
   display: none; }
 
@@ -9278,7 +9292,7 @@ a {
 
 .logo {
   width: 30%;
-  margin: 0 auto; }
+  margin: 40px auto 20px auto; }
 
 .icon-huge {
   text-align: center; }
@@ -9299,6 +9313,9 @@ a {
 
 .text-disabled {
   color: #ccc; }
+
+.black {
+  color: #000; }
 
 .bar.bar-transparent {
   background-color: rgba(0, 0, 0, 0.7);
@@ -9488,16 +9505,20 @@ a {
     .image-preview .action .remove {
       line-height: 100px; }
 
-.item.status-new, .item.status-active, .item.status-created, .item.created_changes, .item.status-request {
-  background-color: #f39736;
-  border-color: #fff; }
-  .item.status-new .item-icon-right .icon, .item.status-new h2, .item.status-new p, .item.status-active .item-icon-right .icon, .item.status-active h2, .item.status-active p, .item.status-created .item-icon-right .icon, .item.status-created h2, .item.status-created p, .item.created_changes .item-icon-right .icon, .item.created_changes h2, .item.created_changes p, .item.status-request .item-icon-right .icon, .item.status-request h2, .item.status-request p {
-    color: #fff; }
+.item .item-icon-right {
+  color: #777; }
 
-.item.status-refused {
-  border-color: #fff; }
-  .item.status-refused .item-icon-right .icon, .item.status-refused h2, .item.status-refused p {
-    color: #777; }
+.item.status-new .item-icon-right, .item.status-active .item-icon-right, .item.status-created .item-icon-right, .item.created_changes .item-icon-right, .item.status-request .item-icon-right {
+  color: #f39736; }
+
+.item.status-signed .item-icon-right, .item.status-complete .item-icon-right {
+  color: #33cd5f; }
+
+.item.status-digitalized .item-icon-right {
+  color: #00BCD4; }
+
+.item.status-refused .item-icon-right .icon, .item.status-refused h2, .item.status-refused p {
+  color: #777; }
 
 .item p {
   color: #000; }

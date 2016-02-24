@@ -7,18 +7,18 @@
 	<ion-content class="has-header">
 		<ion-refresher
 			pulling-text=""
-			on-refresh="doRefresh()">
+			on-refresh="load()">
 		</ion-refresher>
 		<div class="list">
 			<div
 				ng-repeat="card in cards  | orderBy : '-id'"
 				ui-sref="main.card({id: card.id})"
-				class="item status-{{card.status}}"
+				class="item status-card"
 				>
-				<h2>{{'card'|translate}} ID {{card.id}}</h2>
+				<h2><span ng-show="card.is_taxfree_card">TaxFree4U </span>{{'card'|translate}}</h2>
 				<p>{{card.num}}</p>
 				<div class="item-icon-right">
-					<i class="icon ion-android-done-all" ng-show="card.isDefault"></i>
+					<i class="icon ion-android-done" ng-show="card.is_default"></i>
 				</div>
 			</div>
 		</div>

@@ -231,10 +231,6 @@ angular.module('app.controllers', [])
 
   $scope.load();
 
-  $scope.doRefresh = function(){
-    $scope.load();
-  };
-
 
 })
 
@@ -250,7 +246,7 @@ angular.module('app.controllers', [])
     params: {}
   };
 
-  $scope.doRefresh = function(){
+  $scope.load = function(){
     User.get({}, function(data){
       $scope.user.profile = data;
       $scope.user.params = {userid: $scope.user.profile.id};
@@ -258,7 +254,7 @@ angular.module('app.controllers', [])
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
-  $scope.doRefresh();
+  $scope.load();
 
   $scope.update = function(){
     $scope.user.profile.passport = $scope.user.images[0].src;
@@ -305,10 +301,6 @@ angular.module('app.controllers', [])
   };
 
   $scope.load();
-
-  $scope.doRefresh = function(){
-    $scope.load();
-  };
 
   $ionicModal.fromTemplateUrl('templates/trips/add.html', {
     scope: $scope,
@@ -364,7 +356,7 @@ angular.module('app.controllers', [])
 
   $scope.check = {id: 'add', trip: $stateParams.id, files: [], images: []};
 
-  $scope.doRefresh = function(){
+  $scope.load = function(){
     Trip.get({id: $stateParams.id},function(data){
       $scope.trip = data;
       $scope.loadChecks();
@@ -373,7 +365,7 @@ angular.module('app.controllers', [])
     });
   };
 
-  $scope.doRefresh();
+  $scope.load();
 
   $scope.loadChecks = function(){
     if($scope.trip.checks.length == 0){
@@ -492,7 +484,7 @@ angular.module('app.controllers', [])
   $scope.checks = [];
   $scope.check = {id: 'add', trip: '', files: [], images: []};
 
-  $scope.doRefresh = function(){
+  $scope.load = function(){
     Checks.get({},function(data){
       $scope.checks = data.checks;
       if($scope.checks.length == 0){
@@ -506,7 +498,7 @@ angular.module('app.controllers', [])
     });
   };
 
-  $scope.doRefresh();
+  $scope.load();
 
   $scope.complete = function(){
     $scope.$broadcast('scroll.refreshComplete');
@@ -650,10 +642,6 @@ angular.module('app.controllers', [])
 
   $scope.load();
 
-  $scope.doRefresh = function(){
-    $scope.load();
-  };
-
 })
 
 /***********************************************/
@@ -668,7 +656,7 @@ angular.module('app.controllers', [])
     path: null
   };
 
-  $scope.doRefresh = function(){
+  $scope.load = function(){
     Declaration.get({id: $stateParams.id},function(data){
       $scope.$broadcast('scroll.refreshComplete');
       $scope.declaration = data;
@@ -704,7 +692,7 @@ angular.module('app.controllers', [])
     });
 
   };
-  $scope.doRefresh();
+  $scope.load();
 
   $scope.deliveryMethod = function(method){
     Declaration.update({id: $stateParams.id, type: method}, function(data){
@@ -760,8 +748,8 @@ angular.module('app.controllers', [])
   $scope.card = {id: 'add', is_default: 0};
 
   $scope.load = function(){
-    Cards.get({},function(data){
-      $scope.cards = data.cards;
+    Cards.query({},function(data){
+      $scope.cards = data;
       if($scope.cards.length == 0){
         Toast.show(lngTranslate('no_data'));
       }
@@ -773,10 +761,6 @@ angular.module('app.controllers', [])
   };
 
   $scope.load();
-
-  $scope.doRefresh = function(){
-    $scope.load();
-  };
 
   $scope.$watch('card', function(){
 
@@ -844,8 +828,8 @@ angular.module('app.controllers', [])
 
   $scope.load = function(){
     Card.get({id: $stateParams.id}, function(data){
-      $scope.card = data.card;
-      $scope.card.expire_date = new Date($scope.card.expireYear,$scope.card.expireMonth-1,1);
+      $scope.card = data;
+      $scope.card.expire_date = new Date($scope.card.expire_year,$scope.card.expire_month-1,1);
       $scope.$broadcast('scroll.refreshComplete');
     });
   };

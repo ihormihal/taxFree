@@ -7,38 +7,53 @@
 
     <div class="list custom-list">
 
-        <div class="item item-divider">{{'country_arrival'|translate}}</div>
-        <div class="item">{{getById(countries,trip.country_enter).name}}</div>
+        <div class="item">
+            <span class="label"><i class="icon ion-earth"></i> {{'country_arrival'|translate}}</span>
+            <span class="value">{{getById(countries,trip.country_enter).name}}</span>
+        </div>
+        <div class="item">
+            <span class="label"><i class="icon ion-calendar"></i> {{'date_arrival'|translate}}</span>
+            <span class="value">{{trip.date_start*1000|date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div class="item">
+            <span class="label"><i class="icon ion-android-time"></i> {{'time_arrival'|translate}}</span>
+            <span class="value">{{trip.time_start*1000|date:'HH:mm'}}</span>
+        </div>
+        <div class="item">
+            <span class="label"><i class="icon ion-android-plane"></i> {{'transport'|translate}}</span>
+            <span class="value">{{getById(transports,trip.transport_enter).name}}</span>
+        </div>
+        <div class="item">
+            <span class="label"><i class="icon ion-android-done"></i> {{'passage_number'|translate}}</span>
+            <span class="value">{{trip.race_number_enter}}</span>
+        </div>
 
-        <div class="item item-divider">{{'date_arrival'|translate}}</div>
-        <div class="item">{{trip.date_start*1000|date:'dd/MM/yyyy'}}</div>
+        <div class="item item-divider"></div>
 
-        <div class="item item-divider">{{'time_arrival'|translate}}</div>
-        <div class="item">{{trip.time_start*1000|date:'HH:mm'}}</div>
-
-        <div class="item item-divider">{{'transport'|translate}}</div>
-        <div class="item">{{getById(transports,trip.transport_enter).name}}</div>
-
-        <div class="item item-divider">{{'passage_number'|translate}}</div>
-        <div class="item">{{trip.race_number_enter}}</div>
-
-        <div class="item item-divider">{{'country_departure'|translate}}</div>
-        <div class="item">{{getById(countries,trip.country_leaving).name}}</div>
-
-        <div class="item item-divider">{{'date_departure'|translate}}</div>
-        <div class="item">{{trip.date_end*1000|date:'dd/MM/yyyy'}}</div>
-
-        <div class="item item-divider">{{'time_departure'|translate}}</div>
-        <div class="item">{{trip.time_end*1000|date:'HH:mm'}}</div>
-
-        <div class="item item-divider">{{'transport'|translate}}</div>
-        <div class="item">{{getById(transports,trip.transport_leaving).name}}</div>
-
-        <div class="item item-divider">{{'passage_number'|translate}}</div>
-        <div class="item">{{trip.race_number_leaving}}</div>
-
-        <div class="item item-divider">{{'residence_address'|translate}}</div>
-        <div class="item">{{trip.address}}</div>
+        <div class="item">
+            <span class="label"><i class="icon ion-earth"></i> {{'country_departure'|translate}}</span>
+            <span class="value">{{getById(countries,trip.country_leaving).name}}</span>
+        </div>
+        <div class="item">
+            <span class="label"><i class="icon ion-calendar"></i> {{'date_departure'|translate}}</span>
+            <span class="value">{{trip.date_end*1000|date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div class="item">
+            <span class="label"><i class="icon ion-android-time"></i> {{'time_departure'|translate}}</span>
+            <span class="value">{{trip.time_end*1000|date:'HH:mm'}}</span>
+        </div>
+        <div class="item">
+            <span class="label"><i class="icon ion-android-plane"></i> {{'transport'|translate}}</span>
+            <span class="value">{{getById(transports,trip.transport_leaving).name}}</span>
+        </div>
+        <div class="item">
+            <span class="label"><i class="icon ion-android-done"></i> {{'passage_number'|translate}}</span>
+            <span class="value">{{trip.race_number_leaving}}</span>
+        </div>
+        <div class="item">
+            <span class="label"><i class="icon ion-home"></i> {{'residence_address'|translate}}</span>
+            <span class="value">{{trip.address}}</span>
+        </div>
 
     </div>
   </ion-content>

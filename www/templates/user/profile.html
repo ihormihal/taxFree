@@ -9,7 +9,7 @@
 
         <ion-refresher
             pulling-text=""
-            on-refresh="doRefresh()">
+            on-refresh="load()">
         </ion-refresher>
 
         <div class="hide hide-{{user.profile.editable}} padding status-bar text-center assertive">
@@ -17,42 +17,46 @@
         </div>
         <div class="list custom-list">
 
-            <div class="item item-divider">{{'name'|translate}}</div>
-            <div class="item">{{user.profile.before_fs | translate}} {{user.profile.fsname}}</div>
-
-            <div class="item item-divider">{{'birthday'|translate}}</div>
-            <div class="item" ng-show="user.profile.passp_birthday">{{user.profile.passp_birthday*1000|date:'dd/MM/yyyy'}}</div>
-            <div class="item text-disabled" ng-hide="user.profile.passp_birthday">-</div>
-
-            <div class="item item-divider">{{'sex'|translate}}</div>
-            <div class="item" ng-show="user.profile.passp_sex">{{user.profile.passp_sex|translate}}</div>
-            <div class="item text-disabled" ng-hide="user.profile.passp_sex">-</div>
-
-            <div class="item item-divider">{{'citizenship'|translate}}</div>
-            <div class="item" ng-show="user.profile.passp_citizenship">{{getById(countries,user.profile.passp_citizenship).name}}</div>
-            <div class="item text-disabled" ng-hide="user.profile.passp_citizenship">-</div>
-
-            <div class="item item-divider">{{'country'|translate}}</div>
-            <div class="item" ng-show="user.profile.country">{{getById(countries,user.profile.country).name}}</div>
-            <div class="item text-disabled" ng-hide="user.profile.country">-</div>
-
-            <div class="item item-divider">{{'passport_number'|translate}}</div>
-            <div class="item" ng-show="user.profile.passp_number">{{user.profile.passp_number}}</div>
-            <div class="item text-disabled" ng-hide="user.profile.passp_number">-</div>
-
-            <div class="item item-divider">{{'passport_country'|translate}}</div>
-            <div class="item" ng-show="user.profile.passp_country">{{getById(countries,user.profile.passp_country).name}}</div>
-            <div class="item text-disabled" ng-hide="user.profile.passp_country">-</div>
-
-            <div class="item item-divider">{{'passport_date'|translate}}</div>
-            <div class="item" ng-show="user.profile.passp_date">{{user.profile.passp_date*1000|date:'dd/MM/yyyy'}}</div>
-            <div class="item text-disabled" ng-hide="user.profile.passp_date">-</div>
-
-            <div class="item item-divider">{{'email'|translate}}</div>
-            <div class="item">{{user.profile.email}}</div>
-
-            <div class="item item-divider">{{'phone'|translate}}</div>
-            <div class="item">{{getById(countries,user.profile.phone_country).phone_code}} {{user.profile.phone}}</div>
+            <div class="item">
+                <span class="label">{{'name'|translate}}</span>
+                <span class="value">{{user.profile.before_fs | translate}} {{user.profile.fsname}}</span>
+            </div>
+            <div class="item">
+                <span class="label">{{'birthday'|translate}}</span>
+                <span class="value" ng-show="user.profile.passp_birthday">{{user.profile.passp_birthday*1000|date:'dd/MM/yyyy'}}</span>
+            </div>
+            <div class="item">
+                <span class="label">{{'sex'|translate}}</span>
+                <span class="value" ng-show="user.profile.passp_sex">{{user.profile.passp_sex|translate}}</span>
+            </div>
+            <div class="item">
+                <span class="label">{{'citizenship'|translate}}</span>
+                <span class="value" ng-show="user.profile.passp_citizenship">{{getById(countries,user.profile.passp_citizenship).name}}</span>
+            </div>
+            <div class="item">
+                <span class="label">{{'country'|translate}}</span>
+                <span class="value" ng-show="user.profile.country">{{getById(countries,user.profile.country).name}}</span>
+            </div>
+            <div class="item">
+                <span class="label">{{'passport_number'|translate}}</span>
+                <span class="value" ng-show="user.profile.passp_number">{{user.profile.passp_number}}</span>
+            </div>
+            <div class="item">
+                <span class="label">{{'passport_country'|translate}}</span>
+                <span class="value" ng-show="user.profile.passp_country">{{getById(countries,user.profile.passp_country).name}}</span>
+            </div>
+            <div class="item">
+                <span class="label">{{'passport_date'|translate}}</span>
+                <span class="value" ng-show="user.profile.passp_date">{{user.profile.passp_date*1000|date:'dd/MM/yyyy'}}</span>
+            </div>
+            <div class="item">
+                <span class="label">{{'email'|translate}}</span>
+                <span class="value" ng-show="user.profile.email">{{user.profile.email}}</span>
+            </div>
+            <div class="item">
+                <span class="label">{{'phone'|translate}}</span>
+                <span class="value" ng-show="user.profile.phone">{{getById(countries,user.profile.phone_country).phone_code}} {{user.profile.phone}}</span>
+            </div>
 
             <div class="item item-divider">{{'passport_photo'|translate}}</div>
             <div class="item">

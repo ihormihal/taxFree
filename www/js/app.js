@@ -1,10 +1,17 @@
 window.AppSettings = {
-  //domain: 'http://tax-free-4u.com/'
-  domain: 'http://tax-free-dev.jaya-test.com/app_dev.php/'
+  dev: false,
+  domain: 'http://tax-free-4u.com/',
+  api: 'http://tax-free-4u.com'
 };
 
-//var ApiDomain = 'http://tax-free-4u.com';
-var ApiDomain = 'http://tax-free-dev.jaya-test.com/app_dev.php';
+window.AppSettings.dev = true;
+
+if(window.AppSettings.dev){
+  window.AppSettings.domain = 'http://tax-free-dev.jaya-test.com/';
+  window.AppSettings.api = 'http://tax-free-dev.jaya-test.com/app_dev.php';
+}
+
+
 
 var Credentials = {
   client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
@@ -19,7 +26,6 @@ angular.module('app', ['ionic', 'ngCordova', 'ui.mask', 'app.cordova', 'app.cont
   $ionicPlatform.ready(function() {
 
     $rootScope.Domain = window.AppSettings.domain;
-    //$rootScope.Domain = 'http://tax-free-dev.jaya-test.com/';
 
     $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
       var offlineState = networkState;

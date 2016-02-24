@@ -67,17 +67,32 @@ a {color: $assertive;}
 		padding: 8px 0;
 	}
 }
-.item .input-label .error-message {display: none;}
-.item.error {
-	background-color: #FFCEB7;
-	input {
-		background-color: #FFCEB7;
-	}
-	.input-label .error-message {
+.list .item h2 {color: $assertive;}
+.item {
+	span.label {
 		display: inline-block;
-		color: $assertiveAccent;
-		font-size: 12px;
+		float: left;
+		font-size: 14px;
+		color: #555;
+	}
+	span.value {
+		display: inline-block;
+		float: right;
 		margin-left: 5px;
+	}
+
+	.input-label .error-message {display: none;}
+	&.error {
+		background-color: #FFCEB7;
+		input {
+			background-color: #FFCEB7;
+		}
+		.input-label .error-message {
+			display: inline-block;
+			color: $assertiveAccent;
+			font-size: 12px;
+			margin-left: 5px;
+		}
 	}
 }
 
@@ -91,7 +106,7 @@ a {color: $assertive;}
 }
 .logo {
 	width: 30%;
-	margin: 0 auto;
+	margin: 40px auto 20px auto;
 }
 .icon-huge {
 	text-align: center;
@@ -110,7 +125,7 @@ a {color: $assertive;}
   fill: $assertive;
 }
 .text-disabled {color: #ccc;}
-
+.black {color: #000;}
 .bar.bar-transparent {
 	background-color: rgba(0, 0, 0, 0.7);
 	border-color: transparent;
@@ -352,20 +367,22 @@ a {color: $assertive;}
 }
 
 .item {
+	.item-icon-right {color: #777;}
 	&.status-new, &.status-active, &.status-created, &.created_changes, &.status-request {
-		background-color: #f39736;
-		border-color: #fff;
-		.item-icon-right .icon, h2, p {color: #fff;}
+		.item-icon-right {color: $assertive;}
 	}
 	&.status-signed, &.status-complete {
+		.item-icon-right {color: $balanced;}
 	}
 	&.status-processed, &.status-shipping {
+	}
+	&.status-digitalized {
+		.item-icon-right {color: #00BCD4;}
 	}
 	&.status-validated {
 
 	}
 	&.status-refused {
-		border-color: #fff;
 		.item-icon-right .icon, h2, p {color: #777;}
 	}
 	p {
