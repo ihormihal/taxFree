@@ -661,7 +661,8 @@ angular.module('app.controllers', [])
       $scope.$broadcast('scroll.refreshComplete');
       $scope.declaration = data;
 
-      //$scope.declaration.file = 'http://mycode.in.ua/app/Declaration.pdf'; //for test
+      //$scope.declaration.file = $scope.declaration.file.replace('app_dev.php/','');
+      //$scope.declaration.file = 'http://mycode.in.ua/app/Declaration_GB.pdf'; //for test
 
       var fileDirectoty = '';
 
@@ -713,7 +714,7 @@ angular.module('app.controllers', [])
       $scope.file.exist = true;
       $scope.$apply();
     }, function (error) {
-      Toast.show(lngTranslate('download_error'));
+      Toast.show(lngTranslate('download_error') + ' ' + angular.toJson(error));
     }, function (progress) {
       // PROGRESS HANDLING GOES HERE
     });

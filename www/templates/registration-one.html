@@ -8,7 +8,7 @@
         <p class="text-center white">{{'step'|translate}} 1</p>
         <p class="text-center white">{{'already_registered'|translate}} <a ui-sref="login" class="white">{{'login'|translate}}</a></p>
 
-        <div class="box mt20">
+        <div class="mt20">
             <div class="list inputs-on-background">
                 <label class="item item-select">
                     <select integer-model ng-model="data.country">
@@ -19,7 +19,6 @@
                 <label class="item item-input">
                     <input type="tel" ui-mask="(999) 999-9999" ui-mask-placeholder ng-model="data.phone" placeholder="{{'phone'|translate}} *">
                 </label>
-                {{data.phone}}
                 <label class="item item-input">
                     <input type="email" ng-model="data.email" placeholder="{{'email'|translate}} *">
                 </label>
@@ -47,7 +46,7 @@
             </div>
         </div>
 
-        <div class="box mt20">
+        <div class="mt20">
             <button class="button button-block button-outline button-white up" ng-click="stepOne()">{{'submit'|translate}}</button>
         </div>
 
