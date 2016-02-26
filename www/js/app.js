@@ -1,14 +1,14 @@
 window.AppSettings = {
   dev: false,
   domain: 'http://tax-free-4u.com/',
-  api: 'http://tax-free-4u.com'
+  api: 'http://tax-free-4u.com/'
 };
 
-//window.AppSettings.dev = true;
+window.AppSettings.dev = true;
 
 if(window.AppSettings.dev){
   window.AppSettings.domain = 'http://tax-free-dev.jaya-test.com/';
-  window.AppSettings.api = 'http://tax-free-dev.jaya-test.com/app_dev.php';
+  window.AppSettings.api = 'http://tax-free-dev.jaya-test.com/app_dev.php/';
 }
 
 window.Credentials = {

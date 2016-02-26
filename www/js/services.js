@@ -5,7 +5,7 @@ angular.module('app.services', ['ngResource'])
 /****************************************/
 
 .factory('Catalog', function($resource) {
-  return $resource(window.AppSettings.api + '/api/catalog/:name', {name: '@name'});
+  return $resource(window.AppSettings.api + 'api/catalog/:name', {name: '@name'});
 })
 
 /****************************************/
@@ -29,7 +29,7 @@ angular.module('app.services', ['ngResource'])
       window.SpinnerPlugin.activityStart(lngTranslate('authorization')+'...');
       $http({
         method: 'POST',
-        url: window.AppSettings.api + '/oauth/v2/token',
+        url: window.AppSettings.api + 'oauth/v2/token',
         data: $rootScope.serialize(self.credentials),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -133,7 +133,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + '/oauth/v2/token',
+        url: window.AppSettings.api + 'oauth/v2/token',
         data: $rootScope.serialize(AuthService.credentials),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -157,7 +157,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + '/api/user/register/one',
+        url: window.AppSettings.api + 'api/user/register/one',
         data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -179,7 +179,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + '/api/user/register/two',
+        url: window.AppSettings.api + 'api/user/register/two',
         data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -201,7 +201,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + '/api/user/register/three',
+        url: window.AppSettings.api + 'api/user/register/three',
         data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -239,7 +239,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + '/api/user/resetpassword',
+        url: window.AppSettings.api + 'api/user/resetpassword',
         data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -260,7 +260,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + '/api/user/resetpassword/confirm',
+        url: window.AppSettings.api + 'api/user/resetpassword/confirm',
         data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -280,7 +280,7 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + '/api/user/setpassword/token',
+        url: window.AppSettings.api + 'api/user/setpassword/token',
         data: $rootScope.serialize(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -310,15 +310,15 @@ angular.module('app.services', ['ngResource'])
 /****************************************/
 
 .factory('Dashboard', function($resource) {
-  return $resource(window.AppSettings.api + '/api/dashboard/:request', {request: '@request'});
+  return $resource(window.AppSettings.api + 'api/dashboard/:request', {request: '@request'});
 })
 
 .factory('DashboardAction', function($resource) {
-  return $resource(window.AppSettings.api + '/api/dashboard/action/:request', {request: '@request'});
+  return $resource(window.AppSettings.api + 'api/dashboard/action/:request', {request: '@request'});
 })
 
 .factory('DashboardNoaction', function($resource) {
-  return $resource(window.AppSettings.api + '/api/dashboard/noaction/:request', {request: '@request'});
+  return $resource(window.AppSettings.api + 'api/dashboard/noaction/:request', {request: '@request'});
 })
 
 /****************************************/
@@ -326,7 +326,7 @@ angular.module('app.services', ['ngResource'])
 /****************************************/
 
 .factory('User', function ($resource) {
-  return $resource(window.AppSettings.api + '/api/user/me', {}, {
+  return $resource(window.AppSettings.api + 'api/user/me', {}, {
     update: {
       method: 'PUT'
     }
@@ -338,11 +338,11 @@ angular.module('app.services', ['ngResource'])
 /****************************************/
 
 .factory('Trips', function($resource) {
-  return $resource(window.AppSettings.api + '/api/trip/list');
+  return $resource(window.AppSettings.api + 'api/trip/list');
 })
 
 .factory('Trip', function($resource) {
-  return $resource(window.AppSettings.api + '/api/trip/:id', {id: '@id'}, {
+  return $resource(window.AppSettings.api + 'api/trip/:id', {id: '@id'}, {
     update: {
       method: 'PUT'
     },
@@ -353,11 +353,11 @@ angular.module('app.services', ['ngResource'])
 })
 
 .factory('TripChecks', function($resource) {
-  return $resource(window.AppSettings.api + '/api/trip/:id/checks', {id: '@id'});
+  return $resource(window.AppSettings.api + 'api/trip/:id/checks', {id: '@id'});
 })
 
 .factory('TripDeclarations', function($resource) {
-  return $resource(window.AppSettings.api + '/api/trip/:id/declarations', {id: '@id'});
+  return $resource(window.AppSettings.api + 'api/trip/:id/declarations', {id: '@id'});
 })
 
 /****************************************/
@@ -365,11 +365,11 @@ angular.module('app.services', ['ngResource'])
 /****************************************/
 
 .factory('Checks', function($resource) {
-  return $resource(window.AppSettings.api + '/api/check/list');
+  return $resource(window.AppSettings.api + 'api/check/list');
 })
 
 .factory('Check', function($resource) {
-  return $resource(window.AppSettings.api + '/api/check/:id', {id: '@id'},{
+  return $resource(window.AppSettings.api + 'api/check/:id', {id: '@id'},{
     update: {
       method: 'PUT'
     },
@@ -384,11 +384,11 @@ angular.module('app.services', ['ngResource'])
 /****************************************/
 
 .factory('Declarations', function($resource) {
-  return $resource(window.AppSettings.api + '/api/declaration/list');
+  return $resource(window.AppSettings.api + 'api/declaration/list');
 })
 
 .factory('Declaration', function($resource) {
-  return $resource(window.AppSettings.api + '/api/declaration/:id', {id: '@id'},{
+  return $resource(window.AppSettings.api + 'api/declaration/:id', {id: '@id'},{
     update: {
       method: 'POST'
     }
@@ -400,11 +400,11 @@ angular.module('app.services', ['ngResource'])
 /****************************************/
 
 .factory('Cards', function($resource) {
-  return $resource(window.AppSettings.api + '/api/card/list');
+  return $resource(window.AppSettings.api + 'api/card/list');
 })
 
 .factory('Card', function($resource) {
-  return $resource(window.AppSettings.api + '/api/card/:id', {id: '@id'},{
+  return $resource(window.AppSettings.api + 'api/card/:id', {id: '@id'},{
     update: {
       method: 'PUT'
     },

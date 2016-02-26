@@ -187,7 +187,7 @@ angular.module('app.directives', [])
 					fileName: "photo.jpg",
 					chunkedMode: false,
 					mimeType: "image/jpeg",
-					params: {user: $attr.userid}
+					params: {user: $attrs.userid}
 				};
 				var time = new Date().getTime();
 				$cordovaFileTransfer.upload(
