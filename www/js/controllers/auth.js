@@ -88,6 +88,7 @@ angular.module('app.controller.auth', [])
 			RegService.three()
 			.then(function(data) {
 				Toast.show(lngTranslate('registration_success'));
+				AuthService.credentials.user = data.user; //regisered user
 				AuthService.credentials.username = RegService.data.email;
 				AuthService.credentials.password = RegService.data.password;
 				$state.go('login');

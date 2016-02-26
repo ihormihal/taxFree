@@ -190,7 +190,6 @@ angular.module('app.directives', [])
 					mimeType: "image/jpeg",
 					params: {user: $attrs.userid}
 				};
-				var time = new Date().getTime();
 				$cordovaFileTransfer.upload(
 					encodeURI(window.AppSettings.domain + $attrs.url),
 					file,
@@ -198,7 +197,7 @@ angular.module('app.directives', [])
 					.then(function(data) {
 						var response = angular.fromJson(data.response);
 						if ($scope.single) {
-							$scope.images[i].src = response.file;
+							$scope.images[i].src = response[filekey];
 						} else {
 							$scope.images[i].src = response[0];
 						}
