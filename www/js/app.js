@@ -11,14 +11,30 @@ if(window.AppSettings.dev){
   window.AppSettings.api = 'http://tax-free-dev.jaya-test.com/app_dev.php';
 }
 
-
-
-var Credentials = {
+window.Credentials = {
   client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
   client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk'
 }
 
-angular.module('app', ['ionic', 'ngCordova', 'ui.mask', 'app.cordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
+angular.module('app', [
+  'ionic',
+  'ngCordova',
+  'ui.mask',
+  'app.cordova',
+  'app.routes',
+  'app.services',
+  'app.controllers',
+  'app.controller.auth',
+  'app.controller.dashboard',
+  'app.controller.user',
+  'app.controller.trips',
+  'app.controller.checks',
+  'app.controller.declarations',
+  'app.controller.cards',
+  'app.controller.faq',
+  'app.controller.settings',
+  'app.directives'
+])
 
 
 .run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, AuthService, Alert) {
@@ -214,13 +230,9 @@ if(!window.localStorage['lang']){
   window.localStorage['lang'] = 'en';
 }
 var lngTranslate = function(text){
-  if(window.localStorage['lang']) {
-    lang = window.localStorage['lang'];
-  }else{
-    lang = 'en';
-  }
-  if(text in translate[lang]) {
-    return translate[lang][text];
+  var lang = window.localStorage['lang'] ? window.localStorage['lang'] : 'en';
+  if(text in window.translate[lang]) {
+    return window.translate[lang][text];
   }else{
     return text;
   }

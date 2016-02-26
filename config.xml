@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.jayadigital.taxfree4youApp" version="0.3.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.jayadigital.taxfree4youApp" version="0.3.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Tax Free 4U</name>
   <description>TaxFree App</description>
   <author email="imykhalchenko@jayadigital.com" href="http://jayadigital.com/">Ihor Mykhalchenko</author>
   <content src="index.html"/>
   <access origin="*"/>
-  <allow-navigation href="data:*"/>
   <allow-navigation href="http://*/*" />
   <allow-navigation href="https://*/*" />
+  <allow-navigation href="data:*" />
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>

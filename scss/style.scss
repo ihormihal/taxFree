@@ -67,34 +67,7 @@ a {color: $assertive;}
 		padding: 8px 0;
 	}
 }
-.list .item h2 {color: $assertive;}
-.item {
-	span.label {
-		display: inline-block;
-		float: left;
-		font-size: 14px;
-		color: #555;
-	}
-	span.value {
-		display: inline-block;
-		float: right;
-		margin-left: 5px;
-	}
 
-	.input-label .error-message {display: none;}
-	&.error {
-		background-color: #FFCEB7;
-		input {
-			background-color: #FFCEB7;
-		}
-		.input-label .error-message {
-			display: inline-block;
-			color: $assertiveAccent;
-			font-size: 12px;
-			margin-left: 5px;
-		}
-	}
-}
 
 .image {
 	width: 100%;
@@ -126,6 +99,35 @@ a {color: $assertive;}
 	border-color: transparent;
 	.button-clear {
 		color: #fff;
+	}
+}
+
+
+.item {
+	span.label {
+		display: inline-block;
+		float: left;
+		font-size: 14px;
+		color: #555;
+	}
+	span.value {
+		display: inline-block;
+		float: right;
+		margin-left: 5px;
+	}
+
+	.input-label .error-message {display: none;}
+	&.error {
+		background-color: #FFCEB7;
+		input {
+			background-color: #FFCEB7;
+		}
+		.input-label .error-message {
+			display: inline-block;
+			color: $assertiveAccent;
+			font-size: 12px;
+			margin-left: 5px;
+		}
 	}
 }
 
@@ -226,7 +228,7 @@ a {color: $assertive;}
 //PAGES
 //////////////////////////
 .main-background {
-	background-image: url(../img/background.jpg);
+	background-image: url(../images/background.jpg);
 	background-size: cover;
 	background-position: center center;
 }
@@ -282,7 +284,7 @@ a {color: $assertive;}
 }
 .menu {
 	background-color: $assertive;
-	background-image: url('../img/bg-img-positive.jpg');
+	background-image: url('../images/bg-img-positive.jpg');
 	background-size: cover;
 	.logo {width: 50%;}
 	.item-content, .item, .bar {
@@ -332,8 +334,20 @@ a {color: $assertive;}
 			position: absolute;
 			z-index: 2;
 		}
+		.error {
+			display: inline-block;
+			position: absolute;
+			z-index: 100;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			color: $assertiveAccent;
+			text-align: center;
+			vertical-align: middle;
+			font-size: 48px;
+		}
 		.remove {
-			color: $assertive;
+			color: $assertiveAccent;
 			position: absolute;
 			top: 0;
 			right: 0;
@@ -370,60 +384,68 @@ a {color: $assertive;}
 	.button {margin: 0;}
 }
 
-.item {
-	.item-icon-right {color: #777;}
-	&.status-new, &.status-active, &.status-created, &.created_changes, &.status-request {
-		.item-icon-right {color: $assertive;}
-	}
-	&.status-signed, &.status-complete, &.status-paid {
-		.item-icon-right {color: $balanced;}
-	}
-	&.status-processed, &.status-shipping, &.status-digitalized {
-		.item-icon-right {color: #00BCD4;}
-	}
-	&.status-validated {
 
-	}
-	&.status-refused {
-		.item-icon-right .icon, h2, p {color: #777;}
-	}
-	p {
-		color: #000;
+.list {
+	.item:first-child {border-top: none;}
+	.item:last-child {border-bottom: none;}
+
+	// STATUS--IN-LIST
+	.item h2 {color: $assertiveAccent;}
+	.item-icon-right {color: $grey;}
+
+	.list-status-past,
+	.list-status-future {
+		h2 {color: $dark;}
 	}
 
-	&.declaration-shipping {
-		background-color: #00BCD4;
-		color: #fff;
-		.item-icon-right {color: #fff;}
-		border-color: #00BCD4;
+	.list-status-current,
+	.list-status-new,
+	.list-status-created,
+	.list-status-created_changes {
+		.item-icon-right {color: $assertiveAccent;}
 	}
-	&.declaration-created, &.declaration-created_changes {
-		background-color: $assertive;
-		color: #fff;
-		.item-icon-right {color: #fff;}
-		border-color: $assertive;
+
+	.list-status-signed,
+	.list-status-pay,
+	.list-status-paid,
+	.list-status-default {
+		h2 {color: $greenDarken;}
+		.item-icon-right {color: $greenDarken;}
 	}
-}
-.item.status-bar {
-	border: none;
-	p {color: #fff;}
-	&.status-signed {
-		background-color: #01CB00;
-	}
-	&.status-digitalized {
-		background-color: #00BCD4;
-	}
-	&.status-client-response {
-		background-color: #009688;
-	}
-	&.status-refused {
-		background-color: #aaa;
-	}
-	&.status-selected {
-		background-color: #01CB00;
+
+	.list-status-digitalized,
+	.list-status-shipping {
+		h2 {color: $greenBlue;}
+		.item-icon-right {color: $greenBlue;}
 	}
 }
 
+// STATUS-BAR
+.bar-status-current,
+.bar-status-new,
+.bar-status-created,
+.bar-status-created_changes {
+	border: none; color: #fff;
+	background-color: $assertiveAccent;
+}
+
+.bar-status-signed {
+	border: none; color: #fff;
+	background-color: $greenDarken;
+}
+
+.bar-status-digitalized,
+.bar-status-shipping {
+	border: none; color: #fff;
+	background-color: $greenBlue;
+}
+
+.bar-status-pay,
+.bar-status-paid,
+.bar-status-default {
+	border: none; color: #fff;
+	background-color: $greenDarken;
+}
 
 //////////////////////////
 //SLIDER-BOX
@@ -473,7 +495,7 @@ a {color: $assertive;}
 //////////////////////////
 .dashboard {
 	background-size: cover;
-	background-image: url(../img/london.jpg);
+	background-image: url(../images/london.jpg);
 }
 ////// ACCORDION
 .dashboard-list {

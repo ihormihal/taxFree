@@ -20,8 +20,8 @@ angular.module('app.services', ['ngResource'])
       username: null,
       password: null,
       grant_type: null,
-      client_id: Credentials.client_id,
-      client_secret: Credentials.client_secret,
+      client_id: window.Credentials.client_id,
+      client_secret: window.Credentials.client_secret,
       refresh_token: null
     },
 
@@ -302,7 +302,7 @@ angular.module('app.services', ['ngResource'])
 })
 
 /****************************************/
-/****** APP PRIVATE DATA SERVICE ********/
+/****** APP PRIVATE DATA SERVICES *******/
 /****************************************/
 
 /****************************************/

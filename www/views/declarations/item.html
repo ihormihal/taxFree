@@ -1,0 +1,76 @@
+<ion-view title="{{'declaration'|translate}} ID {{declaration.id}}">
+  <ion-content scroll="true" class="has-header">
+      <ion-refresher
+        pulling-text=""
+        on-refresh="load()">
+      </ion-refresher>
+
+      <div class="item bar-status-{{declaration.status}}">
+        {{declaration.status|translate}}
+        <div class="item-icon-right">
+          <i class="icon {{declaration.status|getStatusIcon}}"></i>
+        </div>
+      </div>
+
+      <div class="list">
+
+        <div class="item">
+          <span class="label"><i class="icon ion-globe"></i> {{'declaration_country'|translate}}</span>
+          <span class="value">{{getById(countries,declaration.country).name}}</span>
+        </div>
+
+        <div ng-show="declaration.status == 'created' || declaration.status == 'created_changes'">
+          <div class="box"><label for="">{{'choose_delivery_method'|translate}}:</label></div>
+          <div class="row box mb20">
+            <div class="col">
+              <button class="button button-block button-balanced" ng-click="deliveryMethod('post')">
+                <i class="icon ion-paper-airplane"></i> {{'post'|translate}}
+              </button>
+            </div>
+            <div class="col">
+              <button href="{{declaration.file}}" class="button button-block button-balanced" ng-click="deliveryMethod('courier')">
+                <i class="icon ion-person"></i> {{'courier'|translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div ng-repeat="product in declaration.products">
+          <div class="item item-divider">{{'product'|translate}} {{$index+1}}</div>
+          <div class="item">
+            <span class="label">{{'product_group'|translate}}</span>
+            <span class="value">{{product.group}}</span>
+          </div>
+          <div class="item">
+            <span class="label">{{'product_name'|translate}}</span>
+            <span class="value">{{product.name}}</span>
+          </div>
+          <div class="item">
+            <span class="label">{{'shop'|translate}}</span>
+            <span class="value">{{product.shop}}</span>
+          </div>
+        </div>
+
+        <div class="item item-divider">{{'total'|translate}}</div>
+        <div class="item">
+          <span class="label">{{'sum'|translate}}</span> <span class="item-note item-note-large assertive">{{declaration.sum | currency}}</span>
+        </div>
+        <div class="item">
+          <span class="label">{{'sum_vat'|translate}}</span> <span class="item-note item-note-large assertive">{{declaration.sumVat | currency}}</span>
+        </div>
+        <div class="item">
+          <span class="label">{{'to_payoff'|translate}}</span> <span class="item-note item-note-large assertive">{{declaration.sumPay | currency}}</span>
+        </div>
+
+      </div>
+
+      <div class="padding" ng-show="declaration.file && !file.exist">
+        <button class="button button-block button-assertive icon-left ion-ios-download-outline" ng-click="download()">{{'save_to_pdf'|translate}}</a>
+      </div>
+
+      <div class="padding" ng-show="file.exist">
+        <button class="button button-block button-assertive icon-left ion-document-text" ng-click="openfile()">{{'open_file'|translate}}</a>
+      </div>
+
+  </ion-content>
+</ion-view>

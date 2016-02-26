@@ -11,7 +11,7 @@ angular.module('app.routes', [])
   // LOGIN
   .state('start', {
     url: '/start',
-    templateUrl: 'templates/start.html',
+    templateUrl: 'views/start.html',
     controller: 'startCtrl'
   })
 
@@ -19,44 +19,44 @@ angular.module('app.routes', [])
   .state('login', {
     url: '/login',
     cache: false,
-    templateUrl: 'templates/login.html',
+    templateUrl: 'views/login.html',
     controller: 'loginCtrl'
   })
   //REGISTRATION
   .state('regOne', {
     url: '/reg-one',
-    templateUrl: 'templates/registration-one.html',
+    templateUrl: 'views/registration-one.html',
     controller: 'regCtrl'
   })
 
   .state('regTwo', {
     url: '/reg-two',
-    templateUrl: 'templates/registration-two.html',
+    templateUrl: 'views/registration-two.html',
     controller: 'regCtrl'
   })
 
   .state('regThree', {
     url: '/reg-three',
-    templateUrl: 'templates/registration-three.html',
+    templateUrl: 'views/registration-three.html',
     controller: 'regCtrl'
   })
 
   // Password Recovery
   .state('passwordOne', {
     url: '/password-one',
-    templateUrl: 'templates/password-recovery-one.html',
+    templateUrl: 'views/password-recovery-one.html',
     controller: 'passwordCtrl'
   })
   // Password Recovery Conformation
   .state('passwordTwo', {
     url: '/password-two',
-    templateUrl: 'templates/password-recovery-two.html',
+    templateUrl: 'views/password-recovery-two.html',
     controller: 'passwordCtrl'
   })
   // Password Reset
   .state('passwordThree', {
     url: '/password-three',
-    templateUrl: 'templates/password-recovery-three.html',
+    templateUrl: 'views/password-recovery-three.html',
     controller: 'passwordCtrl'
   })
 
@@ -64,7 +64,7 @@ angular.module('app.routes', [])
   .state('main', {
     url: '/main',
     abstract: true,
-    templateUrl: 'templates/menu.html',
+    templateUrl: 'views/menu.html',
     controller: 'AppCtrl'
   })
 
@@ -74,7 +74,7 @@ angular.module('app.routes', [])
     cache: false,
     views: {
       'menuContent': {
-        templateUrl: 'templates/dashboard.html',
+        templateUrl: 'views/dashboard.html',
         controller: 'dashboardCtrl'
       }
     }
@@ -85,7 +85,7 @@ angular.module('app.routes', [])
     url: '/settings',
     views: {
       'menuContent': {
-        templateUrl: 'templates/settings.html',
+        templateUrl: 'views/settings.html',
         controller: 'settingsCtrl'
       }
     }
@@ -96,7 +96,7 @@ angular.module('app.routes', [])
     url: '/about',
     views: {
       'menuContent': {
-        templateUrl: 'templates/about.html',
+        templateUrl: 'views/about.html',
         controller: 'aboutCtrl'
       }
     }
@@ -107,7 +107,7 @@ angular.module('app.routes', [])
     url: '/faq',
     views: {
       'menuContent': {
-        templateUrl: 'templates/faq.html',
+        templateUrl: 'views/faq.html',
         controller: 'faqCtrl'
       }
     }
@@ -118,7 +118,7 @@ angular.module('app.routes', [])
     url: '/terms',
     views: {
       'menuContent': {
-        templateUrl: 'templates/terms.html',
+        templateUrl: 'views/terms.html',
         controller: 'termsCtrl'
       }
     }
@@ -130,7 +130,7 @@ angular.module('app.routes', [])
     cache:  false,
     views: {
       'menuContent': {
-        templateUrl: "templates/user/profile.html",
+        templateUrl: "views/user/profile.html",
         controller: 'userCtrl'
       }
     }
@@ -142,7 +142,7 @@ angular.module('app.routes', [])
     cache:  false,
     views: {
       'menuContent': {
-        templateUrl: 'templates/trips/list.html',
+        templateUrl: 'views/trips/list.html',
         controller: 'tripsCtrl'
       }
     }
@@ -155,7 +155,7 @@ angular.module('app.routes', [])
     cache: false,
     views: {
       'menuContent': {
-        templateUrl: 'templates/trips/item.html',
+        templateUrl: 'views/trips/item.html',
         controller: 'tripCtrl'
       }
     }
@@ -166,7 +166,7 @@ angular.module('app.routes', [])
     url: '/data',
     views: {
       'data': {
-        templateUrl: 'templates/trips/tab-data.html'
+        templateUrl: 'views/trips/tab-data.html'
       }
     }
   })
@@ -176,7 +176,7 @@ angular.module('app.routes', [])
     url: '/checks',
     views: {
       'checks': {
-        templateUrl: 'templates/trips/tab-checks.html'
+        templateUrl: 'views/trips/tab-checks.html'
       }
     }
   })
@@ -187,7 +187,7 @@ angular.module('app.routes', [])
     cache:  false,
     views: {
       'declarations': {
-        templateUrl: 'templates/trips/tab-declarations.html'
+        templateUrl: 'views/trips/tab-declarations.html'
       }
     }
   })
@@ -198,7 +198,7 @@ angular.module('app.routes', [])
     cache:  false,
     views: {
       'menuContent': {
-        templateUrl: 'templates/checks/list.html',
+        templateUrl: 'views/checks/list.html',
         controller: 'checksCtrl'
       }
     }
@@ -210,7 +210,7 @@ angular.module('app.routes', [])
     cache: false,
     views: {
       'menuContent': {
-        templateUrl: 'templates/checks/item.html',
+        templateUrl: 'views/checks/item.html',
         controller: 'checkCtrl'
       }
     }
@@ -222,7 +222,7 @@ angular.module('app.routes', [])
     cache:  false,
     views: {
       'menuContent': {
-        templateUrl: 'templates/declarations/list.html',
+        templateUrl: 'views/declarations/list.html',
         controller: 'declarationsCtrl'
       }
     }
@@ -234,7 +234,7 @@ angular.module('app.routes', [])
     cache: false,
     views: {
       'menuContent': {
-        templateUrl: 'templates/declarations/item.html',
+        templateUrl: 'views/declarations/item.html',
         controller: 'declarationCtrl'
       }
     }
@@ -246,7 +246,7 @@ angular.module('app.routes', [])
     cache:  false,
     views: {
       'menuContent': {
-        templateUrl: 'templates/cards/list.html',
+        templateUrl: 'views/cards/list.html',
         controller: 'cardsCtrl'
       }
     }
@@ -258,7 +258,7 @@ angular.module('app.routes', [])
     cache: false,
     views: {
       'menuContent': {
-        templateUrl: 'templates/cards/item.html',
+        templateUrl: 'views/cards/item.html',
         controller: 'cardCtrl'
       }
     }

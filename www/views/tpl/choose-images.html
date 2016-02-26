@@ -1,0 +1,23 @@
+<button ng-click="selectPhoto()" class="button button-block button-outline button-assertive icon-left ion-image" ng-hide="images.length && single">
+  {{'upload_photo'|translate}}
+</button>
+<div class="image-preview" ng-show="images.length">
+  <div class="image" ng-repeat="image in images" ng-class="{loading: image.progress !== 100}">
+    <img ng-show="image.src" ng-src="{{image.src|addToken}}" onerror="this.src = 'img/noimage.svg'" image-viewer />
+
+    <div class="background"></div>
+    <div class="error" ng-show="image.error"><i class="icon ion-android-alert"></i></div>
+    <div class="progress" ng-hide="image.error">
+      <progress-bar
+        radius="48",
+        width="2"
+        progress="image.progress"
+      >
+      </progress-bar>
+    </div>
+
+    <div class="remove" ng-click="images.splice($index,1)"><i class="icon ion-close"></i></div>
+
+  </div>
+</div>
+<span class="err" ng-show="errorMsg">{{errorMsg}}</span>

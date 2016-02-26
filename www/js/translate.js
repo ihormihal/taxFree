@@ -1,6 +1,25 @@
-var translate =  {};
+window.icons = {
+  'new': 'ion-ios-clock-outline',
+  'client-response' : 'ion-ios-refresh-outline',
+  'request' : 'ion-ios-help-outline',
+  'signed' : 'ion-ios-checkmark-empty',
+  'digitalized' : 'ion-ios-list-outline',
+  'processed' : 'ion-android-time',
+  'refused' : 'ion-ios-close-outline',
+  'pay' : 'ion-ios-checkmark-outline',
+  'paid' : 'ion-ios-checkmark',
+  'shipping' : 'ion-ios-paperplane',
+  'created' : 'ion-ios-clock-outline',
+  'created_changes' : 'ion-ios-clock-outline',
+  'future' : 'ion-android-more-horizontal',
+  'current' : 'ion-ios-clock-outline',
+  'past' : 'ion-ios-checkmark-empty'
+};
 
-translate.ru = {
+
+window.translate =  {};
+
+window.translate.ru = {
   about: 'О нас',
   actions: 'Требует действий',
   action_choose_photo_title: 'Выберите фото',
@@ -101,6 +120,7 @@ translate.ru = {
   open_file: 'Открыть файл',
   open_file_error: 'Этот файл невозможно открыть на данном устройстве',
   paid: 'Выплачено',
+  pay: 'Подготовка к выплате',
   passage_number: 'Номер рейса',
   passport_country: 'Страна выдачи',
   passport_date: 'Срок действия',
@@ -117,6 +137,7 @@ translate.ru = {
   payments: 'Выплаты',
   personal_data: 'Личные данные',
   phone: 'Телефон',
+  please_wait_uploading: 'Пожалуйста, дождитесь загрузки всех фото',
   post: 'Почта',
   processed: 'Обработка',
   product: 'Товар',
@@ -192,7 +213,7 @@ translate.ru = {
   your_email: 'Ваш E-mail'
 };
 
-translate.en = {
+window.translate.en = {
   about: 'About',
   actions: 'Actions',
   action_choose_photo_title: 'Select a photo',
@@ -293,6 +314,7 @@ translate.en = {
   open_file: 'Open file',
   open_file_error: 'No file handler found',
   paid: 'Paid',
+  pay: 'Prepare to pay',
   passage_number: 'Flight/train/bus number',
   passport_country: 'Country of issue',
   passport_date: 'Expiry date',
@@ -310,6 +332,7 @@ translate.en = {
   personal_data: 'Personal information',
   post: 'Mail',
   phone: 'Phone',
+  please_wait_uploading: 'Please wait while your photos is being uploaded',
   processed: 'Processing',
   product: 'Product',
   product_group: 'Group',

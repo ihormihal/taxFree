@@ -1,0 +1,65 @@
+<ion-side-menus enable-menu-with-back-views="false">
+  <ion-side-menu-content>
+    <ion-nav-bar class="bar-assertive">
+      <ion-nav-back-button></ion-nav-back-button>
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left">
+    <ion-content>
+      <div class="logo image">
+        <img src="images/logo-inv.png">
+      </div>
+      <ion-list>
+        <ion-item menu-close ui-sref="main.dashboard">
+          <i class="icon ion-star"></i>
+          {{'dashboard'|translate}}
+        </ion-item>
+        <ion-item menu-close ui-sref="main.profile">
+          <i class="icon ion-person"></i>
+          {{'profile'|translate}}
+        </ion-item>
+        <ion-item menu-close ui-sref="main.trips">
+          <i class="icon ion-earth"></i>
+          {{'trips'|translate}}
+        </ion-item>
+        <ion-item menu-close ui-sref="main.checks">
+          <i class="icon ion-android-list"></i>
+          {{'checks'|translate}}
+        </ion-item>
+    		<ion-item menu-close ui-sref="main.declarations">
+          <i class="icon ion-document-text"></i>
+          {{'declarations'|translate}}
+        </ion-item>
+        <ion-item menu-close ui-sref="main.cards">
+          <i class="icon ion-card"></i>
+          {{'cards'|translate}}
+        </ion-item>
+    		<ion-item menu-close ui-sref="main.about">
+          <i class="icon ion-information-circled"></i>
+          {{'about'|translate}}
+        </ion-item>
+        <ion-item menu-close ui-sref="main.faq">
+          <i class="icon ion-help-circled"></i>
+          {{'faq'|translate}}
+        </ion-item>
+        <ion-item menu-close ui-sref="main.terms">
+          <i class="icon ion-ribbon-b"></i>
+          {{'terms'|translate}}
+        </ion-item>
+    		<ion-item menu-close ui-sref="main.settings">
+          <i class="icon ion-gear-a"></i>
+          {{'settings'|translate}}
+        </ion-item>
+        <ion-item menu-close ng-click="logout()">
+          <i class="icon ion-android-exit"></i>
+          {{'logout'|translate}}
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>

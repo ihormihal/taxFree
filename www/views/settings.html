@@ -1,0 +1,28 @@
+<ion-view title="{{'settings'|translate}}">
+	<ion-content scroll="false" class="has-header">
+
+		<div class="list">
+			<label class="item item-input item-stacked-label top-item">
+				<span class="input-label">{{'app_language'|translate}}</span>
+				<div class="item-select">
+					<select ng-model="settings.language">
+						<option value="ru">Русский</option>
+						<option value="en">English</option>
+					</select>
+				</div>
+			</label>
+			<div class="item">
+				<button class="button button-stable button-block button-assertive up" ng-click="save()">{{'save'|translate}}!</button>
+			</div>
+
+			<div class="item">
+				<button class="button button-stable button-block button-stable up" ng-click="clearCache()">{{'reset'|translate}}!</button>
+			</div>
+		</div>
+
+		<div class="padding">
+			<p class="text-center">Tax Free 4U App v.0.3.2</p>
+		</div>
+
+	</ion-content>
+</ion-view>

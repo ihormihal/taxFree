@@ -1,0 +1,21 @@
+<ion-view view-title="{{'declarations'|translate}}">
+	<ion-content class="has-header">
+		<ion-refresher
+			pulling-text=""
+			on-refresh="load()">
+		</ion-refresher>
+		<div class="list">
+			<div
+				ng-repeat="declaration in declarations  | orderBy : '-id'"
+				ui-sref="main.declaration({id: declaration.id})"
+				class="item bar-status-{{declaration.status}}"
+				>
+				<h2>{{'declaration'|translate}} ID {{declaration.id}}</h2>
+				<p>{{getById(countries,declaration.country).name}}</p>
+				<div class="item-icon-right">
+					<i class="icon {{declaration.status|getStatusIcon}}"></i>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>
