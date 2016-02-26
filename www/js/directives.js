@@ -103,8 +103,7 @@ angular.module('app.directives', [])
 	return {
 		restrict: 'E',
 		scope: {
-			images: '=',
-			params: '='
+			images: '='
 		},
 		templateUrl: 'views/tpl/choose-images.html',
 		controller: function($scope, $element, $attrs, $timeout, $cordovaImagePicker, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
@@ -188,7 +187,7 @@ angular.module('app.directives', [])
 					fileName: "photo.jpg",
 					chunkedMode: false,
 					mimeType: "image/jpeg",
-					params: $scope.params
+					params: {user: $attr.userid}
 				};
 				var time = new Date().getTime();
 				$cordovaFileTransfer.upload(

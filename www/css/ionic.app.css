@@ -9526,7 +9526,8 @@ a {
   color: #777; }
 
 .list .list-status-past h2,
-.list .list-status-future h2 {
+.list .list-status-future h2,
+.list .list-status-refused h2 {
   color: #444; }
 
 .list .list-status-current .item-icon-right,
