@@ -111,6 +111,7 @@ angular.module('app.directives', [])
 			if ($attrs.single == 'true') {
 				$scope.single = true;
 			}
+			var filekey = $attrs.filekey ? $attrs.filekey : 'file';
 
 			$scope.selectPhoto = function() {
 
@@ -183,7 +184,7 @@ angular.module('app.directives', [])
 					headers: {
 						'Authorization': window.localStorage['token']
 					},
-					fileKey: "file",
+					fileKey: filekey,
 					fileName: "photo.jpg",
 					chunkedMode: false,
 					mimeType: "image/jpeg",

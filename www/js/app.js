@@ -4,7 +4,7 @@ window.AppSettings = {
   api: 'http://tax-free-4u.com/'
 };
 
-window.AppSettings.dev = true;
+//window.AppSettings.dev = true;
 
 if(window.AppSettings.dev){
   window.AppSettings.domain = 'http://tax-free-dev.jaya-test.com/';
