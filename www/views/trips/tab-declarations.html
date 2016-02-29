@@ -8,7 +8,7 @@
 			<div
 				ng-repeat="declaration in declarations  | orderBy : '-id'"
 				ui-sref="main.declaration({id: declaration.id})"
-				class="item bar-status-{{declaration.status}}"
+				class="item list-status-{{declaration.status}}"
 				>
 				<h2>{{'declaration'|translate}} ID {{declaration.id}}</h2>
 				<p>{{getById(countries,declaration.country).name}}</p>
