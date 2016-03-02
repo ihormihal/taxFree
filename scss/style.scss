@@ -101,7 +101,17 @@ a {color: $assertive;}
 		color: #fff;
 	}
 }
-
+.messages {
+	margin-bottom: 0;
+}
+.message {
+	font-size: 12px;
+	&.type-info {
+		background-color: $positive;
+		color: #fff;
+		border-color: #fff;
+	}
+}
 
 .item {
 	span.label {
@@ -475,7 +485,7 @@ a {color: $assertive;}
 		z-index: 1001;
 		background-color: rgba(0,0,0,0.4);
 	}
-	.box {z-index: 2000; position: relative;}
+	.box {z-index: 2000; position: relative; top: 50%; transform: translate(0, -50%);}
 }
 
 #start-step-1 .background {

@@ -56,6 +56,11 @@ angular.module('app.controllers', [])
 
 
 /*** ABOUT PAGE CONTROLLER ***/
+.controller('MessagesCtrl', function($scope, Messages) {
+})
+
+
+/*** ABOUT PAGE CONTROLLER ***/
 .controller('aboutCtrl', function($scope) {
 
 })

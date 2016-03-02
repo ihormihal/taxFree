@@ -9288,6 +9288,16 @@ a {
   .bar.bar-transparent .button-clear {
     color: #fff; }
 
+.messages {
+  margin-bottom: 0; }
+
+.message {
+  font-size: 12px; }
+  .message.type-info {
+    background-color: #387ef5;
+    color: #fff;
+    border-color: #fff; }
+
 .item span.label {
   display: inline-block;
   float: left;
@@ -9608,7 +9618,9 @@ a {
     background-color: rgba(0, 0, 0, 0.4); }
   .slider-slide .box {
     z-index: 2000;
-    position: relative; }
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%); }
 
 #start-step-1 .background {
   background-image: url(../images/m_help_step1.jpg); }

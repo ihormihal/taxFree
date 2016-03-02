@@ -414,4 +414,21 @@ angular.module('app.services', ['ngResource'])
   });
 })
 
+
+/****************************************/
+/************ MESSAGE SERVICE ***********/
+/****************************************/
+
+// .factory('Message', function($resource) {
+//   return $resource(window.AppSettings.api + 'api/message/:action', {action: '@action'}, {
+//     call : {
+//       method: 'POST'
+//     }
+//   });
+// })
+
+.factory('Messages', function($resource) {
+  return $resource(window.AppSettings.api + 'api/message/list');
+})
+
 ;

@@ -1,7 +1,50 @@
 angular.module('app.controller.cards', [])
 
 /*** LIST ***/
-.controller('cardsCtrl', function($scope, $state, $ionicModal, Cards, Card, Toast) {
+.controller('cardsCtrl', function($scope, $state, $ionicModal, $cordovaActionSheet, Cards, Card, Messages, Toast) {
+
+	Messages.get({}, function(data) {
+		$scope.messages = data.messages;
+		console.log(data.messages);
+	});
+
+	$scope.messageMenu = function(message, buttons){
+		console.log(buttons);
+		var labels = [];
+		for(var i = 0; i < buttons.length; i++){
+			labels.push(buttons[i].caption);
+		}
+		try {
+			$cordovaActionSheet.show({
+				title: message,
+				buttonLabels: labels,
+				addCancelButtonWithLabel: lngTranslate('cancel'),
+				androidEnableCancelButton: true,
+				winphoneEnableCancelButton: true
+			})
+				.then(function(btnIndex) {
+					var action = buttons[btnIndex-1].link;
+					switch(action) {
+						case 'confirm_card_as_default':
+							console.log('confirm_card_as_default');
+							break;
+						case 'about_card':
+							console.log('about_card');
+							break;
+						case 'buy_card':
+							console.log('buy_card');
+							break;
+						case 'close':
+							console.log('close');
+							break;
+						default:
+							break;
+					}
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	$scope.valid = {
 		number: false,

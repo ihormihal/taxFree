@@ -9,6 +9,11 @@
 			pulling-text=""
 			on-refresh="load()">
 		</ion-refresher>
+		<div class="list messages" ng-show="messages.length">
+			<div ng-repeat="message in messages" class="item message type-{{message.type}}" ng-click="messageMenu(message.message, message.buttons)">
+				{{message.message}}
+			</div>
+		</div>
 		<div class="list">
 			<div
 				ng-repeat="card in cards  | orderBy : '-id'"
