@@ -20,6 +20,7 @@
   <preference name="iosPersistentFileLocation" value="Library" />
   <preference name="iosPersistentFileLocation" value="Compatibility" />
   <preference name="android-windowSoftInputMode" value="adjustResize" />
+<!--   <preference name="windows-target-version" value="10.0" /> -->
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>

@@ -23,7 +23,7 @@
     "cordova-plugin-camera",
     {
       "locator": "https://github.com/wymsee/cordova-imagePicker.git",
-      "id": "com.synconset.imagepicker"
+      "id": "cordova-plugin-image-picker"
     },
     {
       "locator": "https://github.com/sarriaroman/photoviewer.git",
@@ -38,7 +38,10 @@
     }
   ],
   "cordovaPlatforms": [
-    "android",
+    {
+      "platform": "android",
+      "locator": "windows"
+    },
     "ios",
     {
       "platform": "android",
@@ -49,6 +52,16 @@
       "platform": "ios",
       "version": "",
       "locator": "ios"
+    },
+    {
+      "platform": "windows",
+      "version": "",
+      "locator": "windows"
+    },
+    {
+      "platform": "wp8",
+      "version": "",
+      "locator": "wp8"
     }
   ]
 }
