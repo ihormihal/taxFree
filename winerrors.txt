@@ -1,2 +1,0 @@
-Get-AppxPackageManifest : Cannot process argument transformation on parameter 'Package'. Object reference not set to
-an instance of an object.

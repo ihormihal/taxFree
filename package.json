@@ -40,11 +40,6 @@
   "cordovaPlatforms": [
     {
       "platform": "android",
-      "locator": "windows"
-    },
-    "ios",
-    {
-      "platform": "android",
       "version": "",
       "locator": "android"
     },
@@ -52,16 +47,6 @@
       "platform": "ios",
       "version": "",
       "locator": "ios"
-    },
-    {
-      "platform": "windows",
-      "version": "",
-      "locator": "windows"
-    },
-    {
-      "platform": "wp8",
-      "version": "",
-      "locator": "wp8"
     }
   ]
 }

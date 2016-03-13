@@ -1,0 +1,12 @@
+#push
+(Google) Project Number -> GCM sender ID.
+cordova plugin add phonegap-plugin-push --variable SENDER_ID=value
+cordova plugin add phonegap-plugin-push --variable SENDER_ID=327155649550
+
+APIKey: AIzaSyCWiswUx0j63Xmm9xWEiWaZqmGLbo83FVs
+
+new SENDER ID: 116809155568
+
+(iOS)
+MySertificates IOS Push Services -> Export
+openssl pkcs12 -in Certificates.p12 -out Certificates.pem -nodes

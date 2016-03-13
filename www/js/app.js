@@ -37,14 +37,13 @@ angular.module('app', [
 ])
 
 
-.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, AuthService, Alert) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaPush, $cordovaNetwork, AuthService, Alert) {
 
   $ionicPlatform.ready(function() {
 
     $rootScope.Domain = window.AppSettings.domain;
 
-    $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
-      var offlineState = networkState;
+    $rootScope.$on('$cordovaNetwork:offline', function(event, offlineState){
       if(offlineState){
         Alert.show({message: lngTranslate('no_internet_message'), title: lngTranslate('no_internet')});
       }
@@ -56,7 +55,33 @@ angular.module('app', [
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
 
+
+    var pushConfig = null;
+
+    if (ionic.Platform.isAndroid()) {
+      pushConfig = {
+        senderID: "116809155568"
+      };
+    } else if (ionic.Platform.isIOS()) {
+      pushConfig = {
+        "badge": "true",
+        "sound": "true",
+        "alert": "true"
+      }
+    }
+
+    $cordovaPush.register(pushConfig).then(function(result) {
+      Alert.show({'title': 'Push Success', message: result});
+    }, function(err) {
+      Alert.show({'title': 'Push Error', message: err});
+    });
+
   });//ionic ready end
+
+  $rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
+    Alert.show({title: 'PushNotification', message: angular.toJson(notification)});
+    //android: {event:"registered", regid: "id"}
+  });
 
   $rootScope.serialize = function(obj, prefix) {
     var str = [];
@@ -91,11 +116,7 @@ angular.module('app', [
       }
     }
     //else return
-    if(images.length > 0){
-      return true; //true if are images
-    }else{
-      return false; //false if array is empty
-    }
+    return images.length > 0;
   };
 
   $rootScope.$on('http-error', function(event, data) {
