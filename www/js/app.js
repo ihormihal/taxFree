@@ -60,7 +60,7 @@ angular.module('app', [
 
     if (ionic.Platform.isAndroid()) {
       pushConfig = {
-        senderID: "116809155568"
+        senderID: "327155649550"
       };
     } else if (ionic.Platform.isIOS()) {
       pushConfig = {
@@ -72,6 +72,7 @@ angular.module('app', [
 
     $cordovaPush.register(pushConfig).then(function(result) {
       Alert.show({'title': 'Push Success', message: result});
+      //if ios result = device token
     }, function(err) {
       Alert.show({'title': 'Push Error', message: err});
     });
@@ -80,7 +81,22 @@ angular.module('app', [
 
   $rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
     Alert.show({title: 'PushNotification', message: angular.toJson(notification)});
-    //android: {event:"registered", regid: "id"}
+    console.log(notification.regid);
+    //android:
+    //notification = {event:"registered", regid: "Device Token"}
+    //http://apns-gcm.bryantan.info/
+    //on receive:
+    /*
+    notification = {
+      event: "message",
+      from: "senderID",
+      message: "my message",
+      coldstart: "true",
+      collapse_key: "do_not_collapse",
+      foregound: false,
+      payload: {message: "my message"}
+    }
+    */
   });
 
   $rootScope.serialize = function(obj, prefix) {
