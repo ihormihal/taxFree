@@ -310,15 +310,24 @@ angular.module('app.services', ['ngResource'])
 /****************************************/
 
 .factory('Dashboard', function($resource) {
-  return $resource(window.AppSettings.api + 'api/dashboard/:request', {request: '@request'});
-})
-
-.factory('DashboardAction', function($resource) {
-  return $resource(window.AppSettings.api + 'api/dashboard/action/:request', {request: '@request'});
-})
-
-.factory('DashboardNoaction', function($resource) {
-  return $resource(window.AppSettings.api + 'api/dashboard/noaction/:request', {request: '@request'});
+  return $resource(window.AppSettings.api + 'api/dashboard/:request', {request: '@request'},{
+    getActionList: {
+      url: window.AppSettings.api + 'api/dashboard/action/list',
+      method: 'GET'
+    },
+    getPayments: {
+      url: window.AppSettings.api + 'api/dashboard/allpayments',
+      method: 'GET'
+    },
+    getLastPayment: {
+      url: window.AppSettings.api +'api/dashboard/lastapprovedpayment',
+      method: 'GET'
+    },
+    getNoactionList: {
+      url: window.AppSettings.api +'api/dashboard/noaction/list',
+      method: 'GET'
+    }
+  });
 })
 
 /****************************************/
@@ -329,6 +338,10 @@ angular.module('app.services', ['ngResource'])
   return $resource(window.AppSettings.api + 'api/user/me', {}, {
     update: {
       method: 'PUT'
+    },
+    sendDeviceToken: {
+      url: window.AppSettings.api + 'api/user/send_identifier',
+      method: 'POST'
     }
   });
 })
@@ -404,10 +417,23 @@ angular.module('app.services', ['ngResource'])
 })
 
 .factory('Card', function($resource) {
-  return $resource(window.AppSettings.api + 'api/card/:id', {id: '@id'},{
+  return $resource(window.AppSettings.api + 'api/card/:id', {id: '@id'}, {
     update: {
       method: 'PUT'
     },
+    add: {
+      method: 'POST'
+    },
+    setDefault: {
+      url: window.AppSettings.api + 'api/card/:id/default',
+      params: {id: '@id'},
+      method: 'POST'
+    }
+  });
+})
+
+.factory('TaxFreeCard', function($resource) {
+  return $resource(window.AppSettings.api + 'api/taxfreecard/request/ctf', {}, {
     add: {
       method: 'POST'
     }

@@ -1,6 +1,6 @@
 angular.module('app.controller.dashboard', [])
 
-.controller('dashboardCtrl', function($scope, Dashboard, DashboardAction, DashboardNoaction) {
+.controller('dashboardCtrl', function($scope, Dashboard) {
 
 	$scope.itemActive = 0;
 
@@ -14,27 +14,19 @@ angular.module('app.controller.dashboard', [])
 
 	$scope.load = function() {
 
-		DashboardAction.get({
-			request: 'list'
-		}, function(data) {
+		Dashboard.getActionList({}, function(data) {
 			$scope.actionlist = data;
 		});
 
-		Dashboard.get({
-			request: 'allpayments'
-		}, function(data) {
-			$scope.allpayments = data;
+		Dashboard.getPayments({}, function(data) {
+			$scope.payments = data;
 		});
 
-		Dashboard.get({
-			request: 'lastapprovedpayment'
-		}, function(data) {
-			$scope.lastapprovedpayment = data;
+		Dashboard.getLastPayment({}, function(data) {
+			$scope.lastpayment = data;
 		});
 
-		DashboardNoaction.get({
-			request: 'list'
-		}, function(data) {
+		Dashboard.getNoactionList({}, function(data) {
 			$scope.noactionlist = data;
 		});
 

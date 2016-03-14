@@ -40,18 +40,19 @@
 			<div id="dashboard-item-3" class="item dashboard-item" ng-class="{active: itemActive == 2}">
 				<div class="item item-icon-left item-heading" ng-click="toggleItem(2)">
 					<i class="icon ion-card"></i>
-					{{'payments'|translate}}  {{allpayments.all_payments_total.sum|currency}}
+					{{'payments'|translate}}  {{payments.all_payments_total.sum|currency}}
 				</div>
 				<div class="item-content">
-					<div class="item" ng-show="lastapprovedpayment.last_paid_declaration.length">
 
+					<div class="item" ng-show="lastpayment.last_paid_declaration.length">
+					{{lastpayment.last_paid_declaration}}
 					</div>
-					<div class="item" ng-show="allpayments.all_payments_total">
-						{{'total_paid'|translate}}: {{allpayments.all_payments_total.sum|currency}}
+					<div class="item" ng-show="payments.all_payments_total">
+						{{'total_paid'|translate}}: {{payments.all_payments_total.sum|currency}}
 						<br>
-						{{'trips'|translate}}: {{allpayments.all_payments_total.trip_count}}
+						{{'trips'|translate}}: {{payments.all_payments_total.trip_count}}
 						<br>
-						{{'checks'|translate}}: {{allpayments.all_payments_total.check_count}}
+						{{'checks'|translate}}: {{payments.all_payments_total.check_count}}
 					</div>
 				</div>
 			</div>

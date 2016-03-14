@@ -1,6 +1,6 @@
 angular.module('app.controller.settings', [])
 
-.controller('settingsCtrl', function($rootScope, $scope, $state, $ionicPopup, $cordovaDialogs, AuthService) {
+.controller('settingsCtrl', function($rootScope, $scope, $state, $ionicPopup, $cordovaDialogs, $cordovaPush, AuthService, Alert) {
 
 	$scope.settings = {
 		language: window.localStorage['lang']
@@ -29,5 +29,19 @@ angular.module('app.controller.settings', [])
 				}
 			});
 
+	};
+
+	$scope.pushUnregister = function() {
+		$cordovaPush.unregister().then(function(result) {
+			Alert.show({
+				title: 'Push Unregister Success',
+				message: angular.toJson(result)
+			});
+		}, function(error) {
+			Alert.show({
+				title: 'Push Unregister Error',
+				message: angular.toJson(error)
+			});
+		});
 	};
 });

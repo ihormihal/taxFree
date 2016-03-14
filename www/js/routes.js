@@ -113,6 +113,17 @@ angular.module('app.routes', [])
     }
   })
 
+  //ABOUT TAXFREE CARD
+  .state('main.about_taxfree_card', {
+    url: '/about_taxfree_card',
+    views: {
+      'menuContent': {
+        templateUrl: 'views/about_taxfree_card.html',
+        controller: 'aboutCtrl'
+      }
+    }
+  })
+
   //TERMS
   .state('main.terms', {
     url: '/terms',

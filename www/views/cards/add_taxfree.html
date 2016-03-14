@@ -1,0 +1,37 @@
+<div class="modal">
+  <ion-header-bar class="bar-assertive">
+  <h1 class="title">{{'card_adding'|translate}}</h1>
+  <div class="buttons">
+    <button class="button button-icon button-clear ion-android-close" ng-click="closeModal('taxfree')"></button>
+  </div>
+  </ion-header-bar>
+  <ion-content padding="false" scroll="true" class="has-header">
+
+    <form name="form" class="list">
+
+      <label class="item item-input item-stacked-label">
+        <div class="input-label">{{'post_index'|translate}} <sup>*</sup></div>
+        <input type="text" ng-model="taxFreeCard.post_index" required>
+      </label>
+
+      <label class="item item-input item-stacked-label">
+        <div class="input-label">{{'city'|translate}} <sup>*</sup></div>
+        <input type="text" ng-model="taxFreeCard.city" required>
+      </label>
+
+      <label class="item item-input item-stacked-label">
+        <div class="input-label">{{'address'|translate}} <sup>*</sup></div>
+        <input type="text" ng-model="taxFreeCard.address" required>
+      </label>
+
+      <div class="item"></div>
+
+
+    </form>
+
+    <div class="padding">
+      <button ng-class="{disabled: !(form.$valid)}" class="button button-stable button-block button-assertive up" ng-click="createTaxFree()">{{'done'|translate}}</button>
+    </div>
+
+  </ion-content>
+</div>

@@ -35,6 +35,10 @@
     {
       "locator": "https://github.com/Justin-Credible/cordova-plugin-spinner",
       "id": "cordova-plugin-spinner"
+    },
+    {
+      "locator": "https://github.com/phonegap-build/PushPlugin.git",
+      "id": "com.phonegap.plugins.PushPlugin"
     }
   ],
   "cordovaPlatforms": [

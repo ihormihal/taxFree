@@ -2,7 +2,7 @@
   <ion-header-bar class="bar-assertive">
   <h1 class="title">{{'card_adding'|translate}}</h1>
   <div class="buttons">
-    <button class="button button-icon button-clear ion-android-close" ng-click="closeModal()"></button>
+    <button class="button button-icon button-clear ion-android-close" ng-click="closeModal('payment')"></button>
   </div>
   </ion-header-bar>
   <ion-content padding="false" scroll="true" class="has-header">
@@ -11,25 +11,25 @@
 
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'card_number'|translate}} <sup>*</sup></div>
-        <input type="tel" ng-model="card.number" ui-mask="9999-9999-9999-9999" ui-mask-placeholder required>
+        <input type="tel" ng-model="paymentCard.number" ui-mask="9999-9999-9999-9999" ui-mask-placeholder required>
       </label>
 
       <label class="item item-input item-stacked-label" ng-class="{'error':!valid.date}">
         <div class="input-label">{{'expire_date'|translate}} <sup>*</sup><span class="error-message">{{'date_expired'|translate}}</span></div>
-        <input type="month" ng-model="card.expire_date" required>
+        <input type="month" ng-model="paymentCard.expire_date" required>
       </label>
 
       <div class="item item-toggle">
         {{'set_as_default_card'|translate}}?
         <label class="toggle toggle-assertive">
-          <input type="checkbox" ng-model="card.is_default" ng-true-value="1" ng-false-value="0">
+          <input type="checkbox" ng-model="paymentCard.is_default" ng-true-value="1" ng-false-value="0">
           <div class="track"><div class="handle"></div></div>
         </label>
       </div>
     </form>
 
     <div class="padding">
-      <button ng-class="{disabled: !(valid.date && form.$valid)}" class="button button-stable button-block button-assertive up" ng-click="create()">{{'done'|translate}}</button>
+      <button ng-class="{disabled: !(valid.date && form.$valid)}" class="button button-stable button-block button-assertive up" ng-click="createPaymentCard()">{{'done'|translate}}</button>
     </div>
 
   </ion-content>

@@ -10,3 +10,20 @@ new SENDER ID: 116809155568
 (iOS)
 MySertificates IOS Push Services -> Export
 openssl pkcs12 -in Certificates.p12 -out Certificates.pem -nodes
+
+
+//http://apns-gcm.bryantan.info/
+//android on register
+notification = {event:"registered", regid: "Device Token"}
+//on receive:
+notification = {
+	event: "message",
+	from: "senderID",
+	message: "my message",
+	coldstart: "true",
+	collapse_key: "do_not_collapse",
+	foregound: false,
+	payload: {
+		message: "my message"
+	}
+}

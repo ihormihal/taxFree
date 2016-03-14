@@ -1,7 +1,9 @@
 angular.module('app.controller.cards', [])
 
 /*** LIST ***/
-.controller('cardsCtrl', function($scope, $state, $ionicModal, $cordovaActionSheet, Cards, Card, Messages, Toast) {
+.controller('cardsCtrl', function($scope, $state, $ionicModal, $cordovaActionSheet, Cards, Card, TaxFreeCard, Messages, Toast) {
+
+	$scope.cards = [];
 
 	Messages.get({}, function(data) {
 		$scope.messages = data.messages;
@@ -9,7 +11,6 @@ angular.module('app.controller.cards', [])
 	});
 
 	$scope.messageMenu = function(message, buttons){
-		console.log(buttons);
 		var labels = [];
 		for(var i = 0; i < buttons.length; i++){
 			labels.push(buttons[i].caption);
@@ -22,38 +23,38 @@ angular.module('app.controller.cards', [])
 				androidEnableCancelButton: true,
 				winphoneEnableCancelButton: true
 			})
-				.then(function(btnIndex) {
-					var action = buttons[btnIndex-1].link;
-					switch(action) {
-						case 'confirm_card_as_default':
-							console.log('confirm_card_as_default');
-							break;
-						case 'about_card':
-							console.log('about_card');
-							break;
-						case 'buy_card':
-							console.log('buy_card');
-							break;
-						case 'close':
-							console.log('close');
-							break;
-						default:
-							break;
-					}
-				});
+			.then(function(btnIndex) {
+				var action = buttons[btnIndex-1].link;
+				switch(action) {
+					case 'confirm_card_as_default':
+
+						for (var i = 0; i < $scope.cards; i++) {
+							if($scope.cards[i].is_taxfree_card){
+								Card.setDefault({id: $scope.cards[i].id}, function(data) {
+									Toast.show(lngTranslate('taxfree_card_selected_as_default'));
+									$scope.load();
+								});
+								break;
+							}
+						}
+
+						break;
+					case 'about_card':
+						$state.go('main.about_taxfree_card');
+						break;
+					case 'buy_card':
+						$scope.modal.taxfree.show();
+						break;
+					case 'close':
+						$scope.messages = null;
+						break;
+					default:
+						break;
+				}
+			});
 		} catch (error) {
 			console.log(error);
 		}
-	};
-
-	$scope.valid = {
-		number: false,
-		date: false
-	};
-
-	$scope.card = {
-		id: 'add',
-		is_default: 0
 	};
 
 	$scope.load = function() {
@@ -71,10 +72,20 @@ angular.module('app.controller.cards', [])
 
 	$scope.load();
 
-	$scope.$watch('card', function() {
+	$scope.card_payment = {id: 'add', is_default: 0};
 
-		if ($scope.card.number) {
-			if ($scope.card.number.toString().length == 16) {
+	$scope.card_taxfree = {
+		cards: [{
+			1: 50 //currency_id : price
+		}]
+	};
+
+	//validate card info
+	$scope.valid = {number: false, date: false};
+	$scope.$watch('card_payment', function() {
+
+		if ($scope.card_payment.number) {
+			if ($scope.card_payment.number.toString().length == 16) {
 				$scope.valid.number = true;
 			} else {
 				$scope.valid.number = false;
@@ -82,39 +93,84 @@ angular.module('app.controller.cards', [])
 		}
 
 		var now = new Date();
-		if ($scope.card.expire_date < now) {
+		if ($scope.card_payment.expire_date < now) {
 			$scope.valid.date = false;
 		} else {
 			$scope.valid.date = true;
 		}
 
-
 	}, true);
 
-	$ionicModal.fromTemplateUrl('views/cards/add.html', {
+	$scope.modal = {taxfree: null, payment: null};
+	//load form for taxfree card
+	$ionicModal.fromTemplateUrl('views/cards/add_taxfree.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
 	}).then(function(modal) {
-		$scope.modal = modal;
+		$scope.modal.taxfree = modal;
+	});
+	//load form for payment card
+	$ionicModal.fromTemplateUrl('views/cards/add_payment.html', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal) {
+		$scope.modal.payment = modal;
 	});
 
 	$scope.add = function() {
-		$scope.modal.show();
+		var labels = [
+			lngTranslate('taxfree_card'),
+			lngTranslate('payment_card')
+		];
+		try {
+			$cordovaActionSheet.show({
+				title: lngTranslate('select_card_type'),
+				buttonLabels: labels,
+				addCancelButtonWithLabel: lngTranslate('cancel'),
+				androidEnableCancelButton: true,
+				winphoneEnableCancelButton: true
+			})
+			.then(function(btnIndex) {
+				switch(btnIndex) {
+					case 1:
+						$scope.modal.taxfree.show();
+						break;
+					case 2:
+						$scope.modal.payment.show();
+						break;
+					default:
+						break;
+				}
+			});
+		} catch (error) {
+			console.log(error);
+		}
+
 	};
 
-	$scope.closeModal = function() {
-		$scope.modal.hide();
+	$scope.closeModal = function(type) {
+		$scope.modal[type].hide();
 	};
 
 	$scope.$on('$destroy', function() {
-		$scope.modal.remove();
+		$scope.modal.taxfree.remove();
+		$scope.modal.payment.remove();
 	});
 
-	$scope.create = function() {
-		$scope.card.expire_month = $scope.card.expire_date.getMonth() + 1;
-		$scope.card.expire_year = $scope.card.expire_date.getFullYear();
-		Card.add($scope.card, function(data) {
-			$scope.modal.hide();
+	$scope.createTaxFreeCard = function() {
+		TaxFreeCard.add($scope.card_taxfree, function(data) {
+			$scope.modalTaxFreeCard.hide();
+			Toast.show(lngTranslate('toast_card_added'));
+			$state.go('main.card', {
+				id: data.id
+			});
+		});
+	};
+	$scope.createPaymentCard = function() {
+		$scope.card_payment.expire_month = $scope.card_payment.expire_date.getMonth() + 1;
+		$scope.card_payment.expire_year = $scope.card_payment.expire_date.getFullYear();
+		Card.add($scope.card_payment, function(data) {
+			$scope.modal.payment.hide();
 			Toast.show(lngTranslate('toast_card_added'));
 			$state.go('main.card', {
 				id: data.id
