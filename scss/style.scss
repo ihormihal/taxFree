@@ -219,7 +219,6 @@ a {color: $assertive;}
 .item-stacked-label .item-select {
 	height: 34px;
 	select {
-		left: -4px;
 		padding: 0;
 		max-width: 100%;
 		width: 100%;
@@ -227,9 +226,11 @@ a {color: $assertive;}
 	}
 }
 .input-label {
-	font-style: italic;
-	color: $assertive;
+	//color: $assertive;
+	font-size: 14px;
+	color: #555;
 }
+.item-toggle .toggle {top: 18px;}
 .item-note-large {
 	font-size: 18px;
 }

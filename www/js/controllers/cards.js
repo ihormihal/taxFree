@@ -79,7 +79,7 @@ angular.module('app.controller.cards', [])
 
 	/////////////////////////////////////////////////
 
-	$scope.card_payment = {id: 'add', is_default: 0};
+	$scope.card = {id: 'add', is_default: 0};
 
 	$scope.card_taxfree = {
 		cards: [{
@@ -89,10 +89,10 @@ angular.module('app.controller.cards', [])
 
 	//validate card info
 	$scope.valid = {number: false, date: false};
-	$scope.$watch('card_payment', function() {
+	$scope.$watch('card', function() {
 
-		if ($scope.card_payment.number) {
-			if ($scope.card_payment.number.toString().length == 16) {
+		if ($scope.card.number) {
+			if ($scope.card.number.toString().length == 16) {
 				$scope.valid.number = true;
 			} else {
 				$scope.valid.number = false;
@@ -100,7 +100,7 @@ angular.module('app.controller.cards', [])
 		}
 
 		var now = new Date();
-		if ($scope.card_payment.expire_date < now) {
+		if ($scope.card.expire_date < now) {
 			$scope.valid.date = false;
 		} else {
 			$scope.valid.date = true;
@@ -166,27 +166,23 @@ angular.module('app.controller.cards', [])
 	};
 	$scope.$on('$destroy', function() {
 		$scope.modal.taxfree.remove();
-		$scope.modal.payment.remove();
+		$scope.modal.card.remove();
 	});
 
 	$scope.orderTaxFree = function() {
 		TaxFreeCard.add($scope.card_taxfree, function(data) {
 			$scope.modal.taxfree.hide();
 			Toast.show(lngTranslate('toast_card_ordered'));
-			$state.go('main.card', {
-				id: data.id
-			});
+			$state.go('main.card', {id: data.id});
 		});
 	};
 	$scope.addCard = function() {
-		$scope.card_payment.expire_month = $scope.card_payment.expire_date.getMonth() + 1;
-		$scope.card_payment.expire_year = $scope.card_payment.expire_date.getFullYear();
-		Card.add($scope.card_payment, function(data) {
+		$scope.card.expire_month = $scope.card.expire_date.getMonth() + 1;
+		$scope.card.expire_year = $scope.card.expire_date.getFullYear();
+		Card.add($scope.card, function(data) {
 			$scope.modal.card.hide();
 			Toast.show(lngTranslate('toast_card_added'));
-			$state.go('main.card', {
-				id: data.id
-			});
+			$state.go('main.card', {id: data.id});
 		});
 	};
 

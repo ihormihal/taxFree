@@ -9383,15 +9383,17 @@ a {
 .item-stacked-label .item-select {
   height: 34px; }
   .item-stacked-label .item-select select {
-    left: -4px;
     padding: 0;
     max-width: 100%;
     width: 100%;
     direction: ltr; }
 
 .input-label {
-  font-style: italic;
-  color: #f39736; }
+  font-size: 14px;
+  color: #555; }
+
+.item-toggle .toggle {
+  top: 18px; }
 
 .item-note-large {
   font-size: 18px; }

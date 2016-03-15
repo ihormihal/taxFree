@@ -2,18 +2,17 @@
 	<ion-content scroll="false" class="has-header">
 
 		<div class="list">
-			<label class="item item-input item-stacked-label top-item">
-				<span class="input-label">{{'app_language'|translate}}</span>
-				<div class="item-select">
-					<select ng-model="appSettings.language">
-						<option value="ru">Русский</option>
-						<option value="en">English</option>
-					</select>
-				</div>
+
+			<label class="item item-input item-select">
+				<div class="input-label">{{'app_language'|translate}}</div>
+				<select ng-model="appSettings.language">
+					<option value="ru">Русский</option>
+					<option value="en">English</option>
+				</select>
 			</label>
 
 			<div class="item item-toggle">
-				{{'setting_dontShowCardMessagesBuy'|translate}}
+				<span class="input-label">{{'setting_dontShowCardMessagesBuy'|translate}}</span>
 				<label class="toggle toggle-assertive">
 					<input type="checkbox" ng-model="settings.dontShowCardMessagesBuy" ng-true-value="'1'" ng-false-value="'0'">
 					<div class="track"><div class="handle"></div></div>
@@ -21,7 +20,7 @@
 			</div>
 
 			<div class="item item-toggle">
-				{{'setting_receiveSms'|translate}}
+				<span class="input-label">{{'setting_receiveSms'|translate}}</span>
 				<label class="toggle toggle-assertive">
 					<input type="checkbox" ng-model="settings.receiveSms" ng-true-value="'1'" ng-false-value="'0'">
 					<div class="track"><div class="handle"></div></div>
@@ -33,9 +32,9 @@
 				<button class="button button-stable button-block button-assertive up" ng-click="save()">{{'save'|translate}}!</button>
 			</div>
 
-			<div class="item">
+			<!-- <div class="item">
 				<button class="button button-stable button-block button-stable up" ng-click="clearCache()">{{'reset'|translate}}!</button>
-			</div>
+			</div> -->
 
 			<!-- <div class="item">
 				<button class="button button-stable button-block button-stable up" ng-click="pushUnregister()">{{'Disable Push'|translate}}!</button>

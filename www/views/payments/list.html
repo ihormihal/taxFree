@@ -1,9 +1,5 @@
 <ion-view view-title="{{'payments'|translate}}">
 
-	<ion-nav-buttons side="right">
-		<button class="button button-icon button-clear ion-android-add" ng-click="add()"></button>
-	</ion-nav-buttons>
-
 	<ion-content class="has-header">
 		<ion-refresher
 			pulling-text=""
@@ -11,13 +7,14 @@
 		</ion-refresher>
 		<div class="list">
 			<div
-				ng-repeat="payment in payments  | orderBy : '-id'"
-				ui-sref="main.payment({id: payment.id})"
+				ng-repeat="payment in payments  | orderBy : '-complete_time'"
 				class="item"
 				>
-				<h2>{{payment}}</h2>
+				<h2>{{payment.total_sum | currency}}</h2>
+				<p><i class="icon ion-android-time"></i> {{payment.complete_time}}</p>
+				<p><i class="icon ion-earth"></i> {{payment.country_enter}} - {{payment.country_leaving}}</p>
 				<div class="item-icon-right">
-					<i class="icon ion-ios-checkmark"></i>
+					<i class="icon ion-ios-checkmark-empty"></i>
 				</div>
 			</div>
 		</div>

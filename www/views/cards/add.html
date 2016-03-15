@@ -11,18 +11,18 @@
 
       <label class="item item-input item-stacked-label">
         <div class="input-label">{{'card_number'|translate}} <sup>*</sup></div>
-        <input type="tel" ng-model="paymentCard.number" ui-mask="9999-9999-9999-9999" ui-mask-placeholder required>
+        <input type="tel" ng-model="card.number" ui-mask="9999-9999-9999-9999" ui-mask-placeholder required>
       </label>
 
       <label class="item item-input item-stacked-label" ng-class="{'error':!valid.date}">
         <div class="input-label">{{'expire_date'|translate}} <sup>*</sup><span class="error-message">{{'date_expired'|translate}}</span></div>
-        <input type="month" ng-model="paymentCard.expire_date" required>
+        <input type="month" ng-model="card.expire_date" required>
       </label>
 
       <div class="item item-toggle">
         {{'set_as_default_card'|translate}}?
         <label class="toggle toggle-assertive">
-          <input type="checkbox" ng-model="paymentCard.is_default" ng-true-value="1" ng-false-value="0">
+          <input type="checkbox" ng-model="card.is_default" ng-true-value="1" ng-false-value="0">
           <div class="track"><div class="handle"></div></div>
         </label>
       </div>
