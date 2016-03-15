@@ -1,13 +1,18 @@
 angular.module('app.controller.cards', [])
 
 /*** LIST ***/
-.controller('cardsCtrl', function($scope, $state, $ionicModal, $cordovaActionSheet, Cards, Card, TaxFreeCard, Messages, Toast) {
+.controller('cardsCtrl', function($scope, $state, $ionicModal, $cordovaActionSheet, Cards, Card, TaxFreeCard, Messages, Catalog, Toast) {
 
 	$scope.cards = [];
 
 	Messages.get({}, function(data) {
 		$scope.messages = data.messages;
-		console.log(data.messages);
+	});
+
+	Catalog.query({
+		name: 'currency'
+	}, function(data) {
+		$scope.prices = data;
 	});
 
 	$scope.messageMenu = function(message, buttons){
@@ -28,7 +33,7 @@ angular.module('app.controller.cards', [])
 				switch(action) {
 					case 'confirm_card_as_default':
 
-						for (var i = 0; i < $scope.cards; i++) {
+						for (var i = 0; i < $scope.cards.length; i++) {
 							if($scope.cards[i].is_taxfree_card){
 								Card.setDefault({id: $scope.cards[i].id}, function(data) {
 									Toast.show(lngTranslate('taxfree_card_selected_as_default'));
@@ -72,6 +77,8 @@ angular.module('app.controller.cards', [])
 
 	$scope.load();
 
+	/////////////////////////////////////////////////
+
 	$scope.card_payment = {id: 'add', is_default: 0};
 
 	$scope.card_taxfree = {
@@ -101,30 +108,40 @@ angular.module('app.controller.cards', [])
 
 	}, true);
 
-	$scope.modal = {taxfree: null, payment: null};
+	$scope.$watch('card_taxfree.currency_index', function() {
+		var cards = [{}];
+		if($scope.card_taxfree.currency_index){
+			var selected = $scope.prices[$scope.card_taxfree.currency_index];
+			cards[0].currency = selected.id;
+			cards[0].price = selected.card_price;
+		}
+		$scope.card_taxfree.cards = angular.toJson(cards);
+	});
+
+	$scope.modal = {taxfree: null, card: null};
 	//load form for taxfree card
-	$ionicModal.fromTemplateUrl('views/cards/add_taxfree.html', {
+	$ionicModal.fromTemplateUrl('views/cards/order_taxfree.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
 	}).then(function(modal) {
 		$scope.modal.taxfree = modal;
 	});
 	//load form for payment card
-	$ionicModal.fromTemplateUrl('views/cards/add_payment.html', {
+	$ionicModal.fromTemplateUrl('views/cards/add.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
 	}).then(function(modal) {
-		$scope.modal.payment = modal;
+		$scope.modal.card = modal;
 	});
 
 	$scope.add = function() {
 		var labels = [
-			lngTranslate('taxfree_card'),
-			lngTranslate('payment_card')
+			lngTranslate('order_taxfree_card'),
+			lngTranslate('add_card')
 		];
 		try {
 			$cordovaActionSheet.show({
-				title: lngTranslate('select_card_type'),
+				title: lngTranslate('card_adding'),
 				buttonLabels: labels,
 				addCancelButtonWithLabel: lngTranslate('cancel'),
 				androidEnableCancelButton: true,
@@ -136,7 +153,7 @@ angular.module('app.controller.cards', [])
 						$scope.modal.taxfree.show();
 						break;
 					case 2:
-						$scope.modal.payment.show();
+						$scope.modal.card.show();
 						break;
 					default:
 						break;
@@ -147,30 +164,25 @@ angular.module('app.controller.cards', [])
 		}
 
 	};
-
-	$scope.closeModal = function(type) {
-		$scope.modal[type].hide();
-	};
-
 	$scope.$on('$destroy', function() {
 		$scope.modal.taxfree.remove();
 		$scope.modal.payment.remove();
 	});
 
-	$scope.createTaxFreeCard = function() {
+	$scope.orderTaxFree = function() {
 		TaxFreeCard.add($scope.card_taxfree, function(data) {
-			$scope.modalTaxFreeCard.hide();
-			Toast.show(lngTranslate('toast_card_added'));
+			$scope.modal.taxfree.hide();
+			Toast.show(lngTranslate('toast_card_ordered'));
 			$state.go('main.card', {
 				id: data.id
 			});
 		});
 	};
-	$scope.createPaymentCard = function() {
+	$scope.addCard = function() {
 		$scope.card_payment.expire_month = $scope.card_payment.expire_date.getMonth() + 1;
 		$scope.card_payment.expire_year = $scope.card_payment.expire_date.getFullYear();
 		Card.add($scope.card_payment, function(data) {
-			$scope.modal.payment.hide();
+			$scope.modal.card.hide();
 			Toast.show(lngTranslate('toast_card_added'));
 			$state.go('main.card', {
 				id: data.id

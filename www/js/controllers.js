@@ -68,4 +68,4 @@ angular.module('app.controllers', [])
 /*** TERMS PAGE CONTROLLER ***/
 .controller('termsCtrl', function($scope) {
 
-});
+})

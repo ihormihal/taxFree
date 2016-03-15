@@ -251,7 +251,7 @@ angular.module('app.routes', [])
     }
   })
 
-    //DECLARATIONS LIST
+  //DECLARATIONS LIST
   .state('main.cards', {
     url: '/cards',
     cache:  false,
@@ -271,6 +271,18 @@ angular.module('app.routes', [])
       'menuContent': {
         templateUrl: 'views/cards/item.html',
         controller: 'cardCtrl'
+      }
+    }
+  })
+
+  //PAYMENTS LIST
+  .state('main.payments', {
+    url: '/payments',
+    cache:  false,
+    views: {
+      'menuContent': {
+        templateUrl: 'views/payments/list.html',
+        controller: 'paymentsCtrl'
       }
     }
   })

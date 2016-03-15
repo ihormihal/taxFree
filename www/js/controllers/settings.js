@@ -1,17 +1,15 @@
 angular.module('app.controller.settings', [])
 
-.controller('settingsCtrl', function($rootScope, $scope, $state, $ionicPopup, $cordovaDialogs, $cordovaPush, AuthService, Alert) {
+.controller('settingsCtrl', function($rootScope, $scope, $state, $ionicPopup, $cordovaDialogs, $cordovaPush, Settings, AuthService, Alert, Toast) {
 
-	$scope.settings = {
+	$scope.appSettings = {
 		language: window.localStorage['lang']
 	};
 
-	$scope.language = window.localStorage['lang'];
 
-	$scope.save = function() {
-		window.localStorage['lang'] = $scope.settings.language;
-		window.location.reload(true);
-	};
+	Settings.get({}, function(data){
+		$scope.settings = data;
+	});
 
 	$scope.clearCache = function() {
 
@@ -31,17 +29,28 @@ angular.module('app.controller.settings', [])
 
 	};
 
-	$scope.pushUnregister = function() {
-		$cordovaPush.unregister().then(function(result) {
-			Alert.show({
-				title: 'Push Unregister Success',
-				message: angular.toJson(result)
-			});
-		}, function(error) {
-			Alert.show({
-				title: 'Push Unregister Error',
-				message: angular.toJson(error)
-			});
+	// $scope.pushUnregister = function() {
+	// 	$cordovaPush.unregister().then(function(result) {
+	// 		Alert.show({
+	// 			title: 'Push Unregister Success',
+	// 			message: angular.toJson(result)
+	// 		});
+	// 	}, function(error) {
+	// 		Alert.show({
+	// 			title: 'Push Unregister Error',
+	// 			message: angular.toJson(error)
+	// 		});
+	// 	});
+	// };
+
+	$scope.save = function() {
+		if(window.localStorage['lang'] !== $scope.appSettings.language){
+			window.localStorage['lang'] = $scope.appSettings.language;
+			window.location.reload(true);
+		}
+		Settings.update(angular.toJson($scope.settings), function(data){
+			Toast.show(lngTranslate('settins_saved'));
 		});
 	};
+
 });

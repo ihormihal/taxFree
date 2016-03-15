@@ -2,7 +2,7 @@
   <ion-header-bar class="bar-assertive">
   <h1 class="title">{{'card_adding'|translate}}</h1>
   <div class="buttons">
-    <button class="button button-icon button-clear ion-android-close" ng-click="closeModal('payment')"></button>
+    <button class="button button-icon button-clear ion-android-close" ng-click="modal.card.hide()"></button>
   </div>
   </ion-header-bar>
   <ion-content padding="false" scroll="true" class="has-header">
@@ -29,7 +29,7 @@
     </form>
 
     <div class="padding">
-      <button ng-class="{disabled: !(valid.date && form.$valid)}" class="button button-stable button-block button-assertive up" ng-click="createPaymentCard()">{{'done'|translate}}</button>
+      <button ng-class="{disabled: !(valid.date && form.$valid)}" class="button button-stable button-block button-assertive up" ng-click="addCard()">{{'done'|translate}}</button>
     </div>
 
   </ion-content>

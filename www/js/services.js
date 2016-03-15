@@ -346,6 +346,14 @@ angular.module('app.services', ['ngResource'])
   });
 })
 
+.factory('Settings', function ($resource) {
+  return $resource(window.AppSettings.api + 'api/user/settings', {}, {
+    update: {
+      method: 'POST'
+    }
+  });
+})
+
 /****************************************/
 /************* TRIP SERVICE *************/
 /****************************************/
@@ -406,6 +414,10 @@ angular.module('app.services', ['ngResource'])
       method: 'POST'
     }
   });
+})
+
+.factory('Payments', function($resource) {
+  return $resource(window.AppSettings.api + 'api/declaration/payments');
 })
 
 /****************************************/

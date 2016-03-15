@@ -1,0 +1,25 @@
+<ion-view view-title="{{'payments'|translate}}">
+
+	<ion-nav-buttons side="right">
+		<button class="button button-icon button-clear ion-android-add" ng-click="add()"></button>
+	</ion-nav-buttons>
+
+	<ion-content class="has-header">
+		<ion-refresher
+			pulling-text=""
+			on-refresh="load()">
+		</ion-refresher>
+		<div class="list">
+			<div
+				ng-repeat="payment in payments  | orderBy : '-id'"
+				ui-sref="main.payment({id: payment.id})"
+				class="item"
+				>
+				<h2>{{payment}}</h2>
+				<div class="item-icon-right">
+					<i class="icon ion-ios-checkmark"></i>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

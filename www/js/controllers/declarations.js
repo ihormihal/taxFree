@@ -110,4 +110,22 @@ angular.module('app.controller.declarations', [])
 		});
 	};
 
-});
+})
+
+/*** PAYMENTS ***/
+.controller('paymentsCtrl', function($scope, Payments, Toast) {
+
+	$scope.load = function() {
+		Payments.query({}, function(data) {
+			$scope.payments = data;
+			if ($scope.payments.length == 0) {
+				Toast.show(lngTranslate('no_data'));
+			}
+			$scope.$broadcast('scroll.refreshComplete');
+		});
+	};
+
+	$scope.load();
+})
+
+;

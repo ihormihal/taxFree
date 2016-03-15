@@ -5,12 +5,30 @@
 			<label class="item item-input item-stacked-label top-item">
 				<span class="input-label">{{'app_language'|translate}}</span>
 				<div class="item-select">
-					<select ng-model="settings.language">
+					<select ng-model="appSettings.language">
 						<option value="ru">Русский</option>
 						<option value="en">English</option>
 					</select>
 				</div>
 			</label>
+
+			<div class="item item-toggle">
+				{{'setting_dontShowCardMessagesBuy'|translate}}
+				<label class="toggle toggle-assertive">
+					<input type="checkbox" ng-model="settings.dontShowCardMessagesBuy" ng-true-value="'1'" ng-false-value="'0'">
+					<div class="track"><div class="handle"></div></div>
+				</label>
+			</div>
+
+			<div class="item item-toggle">
+				{{'setting_receiveSms'|translate}}
+				<label class="toggle toggle-assertive">
+					<input type="checkbox" ng-model="settings.receiveSms" ng-true-value="'1'" ng-false-value="'0'">
+					<div class="track"><div class="handle"></div></div>
+				</label>
+			</div>
+
+
 			<div class="item">
 				<button class="button button-stable button-block button-assertive up" ng-click="save()">{{'save'|translate}}!</button>
 			</div>
@@ -19,13 +37,13 @@
 				<button class="button button-stable button-block button-stable up" ng-click="clearCache()">{{'reset'|translate}}!</button>
 			</div>
 
-			<div class="item">
+			<!-- <div class="item">
 				<button class="button button-stable button-block button-stable up" ng-click="pushUnregister()">{{'Disable Push'|translate}}!</button>
-			</div>
+			</div> -->
 		</div>
 
 		<div class="padding">
-			<p class="text-center">Tax Free 4U App v.0.3.5</p>
+			<p class="text-center">Tax Free 4U App v.0.4.0</p>
 		</div>
 
 	</ion-content>
