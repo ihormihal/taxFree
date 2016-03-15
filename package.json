@@ -37,8 +37,11 @@
       "id": "cordova-plugin-spinner"
     },
     {
-      "locator": "https://github.com/phonegap-build/PushPlugin.git",
-      "id": "com.phonegap.plugins.PushPlugin"
+      "id": "phonegap-plugin-push",
+      "locator": "https://github.com/phonegap/phonegap-plugin-push.git",
+      "variables": {
+        "SENDER_ID": "116809155568"
+      }
     }
   ],
   "cordovaPlatforms": [
