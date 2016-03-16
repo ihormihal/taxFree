@@ -48,8 +48,8 @@ angular.module('app.controller.settings', [])
 			window.localStorage['lang'] = $scope.appSettings.language;
 			window.location.reload(true);
 		}
-		Settings.update(angular.toJson($scope.settings), function(data){
-			Toast.show(lngTranslate('settins_saved'));
+		Settings.update({settings: angular.toJson($scope.settings)}, function(data){
+			Toast.show(lngTranslate('settings_saved'));
 		});
 	};
 

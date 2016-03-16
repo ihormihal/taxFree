@@ -173,7 +173,6 @@ angular.module('app.controller.cards', [])
 		TaxFreeCard.add($scope.card_taxfree, function(data) {
 			$scope.modal.taxfree.hide();
 			Toast.show(lngTranslate('toast_card_ordered'));
-			$state.go('main.card', {id: data.id});
 		});
 	};
 	$scope.addCard = function() {

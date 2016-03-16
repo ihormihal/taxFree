@@ -125,8 +125,31 @@ a {color: $assertive;}
 		float: right;
 		margin-left: 5px;
 	}
+}
+/*** TOOGLE FIX ***/
+.item-toggle .toggle {
+	top: 50%;
+	transform: translate(0, -50%);
+	margin: 0;
+    padding: 3px 0 0 0;
+}
 
-	.input-label .error-message {display: none;}
+.toggle .handle {
+	top: inherit;
+	left: inherit;
+}
+
+.item {
+	.input-label {
+		font-size: 14px;
+		display: block;
+		white-space: normal;
+		width: auto;
+		sup {color: $assertive;}
+	}
+	.input-label {
+		.error-message {display: none;}
+	}
 	&.error {
 		background-color: #FFCEB7;
 		input {
@@ -157,6 +180,27 @@ a {color: $assertive;}
 		padding-left: 0;
 	}
 }
+
+.item-note-large {
+	font-size: 18px;
+}
+
+
+.item-stacked-label {
+	label {
+
+	}
+	.item-select {
+		height: 34px;
+		select {
+			padding: 0;
+			max-width: 100%;
+			width: 100%;
+			direction: ltr;
+		}
+	}
+}
+
 //label for multiple checkboxes in row
 .item-stacked-label-row {
 	padding: 6px 0 5px 16px;
@@ -193,7 +237,7 @@ a {color: $assertive;}
 		color: $assertive;
 	}
 }
-.input-label sup {color: $assertive;}
+
 .item-transparent-white {
 	border: none;
 	background-color: transparent;
@@ -215,24 +259,6 @@ a {color: $assertive;}
 	}
 	background: none;
 	color: white;
-}
-.item-stacked-label .item-select {
-	height: 34px;
-	select {
-		padding: 0;
-		max-width: 100%;
-		width: 100%;
-		direction: ltr;
-	}
-}
-.input-label {
-	//color: $assertive;
-	font-size: 14px;
-	color: #555;
-}
-.item-toggle .toggle {top: 18px;}
-.item-note-large {
-	font-size: 18px;
 }
 
 //////////////////////////

@@ -9309,6 +9309,25 @@ a {
   float: right;
   margin-left: 5px; }
 
+/*** TOOGLE FIX ***/
+.item-toggle .toggle {
+  top: 50%;
+  transform: translate(0, -50%);
+  margin: 0;
+  padding: 3px 0 0 0; }
+
+.toggle .handle {
+  top: inherit;
+  left: inherit; }
+
+.item .input-label {
+  font-size: 14px;
+  display: block;
+  white-space: normal;
+  width: auto; }
+  .item .input-label sup {
+    color: #f39736; }
+
 .item .input-label .error-message {
   display: none; }
 
@@ -9331,6 +9350,17 @@ a {
   .item-clear .checkbox {
     left: 0;
     padding-left: 0; }
+
+.item-note-large {
+  font-size: 18px; }
+
+.item-stacked-label .item-select {
+  height: 34px; }
+  .item-stacked-label .item-select select {
+    padding: 0;
+    max-width: 100%;
+    width: 100%;
+    direction: ltr; }
 
 .item-stacked-label-row {
   padding: 6px 0 5px 16px; }
@@ -9359,9 +9389,6 @@ a {
     border-color: #fff;
     color: #f39736; }
 
-.input-label sup {
-  color: #f39736; }
-
 .item-transparent-white {
   border: none;
   background-color: transparent;
@@ -9379,24 +9406,6 @@ a {
     border-color: white; }
   .item-transparent-white .checkbox input:after, .item-transparent-white .checkbox-icon:after {
     border-color: #f39736; }
-
-.item-stacked-label .item-select {
-  height: 34px; }
-  .item-stacked-label .item-select select {
-    padding: 0;
-    max-width: 100%;
-    width: 100%;
-    direction: ltr; }
-
-.input-label {
-  font-size: 14px;
-  color: #555; }
-
-.item-toggle .toggle {
-  top: 18px; }
-
-.item-note-large {
-  font-size: 18px; }
 
 .main-background {
   background-image: url(../images/background.jpg);

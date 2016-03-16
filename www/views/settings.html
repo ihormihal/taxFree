@@ -1,10 +1,10 @@
 <ion-view title="{{'settings'|translate}}">
-	<ion-content scroll="false" class="has-header">
+	<ion-content class="has-header">
 
 		<div class="list">
 
 			<label class="item item-input item-select">
-				<div class="input-label">{{'app_language'|translate}}</div>
+				<span class="input-label">{{'app_language'|translate}}</span>
 				<select ng-model="appSettings.language">
 					<option value="ru">Русский</option>
 					<option value="en">English</option>
@@ -18,11 +18,32 @@
 					<div class="track"><div class="handle"></div></div>
 				</label>
 			</div>
+			<div class="item item-toggle">
+				<span class="input-label">{{'setting_dontShowCardMessagesDef'|translate}}</span>
+				<label class="toggle toggle-assertive">
+					<input type="checkbox" ng-model="settings.dontShowCardMessagesDef" ng-true-value="'1'" ng-false-value="'0'">
+					<div class="track"><div class="handle"></div></div>
+				</label>
+			</div>
 
 			<div class="item item-toggle">
 				<span class="input-label">{{'setting_receiveSms'|translate}}</span>
 				<label class="toggle toggle-assertive">
 					<input type="checkbox" ng-model="settings.receiveSms" ng-true-value="'1'" ng-false-value="'0'">
+					<div class="track"><div class="handle"></div></div>
+				</label>
+			</div>
+			<div class="item item-toggle">
+				<span class="input-label">{{'setting_receiveMail'|translate}}</span>
+				<label class="toggle toggle-assertive">
+					<input type="checkbox" ng-model="settings.receiveMail" ng-true-value="'1'" ng-false-value="'0'">
+					<div class="track"><div class="handle"></div></div>
+				</label>
+			</div>
+			<div class="item item-toggle">
+				<span class="input-label">{{'setting_receivePush'|translate}}</span>
+				<label class="toggle toggle-assertive">
+					<input type="checkbox" ng-model="settings.receivePush" ng-true-value="'1'" ng-false-value="'0'">
 					<div class="track"><div class="handle"></div></div>
 				</label>
 			</div>
@@ -42,7 +63,7 @@
 		</div>
 
 		<div class="padding">
-			<p class="text-center">Tax Free 4U App v.0.4.0</p>
+			<p class="text-center">Tax Free 4U App v.0.4.1</p>
 		</div>
 
 	</ion-content>

@@ -349,7 +349,7 @@ angular.module('app.services', ['ngResource'])
 .factory('Settings', function ($resource) {
   return $resource(window.AppSettings.api + 'api/user/settings', {}, {
     update: {
-      method: 'POST'
+      method: 'PUT'
     }
   });
 })
