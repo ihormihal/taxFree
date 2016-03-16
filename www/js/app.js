@@ -58,69 +58,47 @@ angular.module('app', [
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 		}
 
-		var push = PushNotification.init({
-			android: {
-				senderID: "327155649550"
-			},
-			ios: {
-				alert: "true",
-				badge: "true",
-				sound: "true"
-			},
-			windows: {}
-		});
-
-		var pushConfig = null;
-
-		push.on('registration', function(data) {
-			// data.registrationId
-			window.localStorage['deviceToken'] = data.registrationId;
-			console.log(angular.toJson(data));
-
-		});
-
-		push.on('notification', function(data) {
-			console.log(angular.toJson(data));
-			// data.message,
-			// data.title,
-			// data.count,
-			// data.sound,
-			// data.image,
-			// data.additionalData
-		});
-
-		push.on('error', function(e) {
-			// e.message
-		});
-
-		/*
+		var push = null;
 
 		try {
-			$cordovaPush.register(pushConfig)
-			.then(function(result) {
-				console.log(result);
-				//Alert.show({title: 'Push Success', message: result});
-				if (ionic.Platform.isIOS()) {
-					window.localStorage['deviceToken'] = result;
-				}
-			}, function(error) {
-				//Alert.show({title: 'Push Error', message: error});
+
+			push = PushNotification.init({
+				android: {
+					senderID: "327155649550"
+				},
+				ios: {
+					alert: "true",
+					badge: "true",
+					sound: "true"
+				},
+				windows: {}
 			});
-		} catch(e) {
-			console.log(e);
+
+			push.on('registration', function(data) {
+				// data.registrationId
+				window.localStorage['deviceToken'] = data.registrationId;
+				console.log(angular.toJson(data));
+
+			});
+
+			push.on('notification', function(data) {
+				console.log(angular.toJson(data));
+				// data.message,
+				// data.title,
+				// data.count,
+				// data.sound,
+				// data.image,
+				// data.additionalData
+			});
+
+			push.on('error', function(e) {
+				// e.message
+			});
+
+		} catch (error){
+			console.log(error);
 		}
 
-		$rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
-			//Alert.show({title: 'PushNotification', message: angular.toJson(notification)});
-			console.log(angular.toJson(notification));
-			if (ionic.Platform.isAndroid()) {
-				if (notification.event == 'registered') {
-					window.localStorage['deviceToken'] = notification.regid;
-				}
-			}
-		});
-
-		*/
 
 	}); //ionic ready end
 
@@ -167,7 +145,7 @@ angular.module('app', [
 		window.SpinnerPlugin.activityStop();
 		$rootScope.$broadcast('scroll.refreshComplete');
 
-		console.log(data.status);
+		console.log(angular.toJson(data));
 
 		var showErrorMsg = function(data) {
 			var message = '';
