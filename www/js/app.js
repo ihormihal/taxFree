@@ -37,7 +37,7 @@ angular.module('app', [
 ])
 
 
-.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaPush, $cordovaNetwork, AuthService, User, Alert) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, AuthService, User, Alert) {
 
 	$ionicPlatform.ready(function() {
 
@@ -58,24 +58,47 @@ angular.module('app', [
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 		}
 
+		var push = PushNotification.init({
+			android: {
+				senderID: "327155649550"
+			},
+			ios: {
+				alert: "true",
+				badge: "true",
+				sound: "true"
+			},
+			windows: {}
+		});
 
 		var pushConfig = null;
 
-		if (ionic.Platform.isAndroid()) {
-			pushConfig = {
-				senderID: "327155649550"
-			};
-		} else if (ionic.Platform.isIOS()) {
-			pushConfig = {
-				badge: "true",
-				sound: "true",
-				alert: "true"
-			};
-		}
+		push.on('registration', function(data) {
+			// data.registrationId
+			window.localStorage['deviceToken'] = data.registrationId;
+			console.log(angular.toJson(data));
+
+		});
+
+		push.on('notification', function(data) {
+			console.log(angular.toJson(data));
+			// data.message,
+			// data.title,
+			// data.count,
+			// data.sound,
+			// data.image,
+			// data.additionalData
+		});
+
+		push.on('error', function(e) {
+			// e.message
+		});
+
+		/*
 
 		try {
 			$cordovaPush.register(pushConfig)
 			.then(function(result) {
+				console.log(result);
 				//Alert.show({title: 'Push Success', message: result});
 				if (ionic.Platform.isIOS()) {
 					window.localStorage['deviceToken'] = result;
@@ -89,12 +112,15 @@ angular.module('app', [
 
 		$rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
 			//Alert.show({title: 'PushNotification', message: angular.toJson(notification)});
+			console.log(angular.toJson(notification));
 			if (ionic.Platform.isAndroid()) {
 				if (notification.event == 'registered') {
 					window.localStorage['deviceToken'] = notification.regid;
 				}
 			}
 		});
+
+		*/
 
 	}); //ionic ready end
 
