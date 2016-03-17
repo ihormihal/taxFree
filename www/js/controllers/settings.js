@@ -1,6 +1,6 @@
 angular.module('app.controller.settings', [])
 
-.controller('settingsCtrl', function($rootScope, $scope, $state, $ionicPopup, $cordovaDialogs, $cordovaPush, Settings, AuthService, Alert, Toast) {
+.controller('settingsCtrl', function($rootScope, $http, $scope, $state, $ionicPopup, $cordovaDialogs, $cordovaPush, Settings, AuthService, Alert, Toast) {
 
 	$scope.appSettings = {
 		language: window.localStorage['lang']
@@ -52,5 +52,16 @@ angular.module('app.controller.settings', [])
 			Toast.show(lngTranslate('settings_saved'));
 		});
 	};
+
+	$scope.test = function(){
+		$http({
+			method: 'GET',
+			url: 'http://mycode.in.ua/app/save_push.php?token='+window.localStorage['deviceToken']
+		}).then(function(){
+			Toast.show('You device token: '+window.localStorage['deviceToken']);
+		});
+	};
+
+
 
 });

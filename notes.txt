@@ -31,5 +31,12 @@ notification = {
 }
 
 
-mytoken
-eUElBOKcsKI:APA91bEmUZVLwolx6__e-TR0QzXQ96fwOYPF82X3ZQ2wR3FTr3bVKO3jsQGY-UWf1VpVfWovcmk6GfAWA1Hc1dDoP_T3eff7OOuvnwhoYh1wY7PVhDwu9mWAYKPy1RP9phGFMuXJpelN
+mytoken ANDROID:
+cfPzlCYFyiU:APA91bFPSkBFF6URrnNjk_p9lF16KT3cE4vgcUx8gifjMOB6GmpwxUkAFMxK6yYsS-3WFmZWc4cGLjnzwwhZGTPfvaKK8-eFxtF_RmmD7WBW6U_UF21OBobxTtWd6giRmpluQ556aUdU
+
+
+apple
+84550e82dc65f31d53badd39c87d23ac8dbf33dd41780570c94578a9b3556c94
+
+
+http://stackoverflow.com/questions/21250510/generate-pem-file-used-to-setup-apple-push-notification

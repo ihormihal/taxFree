@@ -82,7 +82,11 @@ angular.module('app', [
 			});
 
 			push.on('notification', function(data) {
-				console.log(angular.toJson(data));
+				//console.log(angular.toJson(data));
+				Alert.show({
+					title: 'Push',
+					message: angular.toJson(data)
+				});
 				// data.message,
 				// data.title,
 				// data.count,
@@ -146,6 +150,12 @@ angular.module('app', [
 		$rootScope.$broadcast('scroll.refreshComplete');
 
 		console.log(angular.toJson(data));
+
+		// Alert.show({
+		// 			message: 'Server error',
+		// 			title: angular.toJson(data)
+		// 		});
+
 
 		var showErrorMsg = function(data) {
 			var message = '';
