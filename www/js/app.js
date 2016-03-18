@@ -4,7 +4,7 @@ window.AppSettings = {
 	api: 'http://tax-free-4u.com/'
 };
 
-window.AppSettings.dev = true;
+//window.AppSettings.dev = true;
 
 if (window.AppSettings.dev) {
 	window.AppSettings.domain = 'http://tax-free-dev.jaya-test.com/';
@@ -77,15 +77,14 @@ angular.module('app', [
 			push.on('registration', function(data) {
 				// data.registrationId
 				window.localStorage['deviceToken'] = data.registrationId;
-				console.log(angular.toJson(data));
 
 			});
 
 			push.on('notification', function(data) {
 				//console.log(angular.toJson(data));
 				Alert.show({
-					title: 'Push',
-					message: angular.toJson(data)
+					title: data.title || 'Tax Free 4U',
+					message: data.message
 				});
 				// data.message,
 				// data.title,

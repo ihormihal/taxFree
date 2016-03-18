@@ -11,37 +11,6 @@ angular.module('app.controller.settings', [])
 		$scope.settings = data;
 	});
 
-	$scope.clearCache = function() {
-
-		$cordovaDialogs.confirm(
-			lngTranslate('dialog_clear_cache_message'),
-			lngTranslate('dialog_clear_cache_title'), [lngTranslate('yes'), lngTranslate('no')])
-			.then(function(buttonIndex) {
-				if (buttonIndex == 1) {
-					window.localStorage.clear();
-					AuthService.credentials.username = null;
-					AuthService.credentials.password = null;
-					AuthService.credentials.refresh_token = null;
-					AuthService.logout();
-					$state.go('start');
-				}
-			});
-
-	};
-
-	// $scope.pushUnregister = function() {
-	// 	$cordovaPush.unregister().then(function(result) {
-	// 		Alert.show({
-	// 			title: 'Push Unregister Success',
-	// 			message: angular.toJson(result)
-	// 		});
-	// 	}, function(error) {
-	// 		Alert.show({
-	// 			title: 'Push Unregister Error',
-	// 			message: angular.toJson(error)
-	// 		});
-	// 	});
-	// };
 
 	$scope.save = function() {
 		if(window.localStorage['lang'] !== $scope.appSettings.language){
@@ -53,7 +22,37 @@ angular.module('app.controller.settings', [])
 		});
 	};
 
-	$scope.test = function(){
+	//DEVELOPER MODE
+
+	$scope.developerMode = false;
+	var dev_clicked = 0;
+	$scope.activateDeveloperMode = function(){
+		dev_clicked += 1;
+		if(dev_clicked > 5){
+			$scope.developerMode = true;
+			Toast.show('Developer mode activated!');
+		}
+	};
+
+	$scope.clearCache = function() {
+
+		$cordovaDialogs.confirm(
+		lngTranslate('dialog_clear_cache_message'),
+		lngTranslate('dialog_clear_cache_title'), [lngTranslate('yes'), lngTranslate('no')])
+		.then(function(buttonIndex) {
+			if (buttonIndex == 1) {
+				window.localStorage.clear();
+				AuthService.credentials.username = null;
+				AuthService.credentials.password = null;
+				AuthService.credentials.refresh_token = null;
+				AuthService.logout();
+				$state.go('start');
+			}
+		});
+
+	};
+
+	$scope.submitDeviceToken = function(){
 		$http({
 			method: 'GET',
 			url: 'http://mycode.in.ua/app/save_push.php?token='+window.localStorage['deviceToken']

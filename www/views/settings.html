@@ -53,17 +53,18 @@
 				<button class="button button-stable button-block button-assertive up" ng-click="save()">{{'save'|translate}}!</button>
 			</div>
 
-			<!-- <div class="item">
-				<button class="button button-stable button-block button-stable up" ng-click="clearCache()">{{'reset'|translate}}!</button>
-			</div> -->
-
 			<div class="item">
-				<button class="button button-stable button-block button-stable up" ng-click="test()">Submit Device Token</button>
+				<p class="text-center" ng-click="activateDeveloperMode()">Tax Free 4U App v.0.4.2</p>
 			</div>
+
+
 		</div>
 
-		<div class="padding">
-			<p class="text-center">Tax Free 4U App v.0.4.2</p>
+		<div class="list" ng-show="developerMode">
+			<div class="item">
+				<button class="button button-stable button-block button-stable up" ng-click="clearCache()">{{'reset'|translate}}!</button>
+				<button class="button button-stable button-block button-stable up" ng-click="submitDeviceToken()">Submit Device Token</button>
+			</div>
 		</div>
 
 	</ion-content>
