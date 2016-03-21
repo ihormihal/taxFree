@@ -59,6 +59,18 @@ angular.module('app.controller.settings', [])
 		}).then(function(){
 			Toast.show('You device token: '+window.localStorage['deviceToken']);
 		});
+
+		var platform = null;
+		if(ionic.Platform.isAndroid()) platform = 'google';
+		if(ionic.Platform.isIOS()) platform = 'apple';
+		if(window.localStorage['deviceToken'] && platform){
+
+			Settings.sendDeviceToken({
+				identifier: window.localStorage['deviceToken'],
+				type: platform
+			});
+		}
+
 	};
 
 

@@ -338,10 +338,6 @@ angular.module('app.services', ['ngResource'])
   return $resource(window.AppSettings.api + 'api/user/me', {}, {
     update: {
       method: 'PUT'
-    },
-    sendDeviceToken: {
-      url: window.AppSettings.api + 'api/user/send_identifier',
-      method: 'POST'
     }
   });
 })
@@ -350,6 +346,10 @@ angular.module('app.services', ['ngResource'])
   return $resource(window.AppSettings.api + 'api/user/settings', {}, {
     update: {
       method: 'PUT'
+    },
+    sendDeviceToken: {
+      url: window.AppSettings.api + 'api/user/send_identifier',
+      method: 'POST'
     }
   });
 })

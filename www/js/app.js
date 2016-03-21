@@ -37,7 +37,7 @@ angular.module('app', [
 ])
 
 
-.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, AuthService, User, Alert) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, AuthService, Settings, Alert) {
 
 	$ionicPlatform.ready(function() {
 
@@ -217,7 +217,7 @@ angular.module('app', [
 		if(ionic.Platform.isIOS()) platform = 'apple';
 		if(window.localStorage['deviceToken'] && platform){
 
-			User.sendDeviceToken({
+			Settings.sendDeviceToken({
 				identifier: window.localStorage['deviceToken'],
 				type: platform
 			});
