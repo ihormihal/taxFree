@@ -1,6 +1,6 @@
 angular.module('app.controller.settings', [])
 
-.controller('settingsCtrl', function($rootScope, $http, $scope, $state, $ionicPopup, $cordovaDialogs, $cordovaPush, Settings, AuthService, Alert, Toast) {
+.controller('settingsCtrl', function($rootScope, $http, $scope, $state, $ionicPopup, $cordovaDialogs, $cordovaFile, $cordovaPush, Settings, AuthService, Alert, Toast) {
 
 	$scope.appSettings = {
 		language: window.localStorage['lang']
@@ -41,6 +41,7 @@ angular.module('app.controller.settings', [])
 		lngTranslate('dialog_clear_cache_title'), [lngTranslate('yes'), lngTranslate('no')])
 		.then(function(buttonIndex) {
 			if (buttonIndex == 1) {
+				$cordovaFile.removeRecursively(cordova.file.cacheDirectory, "");
 				window.localStorage.clear();
 				AuthService.credentials.username = null;
 				AuthService.credentials.password = null;

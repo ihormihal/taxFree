@@ -20,7 +20,7 @@
     <div class="card card-image" ng-repeat="file in check.files">
       <div class="item item-image">
         <div ng-show="check.editable" ng-click="deletePhoto($index)" class="text-right padding"><i class="icon ion-close"></i></div>
-        <img ng-src="{{file|addToken}}" onerror="this.src = 'img/noimage.svg'" image-viewer>
+        <img image-viewer safe-src="{{file}}" onerror="this.src = 'img/noimage.svg'">
       </div>
     </div>
 

@@ -18,7 +18,7 @@ angular.module('app.controller.declarations', [])
 })
 
 /*** ITEM ***/
-.controller('declarationCtrl', function($scope, $stateParams, $cordovaFileTransfer, Declaration, Toast) {
+.controller('declarationCtrl', function($scope, $stateParams, $cordovaFile, $cordovaFileTransfer, Declaration, Toast) {
 
 	$scope.file = {
 		exist: false,
@@ -36,28 +36,29 @@ angular.module('app.controller.declarations', [])
 			//$scope.declaration.file = $scope.declaration.file.replace('app_dev.php/','');
 			//$scope.declaration.file = 'http://mycode.in.ua/app/Declaration_GB.pdf'; //for test
 
-			var fileDirectoty = '';
+			var fileDirectory = '';
 
 			$scope.file.name = $scope.declaration.file.split("/").pop();
 			try {
 				if (ionic.Platform.isIOS()) {
-					fileDirectoty = cordova.file.documentsDirectory;
+					fileDirectory = cordova.file.documentsDirectory;
 					/* file /var/mobile/Containers/Data/Application/<UUID>/Documents/ */
 				} else {
-					fileDirectoty = cordova.file.externalDataDirectory;
+					fileDirectory = cordova.file.externalDataDirectory;
 					/* Android/data/<app-id>/files */
 				}
 			} catch (error) {
 				console.log(error);
 			}
 
-			$scope.file.path = fileDirectoty + $scope.file.name;
+			$scope.file.path = fileDirectory + $scope.file.name;
 
 			//Check for the downloaded file.
 			try {
-				window.resolveLocalFileSystemURL($scope.file.path, function() {
-					$scope.file.exist = true;
-				});
+				$cordovaFile.checkFile(fileDirectory, $scope.file.name)
+					.then(function() {
+						$scope.file.exist = true;
+					});
 			} catch (error) {
 				console.log(error);
 			}

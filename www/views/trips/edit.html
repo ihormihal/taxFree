@@ -16,7 +16,7 @@
         <div class="input-label">{{'country_arrival'|translate}} <sup>*</sup></div>
         <div class="item-select">
           <select integer-model ng-model="trip.country_enter" required>
-            <option value="">{{'empty'|translate}}</option>
+            <option value="" disabled>{{'empty'|translate}}</option>
             <option ng-repeat="country in countries  | filter: {is_europe:true}" value="{{country.id}}">{{country.name}}</option>
           </select>
         </div>
@@ -36,7 +36,7 @@
         <div class="input-label">{{'transport'|translate}} <sup>*</sup></div>
         <div class="item-select">
           <select integer-model ng-model="trip.transport_enter" required>
-            <option value="">{{'empty'|translate}}</option>
+            <option value="" disabled>{{'empty'|translate}}</option>
             <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name}}</option>
           </select>
         </div>
@@ -51,7 +51,7 @@
         <div class="input-label">{{'country_departure'|translate}} <sup>*</sup></div>
         <div class="item-select">
           <select integer-model ng-model="trip.country_leaving" required>
-            <option value="">{{'empty'|translate}}</option>
+            <option value="" disabled>{{'empty'|translate}}</option>
             <option ng-repeat="country in countries  | filter: {is_europe:true}" value="{{country.id}}">{{country.name}}</option>
           </select>
         </div>
@@ -71,7 +71,7 @@
         <div class="input-label">{{'transport'|translate}} <sup>*</sup></div>
         <div class="item-select">
           <select integer-model ng-model="trip.transport_leaving" required>
-            <option value="">{{'empty'|translate}}</option>
+            <option value="" disabled>{{'empty'|translate}}</option>
             <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name}}</option>
           </select>
         </div>

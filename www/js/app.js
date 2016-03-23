@@ -58,6 +58,13 @@ angular.module('app', [
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 		}
 
+		//login onload
+		if(window.localStorage['username'] && window.localStorage['password']){
+			AuthService.credentials.username = window.localStorage['username'];
+			AuthService.credentials.password = window.localStorage['password'];
+			AuthService.login();
+		}
+
 		var push = null;
 
 		try {
@@ -101,7 +108,6 @@ angular.module('app', [
 		} catch (error){
 			console.log(error);
 		}
-
 
 	}); //ionic ready end
 

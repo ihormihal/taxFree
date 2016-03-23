@@ -28,7 +28,7 @@ angular.module('app.controller.user', [])
 		var ready = true;
 		if($scope.user.images.length){
 			if ($scope.user.images[0].progress == 100) {
-				$scope.user.profile.passport = $scope.user.images[0];
+				$scope.user.profile.passport = $scope.user.images[0].src;
 			} else {
 				ready = false;
 			}

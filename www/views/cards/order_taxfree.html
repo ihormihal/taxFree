@@ -13,7 +13,7 @@
         <div class="input-label">{{'currency'|translate}} <sup>*</sup></div>
         <div class="item-select">
           <select ng-model="card_taxfree.currency_index">
-            <option value="">{{'empty'|translate}}</option>
+            <option value="" disabled>{{'empty'|translate}}</option>
             <option ng-repeat="price in prices" value="{{$index}}">{{price.name}} ({{price.card_price}} {{price.short_name}})</option>
           </select>
         </div>

@@ -60,7 +60,7 @@
 
             <div class="item item-divider">{{'passport_photo'|translate}}</div>
             <div class="item">
-                <img class="full-image" ng-src="{{user.profile.passport|addToken}}" onerror="this.src = 'img/noimage.svg'" alt="" image-viewer>
+                <img class="full-image" image-viewer safe-src="{{user.profile.passport}}" onerror="this.src = 'img/noimage.svg'" alt="">
             </div>
 
         </div>

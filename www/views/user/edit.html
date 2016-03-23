@@ -29,7 +29,7 @@
           <div class="input-label">{{'sex'|translate}} <sup>*</sup></div>
           <div class="item-select">
             <select ng-model="user.profile.passp_sex" required>
-              <option value="">{{'empty'|translate}}</option>
+              <option value="" disabled>{{'empty'|translate}}</option>
               <option value="m">{{'m'|translate}}</option>
               <option value="f">{{'f'|translate}}</option>
             </select>
@@ -39,7 +39,7 @@
           <div class="input-label">{{'citizenship'|translate}} <sup>*</sup></div>
           <div class="item-select">
             <select integer-model ng-model="user.profile.passp_citizenship" required>
-              <option value="">{{'empty'|translate}}</option>
+              <option value="" disabled>{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
             </select>
           </div>
@@ -48,7 +48,7 @@
           <div class="input-label">{{'country'|translate}} <sup>*</sup></div>
           <div class="item-select">
             <select integer-model ng-model="user.profile.country" required>
-              <option value="">{{'empty'|translate}}</option>
+              <option value="" disabled>{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
             </select>
           </div>
@@ -61,7 +61,7 @@
           <div class="input-label">{{'passport_country'|translate}} <sup>*</sup></div>
           <div class="item-select">
             <select integer-model ng-model="user.profile.passp_country" required>
-              <option value="">{{'empty'|translate}}</option>
+              <option value="" disabled>{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
             </select>
           </div>
@@ -78,7 +78,7 @@
           <div class="input-label">{{'phone'|translate}} <sup>*</sup></div>
           <div class="item-select">
             <select integer-model ng-model="user.profile.phone_country" required>
-              <option value="">{{'empty'|translate}}</option>
+              <option value="" disabled>{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}} {{country.phone_code}}</option>
             </select>
           </div>

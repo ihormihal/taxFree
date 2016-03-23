@@ -3467,7 +3467,9 @@ ion-infinite-scroll {
   -webkit-align-items: center;
   -moz-align-items: center;
   align-items: center; }
-  ion-infinite-scroll .icon {
+  ion-infinite-scroll .icon, ion-infinite-scroll select
+.item .ng-invalid:after, select
+.item ion-infinite-scroll .ng-invalid:after {
     color: #666666;
     font-size: 30px;
     color: #666666; }
@@ -3757,7 +3759,9 @@ a.subdued {
     color: #007aff;
     background: #e4e5e7; }
 
-.action-sheet-has-icons .icon {
+.action-sheet-has-icons .icon, .action-sheet-has-icons select
+.item .ng-invalid:after, select
+.item .action-sheet-has-icons .ng-invalid:after {
   position: absolute;
   left: 16px; }
 
@@ -5080,7 +5084,9 @@ ion-tabs.tabs-color-active-dark .tab-item {
   font-size: 10px;
   line-height: 14px; }
 
-.tab-item .icon {
+.tab-item .icon, .tab-item select
+.item .ng-invalid:after, select
+.item .tab-item .ng-invalid:after {
   display: block;
   margin: 0 auto;
   height: 32px;
@@ -5091,12 +5097,26 @@ ion-tabs.tabs-color-active-dark .tab-item {
 .tabs-icon-right.tabs .tab-item,
 .tabs-icon-right > .tabs .tab-item {
   font-size: 10px; }
-  .tabs-icon-left.tabs .tab-item .icon, .tabs-icon-left.tabs .tab-item .tab-title,
+  .tabs-icon-left.tabs .tab-item .icon, .tabs-icon-left.tabs .tab-item select
+.item .ng-invalid:after, select
+.item .tabs-icon-left.tabs .tab-item .ng-invalid:after, .tabs-icon-left.tabs .tab-item .tab-title,
   .tabs-icon-left > .tabs .tab-item .icon,
+  .tabs-icon-left > .tabs .tab-item select
+.item .ng-invalid:after, select
+.item
+  .tabs-icon-left > .tabs .tab-item .ng-invalid:after,
   .tabs-icon-left > .tabs .tab-item .tab-title,
   .tabs-icon-right.tabs .tab-item .icon,
+  .tabs-icon-right.tabs .tab-item select
+.item .ng-invalid:after, select
+.item
+  .tabs-icon-right.tabs .tab-item .ng-invalid:after,
   .tabs-icon-right.tabs .tab-item .tab-title,
   .tabs-icon-right > .tabs .tab-item .icon,
+  .tabs-icon-right > .tabs .tab-item select
+.item .ng-invalid:after, select
+.item
+  .tabs-icon-right > .tabs .tab-item .ng-invalid:after,
   .tabs-icon-right > .tabs .tab-item .tab-title {
     display: inline-block;
     vertical-align: top;
@@ -5111,16 +5131,34 @@ ion-tabs.tabs-color-active-dark .tab-item {
       font-size: 24px;
       line-height: 49px; }
 
-.tabs-icon-left > .tabs .tab-item .icon,
-.tabs-icon-left.tabs .tab-item .icon {
+.tabs-icon-left > .tabs .tab-item .icon, .tabs-icon-left > .tabs .tab-item select
+.item .ng-invalid:after, select
+.item .tabs-icon-left > .tabs .tab-item .ng-invalid:after,
+.tabs-icon-left.tabs .tab-item .icon,
+.tabs-icon-left.tabs .tab-item select
+.item .ng-invalid:after, select
+.item
+.tabs-icon-left.tabs .tab-item .ng-invalid:after {
   padding-right: 3px; }
 
-.tabs-icon-right > .tabs .tab-item .icon,
-.tabs-icon-right.tabs .tab-item .icon {
+.tabs-icon-right > .tabs .tab-item .icon, .tabs-icon-right > .tabs .tab-item select
+.item .ng-invalid:after, select
+.item .tabs-icon-right > .tabs .tab-item .ng-invalid:after,
+.tabs-icon-right.tabs .tab-item .icon,
+.tabs-icon-right.tabs .tab-item select
+.item .ng-invalid:after, select
+.item
+.tabs-icon-right.tabs .tab-item .ng-invalid:after {
   padding-left: 3px; }
 
-.tabs-icon-only > .tabs .icon,
-.tabs-icon-only.tabs .icon {
+.tabs-icon-only > .tabs .icon, .tabs-icon-only > .tabs select
+.item .ng-invalid:after, select
+.item .tabs-icon-only > .tabs .ng-invalid:after,
+.tabs-icon-only.tabs .icon,
+.tabs-icon-only.tabs select
+.item .ng-invalid:after, select
+.item
+.tabs-icon-only.tabs .ng-invalid:after {
   line-height: inherit; }
 
 .tab-item.has-badge {
@@ -5610,7 +5648,9 @@ ion-tabs.tabs-color-active-dark .tab-item {
   transition: 0.2s opacity linear;
   visibility: hidden;
   opacity: 0; }
-  .loading-container:not(.visible) .icon,
+  .loading-container:not(.visible) .icon, .loading-container:not(.visible) select
+.item .ng-invalid:after, select
+.item .loading-container:not(.visible) .ng-invalid:after,
   .loading-container:not(.visible) .spinner {
     display: none; }
   .loading-container.visible {
@@ -5970,8 +6010,14 @@ a.item-content {
  * Item Icons
  * --------------------------------------------------
  */
-.item-icon-left .icon,
-.item-icon-right .icon {
+.item-icon-left .icon, .item-icon-left select
+.item .ng-invalid:after, select
+.item .item-icon-left .ng-invalid:after,
+.item-icon-right .icon,
+.item-icon-right select
+.item .ng-invalid:after, select
+.item
+.item-icon-right .ng-invalid:after {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -6000,7 +6046,9 @@ a.item-content {
 
 .item-icon-left {
   padding-left: 54px; }
-  .item-icon-left .icon {
+  .item-icon-left .icon, .item-icon-left select
+.item .ng-invalid:after, select
+.item .item-icon-left .ng-invalid:after {
     left: 11px; }
 
 .item-complex.item-icon-left {
@@ -6010,7 +6058,9 @@ a.item-content {
 
 .item-icon-right {
   padding-right: 54px; }
-  .item-icon-right .icon {
+  .item-icon-right .icon, .item-icon-right select
+.item .ng-invalid:after, select
+.item .item-icon-right .ng-invalid:after {
     right: 11px; }
 
 .item-complex.item-icon-right {
@@ -6018,11 +6068,19 @@ a.item-content {
   .item-complex.item-icon-right .item-content {
     padding-right: 54px; }
 
-.item-icon-left.item-icon-right .icon:first-child {
+.item-icon-left.item-icon-right .icon:first-child, .item-icon-left.item-icon-right select
+.item .ng-invalid:first-child:after, select
+.item .item-icon-left.item-icon-right .ng-invalid:first-child:after {
   right: auto; }
 
-.item-icon-left.item-icon-right .icon:last-child,
-.item-icon-left .item-delete .icon {
+.item-icon-left.item-icon-right .icon:last-child, .item-icon-left.item-icon-right select
+.item .ng-invalid:last-child:after, select
+.item .item-icon-left.item-icon-right .ng-invalid:last-child:after,
+.item-icon-left .item-delete .icon,
+.item-icon-left .item-delete select
+.item .ng-invalid:after, select
+.item
+.item-icon-left .item-delete .ng-invalid:after {
   left: auto; }
 
 .item-icon-left .icon-accessory,
@@ -6311,7 +6369,9 @@ button.item.item-button-right {
   transform: translate3d(-21px, 0, 0); }
   .item-left-edit .button {
     height: 100%; }
-    .item-left-edit .button.icon {
+    .item-left-edit .button.icon, .item-left-edit select
+.item .button.ng-invalid:after, select
+.item .item-left-edit .button.ng-invalid:after {
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -6337,10 +6397,14 @@ button.item.item-button-right {
   -webkit-transition-delay: 125ms;
   transition-delay: 125ms; }
 
-.item-delete .button.icon {
+.item-delete .button.icon, .item-delete select
+.item .button.ng-invalid:after, select
+.item .item-delete .button.ng-invalid:after {
   color: #f39736;
   font-size: 24px; }
-  .item-delete .button.icon:hover {
+  .item-delete .button.icon:hover, .item-delete select
+.item .button.ng-invalid:hover:after, select
+.item .item-delete .button.ng-invalid:hover:after {
     opacity: .7; }
 
 .item-right-edit {
@@ -6361,7 +6425,9 @@ button.item.item-button-right {
   .item-right-edit .button {
     min-width: 50px;
     height: 100%; }
-    .item-right-edit .button.icon {
+    .item-right-edit .button.icon, .item-right-edit select
+.item .button.ng-invalid:after, select
+.item .item-right-edit .button.ng-invalid:after {
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -6384,7 +6450,9 @@ button.item.item-button-right {
       -webkit-transform: translate3d(0, 0, 0);
       transform: translate3d(0, 0, 0); }
 
-.item-reorder .button.icon {
+.item-reorder .button.icon, .item-reorder select
+.item .button.ng-invalid:after, select
+.item .item-reorder .button.ng-invalid:after {
   color: #444;
   font-size: 32px; }
 
@@ -6903,7 +6971,9 @@ textarea {
     margin: 0;
     padding-right: 24px;
     background-color: transparent; }
-  .item-input .button .icon {
+  .item-input .button .icon, .item-input .button select
+.item .ng-invalid:after, select
+.item .item-input .button .ng-invalid:after {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 24px;
     -moz-box-flex: 0;
@@ -6927,7 +6997,9 @@ textarea {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none; }
-  .item-input .icon {
+  .item-input .icon, .item-input select
+.item .ng-invalid:after, select
+.item .item-input .ng-invalid:after {
     min-width: 14px; }
 
 .platform-windowsphone .item-input input {
@@ -7001,7 +7073,9 @@ textarea {
   display: block;
   background-color: transparent;
   box-shadow: none; }
-  .item-stacked-label .input-label, .item-stacked-label .icon {
+  .item-stacked-label .input-label, .item-stacked-label .icon, .item-stacked-label select
+.item .ng-invalid:after, select
+.item .item-stacked-label .ng-invalid:after {
     display: inline-block;
     padding: 4px 0 0 0px;
     vertical-align: middle; }
@@ -7730,7 +7804,9 @@ input:checked + .checkbox-icon:after {
   .range.range-dark input::-ms-fill-lower {
     background: #444; }
 
-.range .icon {
+.range .icon, .range select
+.item .ng-invalid:after, select
+.item .range .ng-invalid:after {
   -webkit-box-flex: 0;
   -webkit-flex: 0;
   -moz-box-flex: 0;
@@ -7908,7 +7984,9 @@ progress {
     bottom: -6px;
     left: -6px;
     content: ' '; }
-  .button .icon {
+  .button .icon, .button select
+.item .ng-invalid:after, select
+.item .button .ng-invalid:after {
     vertical-align: top;
     pointer-events: none; }
   .button .icon:before, .button.icon:before, .button.icon-left:before, .button.icon-right:before {
@@ -9341,6 +9419,15 @@ a {
     font-size: 12px;
     margin-left: 5px; }
 
+.item select.ng-invalid {
+  color: #aaa; }
+  .item select.ng-invalid:focus {
+    color: inherit; }
+
+select
+.item .ng-invalid:after {
+  content: "\f35b"; }
+
 .item-clear {
   position: relative;
   display: block;
@@ -9465,7 +9552,9 @@ a {
     border-color: rgba(255, 255, 255, 0.1);
     font-weight: 300;
     font-size: 18px; }
-    .menu .item .icon {
+    .menu .item .icon, .menu select
+.item .ng-invalid:after, select
+.menu .item .ng-invalid:after {
       width: 24px;
       display: inline-block; }
 

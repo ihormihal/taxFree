@@ -26,11 +26,6 @@ angular.module('app.directives', [])
 	}
 })
 
-.filter('addToken', function() {
-	return function(src) {
-		return src + '?token=' + window.localStorage['token'];
-	}
-})
 
 .filter('getStatusIcon', function() {
 	return function(status) {
@@ -39,7 +34,6 @@ angular.module('app.directives', [])
 		}
 	}
 })
-
 
 .directive('datetime', [function(dateFilter) {
 	return {
@@ -81,19 +75,61 @@ angular.module('app.directives', [])
 	}
 }])
 
+.directive('safeSrc', [ function() {
+	return {
+		restrict: 'A',
+		controller: function($scope, $element, $attrs, $cordovaFile, $cordovaFileTransfer, Toast) {
+			$attrs.$observe('safeSrc', function(src) {
+				if(src){
+
+					var filename = src.split("/").pop();
+					var safeSrc = src + '?token=' + window.localStorage['token'];
+
+					try {
+						var cacheDirectory = cordova.file.cacheDirectory;
+						var cachedSrc = cacheDirectory + filename;
+
+						$cordovaFile.checkFile(cacheDirectory, filename)
+							.then(function(success) {
+								// success
+								//Toast.show('checkFile success: ' + angular.toJson(success));
+								$attrs.$set('src', cachedSrc);
+							}, function(error) {
+								//Toast.show('checkFile error: ' + angular.toJson(error));
+								$cordovaFileTransfer.download(safeSrc, cachedSrc, {}, true)
+								.then(function(success){
+									//Toast.show('save success: ' + angular.toJson(success));
+									$attrs.$set('src', cachedSrc);
+								}, function(error) {
+									//Toast.show('save error: ' + angular.toJson(error));
+									$attrs.$set('src', safeSrc);
+								});
+							});
+
+					} catch (error) {
+						console.log(error);
+						$attrs.$set('src', safeSrc);
+					}
+
+				}
+			});
+
+			// var loading = true;
+			// $element.bind('load', function() {
+			// 	loading = false;
+			// });
+		}
+	}
+}])
+
 
 .directive('imageViewer', [ function() {
 	return {
 		restrict: 'A',
-		scope: true,
-		link: function($scope, $element, $attrs) {
-			$scope.loading = true;
+		controller: function($scope, $element, $attrs) {
 			$element[0].onclick = function() {
 				PhotoViewer.show($attrs.src, $attrs.alt);
 			}
-			$element.bind('load', function() {
-				$scope.loading = false;
-			});
 		}
 	}
 }])
@@ -225,58 +261,44 @@ angular.module('app.directives', [])
 		templateUrl: 'views/tpl/progress-bar.html',
 		controller: function($scope, $element, $attrs) {
 			var circleRadius = parseInt($attrs.radius);
-			//circleRadius = 90;
 			var stokeWidth = parseInt($attrs.width);
-			//stokeWidth = 10;
-			var circleCenter = circleRadius + stokeWidth;
+			var circleCenter = circleRadius + stokeWidth/2;
 			var viewSize = circleCenter * 2;
 
 			var dashLength = 2 * Math.PI * circleRadius;
 			var dashOffset = dashLength / 4;
 
-			$scope.offset = 0;
+			$scope.offset = dashLength; //zero position
 			var svg = $element[0].getElementsByTagName('svg')[0];
 			var emptyBar = $element[0].getElementsByTagName('circle')[0];
 			var progressBar = $element[0].getElementsByTagName('circle')[1];
 
 			svg.setAttribute('width', viewSize);
 			svg.setAttribute('height', viewSize);
+			svg.setAttribute('viewBox', '0 0 '+viewSize+' '+viewSize);
 
 			emptyBar.setAttribute('cx', circleCenter);
 			emptyBar.setAttribute('cy', circleCenter);
+			emptyBar.setAttribute('stroke-dasharray', dashLength);
+			emptyBar.setAttribute('r', circleRadius);
+			emptyBar.setAttribute('stroke-width', stokeWidth);
+
 			progressBar.setAttribute('cx', circleCenter);
 			progressBar.setAttribute('cy', circleCenter);
-
-			emptyBar.setAttribute('stroke-dasharray', dashLength);
-			//progressBar.setAttribute('stroke-dashoffset',dashOffset);
+			progressBar.setAttribute('transform', 'rotate(-90 '+circleCenter+' '+circleCenter+')');
 
 			progressBar.setAttribute('stroke-dasharray', dashLength);
-			//progressBar.setAttribute('stroke-dashoffset',dashOffset);
-
-			emptyBar.setAttribute('r', circleRadius);
 			progressBar.setAttribute('r', circleRadius);
-
-			emptyBar.setAttribute('stroke-width', stokeWidth);
 			progressBar.setAttribute('stroke-width', stokeWidth);
-
 
 			$scope.$watch('progress', function(progress) {
 				var value = parseInt(progress);
-				if (isNaN(value)) {
-					value = 0;
-				} else {
-					var r = progressBar.getAttribute('r');
-					var c = Math.PI * (r * 2);
+				if (isNaN(value)) value = 0;
 
-					if (value < 0) {
-						value = 0;
-					}
-					if (value > 100) {
-						value = 100;
-					}
+				if (value < 0) value = 0;
+				if (value > 100) value = 100;
 
-					$scope.offset = ((100 - value) / 100) * dashLength;
-				}
+				$scope.offset = ((100 - value) / 100) * dashLength;
 			});
 		}
 	}

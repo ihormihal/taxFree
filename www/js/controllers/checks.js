@@ -85,8 +85,6 @@ angular.module('app.controller.checks', [])
 /*** ITEM ***/
 .controller('checkCtrl', function($http, $rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Toast, Alert, Trips) {
 
-	window.SpinnerPlugin.activityStart(lngTranslate('loading'));
-
 	Check.get({
 		id: $stateParams.id
 	}, function(data) {
@@ -105,7 +103,6 @@ angular.module('app.controller.checks', [])
 				}
 			});
 			$scope.$broadcast('scroll.refreshComplete');
-			window.SpinnerPlugin.activityStop();
 		});
 	};
 

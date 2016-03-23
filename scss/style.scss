@@ -126,6 +126,7 @@ a {color: $assertive;}
 		margin-left: 5px;
 	}
 }
+
 /*** TOOGLE FIX ***/
 .item-toggle .toggle {
 	top: 50%;
@@ -160,6 +161,20 @@ a {color: $assertive;}
 			color: $assertiveAccent;
 			font-size: 12px;
 			margin-left: 5px;
+		}
+	}
+	select.ng-invalid {
+		color: #aaa;
+		&:focus {
+			color: inherit;
+		}
+	}
+	.ng-invalid {
+
+		&:after {
+			@extend .icon;
+			content: "\f35b";
+
 		}
 	}
 }
