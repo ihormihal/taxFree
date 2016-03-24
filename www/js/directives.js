@@ -75,6 +75,14 @@ angular.module('app.directives', [])
 	}
 }])
 
+.filter('safeImg', function() {
+	return function(src) {
+		if (src) {
+			return src + '?token=' + window.localStorage['token'];
+		}
+	}
+})
+
 .directive('safeSrc', [ function() {
 	return {
 		restrict: 'A',
@@ -92,7 +100,7 @@ angular.module('app.directives', [])
 						$cordovaFile.checkFile(cacheDirectory, filename)
 							.then(function(success) {
 								// success
-								//Toast.show('checkFile success: ' + angular.toJson(success));
+								//Toast.show('load cached: ' + angular.toJson(success));
 								$attrs.$set('src', cachedSrc);
 							}, function(error) {
 								//Toast.show('checkFile error: ' + angular.toJson(error));
@@ -142,7 +150,7 @@ angular.module('app.directives', [])
 			images: '='
 		},
 		templateUrl: 'views/tpl/choose-images.html',
-		controller: function($scope, $element, $attrs, $timeout, $cordovaImagePicker, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
+		controller: function($scope, $element, $attrs, $timeout, $cordovaImagePicker, $cordovaFile, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
 
 			if ($attrs.single == 'true') {
 				$scope.single = true;
@@ -247,6 +255,16 @@ angular.module('app.directives', [])
 					}, function(progress) {
 						$scope.images[i].progress = Math.floor(progress.loaded * 100 / progress.total);
 					});
+			};
+
+			$scope.removeImage = function(index){
+				var removeFile = $scope.images[index].src.split("/").pop();
+				$scope.images.splice(index,1);
+				try {
+					$cordovaFile.removeFile(cordova.file.cacheDirectory, removeFile);
+				} catch (error) {
+					console.log(error);
+				}
 			};
 		}
 	};

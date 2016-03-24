@@ -10,19 +10,18 @@
         <p class="text-center white">{{'you_need_to_confirm_your_code_during_1_hour'|translate}}</p>
 
         <div class="mt20">
-            <div class="list inputs-on-background">
-                <label class="item item-input">
-                    <input type="number" ng-model="data.code" placeholder="xxxxxx">
-                </label>
-            </div>
-            <div class="spacer" style="height:20px"></div>
+            <form name="form" class="list inputs-on-background">
+                <div class="form-group">
+                    <input class="white-input" type="number" ng-model="data.code" placeholder="xxxxxx" required>
+                </div>
+            </form>
             <p class="text-center">
                 <a ui-sref="regOne" class="white">{{'back_to_signup_form'|translate}}</a>
             </p>
         </div>
 
         <div class="mt20">
-            <button class="button button-block button-outline button-white up" ng-click="stepTwo()">{{'done'|translate}}</button>
+            <button ng-disabled="!(form.$valid)" class="button button-block button-outline button-white up" ng-click="stepTwo()">{{'done'|translate}}</button>
         </div>
 
     </ion-content>

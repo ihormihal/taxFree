@@ -16,16 +16,10 @@ angular.module('app.services', ['ngResource'])
 
   var self = {
 
-    credentials: {
-      username: null,
-      password: null,
-      grant_type: null,
-      client_id: window.Credentials.client_id,
-      client_secret: window.Credentials.client_secret,
-      refresh_token: null
-    },
+    credentials: window.Credentials,
 
     query: function(){
+      console.log('query');
       window.SpinnerPlugin.activityStart(lngTranslate('authorization')+'...');
       $http({
         method: 'POST',
@@ -74,11 +68,13 @@ angular.module('app.services', ['ngResource'])
     },
 
     login: function() {
+      console.log('login');
       self.credentials.grant_type = 'password';
       self.query();
     },
 
     refresh: function(){
+      console.log('refresh');
       self.credentials.grant_type = 'refresh_token';
       if(self.credentials.refresh_token){
         self.query();

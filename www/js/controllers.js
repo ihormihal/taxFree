@@ -48,7 +48,11 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.logout = function() {
-		$cordovaFile.removeRecursively(cordova.file.cacheDirectory, "");
+		try {
+			$cordovaFile.removeRecursively(cordova.file.cacheDirectory, "");
+		} catch (error) {
+			console.log(error);
+		}
 		AuthService.logout();
 	};
 

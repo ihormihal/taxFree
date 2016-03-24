@@ -1,20 +1,39 @@
-window.AppSettings = {
-	dev: false,
-	domain: 'http://tax-free-4u.com/',
-	api: 'http://tax-free-4u.com/'
+window.AppSettingsCollection = {
+	prod: {
+		mode: 'prod',
+		domain: 'http://tax-free-4u.com/',
+		api: 'http://tax-free-4u.com/'
+	},
+	test: {
+		mode: 'test',
+		domain: 'http://tax-free-4u.com/',
+		api: 'http://tax-free-4u.com/'
+	},
+	dev: {
+		mode: 'dev',
+		domain: 'http://tax-free-dev.jaya-test.com/',
+		api: 'http://tax-free-dev.jaya-test.com/'
+	}
+
 };
 
-//window.AppSettings.dev = true;
+window.AppSettings = window.AppSettingsCollection['prod'];
 
-if (window.AppSettings.dev) {
-	window.AppSettings.domain = 'http://tax-free-dev.jaya-test.com/';
-	window.AppSettings.api = 'http://tax-free-dev.jaya-test.com/app_dev.php/';
+if(window.localStorage['AppSettingsMode']){
+	var mode = window.localStorage['AppSettingsMode'];
+	if(window.AppSettingsCollection[mode]){
+		window.AppSettings = window.AppSettingsCollection[mode];
+	}
 }
 
 window.Credentials = {
+	username: null,
+	password: null,
+	grant_type: null,
+	refresh_token: null,
 	client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
 	client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk'
-}
+};
 
 angular.module('app', [
 	'ionic',
@@ -37,11 +56,9 @@ angular.module('app', [
 ])
 
 
-.run(function($rootScope, $state, $ionicPlatform, $ionicPopup, $cordovaNetwork, AuthService, Settings, Alert) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicHistory, $ionicPopup, $cordovaNetwork, AuthService, Settings, Alert) {
 
 	$ionicPlatform.ready(function() {
-
-		$rootScope.Domain = window.AppSettings.domain;
 
 		$rootScope.$on('$cordovaNetwork:offline', function(event, offlineState) {
 			if (offlineState) {
@@ -59,11 +76,11 @@ angular.module('app', [
 		}
 
 		//login onload
-		if(window.localStorage['username'] && window.localStorage['password']){
-			AuthService.credentials.username = window.localStorage['username'];
-			AuthService.credentials.password = window.localStorage['password'];
-			AuthService.login();
-		}
+		// if(window.localStorage['username'] && window.localStorage['password']){
+		// 	AuthService.credentials.username = window.localStorage['username'];
+		// 	AuthService.credentials.password = window.localStorage['password'];
+		// 	AuthService.login();
+		// }
 
 		var push = null;
 
@@ -154,12 +171,12 @@ angular.module('app', [
 		window.SpinnerPlugin.activityStop();
 		$rootScope.$broadcast('scroll.refreshComplete');
 
-		console.log(angular.toJson(data));
-
+		//Debug
+		//console.log(angular.toJson(data));
 		// Alert.show({
-		// 			message: 'Server error',
-		// 			title: angular.toJson(data)
-		// 		});
+		// 	message: 'Server error',
+		// 	title: angular.toJson(data)
+		// });
 
 
 		var showErrorMsg = function(data) {
@@ -171,10 +188,10 @@ angular.module('app', [
 						message = data.error.message + '. ';
 						isMessage = true;
 					}
-					if (data.error.message) {
-						message += 'Error code: ' + data.error.code;
-						isMessage = true;
-					}
+					// if (data.error.code) {
+					// 	message += 'Error code: ' + data.error.code;
+					// 	isMessage = true;
+					// }
 					if (data.error_description) {
 						message += data.error_description + '. ';
 						isMessage = true;
@@ -201,15 +218,15 @@ angular.module('app', [
 					message: lngTranslate('no_internet_message'),
 					title: lngTranslate('no_internet')
 				});
-				return false;
 				break;
 			case 401:
 				AuthService.refresh();
-				return false;
+				break;
+			case 404:
+				$ionicHistory.goBack();
 				break;
 			default:
 				showErrorMsg(data.data);
-				return false;
 		}
 
 		return false;
@@ -252,19 +269,6 @@ angular.module('app', [
 		};
 	}
 
-	if (!window.plugins) {
-		window.plugins = {};
-	}
-
-	if (!window.plugins.toast) {
-		window.plugins.toast = {
-			showWithOptions: function(options, success, error) {
-				console.log(options.message);
-			}
-		};
-	}
-
-
 })
 
 .config(function($httpProvider, $resourceProvider) {
@@ -305,6 +309,7 @@ var getDate = function(value) {
 	}
 };
 
+//language
 if (!window.localStorage['lang']) {
 	window.localStorage['lang'] = 'en';
 }

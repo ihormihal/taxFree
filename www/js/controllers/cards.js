@@ -120,14 +120,14 @@ angular.module('app.controller.cards', [])
 
 	$scope.modal = {taxfree: null, card: null};
 	//load form for taxfree card
-	$ionicModal.fromTemplateUrl('views/cards/order_taxfree.html', {
+	$ionicModal.fromTemplateUrl('views/private/cards/order_taxfree.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
 	}).then(function(modal) {
 		$scope.modal.taxfree = modal;
 	});
 	//load form for payment card
-	$ionicModal.fromTemplateUrl('views/cards/add.html', {
+	$ionicModal.fromTemplateUrl('views/private/cards/add.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
 	}).then(function(modal) {
@@ -235,7 +235,7 @@ angular.module('app.controller.cards', [])
 
 	}, true);
 
-	$ionicModal.fromTemplateUrl('views/cards/edit.html', {
+	$ionicModal.fromTemplateUrl('views/private/cards/edit.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
 	}).then(function(modal) {

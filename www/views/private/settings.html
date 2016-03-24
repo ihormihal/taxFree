@@ -54,7 +54,7 @@
 			</div>
 
 			<div class="item">
-				<p class="text-center" ng-click="activateDeveloperMode()">Tax Free 4U App v.0.4.5</p>
+				<p class="text-center" ng-click="activateDeveloperMode()">Tax Free 4U App v.0.4.6</p>
 			</div>
 
 
@@ -64,6 +64,17 @@
 			<div class="item">
 				<button class="button button-stable button-block button-stable up" ng-click="clearCache()">{{'reset'|translate}}!</button>
 				<button class="button button-stable button-block button-stable up" ng-click="submitDeviceToken()">Submit Device Token</button>
+			</div>
+			<label class="item item-input item-select">
+				<span class="input-label">API Mode</span>
+				<select ng-model="dev.api">
+					<option value="prod">Prod</option>
+					<option value="test">Test</option>
+					<option value="dev">Dev</option>
+				</select>
+			</label>
+			<div class="item">
+				<button class="button button-stable button-block button-stable up" ng-click="saveDev()">Save Dev Settings</button>
 			</div>
 		</div>
 

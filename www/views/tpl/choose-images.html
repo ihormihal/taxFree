@@ -3,7 +3,7 @@
 </button>
 <div class="image-preview" ng-show="images.length">
   <div class="image" ng-repeat="image in images" ng-class="{loading: image.progress !== 100}">
-    <img ng-show="image.src" image-viewer safe-src="{{image.src}}" onerror="this.src = 'img/noimage.svg'"/>
+    <img ng-show="image.src" image-viewer ng-src="{{image.src|safeImg}}" onerror="this.src = 'img/noimage.svg'"/>
 
     <div class="background"></div>
     <div class="error" ng-show="image.error"><i class="icon ion-android-alert"></i></div>
@@ -16,7 +16,7 @@
       </progress-bar>
     </div>
 
-    <div class="remove" ng-click="images.splice($index,1)"><i class="icon ion-close"></i></div>
+    <div class="remove" ng-click="removeImage($index)"><i class="icon ion-close"></i></div>
 
   </div>
 </div>

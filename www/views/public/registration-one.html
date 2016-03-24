@@ -9,19 +9,25 @@
         <p class="text-center white">{{'already_registered'|translate}} <a ui-sref="login" class="white">{{'login'|translate}}</a></p>
 
         <div class="mt20">
-            <div class="list inputs-on-background">
-                <label class="item item-select">
-                    <select integer-model ng-model="data.country">
-                        <option value="">{{'country'|translate}} *</option>
-                        <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}} ({{country.phone_code}})</option>
-                    </select>
-                </label>
-                <label class="item item-input">
-                    <input type="tel" ng-model="data.phone" placeholder="{{'phone'|translate}} *">
-                </label>
-                <label class="item item-input">
-                    <input type="email" ng-model="data.email" placeholder="{{'email'|translate}} *">
-                </label>
+            <form name="form" class="list inputs-on-background">
+
+                <div class="form-group">
+                    <div class="item item-select white-input">
+                        <select integer-model ng-model="data.country" required>
+                            <option value="">{{'country'|translate}} *</option>
+                            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}} ({{country.phone_code}})</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input class="white-input" type="tel" ng-model="data.phone" placeholder="{{'phone'|translate}} *" required>
+                </div>
+
+                <div class="form-group">
+                    <input class="white-input" type="email" ng-model="data.email" placeholder="{{'email'|translate}} *" required>
+                </div>
+
                 <div class="item-transparent-white">
                     <span class="input-label">{{'select_confirmation_method'|translate}} *</span>
                     <div class="row row-no-padding">
@@ -43,11 +49,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
 
         <div class="mt20">
-            <button class="button button-block button-outline button-white up" ng-click="stepOne()">{{'submit'|translate}}</button>
+            <button ng-disabled="!(form.$valid)" class="button button-block button-outline button-white up" ng-click="stepOne()">{{'submit'|translate}}</button>
         </div>
 
     </ion-content>

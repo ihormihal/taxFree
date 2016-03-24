@@ -23,8 +23,15 @@ angular.module('app.controller.settings', [])
 	};
 
 	//DEVELOPER MODE
+	$scope.dev = {
+		api: window.AppSettings.mode
+	};
 
-	$scope.developerMode = false;
+	if($scope.dev.api == 'dev'){
+		$scope.developerMode = true;
+	}else{
+		$scope.developerMode = false;
+	}
 	var dev_clicked = 0;
 	$scope.activateDeveloperMode = function(){
 		dev_clicked += 1;
@@ -41,13 +48,15 @@ angular.module('app.controller.settings', [])
 		lngTranslate('dialog_clear_cache_title'), [lngTranslate('yes'), lngTranslate('no')])
 		.then(function(buttonIndex) {
 			if (buttonIndex == 1) {
-				$cordovaFile.removeRecursively(cordova.file.cacheDirectory, "");
+				try {
+					$cordovaFile.removeRecursively(cordova.file.cacheDirectory, "");
+				} catch (error) {
+					console.log(error);
+				}
 				window.localStorage.clear();
-				AuthService.credentials.username = null;
-				AuthService.credentials.password = null;
-				AuthService.credentials.refresh_token = null;
-				AuthService.logout();
+				window.localStorage['AppSettingsMode'] = $scope.dev.api;
 				$state.go('start');
+				window.location.reload(true);
 			}
 		});
 
@@ -58,7 +67,7 @@ angular.module('app.controller.settings', [])
 			method: 'GET',
 			url: 'http://mycode.in.ua/app/save_push.php?token='+window.localStorage['deviceToken']
 		}).then(function(){
-			Toast.show('You device token: '+window.localStorage['deviceToken']);
+			Toast.show('You device token: ' + window.localStorage['deviceToken']);
 		});
 
 		var platform = null;
@@ -74,6 +83,9 @@ angular.module('app.controller.settings', [])
 
 	};
 
+	$scope.saveDev = function(){
+		$scope.clearCache();
+	};
 
 
 });

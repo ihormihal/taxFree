@@ -43,7 +43,7 @@ angular.module('app.controller.user', [])
 		}
 	};
 
-	$ionicModal.fromTemplateUrl('views/user/edit.html', {
+	$ionicModal.fromTemplateUrl('views/private/user/edit.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
 	}).then(function(modal) {

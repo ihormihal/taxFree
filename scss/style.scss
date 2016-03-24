@@ -169,19 +169,12 @@ a {color: $assertive;}
 			color: inherit;
 		}
 	}
-	.ng-invalid {
-
-		&:after {
-			@extend .icon;
-			content: "\f35b";
-
-		}
-	}
 }
 
 //////////////////////////
 //FORMS
 //////////////////////////
+.item-checkbox .checkbox {right: auto;}
 //for multiple checkboxes in row
 .item-clear {
 	position: relative;
@@ -225,20 +218,25 @@ a {color: $assertive;}
 		clear: both;
 	}
 }
-.inputs-on-background {
-	background-color: transparent;
-	.input-label {
+
+.form-group {
+	width: 100%;
+	margin-bottom: 8px;
+	.white-input {
 		width: 100%;
-	}
-	.item-input, .item-select {
+		margin: 0;
+		background-color: #fff;
+		height: 47px;
+		padding: 8px;
 		border: none;
-		margin-bottom: 10px;
 		border-radius: 2px;
-	}
-	.item-select {
 		select {
 			direction: ltr;
 			left: 0;
+			padding: 8px;
+		}
+		&.ng-invalid.ng-touched, &.invalid {
+			border: 2px solid $assertive;
 		}
 	}
 }
@@ -548,7 +546,8 @@ a {color: $assertive;}
 //////////////////////////
 .dashboard {
 	background-size: cover;
-	background-image: url(../images/london.jpg);
+	//background-image: url(../images/london.jpg);
+	background-image: url(../images/dash.jpg);
 }
 ////// ACCORDION
 .dashboard-list {
@@ -579,8 +578,9 @@ a {color: $assertive;}
 		&.active {
 			.item-content {
 				.item {
-					height: 120px;
+					height: auto;
 					padding: 8px 16px;
+					border-bottom: 1px solid rgba(255,255,255,0.4);
 				}
 			}
 		}
@@ -591,10 +591,10 @@ a {color: $assertive;}
 	background-color: rgba(0,0,0,0.7);
 }
 #dashboard-item-2 {
-	background-color: rgba(0,0,0,0.5);
+	background-color: rgba(10,3,0,0.6);
 }
 #dashboard-item-3 {
-	background-color: rgba(0,0,0,0.3);
+	background-color: rgba(20,0,0,0.5);
 }
 
 //////////////////////////

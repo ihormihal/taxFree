@@ -30,6 +30,9 @@ notification = {
 	}
 }
 
+http://mycode.in.ua/app/data.json
+http://mycode.in.ua/app/push_android.php
+
 
 mytoken ANDROID:
 cfPzlCYFyiU:APA91bFPSkBFF6URrnNjk_p9lF16KT3cE4vgcUx8gifjMOB6GmpwxUkAFMxK6yYsS-3WFmZWc4cGLjnzwwhZGTPfvaKK8-eFxtF_RmmD7WBW6U_UF21OBobxTtWd6giRmpluQ556aUdU

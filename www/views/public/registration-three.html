@@ -50,7 +50,7 @@
                     <label class="checkbox checkbox-assertive">
                         <input type="checkbox" ng-model="data.accept_terms" ng-true-value="true" ng-false-value="false">
                     </label>
-                    {{'agree_with'|translate}} {{'terms_of_use'|translate}}
+                    <span class="input-label">{{'agree_with'|translate}} <a ng-click="openTerms()">{{'terms_of_use'|translate}}</a></span>
                 </div>
             </form>
             <div class="padding mt20">

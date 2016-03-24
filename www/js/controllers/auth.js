@@ -22,7 +22,7 @@ angular.module('app.controller.auth', [])
 })
 
 /*** REGISTRAION ***/
-.controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, AuthService, RegService, Catalog, Toast) {
+.controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, $ionicModal, AuthService, RegService, Catalog, Toast) {
 
 	$scope.images = [];
 
@@ -96,6 +96,24 @@ angular.module('app.controller.auth', [])
 		}else{
 			Toast.show(lngTranslate('please_wait_uploading'));
 		}
+	};
+
+	$ionicModal.fromTemplateUrl('views/public/terms.html', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal) {
+		$scope.modal_terms = modal;
+	});
+
+	$scope.$on('$destroy', function() {
+		$scope.modal_terms.remove();
+	});
+
+	$scope.openTerms = function(){
+		$scope.modal_terms.show();
+	};
+	$scope.closeTerms = function(){
+		$scope.modal_terms.hide();
 	};
 })
 

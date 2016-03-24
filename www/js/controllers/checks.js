@@ -38,7 +38,7 @@ angular.module('app.controller.checks', [])
 		});
 	};
 
-	$ionicModal.fromTemplateUrl('views/checks/add.html', {
+	$ionicModal.fromTemplateUrl('views/private/checks/add.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
 	}).then(function(modal) {
@@ -110,7 +110,7 @@ angular.module('app.controller.checks', [])
 		$scope.check.files.splice(index, 1);
 	};
 
-	$ionicModal.fromTemplateUrl('views/checks/add.html', {
+	$ionicModal.fromTemplateUrl('views/private/checks/add.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
 	}).then(function(modal) {

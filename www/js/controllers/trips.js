@@ -31,7 +31,7 @@ angular.module('app.controller.trips', [])
 
   $scope.load();
 
-  $ionicModal.fromTemplateUrl('views/trips/add.html', {
+  $ionicModal.fromTemplateUrl('views/private/trips/add.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
@@ -137,14 +137,14 @@ angular.module('app.controller.trips', [])
     $scope.$broadcast('scroll.refreshComplete');
   };
 
-  $ionicModal.fromTemplateUrl('views/trips/edit.html', {
+  $ionicModal.fromTemplateUrl('views/private/trips/edit.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
     $scope.modalTrip = modal;
   });
 
-  $ionicModal.fromTemplateUrl('views/trips/add-check.html', {
+  $ionicModal.fromTemplateUrl('views/private/trips/add-check.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
