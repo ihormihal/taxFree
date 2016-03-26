@@ -2,6 +2,10 @@ angular.module('app.controller.user', [])
 
 .controller('userCtrl', function($rootScope, $scope, $ionicModal, Toast, User) {
 
+	if ($rootScope.transports.length === 0 || $rootScope.countries.length === 0) {
+		$rootScope.loadCatalog();
+	}
+
 	$scope.user = {
 		profile: null,
 		images: [],
@@ -9,6 +13,7 @@ angular.module('app.controller.user', [])
 	};
 
 	$scope.load = function() {
+		$rootScope.loading = true;
 		User.get({}, function(data) {
 			$scope.user.profile = data;
 			$scope.user.params = {
@@ -20,6 +25,7 @@ angular.module('app.controller.user', [])
 				error: false
 			};
 			$scope.$broadcast('scroll.refreshComplete');
+			$rootScope.loading = false;
 		});
 	};
 	$scope.load();

@@ -9225,6 +9225,12 @@ a {
 .mb100 {
   margin-bottom: 100px; }
 
+.fade {
+  opacity: 0;
+  transition: 0.3s opacity linear; }
+  .fade.in {
+    opacity: 1; }
+
 .fixed {
   position: fixed;
   z-index: 1000; }
@@ -9275,6 +9281,10 @@ a {
   height: 28px;
   stroke: #f39736;
   fill: #f39736; }
+
+.dashboard .spinner svg {
+  stroke: #fff;
+  fill: #fff; }
 
 .text-disabled {
   color: #ccc; }
@@ -9391,7 +9401,9 @@ a {
     .form-group .white-input select {
       direction: ltr;
       left: 0;
-      padding: 8px; }
+      padding: 8px;
+      max-width: 100%;
+      width: 100%; }
     .form-group .white-input.ng-invalid.ng-touched, .form-group .white-input.invalid {
       border: 2px solid #f39736; }
 
@@ -9425,6 +9437,39 @@ a {
   background-image: url(../images/background.jpg);
   background-size: cover;
   background-position: center center; }
+
+.loading-bar-top.active {
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  left: 0;
+  top: 44px;
+  height: 3px; }
+  .loading-bar-top.active:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 30%;
+    left: 0;
+    top: 0;
+    height: 3px;
+    background-color: #f39736;
+    -webkit-animation: ticker 1s linear infinite;
+    -moz-animation: ticker 1s linear infinite;
+    animation: ticker 1s linear infinite; }
+  .loading-bar-top.active.white:before {
+    background-color: #fff; }
+
+@-webkit-keyframes ticker {
+  0% {
+    width: 0;
+    left: 0; }
+  50% {
+    width: 50%;
+    left: 25%; }
+  100% {
+    width: 0;
+    left: 100%; } }
 
 .accordeon .accordeon-item .heading, .accordeon .accordeon-item .content-item, .accordeon .accordeon-item p {
   white-space: normal; }
@@ -9573,12 +9618,14 @@ a {
 
 .list .list-status-signed h2,
 .list .list-status-pay h2,
+.list .list-status-payment h2,
 .list .list-status-paid h2,
 .list .list-status-default h2 {
   color: #018200; }
 
 .list .list-status-signed .item-icon-right,
 .list .list-status-pay .item-icon-right,
+.list .list-status-payment .item-icon-right,
 .list .list-status-paid .item-icon-right,
 .list .list-status-default .item-icon-right {
   color: #018200; }
@@ -9611,6 +9658,7 @@ a {
   background-color: #00BCD4; }
 
 .bar-status-pay,
+.bar-status-payment,
 .bar-status-paid,
 .bar-status-default {
   border: none;
@@ -9673,21 +9721,25 @@ a {
   font-size: 22px;
   font-weight: 100; }
 
-.dashboard-list .dashboard-item .item-content .item {
-  white-space: normal;
-  height: 0px;
-  padding: 0 16px;
-  transition: 0.1s height linear, 0.1s padding linear; }
+.dashboard-list .dashboard-item .item-content {
+  opacity: 0;
+  transition: 0.5s opacity linear; }
+  .dashboard-list .dashboard-item .item-content .item {
+    white-space: normal;
+    height: 0px;
+    padding: 0 16px;
+    transition: 0.1s height linear, 0.1s padding linear; }
+  .dashboard-list .dashboard-item .item-content .date {
+    margin-top: 10px;
+    opacity: 0.5;
+    font-weight: 100; }
 
-.dashboard-list .dashboard-item .item-content .date {
-  margin-top: 10px;
-  opacity: 0.5;
-  font-weight: 100; }
-
-.dashboard-list .dashboard-item.active .item-content .item {
-  height: auto;
-  padding: 8px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4); }
+.dashboard-list .dashboard-item.active .item-content {
+  opacity: 1; }
+  .dashboard-list .dashboard-item.active .item-content .item {
+    height: auto;
+    padding: 8px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4); }
 
 #dashboard-item-1 {
   background-color: rgba(0, 0, 0, 0.7); }
@@ -9697,6 +9749,9 @@ a {
 
 #dashboard-item-3 {
   background-color: rgba(20, 0, 0, 0.5); }
+
+.platform-android .view-container .tabs-top .loading-bar-top.active {
+  top: 93px; }
 
 .platform-android .view-container .tabs-top .tabs {
   top: 44px !important; }

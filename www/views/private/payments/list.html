@@ -1,11 +1,11 @@
 <ion-view view-title="{{'payments'|translate}}">
-
+	<div class="loading-bar-top" ng-class="{'active': loading}"></div>
 	<ion-content class="has-header">
 		<ion-refresher
 			pulling-text=""
 			on-refresh="load()">
 		</ion-refresher>
-		<div class="list">
+		<div class="list fade" ng-class="{'in': payments.length}">
 			<div
 				ng-repeat="payment in payments  | orderBy : '-complete_time'"
 				class="item"

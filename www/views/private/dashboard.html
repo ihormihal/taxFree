@@ -1,4 +1,5 @@
 <ion-view title="" class="dashboard">
+	<div class="loading-bar-top white" ng-class="{'active': loading}"></div>
 	<ion-nav-bar class="bar-transparent">
       <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left" style="display: inline-block !important;"></button>
@@ -16,7 +17,7 @@
 					<i class="icon ion-load-b"></i>
 					{{'actions'|translate}} ({{noactionlist.notifications.length}})
 				</div>
-				<div class="item-content">
+				<div class="item-content" ng-class="{'in': noactionlist.notifications.length}">
 					<div class="item" ng-repeat="action in noactionlist.notifications">
 						{{action.message}}
 						<div class="date"><i class="icon ion-ios-timer-outline"></i> {{action.created}}</div>

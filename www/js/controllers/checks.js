@@ -2,6 +2,11 @@ angular.module('app.controller.checks', [])
 
 /*** LIST ***/
 .controller('checksCtrl', function($rootScope, $scope, $state, $ionicModal, Checks, Check, Trip, Trips, Toast) {
+
+	if($rootScope.transports.length === 0 || $rootScope.countries.length === 0){
+      $rootScope.loadCatalog();
+    }
+
 	$scope.checks = [];
 	$scope.check = {
 		id: 'add',
@@ -11,6 +16,7 @@ angular.module('app.controller.checks', [])
 	};
 
 	$scope.load = function() {
+		$rootScope.loading = true;
 		Checks.query({}, function(data) {
 			$scope.checks = data;
 			if ($scope.checks.length == 0) {
@@ -28,6 +34,7 @@ angular.module('app.controller.checks', [])
 
 	$scope.complete = function() {
 		$scope.$broadcast('scroll.refreshComplete');
+		$rootScope.loading = false;
 		angular.forEach($scope.checks, function(check, i) {
 			angular.forEach($scope.trips, function(trip) {
 				if (trip.id == check.trip) {
@@ -45,14 +52,6 @@ angular.module('app.controller.checks', [])
 		$scope.modalCheck = modal;
 	});
 
-	$scope.addCheck = function() {
-		$scope.modalCheck.show();
-	};
-
-	$scope.closeModal = function() {
-		$scope.modalCheck.hide();
-	};
-
 	$scope.$on('$destroy', function() {
 		$scope.modalCheck.remove();
 	});
@@ -68,11 +67,14 @@ angular.module('app.controller.checks', [])
 		}
 		if (ready) {
 			Check.add($scope.check, function(data) {
-				$scope.check.images = [];
-				Toast.show(lngTranslate('toast_check_created'));
-				$state.go('main.check', {
-					id: data.id
-				});
+				if(data.id){
+					$scope.check.images = [];
+					$scope.modalCheck.hide();
+					Toast.show(lngTranslate('toast_check_created'));
+					$state.go('main.check', {id: data.id});
+				}else{
+					Toast.show(lngTranslate('error_general'));
+				}
 			});
 		} else {
 			Toast.show(lngTranslate('please_wait_uploading'));
@@ -83,7 +85,7 @@ angular.module('app.controller.checks', [])
 })
 
 /*** ITEM ***/
-.controller('checkCtrl', function($http, $rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Toast, Alert, Trips) {
+.controller('checkCtrl', function($http, $rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Toast, Trips) {
 
 	Check.get({
 		id: $stateParams.id

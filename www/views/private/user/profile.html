@@ -1,4 +1,7 @@
 <ion-view title="{{'profile'|translate}}">
+
+    <div class="loading-bar-top" ng-class="{'active': loading}"></div>
+
     <ion-nav-buttons side="left">
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
     </ion-nav-buttons>
@@ -12,10 +15,11 @@
             on-refresh="load()">
         </ion-refresher>
 
-        <div class="hide hide-{{user.profile.editable}} padding status-bar text-center assertive">
+        <div class="padding status-bar text-center assertive fade" ng-class="{'in': user.profile.editable}">
             <p>{{'profile_wait'|translate}}</p>
         </div>
-        <div class="list">
+
+        <div class="list fade" ng-class="{'in': user.profile}">
 
             <div class="item">
                 <span class="label">{{'name'|translate}}</span>

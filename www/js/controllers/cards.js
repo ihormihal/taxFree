@@ -1,7 +1,7 @@
 angular.module('app.controller.cards', [])
 
 /*** LIST ***/
-.controller('cardsCtrl', function($scope, $state, $ionicModal, $cordovaActionSheet, Cards, Card, TaxFreeCard, Messages, Catalog, Toast) {
+.controller('cardsCtrl', function($rootScope, $scope, $state, $ionicModal, $cordovaActionSheet, Cards, Card, TaxFreeCard, Messages, Catalog, Toast) {
 
 	$scope.cards = [];
 
@@ -63,6 +63,7 @@ angular.module('app.controller.cards', [])
 	};
 
 	$scope.load = function() {
+		$rootScope.loading = true;
 		Cards.query({}, function(data) {
 			$scope.cards = data;
 			if ($scope.cards.length == 0) {
@@ -71,6 +72,7 @@ angular.module('app.controller.cards', [])
 			for (var i = 0; i < $scope.cards.length; i++) {
 				$scope.cards[i].num = '**** **** **** ' + $scope.cards[i].number.substr(7, 4);
 			}
+			$rootScope.loading = false;
 			$scope.$broadcast('scroll.refreshComplete');
 		});
 	};
@@ -179,9 +181,13 @@ angular.module('app.controller.cards', [])
 		$scope.card.expire_month = $scope.card.expire_date.getMonth() + 1;
 		$scope.card.expire_year = $scope.card.expire_date.getFullYear();
 		Card.add($scope.card, function(data) {
-			$scope.modal.card.hide();
-			Toast.show(lngTranslate('toast_card_added'));
-			$state.go('main.card', {id: data.id});
+			if (data.id) {
+				$scope.modal.card.hide();
+				Toast.show(lngTranslate('toast_card_added'));
+				$state.go('main.card', {id: data.id});
+			} else {
+				Toast.show(lngTranslate('error_general'));
+			}
 		});
 	};
 

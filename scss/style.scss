@@ -32,6 +32,14 @@ a {color: $assertive;}
 .mb50 {margin-bottom: 50px;}
 .mb100 {margin-bottom: 100px;}
 
+.fade {
+	opacity: 0;
+	transition: 0.3s opacity linear;
+	&.in {
+		opacity: 1;
+	}
+}
+
 .fixed {
 	position: fixed;
 	z-index: 1000;
@@ -68,7 +76,6 @@ a {color: $assertive;}
 	}
 }
 
-
 .image {
 	width: 100%;
 	overflow: hidden;
@@ -92,6 +99,11 @@ a {color: $assertive;}
   stroke: $assertive;
   fill: $assertive;
 }
+.dashboard .spinner svg {
+	stroke: #fff;
+	fill: #fff;
+}
+
 .text-disabled {color: #ccc;}
 .black {color: #000;}
 .bar.bar-transparent {
@@ -234,6 +246,8 @@ a {color: $assertive;}
 			direction: ltr;
 			left: 0;
 			padding: 8px;
+			max-width: 100%;
+			width: 100%;
 		}
 		&.ng-invalid.ng-touched, &.invalid {
 			border: 2px solid $assertive;
@@ -286,6 +300,47 @@ a {color: $assertive;}
 //////////////////////////
 //WIDGETS
 //////////////////////////
+.loading-bar-top.active {
+	position: fixed;
+	z-index: 100;
+	width: 100%;
+	left: 0;
+	top: 44px;
+	height: 3px;
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		width: 30%;
+		left: 0;
+		top: 0;
+		height: 3px;
+		background-color: $assertive;
+
+		-webkit-animation: ticker 1s linear infinite;
+		-moz-animation: ticker 1s linear infinite;
+		animation: ticker 1s linear infinite;
+	}
+	&.white:before {
+		background-color: #fff;
+	}
+}
+
+@-webkit-keyframes ticker {
+	0% {
+		width: 0;
+		left: 0;
+	}
+	50% {
+		width: 50%;
+		left: 25%;
+	}
+	100% {
+		width: 0;
+		left: 100%;
+	}
+}
+
 .accordeon {
 	.accordeon-item {
 		.heading, .content-item, p {
@@ -458,6 +513,7 @@ a {color: $assertive;}
 
 	.list-status-signed,
 	.list-status-pay,
+	.list-status-payment,
 	.list-status-paid,
 	.list-status-default {
 		h2 {color: $greenDarken;}
@@ -492,6 +548,7 @@ a {color: $assertive;}
 }
 
 .bar-status-pay,
+.bar-status-payment,
 .bar-status-paid,
 .bar-status-default {
 	border: none; color: #fff;
@@ -563,6 +620,8 @@ a {color: $assertive;}
 			//i {width: 44px; display: inline-block; text-align: center;}
 		}
 		.item-content {
+			opacity: 0;
+			transition: 0.5s opacity linear;
 			.item {
 				white-space: normal;
 				height: 0px;
@@ -577,6 +636,7 @@ a {color: $assertive;}
 		}
 		&.active {
 			.item-content {
+				opacity: 1;
 				.item {
 					height: auto;
 					padding: 8px 16px;
@@ -600,8 +660,17 @@ a {color: $assertive;}
 //////////////////////////
 //FIXES
 //////////////////////////
-//tabs position fix for android
-.platform-android .view-container .tabs-top .tabs {top: 44px !important;}
+
+.platform-android {
+	//tabs position fix for android
+	.view-container .tabs-top {
+		.loading-bar-top.active {
+			top: 93px;
+		}
+		.tabs {top: 44px !important;}
+	}
+}
+
 .has-header {
 	.top-item {
 		border-top: none;
@@ -615,7 +684,6 @@ a {color: $assertive;}
 	z-index: 9999;
 	color: #eee;
 }
-
 
 .progress-bar circle {
   stroke-dashoffset: 0;

@@ -1,16 +1,22 @@
+
 angular.module('app.controller.settings', [])
 
-.controller('settingsCtrl', function($rootScope, $http, $scope, $state, $ionicPopup, $cordovaDialogs, $cordovaFile, $cordovaPush, Settings, AuthService, Alert, Toast) {
+.controller('settingsCtrl', function($rootScope, $http, $scope, $state, $ionicModal, $cordovaDialogs, $cordovaFile, Settings, AuthService, Toast) {
 
 	$scope.appSettings = {
 		language: window.localStorage['lang']
 	};
 
 
-	Settings.get({}, function(data){
-		$scope.settings = data;
-	});
-
+	$scope.load = function(){
+		$rootScope.loading = true;
+		Settings.get({}, function(data){
+			$scope.settings = data;
+			$rootScope.loading = false;
+			$scope.$broadcast('scroll.refreshComplete');
+		});
+	};
+	$scope.load();
 
 	$scope.save = function() {
 		if(window.localStorage['lang'] !== $scope.appSettings.language){
@@ -24,21 +30,30 @@ angular.module('app.controller.settings', [])
 
 	//DEVELOPER MODE
 	$scope.dev = {
-		api: window.AppSettings.mode
+		domain: $rootScope.config.domain,
 	};
 
-	if($scope.dev.api == 'dev'){
-		$scope.developerMode = true;
-	}else{
-		$scope.developerMode = false;
-	}
+	$ionicModal.fromTemplateUrl('views/private/settings_dev.html', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal) {
+		$scope.modalDev = modal;
+	});
+	$scope.$on('$destroy', function() {
+		$scope.modalDev.remove();
+	});
+
 	var dev_clicked = 0;
 	$scope.activateDeveloperMode = function(){
 		dev_clicked += 1;
 		if(dev_clicked > 5){
-			$scope.developerMode = true;
-			Toast.show('Developer mode activated!');
+			$scope.modalDev.show();
 		}
+	};
+
+	$scope.closeModalDev = function(){
+		$scope.modalDev.hide();
+		dev_clicked = 0;
 	};
 
 	$scope.clearCache = function() {
@@ -53,9 +68,8 @@ angular.module('app.controller.settings', [])
 				} catch (error) {
 					console.log(error);
 				}
+				AuthService.logout();
 				window.localStorage.clear();
-				window.localStorage['AppSettingsMode'] = $scope.dev.api;
-				$state.go('start');
 				window.location.reload(true);
 			}
 		});
@@ -83,8 +97,15 @@ angular.module('app.controller.settings', [])
 
 	};
 
-	$scope.saveDev = function(){
-		$scope.clearCache();
+	$scope.saveDev = function(){;
+		if($scope.dev.domain !== $rootScope.config.domain){
+			$rootScope.config.domain = $scope.dev.domain;
+			window.localStorage['config'] = angular.toJson($rootScope.config);
+			AuthService.logout();
+			window.location.reload(true);
+		}
+		$scope.closeModalDev();
+		//window.location.reload(true);
 	};
 
 

@@ -1,44 +1,37 @@
-window.AppSettingsCollection = {
-	prod: {
-		mode: 'prod',
-		domain: 'http://tax-free-4u.com/',
-		api: 'http://tax-free-4u.com/'
-	},
-	test: {
-		mode: 'test',
-		domain: 'http://tax-free-4u.com/',
-		api: 'http://tax-free-4u.com/'
-	},
-	dev: {
-		mode: 'dev',
-		domain: 'http://tax-free-dev.jaya-test.com/',
-		api: 'http://tax-free-dev.jaya-test.com/'
-	}
-
-};
-
-window.AppSettings = window.AppSettingsCollection['prod'];
-
-if(window.localStorage['AppSettingsMode']){
-	var mode = window.localStorage['AppSettingsMode'];
-	if(window.AppSettingsCollection[mode]){
-		window.AppSettings = window.AppSettingsCollection[mode];
-	}
+//HELPERS
+//language
+if (!window.localStorage['lang']) {
+	window.localStorage['lang'] = 'en';
 }
-
-window.Credentials = {
-	username: null,
-	password: null,
-	grant_type: null,
-	refresh_token: null,
-	client_id: '2_3e8ski6ramyo4wc04ww44ko84w4sowgkkc8ksokok08o4k8osk',
-	client_secret: '592xtbslpsw08gow4s4s4ckw0cs0koc0kowgw8okg8cc0oggwk'
+var lngTranslate = function(text) {
+	var lang = window.localStorage['lang'] ? window.localStorage['lang'] : 'en';
+	if (text in window.translate[lang]) {
+		return window.translate[lang][text];
+	} else {
+		return text;
+	}
 };
+
+var serializeData = function(obj, prefix) {
+	var str = [];
+	for (var p in obj) {
+		if (obj.hasOwnProperty(p)) {
+			var k = prefix ? prefix + "[" + p + "]" : p,
+				v = obj[p];
+			str.push(typeof v == "object" ?
+				serializeData(v, k) :
+				encodeURIComponent(k) + "=" + encodeURIComponent(v));
+		}
+	}
+	return str.join("&");
+};
+
 
 angular.module('app', [
 	'ionic',
 	'ngCordova',
 	'ui.mask',
+	'app.config',
 	'app.cordova',
 	'app.routes',
 	'app.services',
@@ -56,7 +49,7 @@ angular.module('app', [
 ])
 
 
-.run(function($rootScope, $state, $ionicPlatform, $ionicHistory, $ionicPopup, $cordovaNetwork, AuthService, Settings, Alert) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicHistory, $cordovaFile, $cordovaNetwork, AppConfig, AuthService, Settings, Alert) {
 
 	$ionicPlatform.ready(function() {
 
@@ -65,6 +58,8 @@ angular.module('app', [
 				Alert.show({
 					message: lngTranslate('no_internet_message'),
 					title: lngTranslate('no_internet')
+				}, function(){
+					$ionicHistory.goBack();
 				});
 			}
 		});
@@ -74,6 +69,98 @@ angular.module('app', [
 		if (window.cordova && window.cordova.plugins.Keyboard) {
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 		}
+
+		//HTTP-ERRORS preprocessing
+		$rootScope.$on('http-error', function(event, data) {
+			window.SpinnerPlugin.activityStop();
+			$rootScope.$broadcast('scroll.refreshComplete');
+
+			//Debug
+			if ($rootScope.config.debug) {
+				Alert.show({
+					title: 'Server error',
+					message: angular.toJson(data)
+				});
+			}
+
+			var showErrorMsg = function(data) {
+				var message = '';
+				var isMessage = false;
+				if (data) {
+					if (data.error) {
+						if (data.error.message) {
+							message = data.error.message + '. ';
+							isMessage = true;
+						}
+						if (data.error_description) {
+							message += data.error_description + '. ';
+							isMessage = true;
+						}
+					}
+				}
+				//defined errors
+				if (isMessage) {
+					Alert.show({
+						message: message,
+						title: 'Error'
+					});
+					//undefined errors
+				} else {
+					Alert.show({
+						message: angular.toJson(data),
+						title: 'Error'
+					});
+				}
+			};
+
+			switch (data.status) {
+				case 0:
+					Alert.show({
+						message: lngTranslate('no_internet_message'),
+						title: lngTranslate('no_internet')
+					}, function() {
+						$ionicHistory.goBack();
+					});
+					break;
+				case 400:
+					if(data.error == 'invalid_grant'){
+						AuthService.logout();
+					}else{
+						showErrorMsg(data.data);
+					}
+					break;
+				case 401:
+					AuthService.refresh();
+					break;
+				case 404:
+					$ionicHistory.goBack();
+					break;
+				default:
+					showErrorMsg(data.data);
+			}
+
+			return false;
+
+		});
+
+		$rootScope.$on('auth-login-success', function(event, data) {
+
+			var platform = null;
+			if (ionic.Platform.isAndroid()) platform = 'google';
+			if (ionic.Platform.isIOS() || ionic.Platform.isIPad()) platform = 'apple';
+			if (window.localStorage['deviceToken'] && platform) {
+				Settings.sendDeviceToken({
+					identifier: window.localStorage['deviceToken'],
+					type: platform
+				});
+			}
+
+			$state.go('main.dashboard');
+		});
+
+		$rootScope.$on('auth-login-error', function(event, data) {
+			$state.go('login');
+		});
 
 		//login onload
 		// if(window.localStorage['username'] && window.localStorage['password']){
@@ -101,7 +188,6 @@ angular.module('app', [
 			push.on('registration', function(data) {
 				// data.registrationId
 				window.localStorage['deviceToken'] = data.registrationId;
-
 			});
 
 			push.on('notification', function(data) {
@@ -128,196 +214,6 @@ angular.module('app', [
 
 	}); //ionic ready end
 
-
-
-	$rootScope.serialize = function(obj, prefix) {
-		var str = [];
-		for (var p in obj) {
-			if (obj.hasOwnProperty(p)) {
-				var k = prefix ? prefix + "[" + p + "]" : p,
-					v = obj[p];
-				str.push(typeof v == "object" ?
-					$rootScope.serialize(v, k) :
-					encodeURIComponent(k) + "=" + encodeURIComponent(v));
-			}
-		}
-		return str.join("&");
-	};
-
-	$rootScope.getById = function(items, id) {
-		if (!Array.isArray(items)) return id;
-		for (var i = 0; i < items.length; i++) {
-			if (items[i].id == id) {
-				return items[i];
-				break;
-			}
-		}
-	};
-
-	$rootScope.isLoaded = function(images) {
-		if (!images) {
-			return false;
-		}
-		for (var i = 0; i < images.length; i++) {
-			if (images[i].progress < 100) {
-				return false; //if one time not ready - return false
-			}
-		}
-		//else return
-		return images.length > 0;
-	};
-
-	$rootScope.$on('http-error', function(event, data) {
-		window.SpinnerPlugin.activityStop();
-		$rootScope.$broadcast('scroll.refreshComplete');
-
-		//Debug
-		//console.log(angular.toJson(data));
-		// Alert.show({
-		// 	message: 'Server error',
-		// 	title: angular.toJson(data)
-		// });
-
-
-		var showErrorMsg = function(data) {
-			var message = '';
-			var isMessage = false;
-			if (data) {
-				if (data.error) {
-					if (data.error.message) {
-						message = data.error.message + '. ';
-						isMessage = true;
-					}
-					// if (data.error.code) {
-					// 	message += 'Error code: ' + data.error.code;
-					// 	isMessage = true;
-					// }
-					if (data.error_description) {
-						message += data.error_description + '. ';
-						isMessage = true;
-					}
-				}
-			}
-			//isMessage = false;
-			if (isMessage) {
-				Alert.show({
-					message: message,
-					title: 'Error'
-				});
-			} else {
-				Alert.show({
-					message: angular.toJson(data),
-					title: 'Error'
-				});
-			}
-		};
-
-		switch (data.status) {
-			case 0:
-				Alert.show({
-					message: lngTranslate('no_internet_message'),
-					title: lngTranslate('no_internet')
-				});
-				break;
-			case 401:
-				AuthService.refresh();
-				break;
-			case 404:
-				$ionicHistory.goBack();
-				break;
-			default:
-				showErrorMsg(data.data);
-		}
-
-		return false;
-
-	});
-
-	$rootScope.$on('auth-login-success', function(event, data) {
-
-		var platform = null;
-		if(ionic.Platform.isAndroid()) platform = 'google';
-		if(ionic.Platform.isIOS()) platform = 'apple';
-		if(window.localStorage['deviceToken'] && platform){
-
-			Settings.sendDeviceToken({
-				identifier: window.localStorage['deviceToken'],
-				type: platform
-			});
-		}
-
-		$state.go('main.dashboard');
-	});
-
-	$rootScope.$on('auth-login-error', function(event, data) {
-		$state.go('login');
-	});
-
-	$rootScope.$on('auth-logout', function(event, data) {
-		$state.go('login');
-	});
-
-
-	if (!window.SpinnerPlugin) {
-		window.SpinnerPlugin = {
-			activityStart: function(message) {
-				console.log(message);
-			},
-			activityStop: function() {
-				console.log('spinner stop');
-			}
-		};
-	}
-
-})
-
-.config(function($httpProvider, $resourceProvider) {
-
-	if (window.localStorage['token']) {
-		$httpProvider.defaults.headers.common['Authorization'] = window.localStorage['token'];
-	}
-	$resourceProvider.defaults.stripTrailingSlashes = false;
-
-	//http error processing
-	$httpProvider.interceptors.push(function($rootScope, $q) {
-		return {
-			responseError: function(error) {
-				var q = $q.defer();
-				$rootScope.$broadcast('http-error', error);
-				q.reject(error);
-				return q.promise;
-			}
-		};
-	});
-
-
 });
 
-var getTimestamp = function(value) {
-	if (value instanceof Date) {
-		return value.getTime() / 1000;
-	} else {
-		return value;
-	}
-};
 
-var getDate = function(value) {
-	if (parseInt(value)) {
-		return new Date(parseInt(value) * 1000);
-	} else {
-		return value;
-	}
-};
-
-//language
-if (!window.localStorage['lang']) {
-	window.localStorage['lang'] = 'en';
-}
-var lngTranslate = function(text) {
-	var lang = window.localStorage['lang'] ? window.localStorage['lang'] : 'en';
-	if (text in window.translate[lang]) {
-		return window.translate[lang][text];
-	} else {
-		return text;
-	}
-};

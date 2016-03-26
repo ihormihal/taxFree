@@ -29,13 +29,13 @@ angular.module('app.controller.auth', [])
 	$scope.data = RegService.data;
 
 	window.localStorage['token'] = '';
-	$rootScope.transports = [];
 	$rootScope.countries = [];
 
 	var loadCountries = function() {
 		if (window.localStorage['countries']) {
 			$rootScope.countries = angular.fromJson(window.localStorage['countries']);
-		} else {
+		}
+		else {
 			Catalog.query({
 				name: 'country'
 			}, function(data) {

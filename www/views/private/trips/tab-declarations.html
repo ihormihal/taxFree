@@ -1,10 +1,11 @@
 <ion-view view-title="{{'declarations'|translate}}">
+	<div class="loading-bar-top" ng-class="{'active': loading}"></div>
 	<ion-content class="has-header">
 		<ion-refresher
 			pulling-text=""
 			on-refresh="load()">
 		</ion-refresher>
-		<div class="list">
+		<div class="list fade" ng-class="{'in': declarations.length}">
 			<div
 				ng-repeat="declaration in declarations  | orderBy : '-id'"
 				ui-sref="main.declaration({id: declaration.id})"

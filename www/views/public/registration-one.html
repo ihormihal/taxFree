@@ -13,7 +13,7 @@
 
                 <div class="form-group">
                     <div class="item item-select white-input">
-                        <select integer-model ng-model="data.country" required>
+                        <select ng-click="checkCountries()" integer-model ng-model="data.country" required>
                             <option value="">{{'country'|translate}} *</option>
                             <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}} ({{country.phone_code}})</option>
                         </select>

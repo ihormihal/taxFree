@@ -1,14 +1,16 @@
 angular.module('app.controller.declarations', [])
 
 /*** LIST ***/
-.controller('declarationsCtrl', function($scope, Declarations, Toast) {
+.controller('declarationsCtrl', function($rootScope, $scope, Declarations, Toast) {
 
 	$scope.load = function() {
+		$rootScope.loading = true;
 		Declarations.query({}, function(data) {
 			$scope.declarations = data;
 			if ($scope.declarations.length == 0) {
 				Toast.show(lngTranslate('no_data'));
 			}
+			$rootScope.loading = false;
 			$scope.$broadcast('scroll.refreshComplete');
 		});
 	};
@@ -18,7 +20,7 @@ angular.module('app.controller.declarations', [])
 })
 
 /*** ITEM ***/
-.controller('declarationCtrl', function($scope, $stateParams, $cordovaFile, $cordovaFileTransfer, Declaration, Toast) {
+.controller('declarationCtrl', function($rootScope, $scope, $stateParams, $cordovaFile, $cordovaFileTransfer, Declaration, Toast) {
 
 	$scope.file = {
 		exist: false,
@@ -27,9 +29,11 @@ angular.module('app.controller.declarations', [])
 	};
 
 	$scope.load = function() {
+		$rootScope.loading = true;
 		Declaration.get({
 			id: $stateParams.id
 		}, function(data) {
+			$rootScope.loading = false;
 			$scope.$broadcast('scroll.refreshComplete');
 			$scope.declaration = data;
 
@@ -114,14 +118,16 @@ angular.module('app.controller.declarations', [])
 })
 
 /*** PAYMENTS ***/
-.controller('paymentsCtrl', function($scope, Payments, Toast) {
+.controller('paymentsCtrl', function($rootScope, $scope, Payments, Toast) {
 
 	$scope.load = function() {
+		$rootScope.loading = true;
 		Payments.query({}, function(data) {
 			$scope.payments = data;
 			if ($scope.payments.length == 0) {
 				Toast.show(lngTranslate('no_data'));
 			}
+			$rootScope.loading = false;
 			$scope.$broadcast('scroll.refreshComplete');
 		});
 	};

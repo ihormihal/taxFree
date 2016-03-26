@@ -1,16 +1,17 @@
 <ion-view view-title="{{'checks'|translate}}">
+	<div class="loading-bar-top" ng-class="{'active': loading}"></div>
 	<ion-nav-buttons side="right">
-		<button class="button button-icon button-clear ion-android-add" ng-click="addCheck()"></button>
+		<button class="button button-icon button-clear ion-android-add" ng-click="modalCheck.show()"></button>
 	</ion-nav-buttons>
 	<ion-content class="has-header">
 		<ion-refresher
 			pulling-text=""
 			on-refresh="load()">
 		</ion-refresher>
-		<div class="list">
+		<div class="list fade" ng-class="{'in': checks.length}">
 			<div ng-repeat="check in checks | orderBy : '-id'" ui-sref="main.check({id: check.id})" class="item list-status-{{check.status}}">
 				<h2>{{'check'|translate}} ID {{check.id}}</h2>
-				<p><i class="icon ion-earth"></i> {{check.country_enter}} - {{check.country_leaving}}</p>
+				<p class="fade" ng-class="{'in': check.country_enter && check.country_leaving}"><i class="icon ion-earth"></i> {{check.country_enter}} - {{check.country_leaving}}</p>
 				<div class="item-icon-right">
 					<i class="icon {{check.status|getStatusIcon}}"></i>
 				</div>

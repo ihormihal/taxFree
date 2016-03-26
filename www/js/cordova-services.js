@@ -18,8 +18,13 @@ angular.module('app.cordova', [])
 
 .service('Alert', function($cordovaDialogs){
 	return {
-		show: function(data){
-			$cordovaDialogs.alert(data.message, data.title);
+		show: function(data, callback){
+			$cordovaDialogs.alert(data.message, data.title)
+				.then(function() {
+					if (callback) {
+						callback();
+					}
+				});
 		}
 	}
 })

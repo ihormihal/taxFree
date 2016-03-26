@@ -1,30 +1,29 @@
 angular.module('app.services', ['ngResource'])
 
 /****************************************/
-/************ CATALOG SERVICE ***********/
-/****************************************/
-
-.factory('Catalog', function($resource) {
-  return $resource(window.AppSettings.api + 'api/catalog/:name', {name: '@name'});
-})
-
-/****************************************/
 /******* AUTHENTIFICATION SERVICE *******/
 /****************************************/
 
-.service('AuthService', function($rootScope, $q, $http, Toast) {
+.service('AuthService', function($rootScope, $q, $state, $http, $cordovaFile, Toast) {
 
   var self = {
 
-    credentials: window.Credentials,
+    credentials: {
+      username: null,
+      password: null,
+      grant_type: null,
+      refresh_token: null,
+      client_id: $rootScope.config.credentials.client_id,
+      client_secret: $rootScope.config.credentials.client_secret
+    },
 
     query: function(){
       console.log('query');
       window.SpinnerPlugin.activityStart(lngTranslate('authorization')+'...');
       $http({
         method: 'POST',
-        url: window.AppSettings.api + 'oauth/v2/token',
-        data: $rootScope.serialize(self.credentials),
+        url: $rootScope.config.domain + 'oauth/v2/token',
+        data: serializeData(self.credentials),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
@@ -40,30 +39,24 @@ angular.module('app.services', ['ngResource'])
             window.localStorage['password'] = self.credentials.password;
           }
 
-          window.localStorage['token'] = 'Bearer '+ data.access_token;
-          window.localStorage['refresh_token'] = data.refresh_token;
+          var token = 'Bearer '+ data.access_token;
           self.credentials.refresh_token = data.refresh_token;
 
-          $http.defaults.headers.common['Authorization'] = window.localStorage['token'];
+          $http.defaults.headers.common['Authorization'] = token;
+
+          window.localStorage['token'] = token;
+          window.localStorage['refresh_token'] = self.credentials.refresh_token;
 
           if(self.credentials.grant_type == 'password'){
             $rootScope.$broadcast('auth-login-success');
           }
 
-          if(self.credentials.grant_type == 'refresh_token'){
-            Toast.show(lngTranslate('error_general'));
-          }
-
-          return false;
-
-        }else{
-          $rootScope.$broadcast('auth-login-error', data);
-          return false;
+          //return false;
         }
       })
       .error(function (data, status, headers, config) {
         $rootScope.$broadcast('auth-login-error', data);
-        return false; //do not intercept error in app.js
+        return false; //do not intercept error
       });
     },
 
@@ -74,7 +67,7 @@ angular.module('app.services', ['ngResource'])
     },
 
     refresh: function(){
-      console.log('refresh');
+      console.log('refresh_token');
       self.credentials.grant_type = 'refresh_token';
       if(self.credentials.refresh_token){
         self.query();
@@ -93,7 +86,13 @@ angular.module('app.services', ['ngResource'])
       window.localStorage.removeItem('refresh_token');
       self.credentials.refresh_token = null;
       delete $http.defaults.headers.common['Authorization'];
-      $rootScope.$broadcast('auth-logout');
+
+      try {
+        $cordovaFile.removeRecursively(cordova.file.cacheDirectory, "");
+      } catch (error) {
+        console.log(error);
+      }
+      $state.go('login');
       return false;
     }
 
@@ -129,8 +128,8 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + 'oauth/v2/token',
-        data: $rootScope.serialize(AuthService.credentials),
+        url: $rootScope.config.domain + 'oauth/v2/token',
+        data: serializeData(AuthService.credentials),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
@@ -153,8 +152,8 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + 'api/user/register/one',
-        data: $rootScope.serialize(self.data),
+        url: $rootScope.config.domain + 'api/user/register/one',
+        data: serializeData(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
@@ -175,8 +174,8 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + 'api/user/register/two',
-        data: $rootScope.serialize(self.data),
+        url: $rootScope.config.domain + 'api/user/register/two',
+        data: serializeData(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
@@ -197,8 +196,8 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + 'api/user/register/three',
-        data: $rootScope.serialize(self.data),
+        url: $rootScope.config.domain + 'api/user/register/three',
+        data: serializeData(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
@@ -235,8 +234,8 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + 'api/user/resetpassword',
-        data: $rootScope.serialize(self.data),
+        url: $rootScope.config.domain + 'api/user/resetpassword',
+        data: serializeData(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
@@ -256,8 +255,8 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + 'api/user/resetpassword/confirm',
-        data: $rootScope.serialize(self.data),
+        url: $rootScope.config.domain + 'api/user/resetpassword/confirm',
+        data: serializeData(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
@@ -276,8 +275,8 @@ angular.module('app.services', ['ngResource'])
       var q = $q.defer();
       $http({
         method: 'POST',
-        url: window.AppSettings.api + 'api/user/setpassword/token',
-        data: $rootScope.serialize(self.data),
+        url: $rootScope.config.domain + 'api/user/setpassword/token',
+        data: serializeData(self.data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
         },
@@ -298,6 +297,15 @@ angular.module('app.services', ['ngResource'])
 })
 
 /****************************************/
+/************ CATALOG SERVICE ***********/
+/****************************************/
+
+.factory('Catalog', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/catalog/:name', {name: '@name'});
+})
+
+
+/****************************************/
 /****** APP PRIVATE DATA SERVICES *******/
 /****************************************/
 
@@ -305,22 +313,22 @@ angular.module('app.services', ['ngResource'])
 /********** DASHBOARD SERVICE ***********/
 /****************************************/
 
-.factory('Dashboard', function($resource) {
-  return $resource(window.AppSettings.api + 'api/dashboard/:request', {request: '@request'},{
+.factory('Dashboard', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/dashboard/:request', {request: '@request'},{
     getActionList: {
-      url: window.AppSettings.api + 'api/dashboard/action/list',
+      url: $rootScope.config.domain + 'api/dashboard/action/list',
       method: 'GET'
     },
     getPayments: {
-      url: window.AppSettings.api + 'api/dashboard/allpayments',
+      url: $rootScope.config.domain + 'api/dashboard/allpayments',
       method: 'GET'
     },
     getLastPayment: {
-      url: window.AppSettings.api +'api/dashboard/lastapprovedpayment',
+      url: $rootScope.config.domain +'api/dashboard/lastapprovedpayment',
       method: 'GET'
     },
     getNoactionList: {
-      url: window.AppSettings.api +'api/dashboard/noaction/list',
+      url: $rootScope.config.domain +'api/dashboard/noaction/list',
       method: 'GET'
     }
   });
@@ -330,21 +338,21 @@ angular.module('app.services', ['ngResource'])
 /************* USER SERVICE *************/
 /****************************************/
 
-.factory('User', function ($resource) {
-  return $resource(window.AppSettings.api + 'api/user/me', {}, {
+.factory('User', function ($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/user/me', {}, {
     update: {
       method: 'PUT'
     }
   });
 })
 
-.factory('Settings', function ($resource) {
-  return $resource(window.AppSettings.api + 'api/user/settings', {}, {
+.factory('Settings', function ($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/user/settings', {}, {
     update: {
       method: 'PUT'
     },
     sendDeviceToken: {
-      url: window.AppSettings.api + 'api/user/send_identifier',
+      url: $rootScope.config.domain + 'api/user/send_identifier',
       method: 'POST'
     }
   });
@@ -354,12 +362,12 @@ angular.module('app.services', ['ngResource'])
 /************* TRIP SERVICE *************/
 /****************************************/
 
-.factory('Trips', function($resource) {
-  return $resource(window.AppSettings.api + 'api/trip/list');
+.factory('Trips', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/trip/list');
 })
 
-.factory('Trip', function($resource) {
-  return $resource(window.AppSettings.api + 'api/trip/:id', {id: '@id'}, {
+.factory('Trip', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/trip/:id', {id: '@id'}, {
     update: {
       method: 'PUT'
     },
@@ -369,24 +377,24 @@ angular.module('app.services', ['ngResource'])
   });
 })
 
-.factory('TripChecks', function($resource) {
-  return $resource(window.AppSettings.api + 'api/trip/:id/checks', {id: '@id'});
+.factory('TripChecks', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/trip/:id/checks', {id: '@id'});
 })
 
-.factory('TripDeclarations', function($resource) {
-  return $resource(window.AppSettings.api + 'api/trip/:id/declarations', {id: '@id'});
+.factory('TripDeclarations', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/trip/:id/declarations', {id: '@id'});
 })
 
 /****************************************/
 /************* CHECK SERVICE ************/
 /****************************************/
 
-.factory('Checks', function($resource) {
-  return $resource(window.AppSettings.api + 'api/check/list');
+.factory('Checks', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/check/list');
 })
 
-.factory('Check', function($resource) {
-  return $resource(window.AppSettings.api + 'api/check/:id', {id: '@id'},{
+.factory('Check', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/check/:id', {id: '@id'},{
     update: {
       method: 'PUT'
     },
@@ -400,32 +408,32 @@ angular.module('app.services', ['ngResource'])
 /********** DECLARATION SERVICE *********/
 /****************************************/
 
-.factory('Declarations', function($resource) {
-  return $resource(window.AppSettings.api + 'api/declaration/list');
+.factory('Declarations', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/declaration/list');
 })
 
-.factory('Declaration', function($resource) {
-  return $resource(window.AppSettings.api + 'api/declaration/:id', {id: '@id'},{
+.factory('Declaration', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/declaration/:id', {id: '@id'},{
     update: {
       method: 'POST'
     }
   });
 })
 
-.factory('Payments', function($resource) {
-  return $resource(window.AppSettings.api + 'api/declaration/payments');
+.factory('Payments', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/declaration/payments');
 })
 
 /****************************************/
 /************* CARDS SERVICE ************/
 /****************************************/
 
-.factory('Cards', function($resource) {
-  return $resource(window.AppSettings.api + 'api/card/list');
+.factory('Cards', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/card/list');
 })
 
-.factory('Card', function($resource) {
-  return $resource(window.AppSettings.api + 'api/card/:id', {id: '@id'}, {
+.factory('Card', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/card/:id', {id: '@id'}, {
     update: {
       method: 'PUT'
     },
@@ -433,15 +441,15 @@ angular.module('app.services', ['ngResource'])
       method: 'POST'
     },
     setDefault: {
-      url: window.AppSettings.api + 'api/card/:id/default',
+      url: $rootScope.config.domain + 'api/card/:id/default',
       params: {id: '@id'},
       method: 'POST'
     }
   });
 })
 
-.factory('TaxFreeCard', function($resource) {
-  return $resource(window.AppSettings.api + 'api/taxfreecard/request/ctf', {}, {
+.factory('TaxFreeCard', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/taxfreecard/request/ctf', {}, {
     add: {
       method: 'POST'
     }
@@ -453,16 +461,16 @@ angular.module('app.services', ['ngResource'])
 /************ MESSAGE SERVICE ***********/
 /****************************************/
 
-// .factory('Message', function($resource) {
-//   return $resource(window.AppSettings.api + 'api/message/:action', {action: '@action'}, {
+// .factory('Message', function($rootScope, $resource) {
+//   return $resource($rootScope.config.domain + 'api/message/:action', {action: '@action'}, {
 //     call : {
 //       method: 'POST'
 //     }
 //   });
 // })
 
-.factory('Messages', function($resource) {
-  return $resource(window.AppSettings.api + 'api/message/list');
+.factory('Messages', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/message/list');
 })
 
 ;

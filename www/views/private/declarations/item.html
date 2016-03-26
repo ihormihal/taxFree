@@ -1,18 +1,19 @@
 <ion-view title="{{'declaration'|translate}} ID {{declaration.id}}">
+  <div class="loading-bar-top" ng-class="{'active': loading}"></div>
   <ion-content scroll="true" class="has-header">
       <ion-refresher
         pulling-text=""
         on-refresh="load()">
       </ion-refresher>
 
-      <div class="item bar-status-{{declaration.status}}">
+      <div class="item fade bar-status-{{declaration.status}}" ng-class="{'in': declaration}">
         {{declaration.status|translate}}
         <div class="item-icon-right">
           <i class="icon {{declaration.status|getStatusIcon}}"></i>
         </div>
       </div>
 
-      <div class="list">
+      <div class="list fade" ng-class="{'in': declaration}">
 
         <div class="item">
           <span class="label"><i class="icon ion-globe"></i> {{'declaration_country'|translate}}</span>

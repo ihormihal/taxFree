@@ -25,6 +25,7 @@ angular.module('app.routes', [])
   //REGISTRATION
   .state('regOne', {
     url: '/reg-one',
+    cache: false,
     templateUrl: 'views/public/registration-one.html',
     controller: 'regCtrl'
   })
@@ -83,6 +84,7 @@ angular.module('app.routes', [])
   //SETTINGS
   .state('main.settings', {
     url: '/settings',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'views/private/settings.html',
@@ -175,6 +177,7 @@ angular.module('app.routes', [])
   //TRIP data
   .state('main.trip.data', {
     url: '/data',
+    cache: false,
     views: {
       'data': {
         templateUrl: 'views/private/trips/tab-data.html'
@@ -185,6 +188,7 @@ angular.module('app.routes', [])
   //TRIP checks
   .state('main.trip.checks', {
     url: '/checks',
+    cache: false,
     views: {
       'checks': {
         templateUrl: 'views/private/trips/tab-checks.html'

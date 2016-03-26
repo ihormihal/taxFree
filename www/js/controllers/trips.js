@@ -1,13 +1,20 @@
 angular.module('app.controller.trips', [])
 
 /*** LIST ***/
-.controller('tripsCtrl', function($scope, $state, $ionicModal, Trips, Trip, Toast) {
+.controller('tripsCtrl', function($rootScope, $scope, $state, $ionicModal, Trips, Trip, Toast) {
+
+  if($rootScope.transports.length === 0 || $rootScope.countries.length === 0){
+    $rootScope.loadCatalog();
+  }
 
   var now = new Date().getTime()*0.001;
 
   $scope.load = function(){
+    $rootScope.loading = true;
     Trips.query({},function(data){
       $scope.trips = data;
+      $rootScope.loading = false;
+
       if($scope.trips.length == 0) Toast.show(lngTranslate('no_data'));
 
       //define status
@@ -54,11 +61,15 @@ angular.module('app.controller.trips', [])
     $scope.openModal();
   };
 
-  $scope.create = function(){
-    Trip.add($scope.trip, function(data){
-      $scope.closeModal();
-      Toast.show(lngTranslate('toast_trip_created'));
-      $state.go('main.trip.data', {id: data.id});
+  $scope.create = function() {
+    Trip.add($scope.trip, function(data) {
+      if (data.id) {
+        $scope.closeModal();
+        Toast.show(lngTranslate('toast_trip_created'));
+        $state.go('main.trip.data', {id: data.id});
+      } else {
+        Toast.show(lngTranslate('error_general'));
+      }
     });
   };
 
@@ -80,13 +91,18 @@ angular.module('app.controller.trips', [])
 
 
 /*** ITEM ***/
-.controller('tripCtrl', function($scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Trip, TripChecks, TripDeclarations, Check, Toast) {
+.controller('tripCtrl', function($rootScope, $scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Trip, TripChecks, TripDeclarations, Check, Toast) {
+
+  if($rootScope.transports.length === 0 || $rootScope.countries.length === 0){
+    $rootScope.loadCatalog();
+  }
 
   var now = new Date().getTime()*0.001;
 
   $scope.check = {id: 'add', trip: $stateParams.id, files: [], images: []};
 
   $scope.load = function(){
+    $rootScope.loading = true;
     Trip.get({id: $stateParams.id},function(data){
       $scope.trip = data;
       $scope.loadChecks();
@@ -105,6 +121,7 @@ angular.module('app.controller.trips', [])
       }
       $scope.trip.status = status;
 
+      $rootScope.loading = false;
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
@@ -117,8 +134,10 @@ angular.module('app.controller.trips', [])
         Toast.show(lngTranslate('no_data'));
       }
     }else{
+      $rootScope.loading = true;
       TripChecks.query({id: $stateParams.id},function(data){
         $scope.checks = data;
+        $rootScope.loading = false;
       });
     }
     $scope.$broadcast('scroll.refreshComplete');
@@ -130,8 +149,10 @@ angular.module('app.controller.trips', [])
         Toast.show(lngTranslate('no_data'));
       }
     }else{
+      $rootScope.loading = true;
       TripDeclarations.query({id: $stateParams.id},function(data){
         $scope.declarations = data;
+        $rootScope.false = true;
       });
     }
     $scope.$broadcast('scroll.refreshComplete');
@@ -203,10 +224,14 @@ angular.module('app.controller.trips', [])
     if (ready) {
       $scope.check.images = [];
       Check.add($scope.check, function(data) {
-        Toast.show(lngTranslate('toast_check_created'));
-        $state.go('main.check', {
-          id: data.id
-        });
+        if(data.id){
+          $scope.closeModal();
+          $scope.check.images = [];
+          Toast.show(lngTranslate('toast_check_created'));
+          $state.go('main.check', {id: data.id});
+        }else{
+          Toast.show(lngTranslate('error_general'));
+        }
       });
     } else {
       Toast.show(lngTranslate('please_wait_uploading'));

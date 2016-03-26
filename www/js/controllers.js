@@ -18,41 +18,33 @@ angular.module('app.controllers', [])
 .controller('AppCtrl', function($ionicPlatform, $rootScope, $scope, $state, AuthService, Catalog) {
 
 
-	$rootScope.transports = [];
-	$rootScope.countries = [];
+	$rootScope.loadCatalog = function(){
+		if (window.localStorage['countries']) {
+			$rootScope.countries = angular.fromJson(window.localStorage['countries']);
+		} else {
+			Catalog.query({
+				name: 'country'
+			}, function(data) {
+				$rootScope.countries = data;
+				window.localStorage['countries'] = angular.toJson(data);
+			});
+		}
 
-	if (window.localStorage['countries']) {
-		$rootScope.countries = angular.fromJson(window.localStorage['countries']);
-	} else {
-		Catalog.query({
-			name: 'country'
-		}, function(data) {
-			$rootScope.countries = data;
-			window.localStorage['countries'] = angular.toJson(data);
-		}, function(error) {
-			console.log(error);
-		});
-	}
+		if (window.localStorage['transports']) {
+			$rootScope.transports = angular.fromJson(window.localStorage['transports']);
+		} else {
+			Catalog.query({
+				name: 'transport'
+			}, function(data) {
+				$rootScope.transports = data;
+				window.localStorage['transports'] = angular.toJson(data);
+			});
+		}
+	};
 
-	if (window.localStorage['transports']) {
-		$rootScope.transports = angular.fromJson(window.localStorage['transports']);
-	} else {
-		Catalog.query({
-			name: 'transport'
-		}, function(data) {
-			$rootScope.transports = data;
-			window.localStorage['transports'] = angular.toJson(data);
-		}, function(error) {
-			console.log(error);
-		});
-	}
+	$rootScope.loadCatalog();
 
 	$scope.logout = function() {
-		try {
-			$cordovaFile.removeRecursively(cordova.file.cacheDirectory, "");
-		} catch (error) {
-			console.log(error);
-		}
 		AuthService.logout();
 	};
 
