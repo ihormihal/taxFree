@@ -150,7 +150,7 @@ angular.module('app.directives', [])
 			images: '='
 		},
 		templateUrl: 'views/tpl/choose-images.html',
-		controller: function($scope, $element, $attrs, $timeout, $cordovaImagePicker, $cordovaFile, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
+		controller: function($rootScope, $scope, $element, $attrs, $timeout, $cordovaImagePicker, $cordovaFile, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
 
 			if ($attrs.single == 'true') {
 				$scope.single = true;
@@ -235,7 +235,7 @@ angular.module('app.directives', [])
 					params: {user: $attrs.userid}
 				};
 				$cordovaFileTransfer.upload(
-					encodeURI(window.AppSettings.domain + $attrs.url),
+					encodeURI($rootScope.config.domain + $attrs.url),
 					file,
 					options)
 					.then(function(data) {
