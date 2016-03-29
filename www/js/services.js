@@ -19,7 +19,7 @@ angular.module('app.services', ['ngResource'])
 
     query: function(){
       console.log('query');
-      window.SpinnerPlugin.activityStart(lngTranslate('authorization'));
+      window.SpinnerPlugin.activityStart(lngTranslate('authorization')+'...');
       $http({
         method: 'POST',
         url: $rootScope.config.domain + 'oauth/v2/token',
@@ -82,9 +82,11 @@ angular.module('app.services', ['ngResource'])
     },
 
     logout: function() {
+      self.credentials.password = null;
+      self.credentials.refresh_token = null;
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('refresh_token');
-      self.credentials.refresh_token = null;
+      window.localStorage.removeItem('password');
       delete $http.defaults.headers.common['Authorization'];
 
       try {

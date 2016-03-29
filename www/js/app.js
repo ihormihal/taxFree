@@ -73,14 +73,13 @@ angular.module('app', [
 		//pressing on system back button
 		var BackButtonPressed = 0;
 		$ionicPlatform.registerBackButtonAction(function(event) {
-			BackButtonPressed = 1;
-
+			BackButtonPressed += 1;
 		  if (BackButtonPressed == 1) {
 		  	event.preventDefault();
 		    $ionicHistory.goBack();
 		  } else if(BackButtonPressed == 2){
 		  	event.preventDefault();
-		    Toast.show('press_again_to_exit');
+		    Toast.show(lngTranslate('press_again_to_exit'));
 		  } else if(BackButtonPressed == 3){
 		  	navigator.app.exitApp();
 		  }
