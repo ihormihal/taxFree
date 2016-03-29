@@ -9330,6 +9330,15 @@ a {
   top: inherit;
   left: inherit; }
 
+.item.icon-right {
+  padding-right: 50px; }
+
+.item.validation-message {
+  border-top: 1px solid #ff4f00;
+  color: #ff4f00;
+  text-align: center;
+  font-size: 14px; }
+
 .item .input-label {
   font-size: 14px;
   display: block;
@@ -9337,19 +9346,6 @@ a {
   width: auto; }
   .item .input-label sup {
     color: #f39736; }
-
-.item .input-label .error-message {
-  display: none; }
-
-.item.error {
-  background-color: #FFCEB7; }
-  .item.error input {
-    background-color: #FFCEB7; }
-  .item.error .input-label .error-message {
-    display: inline-block;
-    color: #ff4f00;
-    font-size: 12px;
-    margin-left: 5px; }
 
 .item select.ng-invalid {
   color: #aaa; }

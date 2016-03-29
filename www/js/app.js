@@ -49,7 +49,7 @@ angular.module('app', [
 ])
 
 
-.run(function($rootScope, $state, $ionicPlatform, $ionicHistory, $cordovaFile, $cordovaNetwork, AppConfig, AuthService, Settings, Alert) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicHistory, $cordovaFile, $cordovaNetwork, AppConfig, AuthService, Settings, Toast, Alert) {
 
 	$ionicPlatform.ready(function() {
 
@@ -69,6 +69,28 @@ angular.module('app', [
 		if (window.cordova && window.cordova.plugins.Keyboard) {
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 		}
+
+		//pressing on system back button
+		var BackButtonPressed = 0;
+		$ionicPlatform.registerBackButtonAction(function(event) {
+			BackButtonPressed = 1;
+
+		  if (BackButtonPressed == 1) {
+		  	event.preventDefault();
+		    $ionicHistory.goBack();
+		  } else if(BackButtonPressed == 2){
+		  	event.preventDefault();
+		    Toast.show('press_again_to_exit');
+		  } else if(BackButtonPressed == 3){
+		  	navigator.app.exitApp();
+		  }
+
+			setTimeout(function() {
+				BackButtonPressed = 0;
+			}, 2000);
+
+		}, 100);
+
 
 		//HTTP-ERRORS preprocessing
 		$rootScope.$on('http-error', function(event, data) {
@@ -100,16 +122,18 @@ angular.module('app', [
 				}
 				//defined errors
 				if (isMessage) {
-					Alert.show({
-						message: message,
-						title: 'Error'
-					});
-					//undefined errors
+					// Alert.show({
+					// 	message: message,
+					// 	title: 'Error'
+					// });
+					Toast.show(message);
+				//undefined errors
 				} else {
-					Alert.show({
-						message: angular.toJson(data),
-						title: 'Error'
-					});
+					// Alert.show({
+					// 	message: angular.toJson(data),
+					// 	title: 'Error'
+					// });
+					Toast.show(angular.toJson(data));
 				}
 			};
 

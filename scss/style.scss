@@ -153,27 +153,21 @@ a {color: $assertive;}
 }
 
 .item {
+	&.icon-right {
+		padding-right: 50px;
+	}
+	&.validation-message {
+		border-top: 1px solid $assertiveAccent;
+		color: $assertiveAccent;
+		text-align: center;
+		font-size: 14px;
+	}
 	.input-label {
 		font-size: 14px;
 		display: block;
 		white-space: normal;
 		width: auto;
 		sup {color: $assertive;}
-	}
-	.input-label {
-		.error-message {display: none;}
-	}
-	&.error {
-		background-color: #FFCEB7;
-		input {
-			background-color: #FFCEB7;
-		}
-		.input-label .error-message {
-			display: inline-block;
-			color: $assertiveAccent;
-			font-size: 12px;
-			margin-left: 5px;
-		}
 	}
 	select.ng-invalid {
 		color: #aaa;

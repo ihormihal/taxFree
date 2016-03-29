@@ -69,6 +69,10 @@ angular.module('app.config', ['ngResource'])
     }
   };
 
+  $rootScope.currentTime = function(date){
+    return new Date();
+  };
+
 
   if (!window.SpinnerPlugin) {
     window.SpinnerPlugin = {

@@ -9,7 +9,7 @@
 			on-refresh="load()">
 		</ion-refresher>
 		<div class="list fade" ng-class="{'in': trips.length}">
-			<div class="item list-status-{{trip.status}}" ng-repeat="trip in trips | orderBy:'-date_end'" ui-sref="main.trip.data({id: trip.id})">
+			<div class="item icon-right list-status-{{trip.status}}" ng-repeat="trip in trips | orderBy:'-date_end'" ui-sref="main.trip.data({id: trip.id})">
 				<h2>{{getById(countries,trip.country_enter).name}} - {{getById(countries,trip.country_leaving).name}} (ID {{trip.id}})</h2>
 				<p><i class="icon ion-android-time"></i> {{trip.date_start*1000|date:"dd.MM.yyyy"}} - {{trip.date_end*1000|date:"dd.MM.yyyy"}}</p>
 				<div class="item-icon-right">

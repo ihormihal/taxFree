@@ -15,7 +15,7 @@
             on-refresh="load()">
         </ion-refresher>
 
-        <div class="padding status-bar text-center assertive fade" ng-class="{'in': user.profile.editable}">
+        <div class="padding status-bar text-center assertive hide" ng-class="{'hide-false': user.profile.editable == '0'}">
             <p>{{'profile_wait'|translate}}</p>
         </div>
 

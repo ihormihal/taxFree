@@ -1,7 +1,7 @@
 angular.module('app.controller.auth', [])
 
 /*** LOGIN ***/
-.controller('loginCtrl', function($scope, $state, $ionicPopup, Toast, AuthService) {
+.controller('loginCtrl', function($scope, $state, AuthService) {
 
 	window.localStorage['ready'] = true;
 	$scope.user = {};
@@ -22,7 +22,7 @@ angular.module('app.controller.auth', [])
 })
 
 /*** REGISTRAION ***/
-.controller('regCtrl', function($rootScope, $scope, $state, $ionicPopup, $ionicModal, AuthService, RegService, Catalog, Toast) {
+.controller('regCtrl', function($rootScope, $scope, $state, $ionicModal, AuthService, RegService, Catalog, Toast) {
 
 	$scope.images = [];
 
@@ -31,6 +31,7 @@ angular.module('app.controller.auth', [])
 	window.localStorage['token'] = '';
 	$rootScope.countries = [];
 
+	window.SpinnerPlugin.activityStart(lngTranslate('loading'));
 	var loadCountries = function() {
 		if (window.localStorage['countries']) {
 			$rootScope.countries = angular.fromJson(window.localStorage['countries']);
@@ -39,6 +40,7 @@ angular.module('app.controller.auth', [])
 			Catalog.query({
 				name: 'country'
 			}, function(data) {
+				window.SpinnerPlugin.activityStop();
 				$rootScope.countries = data;
 				window.localStorage['countries'] = angular.toJson(data);
 			});

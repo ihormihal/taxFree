@@ -89,27 +89,6 @@ angular.module('app.controller.cards', [])
 		}]
 	};
 
-	//validate card info
-	$scope.valid = {number: false, date: false};
-	$scope.$watch('card', function() {
-
-		if ($scope.card.number) {
-			if ($scope.card.number.toString().length == 16) {
-				$scope.valid.number = true;
-			} else {
-				$scope.valid.number = false;
-			}
-		}
-
-		var now = new Date();
-		if ($scope.card.expire_date < now) {
-			$scope.valid.date = false;
-		} else {
-			$scope.valid.date = true;
-		}
-
-	}, true);
-
 	$scope.$watch('card_taxfree.currency_index', function() {
 		var cards = [{}];
 		if($scope.card_taxfree.currency_index){
@@ -219,27 +198,6 @@ angular.module('app.controller.cards', [])
 	$scope.doRefresh = function() {
 		$scope.load();
 	};
-
-	$scope.$watch('card', function() {
-
-		if ($scope.card) {
-			if ($scope.card.number.toString().length == 16) {
-				$scope.valid.number = true;
-			} else {
-				$scope.valid.number = false;
-			}
-
-
-			var now = new Date();
-			if ($scope.card.expire_date < now) {
-				$scope.valid.date = false;
-			} else {
-				$scope.valid.date = true;
-			}
-		}
-
-
-	}, true);
 
 	$ionicModal.fromTemplateUrl('views/private/cards/edit.html', {
 		scope: $scope,

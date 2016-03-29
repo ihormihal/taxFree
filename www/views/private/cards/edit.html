@@ -21,10 +21,14 @@
         <input type="tel" ui-mask="9999-9999-9999-9999" ui-mask-placeholder ng-model="card.number" required>
       </label>
 
-      <label class="item item-input item-stacked-label" ng-class="{'error':!valid.date}">
-        <div class="input-label">{{'expire_date'|translate}} <sup>*</sup><span class="error-message">{{'date_expired'|translate}}</span></div>
+      <label class="item item-input item-stacked-label">
+        <div class="input-label">{{'expire_date'|translate}} <sup>*</sup></div>
         <input type="month" ng-model="card.expire_date" required>
       </label>
+
+      <div class="item validation-message" ng-hide="card.expire_date > currentTime()">
+        {{'date_expired'|translate}}
+      </div>
 
       <div class="item item-toggle">
         <span class="input-label">{{'set_as_default_card'|translate}}</span>
@@ -37,7 +41,7 @@
     </form>
 
     <div class="padding">
-      <button ng-class="{disabled: !(valid.date && form.$valid)}" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
+      <button ng-class="{disabled: !(card.expire_date > currentTime() && form.$valid)}" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
     </div>
 
   </ion-content>

@@ -19,7 +19,7 @@ angular.module('app.services', ['ngResource'])
 
     query: function(){
       console.log('query');
-      window.SpinnerPlugin.activityStart(lngTranslate('authorization')+'...');
+      window.SpinnerPlugin.activityStart(lngTranslate('authorization'));
       $http({
         method: 'POST',
         url: $rootScope.config.domain + 'oauth/v2/token',
