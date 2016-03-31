@@ -146,14 +146,18 @@ angular.module('app', [
 					});
 					break;
 				case 400:
-					if(data.error == 'invalid_grant'){
+					if(data.data.error == 'invalid_grant'){
 						AuthService.logout();
-					}else{
-						showErrorMsg(data.data);
 					}
+					showErrorMsg(data.data);
 					break;
 				case 401:
-					AuthService.refresh();
+					if(data.data.error == 'access_denied'){
+						AuthService.logout();
+						showErrorMsg(data.data);
+					}else{
+						AuthService.refresh();
+					}
 					break;
 				case 404:
 					$ionicHistory.goBack();
@@ -219,6 +223,7 @@ angular.module('app', [
 					title: data.title || 'Tax Free 4U',
 					message: data.message
 				});
+				Toast.show(data.additionalData);
 				// data.message,
 				// data.title,
 				// data.count,
