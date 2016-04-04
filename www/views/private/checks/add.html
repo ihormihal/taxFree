@@ -6,14 +6,16 @@
     </div>
   </ion-header-bar>
   <ion-content padding="false" scroll="true" class="has-header">
-    <form>
+    <form name="form">
       <div class="list">
-        <label class="item item-input item-stacked-label">
+        <label class="item item-input item-stacked-label" ng-class="{'has-error': form.trip.$invalid}">
           <div class="input-label">{{'trip'|translate}} <sup>*</sup></div>
           <div class="item-select">
-            <select integer-model ng-model="check.trip" required>
+            <select integer-model name="trip" ng-model="check.trip" required>
               <option value="" disabled>{{'empty'|translate}}</option>
-              <option ng-show="trip.date_end*1000 > currentTime()" ng-repeat="trip in trips" value="{{trip.id}}">{{getById(countries,trip.country_enter).name}} - {{getById(countries,trip.country_leaving).name}}</option>
+              <option
+                ng-repeat="trip in activeTrips"
+                value="{{trip.id}}">{{getById(countries,trip.country_enter).name}} - {{getById(countries,trip.country_leaving).name}}</option>
             </select>
           </div>
         </label>

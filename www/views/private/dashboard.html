@@ -18,7 +18,7 @@
 					{{'actions'|translate}} ({{noactionlist.notifications.length}})
 				</div>
 				<div class="item-content" ng-class="{'in': noactionlist.notifications.length}">
-					<div class="item" ng-repeat="action in noactionlist.notifications">
+					<div class="item" ng-repeat="action in noactionlist.notifications" ng-click="goToScreen(action.entity, action.entity_id)">
 						{{action.message}}
 						<div class="date"><i class="icon ion-ios-timer-outline"></i> {{action.created}}</div>
 					</div>
@@ -31,7 +31,7 @@
 					{{'events'|translate}} ({{actionlist.notifications.length}})
 				</div>
 				<div class="item-content">
-					<div class="item" ng-repeat="action in actionlist.notifications">
+					<div class="item" ng-repeat="action in actionlist.notifications" ng-click="goToScreen(action.entity, action.entity_id)">
 						{{action.message}}
 						<div class="date"><i class="icon ion-ios-timer-outline"></i> {{action.created}}</div>
 					</div>

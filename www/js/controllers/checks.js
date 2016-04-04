@@ -25,6 +25,7 @@ angular.module('app.controller.checks', [])
 			}
 			Trips.query({}, function(data) {
 				$scope.trips = data;
+				$scope.activeTrips = [];
 				$scope.complete();
 			});
 		});
@@ -42,6 +43,12 @@ angular.module('app.controller.checks', [])
 					$scope.checks[i].country_leaving = $rootScope.getById($rootScope.countries, trip.country_leaving).name;
 				}
 			});
+		});
+
+		angular.forEach($scope.trips, function(trip,i){
+			if(trip.date_end*1000 > $rootScope.currentTime() && trip.status !== 'refused'){
+				$scope.activeTrips.push(trip);
+			}
 		});
 	};
 

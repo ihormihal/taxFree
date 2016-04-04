@@ -17,6 +17,10 @@
       </div>
     </div>
 
+    <div class="padding assertive" ng-show="check.reason">
+      {{check.reason}}
+    </div>
+
     <div class="padding status-bar text-center assertive" ng-hide="check.files.length">
       <p>{{'no_check_photos'|translate}}</p>
     </div>
@@ -34,7 +38,7 @@
           <choose-images images="check.images" url="api/check/upload"></choose-images>
         </div>
         <div>
-          <button ng-disabled="check.images.length == 0" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
+          <button ng-disabled="check.files.length == 0" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
         </div>
       </div>
     </form>

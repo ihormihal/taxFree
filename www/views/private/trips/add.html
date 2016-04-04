@@ -9,86 +9,86 @@
 
     <form name="form" class="list">
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.country_enter.$invalid}">
         <div class="input-label">{{'country_arrival'|translate}} <sup>*</sup></div>
         <div class="item-select">
-          <select integer-model ng-model="trip.country_enter" required>
+          <select integer-model name="country_enter" ng-model="trip.country_enter" required>
             <option value="" disabled>{{'empty'|translate}}</option>
             <option ng-repeat="country in countries | filter: {is_europe:true}" value="{{country.id}}">{{country.name}}</option>
           </select>
         </div>
       </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.date_start.$invalid}">
         <div class="input-label">{{'date_arrival'|translate}} <sup>*</sup></div>
-        <input datetime type="date" ng-model="trip.date_start" required>
+        <input datetime type="date" name="date_start" ng-model="trip.date_start" required>
       </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.time_start.$invalid}">
         <div class="input-label">{{'time_arrival'|translate}} <sup>*</sup></div>
-        <input datetime type="time" ng-model="trip.time_start" required>
+        <input datetime type="time" name="time_start" ng-model="trip.time_start" required>
       </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.transport_enter.$invalid}">
         <div class="input-label">{{'transport'|translate}} <sup>*</sup></div>
         <div class="item-select">
-          <select integer-model ng-model="trip.transport_enter" required>
+          <select integer-model name="transport_enter" ng-model="trip.transport_enter" required>
             <option value="" disabled>{{'empty'|translate}}</option>
             <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name}}</option>
           </select>
         </div>
       </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.race_number_enter.$invalid}">
         <div class="input-label">{{'passage_number'|translate}} <sup>*</sup></div>
-        <input type="text" ng-model="trip.race_number_enter" required>
+        <input type="text" name="race_number_enter" ng-model="trip.race_number_enter" required>
       </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.country_leaving.$invalid}">
         <div class="input-label">{{'country_departure'|translate}} <sup>*</sup></div>
         <div class="item-select">
-          <select integer-model ng-model="trip.country_leaving" required>
+          <select integer-model name="country_leaving" ng-model="trip.country_leaving" required>
             <option value="" disabled>{{'empty'|translate}}</option>
             <option ng-repeat="country in countries | filter: {is_europe:true}" value="{{country.id}}">{{country.name}}</option>
           </select>
         </div>
       </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.date_end.$invalid}">
         <div class="input-label">{{'date_departure'|translate}} <sup>*</sup></div>
-        <input datetime type="date" ng-model="trip.date_end" required>
+        <input datetime type="date" name="date_end" ng-model="trip.date_end" required>
       </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.time_end.$invalid}">
         <div class="input-label">{{'time_departure'|translate}} <sup>*</sup></div>
-        <input datetime type="time" ng-model="trip.time_end" required>
+        <input datetime type="time" name="time_end" ng-model="trip.time_end" required>
       </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.transport_leaving.$invalid}">
         <div class="input-label">{{'transport'|translate}} <sup>*</sup></div>
         <div class="item-select">
-          <select integer-model ng-model="trip.transport_leaving" required>
+          <select integer-model name="transport_leaving" ng-model="trip.transport_leaving" required>
             <option value="" disabled>{{'empty'|translate}}</option>
             <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name}}</option>
           </select>
         </div>
       </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.race_number_leaving.$invalid}">
         <div class="input-label">{{'passage_number'|translate}} <sup>*</sup></div>
-        <input type="text" ng-model="trip.race_number_leaving" required>
+        <input type="text" name="race_number_leaving" ng-model="trip.race_number_leaving" required>
       </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.address.$invalid}">
         <div class="input-label">{{'residence_address'|translate}} <sup>*</sup></div>
-        <input type="text" ng-model="trip.address" required>
+        <input type="text" name="address" ng-model="trip.address" required>
+      </label>
+
+      <label class="item">
+        <button ng-class="{disabled: !form.$valid}" class="button button-stable button-block button-assertive up" ng-click="create()">{{'done'|translate}}</button>
       </label>
 
     </form>
-
-    <div class="padding">
-      <button ng-class="{disabled: !form.$valid}" class="button button-stable button-block button-assertive up" ng-click="create()">{{'done'|translate}}</button>
-    </div>
 
   </ion-content>
 

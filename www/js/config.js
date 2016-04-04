@@ -69,8 +69,52 @@ angular.module('app.config', ['ngResource'])
     }
   };
 
-  $rootScope.currentTime = function(date){
+  $rootScope.currentDate = function(){
     return new Date();
+  };
+  $rootScope.currentTime = function(){
+    return parseInt(new Date().getTime()/1000);
+  };
+
+  $rootScope.goToScreen = function(entity, entity_id){
+
+    switch(entity){
+      case 'profile':
+        $state.go('main.profile');
+        break;
+      case 'trip':
+        if(entity_id){
+          $state.go('main.trip',{id: entity_id});
+        }else{
+          $state.go('main.trips');
+        }
+        break;
+      case 'check':
+        if(entity_id){
+          $state.go('main.check',{id: entity_id});
+        }else{
+          $state.go('main.checks');
+        }
+        break;
+      case 'declaration':
+        if(entity_id){
+          $state.go('main.declaration',{id: entity_id});
+        }else{
+          $state.go('main.declarations');
+        }
+        break;
+      case 'card':
+        if(entity_id){
+          $state.go('main.card',{id: entity_id});
+        }else{
+          $state.go('main.cards');
+        }
+        break;
+      default:
+        console.log([entity, entity_id]);
+        break;
+    }
+
   };
 
 

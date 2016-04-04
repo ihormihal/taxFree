@@ -9187,7 +9187,7 @@ a {
 .hide {
   display: none; }
   .hide.hide-false {
-    display: block; }
+    display: block !important; }
 
 .white {
   color: #fff; }
@@ -9330,8 +9330,19 @@ a {
   top: inherit;
   left: inherit; }
 
+.item.has-error input {
+  color: #ff4f00; }
+
+.item.has-error + .item {
+  border-color: #ff4f00; }
+
 .item.icon-right {
   padding-right: 50px; }
+
+.item .input-label .error {
+  display: inline-block;
+  color: #ff4f00;
+  font-size: 12px; }
 
 .item.validation-message {
   border-top: 1px solid #ff4f00;
@@ -9367,6 +9378,9 @@ a {
 
 .item-note-large {
   font-size: 18px; }
+
+.item-stacked-label .input-label {
+  max-width: 100%; }
 
 .item-stacked-label .item-select {
   height: 34px; }
@@ -9633,6 +9647,11 @@ a {
 .list .list-status-digitalized .item-icon-right,
 .list .list-status-shipping .item-icon-right {
   color: #00BCD4; }
+
+.bar-status-request {
+  border: none;
+  color: #fff;
+  background-color: #f39736; }
 
 .bar-status-current,
 .bar-status-new,

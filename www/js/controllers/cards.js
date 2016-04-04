@@ -176,11 +176,6 @@ angular.module('app.controller.cards', [])
 /*** ITEM ***/
 .controller('cardCtrl', function($rootScope, $scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Card, Toast) {
 
-	$scope.valid = {
-		number: false,
-		date: false
-	};
-
 	$scope.card = null;
 
 	$scope.load = function() {

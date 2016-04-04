@@ -6,7 +6,7 @@
         <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
     </ion-nav-buttons>
     <ion-nav-buttons side="right">
-        <button ng-class="{visible: user.profile.editable}" class="button button-icon button-clear ion-ios-compose-outline hidden" ng-click="openModal()"></button>
+        <button class="button button-icon button-clear ion-ios-compose-outline hide" ng-click="openModal()" ng-class="{'hide-false': user.profile.editable}"></button>
     </ion-nav-buttons>
     <ion-content padding="false" class="has-header">
 
@@ -15,8 +15,12 @@
             on-refresh="load()">
         </ion-refresher>
 
-        <div class="padding status-bar text-center assertive hide" ng-class="{'hide-false': user.profile.editable == '0'}">
-            <p>{{'profile_wait'|translate}}</p>
+        <div class="padding bar-status-request hide text-center" ng-class="{'hide-false': user.profile.editable == '0'}">
+            {{'profile_wait'|translate}}
+        </div>
+
+        <div class="padding bar-status-request text-center" ng-show="user.profile.reason">
+            {{user.profile.reason}}
         </div>
 
         <div class="list fade" ng-class="{'in': user.profile}">

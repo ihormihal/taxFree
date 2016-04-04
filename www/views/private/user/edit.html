@@ -8,94 +8,113 @@
   <ion-content padding="false" scroll="true" class="has-header">
     <form name="form">
       <div class="list">
-        <label class="item item-input item-stacked-label top-item">
+
+        <label class="item item-input item-stacked-label top-item" ng-class="{'has-error': form.before_fs.$invalid}">
           <span class="input-label">{{'how_call_you'|translate}} <sup>*</sup></span>
           <div class="item-select">
-            <select ng-model="user.profile.before_fs">
+            <select name="before_fs" ng-model="user.profile.before_fs">
               <option value="mr">{{'mr'|translate}}</option>
               <option value="mrs">{{'mrs'|translate}}</option>
               <option value="miss">{{'ms'|translate}}</option>
             </select>
           </div>
         </label>
-        <label class="item item-input">
-          <input type="text" ng-model="user.profile.fsname" placeholder="Ф.И.О." required>
+
+        <label class="item item-input" ng-class="{'has-error': form.fsname.$invalid}">
+          <input type="text" name="fsname" ng-model="user.profile.fsname" placeholder="Ф.И.О." required>
         </label>
-        <label class="item item-input item-stacked-label">
+
+        <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_birthday.$invalid}">
           <div class="input-label">{{'birthday'|translate}} <sup>*</sup></div>
-          <input datetime type="date" ng-model="user.profile.passp_birthday" required>
+          <input datetime type="date" name="passp_birthday" ng-model="user.profile.passp_birthday" required>
         </label>
-        <label class="item item-input item-stacked-label">
+
+        <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_sex.$invalid}">
           <div class="input-label">{{'sex'|translate}} <sup>*</sup></div>
           <div class="item-select">
-            <select ng-model="user.profile.passp_sex" required>
+            <select name="passp_sex" ng-model="user.profile.passp_sex" required>
               <option value="" disabled>{{'empty'|translate}}</option>
               <option value="m">{{'m'|translate}}</option>
               <option value="f">{{'f'|translate}}</option>
             </select>
           </div>
         </label>
-        <label class="item item-input item-stacked-label">
+
+        <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_citizenship.$invalid}">
           <div class="input-label">{{'citizenship'|translate}} <sup>*</sup></div>
           <div class="item-select">
-            <select integer-model ng-model="user.profile.passp_citizenship" required>
+            <select integer-model name="passp_citizenship" ng-model="user.profile.passp_citizenship" required>
               <option value="" disabled>{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
             </select>
           </div>
         </label>
-        <label class="item item-input item-stacked-label">
+
+        <label class="item item-input item-stacked-label" ng-class="{'has-error': form.country.$invalid}">
           <div class="input-label">{{'country'|translate}} <sup>*</sup></div>
           <div class="item-select">
-            <select integer-model ng-model="user.profile.country" required>
+            <select integer-model name="country" ng-model="user.profile.country" required>
               <option value="" disabled>{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
             </select>
           </div>
         </label>
-        <label class="item item-input item-stacked-label">
+
+        <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_number.$invalid}">
           <div class="input-label">{{'passport_number'|translate}} <sup>*</sup></div>
-          <input type="text" minlength="8" ng-model="user.profile.passp_number" placeholder="ET000001" required>
+          <input type="text" minlength="8" name="passp_number" ng-model="user.profile.passp_number" placeholder="ET000001" required>
         </label>
-        <label class="item item-input item-stacked-label">
+
+        <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_country.$invalid}">
           <div class="input-label">{{'passport_country'|translate}} <sup>*</sup></div>
           <div class="item-select">
-            <select integer-model ng-model="user.profile.passp_country" required>
+            <select integer-model name="passp_country" ng-model="user.profile.passp_country" required>
               <option value="" disabled>{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
             </select>
           </div>
         </label>
-        <label class="item item-input item-stacked-label">
-          <div class="input-label">{{'passport_date'|translate}} <sup>*</sup></div>
-          <input datetime type="date" ng-model="user.profile.passp_date" required>
+
+        <label
+          class="item item-input item-stacked-label"
+          ng-class="{'has-error': user.profile.passp_date < currentTime()}">
+          <div class="input-label">
+            {{'passport_date'|translate}} <sup>*</sup>
+            <span class="error" ng-show="user.profile.passp_date < currentTime()">{{'date_expired'|translate}}</span>
+          </div>
+          <input datetime type="date" name="passp_date" ng-model="user.profile.passp_date" required>
         </label>
-        <label class="item item-input item-stacked-label">
+
+        <label class="item item-input item-stacked-label" ng-class="{'has-error': form.email.$invalid}">
           <div class="input-label">{{'email'|translate}} <sup>*</sup></div>
-          <input type="email" ng-model="user.profile.email" required>
+          <input type="email" name="email" ng-model="user.profile.email" required>
         </label>
-        <label class="item item-input item-stacked-label">
+
+        <label class="item item-input item-stacked-label" ng-class="{'has-error': form.phone_country.$invalid}">
           <div class="input-label">{{'phone'|translate}} <sup>*</sup></div>
           <div class="item-select">
-            <select integer-model ng-model="user.profile.phone_country" required>
+            <select integer-model ng-model="user.profile.phone_country" name="phone_country" required>
               <option value="" disabled>{{'empty'|translate}}</option>
               <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}} {{country.phone_code}}</option>
             </select>
           </div>
         </label>
-        <label class="item">
-          <input type="tel" ng-model="user.profile.phone" required>
+
+        <label class="item" ng-class="{'has-error': form.phone.$invalid}">
+          <input type="tel" name="phone" ng-model="user.profile.phone" required>
         </label>
+
         <div class="item">
           <span class="input-label">{{'passport_photo'|translate}} <sup>*</sup></span>
           <choose-images single="true" images="user.images" url="api/user/upload" filekey="passport" userid="{{user.profile.id}}"></choose-images>
         </div>
+
       </div>
 
     </form>
 
     <div class="box">
-      <button ng-class="{disabled: !form.$valid}" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
+      <button ng-class="{disabled: (form.$invalid || user.profile.passp_date < currentTime())}" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
     </div>
 
   </ion-content>

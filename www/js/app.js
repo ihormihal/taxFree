@@ -106,32 +106,21 @@ angular.module('app', [
 
 			var showErrorMsg = function(data) {
 				var message = '';
-				var isMessage = false;
 				if (data) {
 					if (data.error) {
 						if (data.error.message) {
 							message = data.error.message + '. ';
-							isMessage = true;
 						}
 						if (data.error_description) {
 							message += data.error_description + '. ';
-							isMessage = true;
 						}
 					}
 				}
 				//defined errors
-				if (isMessage) {
-					// Alert.show({
-					// 	message: message,
-					// 	title: 'Error'
-					// });
+				if (message) {
 					Toast.show(message);
 				//undefined errors
 				} else {
-					// Alert.show({
-					// 	message: angular.toJson(data),
-					// 	title: 'Error'
-					// });
 					Toast.show(angular.toJson(data));
 				}
 			};
@@ -218,12 +207,20 @@ angular.module('app', [
 			});
 
 			push.on('notification', function(data) {
-				//console.log(angular.toJson(data));
-				Alert.show({
-					title: data.title || 'Tax Free 4U',
-					message: data.message
-				});
-				Toast.show(data.additionalData);
+
+				if(data.additionalData){
+					$rootScope.goToScreen(data.additionalData.data);
+				}
+
+				if ($rootScope.config.debug) {
+					Alert.show({
+						title: 'Debug PUSH',
+						message: angular.toJson(data)
+					});
+				}else{
+					Toast.show(data.message);
+				}
+
 				// data.message,
 				// data.title,
 				// data.count,
@@ -234,6 +231,12 @@ angular.module('app', [
 
 			push.on('error', function(e) {
 				// e.message
+				if ($rootScope.config.debug) {
+					Alert.show({
+						title: 'Error PUSH',
+						message: angular.toJson(e)
+					});
+				}
 			});
 
 		} catch (error){

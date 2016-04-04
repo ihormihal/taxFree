@@ -13,7 +13,7 @@ a {color: $assertive;}
 .hide {
 	display: none;
 	&.hide-false {
-		display: block;
+		display: block !important;
 	}
 }
 
@@ -153,8 +153,21 @@ a {color: $assertive;}
 }
 
 .item {
+	&.has-error {
+		input {
+			color: $assertiveAccent;
+		}
+		+ .item {
+			border-color: $assertiveAccent;
+		}
+	}
 	&.icon-right {
 		padding-right: 50px;
+	}
+	.input-label .error {
+		display: inline-block;
+		color: $assertiveAccent;
+		font-size: 12px;
 	}
 	&.validation-message {
 		border-top: 1px solid $assertiveAccent;
@@ -201,8 +214,8 @@ a {color: $assertive;}
 
 
 .item-stacked-label {
-	label {
-
+	.input-label {
+		max-width: 100%;
 	}
 	.item-select {
 		height: 34px;
@@ -522,6 +535,10 @@ a {color: $assertive;}
 }
 
 // STATUS-BAR
+.bar-status-request {
+	border: none; color: #fff;
+	background-color: $assertive;
+}
 .bar-status-current,
 .bar-status-new,
 .bar-status-created,

@@ -9,29 +9,29 @@
 
     <form name="form" class="list">
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.currency_index.$invalid}">
         <div class="input-label">{{'currency'|translate}} <sup>*</sup></div>
         <div class="item-select">
-          <select ng-model="card_taxfree.currency_index">
+          <select name="currency_index" ng-model="card_taxfree.currency_index">
             <option value="" disabled>{{'empty'|translate}}</option>
             <option ng-repeat="price in prices" value="{{$index}}">{{price.name}} ({{price.card_price}} {{price.short_name}})</option>
           </select>
         </div>
       </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.post_index.$invalid}">
         <div class="input-label">{{'post_index'|translate}} <sup>*</sup></div>
-        <input type="text" ng-model="card_taxfree.post_index" required>
+        <input type="text" name="post_index" ng-model="card_taxfree.post_index" required>
       </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.city.$invalid}">
         <div class="input-label">{{'city'|translate}} <sup>*</sup></div>
-        <input type="text" ng-model="card_taxfree.city" required>
+        <input type="text" name="city" ng-model="card_taxfree.city" required>
       </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label" ng-class="{'has-error': form.address.$invalid}">
         <div class="input-label">{{'shipping_address'|translate}} <sup>*</sup></div>
-        <input type="text" ng-model="card_taxfree.address" required>
+        <input type="text" name="address" ng-model="card_taxfree.address" required>
       </label>
 
       <div class="item"></div>

@@ -11,10 +11,10 @@
 
         <div class="mt20">
             <form name="form" class="list">
-                <label class="item item-input item-stacked-label">
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.before_fs.$invalid}">
                     <span class="input-label">{{'how_call_you'|translate}} <sup>*</sup></span>
                     <div class="item-select">
-                        <select ng-model="data.before_fs" required>
+                        <select name="before_fs" ng-model="data.before_fs" required>
                             <option value="" disabled>{{'empty'|translate}}</option>
                             <option value="mr">{{'mr'|translate}}</option>
                             <option value="mrs">{{'mrs'|translate}}</option>
@@ -22,37 +22,49 @@
                         </select>
                     </div>
                 </label>
-                <label class="item item-input">
-                    <input type="text" ng-model="data.fsname" placeholder="{{'name'|translate}}" required>
+
+                <label class="item item-input" ng-class="{'has-error': form.fsname.$invalid}">
+                    <input type="text" name="fsname" ng-model="data.fsname" placeholder="{{'name'|translate}}" required>
                 </label>
-                <label class="item item-input item-stacked-label">
+
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.country.$invalid}">
                     <div class="input-label">{{'country_of_residence'|translate}} <sup>*</sup></div>
                     <div class="item-select">
-                        <select integer-model ng-model="data.country" required>
+                        <select integer-model name="country" ng-model="data.country" required>
                             <option value="" disabled>{{'empty'|translate}}</option>
                             <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
                         </select>
                     </div>
                 </label>
+
                 <div class="item">
                     <span class="input-label">{{'passport_photo'|translate}} <sup>*</sup></span>
                     <choose-images single="true" images="images" url="api/user/upload" filekey="passport" userid="{{data.user}}"></choose-images>
                 </div>
-                <label class="item item-input item-stacked-label">
-                    <span class="input-label">{{'password'|translate}} *</span>
-                    <input type="password" ng-model="data.password" placeholder="{{'minimum_8_characters'|translate}}" required>
-                </label>
-                <div class="item validation-message" ng-show="data.password && data.password.length < 8">
-                    {{'minimum_8_characters_error'|translate}}
-                </div>
 
-                <label class="item item-input item-stacked-label">
-                    <span class="input-label">{{'password_confirmation'|translate}} *</span>
-                    <input type="password" ng-model="data.password_confirm" placeholder="{{'minimum_8_characters'|translate}}" required>
+                <label
+                    class="item item-input item-stacked-label"
+                    ng-class="{'has-error': form.password.$invalid || data.password.length < 8}">
+                    <span class="input-label">{{'password'|translate}} *
+                        <span class="error" ng-show="data.password && data.password.length < 8">
+                            {{'minimum_8_characters_error'|translate}}
+                        </span>
+                    </span>
+                    <input type="password" name="password" ng-model="data.password" placeholder="{{'minimum_8_characters'|translate}}" required>
                 </label>
-                <div class="item validation-message" ng-show="data.password != data.password_confirm && data.password.length >= 8">
-                    {{'password_not_mutch'|translate}}
-                </div>
+
+
+
+                <label
+                    class="item item-input item-stacked-label"
+                    ng-class="{'has-error': form.password_confirm.$invalid || data.password != data.password_confirm}">
+                    <span class="input-label" >{{'password_confirmation'|translate}} *
+                        <span class="error" ng-show="data.password != data.password_confirm && data.password.length >= 8">
+                            {{'password_not_mutch'|translate}}
+                        </span>
+                    </span>
+                    <input type="password" name="password_confirm" ng-model="data.password_confirm" placeholder="{{'minimum_8_characters'|translate}}" required>
+                </label>
 
                 <div class="item item-checkbox">
                     <label class="checkbox checkbox-assertive">
@@ -60,6 +72,7 @@
                     </label>
                     <span class="input-label">{{'agree_with'|translate}} <a ng-click="openTerms()">{{'terms_of_use'|translate}}</a></span>
                 </div>
+
             </form>
 
             <div class="padding mt20">
