@@ -15,11 +15,11 @@
             on-refresh="load()">
         </ion-refresher>
 
-        <div class="padding bar-status-request hide text-center" ng-class="{'hide-false': user.profile.editable == '0'}">
+        <div class="padding bar-status-request text-center" ng-class="{'hide-false': user.profile.editable == '0'}">
             {{'profile_wait'|translate}}
         </div>
 
-        <div class="padding bar-status-request text-center" ng-show="user.profile.reason">
+        <div class="padding bar-status-request text-center hide" ng-class="{'hide-false': user.profile.reason}">
             {{user.profile.reason}}
         </div>
 

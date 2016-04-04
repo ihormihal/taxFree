@@ -51,4 +51,4 @@ sign:
 keytool -genkey -v -keystore mykeys.keystore -alias taxfree4u -keypass jayadigital2016 -dname "CN=Ihor Mykhalchenko O=JayaDigital C=UA" -keyalg RSA -keysize 2048 -validity 10000
 
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore mykeys.keystore android-release-unsigned.apk taxfree4u
-C:/Android/sdk/tools/zipalign -v 4 android-release-unsigned.apk TaxFree4U_v.0.5.3.apk
+C:/Android/sdk/tools/zipalign -v 4 android-release-unsigned.apk TaxFree4U_v.0.5.6.apk

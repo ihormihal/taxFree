@@ -72,7 +72,7 @@ angular.module('app.routes', [])
   //SETTINGS
   .state('main.dashboard', {
     url: '/dashboard',
-    cache: false,
+    cache: true,
     views: {
       'menuContent': {
         templateUrl: 'views/private/dashboard.html',
@@ -152,7 +152,7 @@ angular.module('app.routes', [])
   //TRIPS LIST
   .state('main.trips', {
     url: '/trips',
-    cache:  false,
+    cache:  true,
     views: {
       'menuContent': {
         templateUrl: 'views/private/trips/list.html',
@@ -210,7 +210,7 @@ angular.module('app.routes', [])
   //CHECKS LIST
   .state('main.checks', {
     url: '/checks',
-    cache:  false,
+    cache:  true,
     views: {
       'menuContent': {
         templateUrl: 'views/private/checks/list.html',

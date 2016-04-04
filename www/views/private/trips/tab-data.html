@@ -4,15 +4,14 @@
     <ion-nav-buttons side="right" ng-show="false">
         <button ng-class="{visible: trip.editable}" class="button button-icon button-clear ion-ios-compose-outline hidden" ng-click="editTrip()"></button>
     </ion-nav-buttons>
+
     <ion-content padding="false" scroll="true" class="has-header">
 
-    <div class="padding bar-status-request" ng-show="trip.reason">
+    <div class="padding bar-status-request hide" ng-class="{'hide-false':trip.reason}">
       {{trip.reason}}
     </div>
 
     <div class="list fade" ng-class="{'in': trip}">
-
-
 
         <div class="item">
             <span class="label"><i class="icon ion-earth"></i> {{'country_arrival'|translate}}</span>
