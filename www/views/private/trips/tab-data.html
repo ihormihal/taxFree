@@ -7,8 +7,8 @@
 
     <ion-content padding="false" scroll="true" class="has-header">
 
-    <div class="padding bar-status-request hide" ng-class="{'hide-false':trip.reason}">
-      {{trip.reason}}
+    <div class="padding bar-status-request hide" ng-class="{'hide-false': trip.reason && trip.status == 'request'}">
+        {{trip.reason}}
     </div>
 
     <div class="list fade" ng-class="{'in': trip}">

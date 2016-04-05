@@ -53,12 +53,15 @@ angular.module('app', [
 
 	$ionicPlatform.ready(function() {
 
+		var block_no_internet_alert = false;
 		$rootScope.$on('$cordovaNetwork:offline', function(event, offlineState) {
-			if (offlineState) {
+			if (offlineState && !block_no_internet_alert) {
+				block_no_internet_alert = true;
 				Alert.show({
 					message: lngTranslate('no_internet_message'),
 					title: lngTranslate('no_internet')
 				}, function(){
+					block_no_internet_alert = true;
 					$ionicHistory.goBack();
 				});
 			}
@@ -95,6 +98,7 @@ angular.module('app', [
 		$rootScope.$on('http-error', function(event, data) {
 			window.SpinnerPlugin.activityStop();
 			$rootScope.$broadcast('scroll.refreshComplete');
+			$rootScope.loading = false;
 
 			//Debug
 			if ($rootScope.config.debug) {
@@ -127,12 +131,16 @@ angular.module('app', [
 
 			switch (data.status) {
 				case 0:
-					Alert.show({
-						message: lngTranslate('no_internet_message'),
-						title: lngTranslate('no_internet')
-					}, function() {
-						$ionicHistory.goBack();
-					});
+					if(!block_no_internet_alert){
+						block_no_internet_alert = true;
+						Alert.show({
+							message: lngTranslate('no_internet_message'),
+							title: lngTranslate('no_internet')
+						}, function() {
+							block_no_internet_alert = false;
+							$ionicHistory.goBack();
+						});
+					}
 					break;
 				case 400:
 					if(data.data.error == 'invalid_grant'){
@@ -209,7 +217,7 @@ angular.module('app', [
 			push.on('notification', function(data) {
 
 				if(data.additionalData){
-					$rootScope.goToScreen(data.additionalData.data);
+					$rootScope.goToScreen(data.additionalData.custom);
 				}
 
 				if ($rootScope.config.debug) {

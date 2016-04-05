@@ -23,6 +23,7 @@ a {color: $assertive;}
 .up {text-transform: uppercase;}
 .text-right {text-align: right;}
 
+.mt2 {margin-top: 2px;}
 .mt20 {margin-top: 20px;}
 .mt50 {margin-top: 50px;}
 .mt100 {margin-top: 100px;}
@@ -512,6 +513,7 @@ a {color: $assertive;}
 	}
 
 	.list-status-current,
+	.list-status-request,
 	.list-status-new,
 	.list-status-created,
 	.list-status-created_changes {
@@ -535,6 +537,9 @@ a {color: $assertive;}
 }
 
 // STATUS-BAR
+.bar-status-alert {
+	color: $assertiveAccent;
+}
 .bar-status-request {
 	border: none; color: #fff;
 	background-color: $assertive;
@@ -671,7 +676,9 @@ a {color: $assertive;}
 //////////////////////////
 //FIXES
 //////////////////////////
-
+.profile .back-button {
+	display: none;
+}
 .platform-android {
 	//tabs position fix for android
 	.view-container .tabs-top {
@@ -679,6 +686,17 @@ a {color: $assertive;}
 			top: 93px;
 		}
 		.tabs {top: 44px !important;}
+	}
+}
+
+.platform-ios {
+	.loading-bar-top {
+		top: 64px;
+	}
+	&.platform-browser {
+		.loading-bar-top {
+			top: 44px;
+		}
 	}
 }
 

@@ -86,7 +86,7 @@ angular.module('app.directives', [])
 .directive('safeSrc', [ function() {
 	return {
 		restrict: 'A',
-		controller: function($scope, $element, $attrs, $cordovaFile, $cordovaFileTransfer, Toast) {
+		controller: function($rootScope, $scope, $element, $attrs, $cordovaFile, $cordovaFileTransfer, Toast) {
 			$attrs.$observe('safeSrc', function(src) {
 				if(src){
 
@@ -100,16 +100,16 @@ angular.module('app.directives', [])
 						$cordovaFile.checkFile(cacheDirectory, filename)
 							.then(function(success) {
 								// success
-								//Toast.show('load cached: ' + angular.toJson(success));
 								$attrs.$set('src', cachedSrc);
 							}, function(error) {
-								//Toast.show('checkFile error: ' + angular.toJson(error));
+								//download image
+								$rootScope.loading = true;
 								$cordovaFileTransfer.download(safeSrc, cachedSrc, {}, true)
 								.then(function(success){
-									//Toast.show('save success: ' + angular.toJson(success));
 									$attrs.$set('src', cachedSrc);
+									$rootScope.loading = false;
 								}, function(error) {
-									//Toast.show('save error: ' + angular.toJson(error));
+									$rootScope.loading = false;
 									$attrs.$set('src', safeSrc);
 								});
 							});

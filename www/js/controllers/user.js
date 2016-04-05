@@ -2,6 +2,7 @@ angular.module('app.controller.user', [])
 
 .controller('userCtrl', function($rootScope, $scope, $ionicModal, Toast, User) {
 
+
 	if ($rootScope.transports.length === 0 || $rootScope.countries.length === 0) {
 		$rootScope.loadCatalog();
 	}

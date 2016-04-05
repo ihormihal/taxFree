@@ -47,6 +47,7 @@ angular.module('app.config', ['ngResource'])
 
   $rootScope.transports = [];
   $rootScope.countries = [];
+  $rootScope.trips = [];
 
   $rootScope.getById = function(items, id) {
     if (!Array.isArray(items)) return id;
@@ -69,49 +70,51 @@ angular.module('app.config', ['ngResource'])
     }
   };
 
+  //data object
   $rootScope.currentDate = function(){
     return new Date();
   };
+  //in seconds
   $rootScope.currentTime = function(){
     return parseInt(new Date().getTime()/1000);
   };
 
-  $rootScope.goToScreen = function(entity, entity_id){
+  $rootScope.goToScreen = function(data){
 
-    switch(entity){
+    switch(data.entity){
       case 'profile':
         $state.go('main.profile');
         break;
       case 'trip':
-        if(entity_id){
-          $state.go('main.trip',{id: entity_id});
+        if(data.entity_id){
+          $state.go('main.trip',{id: data.entity_id});
         }else{
           $state.go('main.trips');
         }
         break;
       case 'check':
-        if(entity_id){
-          $state.go('main.check',{id: entity_id});
+        if(data.entity_id){
+          $state.go('main.check',{id: data.entity_id});
         }else{
           $state.go('main.checks');
         }
         break;
       case 'declaration':
-        if(entity_id){
-          $state.go('main.declaration',{id: entity_id});
+        if(data.entity_id){
+          $state.go('main.declaration',{id: data.entity_id});
         }else{
           $state.go('main.declarations');
         }
         break;
       case 'card':
-        if(entity_id){
-          $state.go('main.card',{id: entity_id});
+        if(data.entity_id){
+          $state.go('main.card',{id: data.entity_id});
         }else{
           $state.go('main.cards');
         }
         break;
       default:
-        console.log([entity, entity_id]);
+        console.log([data.entity, data.entity_id]);
         break;
     }
 

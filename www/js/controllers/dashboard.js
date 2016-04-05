@@ -12,13 +12,28 @@ angular.module('app.controller.dashboard', [])
 		}
 	};
 
+	$scope.actionlist = [];
+	$scope.noactionlist = [];
+
 	$scope.load = function() {
 		$rootScope.loading = true;
 
 		var loaded = 0;
 
 		Dashboard.getActionList({}, function(data) {
-			$scope.actionlist = data;
+			$scope.actionlist = data.notifications;
+			for(var i = 0; i < $scope.actionlist.length; i++){
+				$scope.actionlist[i].created = new Date($scope.actionlist[i].created);
+			}
+			loaded++;
+			if(loaded == 4) $rootScope.loading = false;
+		});
+
+		Dashboard.getNoactionList({}, function(data) {
+			$scope.noactionlist = data.notifications;
+			for(var i = 0; i < $scope.noactionlist.length; i++){
+				$scope.noactionlist[i].created = new Date($scope.noactionlist[i].created);
+			}
 			loaded++;
 			if(loaded == 4) $rootScope.loading = false;
 		});
@@ -35,11 +50,6 @@ angular.module('app.controller.dashboard', [])
 			if(loaded == 4) $rootScope.loading = false;
 		});
 
-		Dashboard.getNoactionList({}, function(data) {
-			$scope.noactionlist = data;
-			loaded++;
-			if(loaded == 4) $rootScope.loading = false;
-		});
 
 		$scope.$broadcast('scroll.refreshComplete');
 	};

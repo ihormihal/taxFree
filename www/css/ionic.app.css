@@ -9204,6 +9204,9 @@ a {
 .text-right {
   text-align: right; }
 
+.mt2 {
+  margin-top: 2px; }
+
 .mt20 {
   margin-top: 20px; }
 
@@ -9621,6 +9624,7 @@ a {
   color: #444; }
 
 .list .list-status-current .item-icon-right,
+.list .list-status-request .item-icon-right,
 .list .list-status-new .item-icon-right,
 .list .list-status-created .item-icon-right,
 .list .list-status-created_changes .item-icon-right {
@@ -9647,6 +9651,9 @@ a {
 .list .list-status-digitalized .item-icon-right,
 .list .list-status-shipping .item-icon-right {
   color: #00BCD4; }
+
+.bar-status-alert {
+  color: #ff4f00; }
 
 .bar-status-request {
   border: none;
@@ -9765,11 +9772,20 @@ a {
 #dashboard-item-3 {
   background-color: rgba(20, 0, 0, 0.5); }
 
+.profile .back-button {
+  display: none; }
+
 .platform-android .view-container .tabs-top .loading-bar-top.active {
   top: 93px; }
 
 .platform-android .view-container .tabs-top .tabs {
   top: 44px !important; }
+
+.platform-ios .loading-bar-top {
+  top: 64px; }
+
+.platform-ios.platform-browser .loading-bar-top {
+  top: 44px; }
 
 .has-header .top-item {
   border-top: none; }

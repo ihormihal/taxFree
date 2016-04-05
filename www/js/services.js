@@ -67,7 +67,6 @@ angular.module('app.services', ['ngResource'])
     },
 
     refresh: function(){
-      console.log('refresh_token');
       self.credentials.grant_type = 'refresh_token';
       if(self.credentials.refresh_token){
         self.query();

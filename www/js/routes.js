@@ -152,7 +152,7 @@ angular.module('app.routes', [])
   //TRIPS LIST
   .state('main.trips', {
     url: '/trips',
-    cache:  true,
+    cache:  false,
     views: {
       'menuContent': {
         templateUrl: 'views/private/trips/list.html',
@@ -210,7 +210,7 @@ angular.module('app.routes', [])
   //CHECKS LIST
   .state('main.checks', {
     url: '/checks',
-    cache:  true,
+    cache:  false,
     views: {
       'menuContent': {
         templateUrl: 'views/private/checks/list.html',

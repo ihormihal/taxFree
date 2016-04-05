@@ -8,6 +8,7 @@ angular.module('app.controller.checks', [])
     }
 
 	$scope.checks = [];
+	$scope.activeTrips = [];
 	$scope.check = {
 		id: 'add',
 		trip: '',
@@ -23,21 +24,29 @@ angular.module('app.controller.checks', [])
 				Toast.show(lngTranslate('no_data'));
 				$scope.$broadcast('scroll.refreshComplete');
 			}
-			Trips.query({}, function(data) {
-				$scope.trips = data;
-				$scope.activeTrips = [];
-				$scope.complete();
-			});
+			$scope.complete();
 		});
 	};
 
 	$scope.load();
 
 	$scope.complete = function() {
-		$scope.$broadcast('scroll.refreshComplete');
+		if($rootScope.trips.length){
+			assignTrip();
+		}else{
+			Trips.query({}, function(data) {
+				$rootScope.trips = data;
+				assignTrip();
+			});
+		}
+	};
+
+	function assignTrip (){
 		$rootScope.loading = false;
+		$scope.$broadcast('scroll.refreshComplete');
+
 		angular.forEach($scope.checks, function(check, i) {
-			angular.forEach($scope.trips, function(trip) {
+			angular.forEach($rootScope.trips, function(trip) {
 				if (trip.id == check.trip) {
 					$scope.checks[i].country_enter = $rootScope.getById($rootScope.countries, trip.country_enter).name;
 					$scope.checks[i].country_leaving = $rootScope.getById($rootScope.countries, trip.country_leaving).name;
@@ -45,12 +54,13 @@ angular.module('app.controller.checks', [])
 			});
 		});
 
-		angular.forEach($scope.trips, function(trip,i){
-			if(trip.date_end*1000 > $rootScope.currentTime() && trip.status !== 'refused'){
+		$scope.activeTrips = [];
+		angular.forEach($rootScope.trips, function(trip,i){
+			if(trip.date_end > $rootScope.currentTime() && trip.status !== 'refused'){
 				$scope.activeTrips.push(trip);
 			}
 		});
-	};
+	}
 
 	$ionicModal.fromTemplateUrl('views/private/checks/add.html', {
 		scope: $scope,
@@ -92,31 +102,54 @@ angular.module('app.controller.checks', [])
 })
 
 /*** ITEM ***/
-.controller('checkCtrl', function($http, $rootScope, $scope, $stateParams, $ionicModal, $cordovaDialogs, Check, Toast, Trips) {
+.controller('checkCtrl', function($http, $rootScope, $scope, $stateParams, $ionicModal, $cordovaFile, $cordovaDialogs, Check, Toast, Trips) {
 
-	Check.get({
-		id: $stateParams.id
-	}, function(data) {
-		$scope.check = data;
-		$scope.check.images = []; //for new images
-		$scope.complete();
-	});
 
-	$scope.complete = function() {
-		Trips.query({}, function(data) {
-			$scope.trips = data;
-			angular.forEach($scope.trips, function(trip) {
-				if (trip.id == $scope.check.trip) {
-					$scope.check.country_enter = $rootScope.getById($rootScope.countries, trip.country_enter).name;
-					$scope.check.country_leaving = $rootScope.getById($rootScope.countries, trip.country_leaving).name;
-				}
-			});
-			$scope.$broadcast('scroll.refreshComplete');
+
+	$scope.load = function(){
+		$rootScope.loading = true;
+		Check.get({
+			id: $stateParams.id
+		}, function(data) {
+			$scope.check = data;
+			$scope.check.images = []; //for new images
+			$scope.complete();
 		});
 	};
 
+	$scope.load();
+
+	function assignTrip (){
+		$rootScope.loading = false;
+		$scope.$broadcast('scroll.refreshComplete');
+
+		angular.forEach($rootScope.trips, function(trip) {
+			if (trip.id == $scope.check.trip) {
+				$scope.check.country_enter = $rootScope.getById($rootScope.countries, trip.country_enter).name;
+				$scope.check.country_leaving = $rootScope.getById($rootScope.countries, trip.country_leaving).name;
+			}
+		});
+	}
+
+	$scope.complete = function() {
+		if($rootScope.trips.length){
+			assignTrip();
+		}else{
+			Trips.query({}, function(data) {
+				$rootScope.trips = data;
+				assignTrip();
+			});
+		}
+	};
+
 	$scope.deletePhoto = function(index) {
+		var removeFile = $scope.check.files[index].split("/").pop();
 		$scope.check.files.splice(index, 1);
+		try {
+			$cordovaFile.removeFile(cordova.file.cacheDirectory, removeFile);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	$ionicModal.fromTemplateUrl('views/private/checks/add.html', {

@@ -6,21 +6,27 @@
       </ion-nav-buttons>
     </ion-nav-bar>
 	<ion-content>
+
 		<ion-refresher
 			pulling-text=""
 			on-refresh="load()">
 		</ion-refresher>
+
 		<div class="dashboard-list">
 
 			<div id="dashboard-item-1" class="item dashboard-item" ng-class="{active: itemActive == 0}">
 				<div class="item item-icon-left item-heading" ng-click="toggleItem(0)">
 					<i class="icon ion-load-b"></i>
-					{{'actions'|translate}} ({{noactionlist.notifications.length}})
+					{{'actions'|translate}} ({{noactionlist.length}})
 				</div>
-				<div class="item-content" ng-class="{'in': noactionlist.notifications.length}">
-					<div class="item" ng-repeat="action in noactionlist.notifications" ng-click="goToScreen(action.entity, action.entity_id)">
+				<div class="item-content" ng-class="{'in': noactionlist.length}">
+					<div class="item" ng-repeat="action in noactionlist" ng-click="goToScreen(action)">
 						{{action.message}}
-						<div class="date"><i class="icon ion-ios-timer-outline"></i> {{action.created}}</div>
+						<div class="date">
+							<i class="icon ion-ios-timer-outline"></i> {{action.created | date:"HH:mm:ss"}}
+							&nbsp;
+							<i class="icon ion-ios-calendar-outline"></i> {{action.created | date:"dd.MM.yyyy"}}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -28,12 +34,16 @@
 			<div id="dashboard-item-2" class="item dashboard-item" ng-class="{active: itemActive == 1}">
 				<div class="item item-icon-left item-heading" ng-click="toggleItem(1)">
 					<i class="icon ion-paper-airplane"></i>
-					{{'events'|translate}} ({{actionlist.notifications.length}})
+					{{'events'|translate}} ({{actionlist.length}})
 				</div>
 				<div class="item-content">
-					<div class="item" ng-repeat="action in actionlist.notifications" ng-click="goToScreen(action.entity, action.entity_id)">
+					<div class="item" ng-repeat="action in actionlist track by $index" ng-click="goToScreen(action)">
 						{{action.message}}
-						<div class="date"><i class="icon ion-ios-timer-outline"></i> {{action.created}}</div>
+						<div class="date">
+							<i class="icon ion-ios-timer-outline"></i> {{action.created | date:"HH:mm:ss"}}
+							&nbsp;
+							<i class="icon ion-ios-calendar-outline"></i> {{action.created | date:"dd.MM.yyyy"}}
+						</div>
 					</div>
 				</div>
 			</div>

@@ -1,13 +1,19 @@
 <ion-view>
   <ion-nav-title>{{'check'|translate}} ID {{check.id}}</ion-nav-title>
+  <div class="loading-bar-top" ng-class="{'active': loading}"></div>
   <ion-nav-buttons side="right">
     <button ng-class="{visible: check.editable}" class="button button-icon button-clear ion-ios-trash-outline hidden" ng-click="delete()"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
 
+    <ion-refresher
+      pulling-text=""
+      on-refresh="load()">
+    </ion-refresher>
+
     <div class="padding">
       <h1>{{'check'|translate}} ID {{check.id}}</h1>
-      <p ui-sref="main.trip.data({id: check.trip})"><i class="icon ion-earth"></i> {{check.country_enter}} - {{check.country_leaving}}</p>
+      <p ui-sref="main.trip.data({id: check.trip})" ng-show="check.country_enter && check.country_leaving"><i class="icon ion-earth"></i> {{check.country_enter}} - {{check.country_leaving}}</p>
     </div>
 
     <div class="item bar-status-{{check.status}}">
@@ -17,7 +23,7 @@
       </div>
     </div>
 
-    <div class="padding assertive hide" ng-class="{'hide-false': check.reason}">
+    <div class="padding bar-status-alert text-center hide" ng-class="{'hide-false': check.reason && check.status == 'request'}">
       {{check.reason}}
     </div>
 
@@ -38,7 +44,7 @@
           <choose-images images="check.images" url="api/check/upload"></choose-images>
         </div>
         <div>
-          <button ng-disabled="check.files.length == 0" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
+          <button ng-disabled="check.images.length == 0" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
         </div>
       </div>
     </form>
