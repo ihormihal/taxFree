@@ -41,17 +41,28 @@ angular.module('app.controller.checks', [])
 		}
 	};
 
+	var tripsloaded = false;
 	function assignTrip (){
 		$rootScope.loading = false;
 		$scope.$broadcast('scroll.refreshComplete');
 
 		angular.forEach($scope.checks, function(check, i) {
+			var trip_id = 0;
 			angular.forEach($rootScope.trips, function(trip) {
 				if (trip.id == check.trip) {
+					var trip_id = trip.id;
 					$scope.checks[i].country_enter = $rootScope.getById($rootScope.countries, trip.country_enter).name;
 					$scope.checks[i].country_leaving = $rootScope.getById($rootScope.countries, trip.country_leaving).name;
 				}
 			});
+			//if trip not found in stored data
+			if(trip_id == 0 && !tripsloaded){
+				Trips.query({}, function(data) {
+					$rootScope.trips = data;
+					tripsloaded = true;
+					assignTrip();
+				});
+			}
 		});
 
 		$scope.activeTrips = [];
@@ -123,12 +134,24 @@ angular.module('app.controller.checks', [])
 		$rootScope.loading = false;
 		$scope.$broadcast('scroll.refreshComplete');
 
+		var tripsloaded = false;
+		var trip_id = false;
 		angular.forEach($rootScope.trips, function(trip) {
 			if (trip.id == $scope.check.trip) {
+				trip_id = trip.id;
 				$scope.check.country_enter = $rootScope.getById($rootScope.countries, trip.country_enter).name;
 				$scope.check.country_leaving = $rootScope.getById($rootScope.countries, trip.country_leaving).name;
 			}
 		});
+
+		//if trip not found in stored data
+		if(!trip_id){
+			Trips.query({}, function(data) {
+				$rootScope.trips = data;
+				tripsloaded = true;
+				assignTrip();
+			});
+		}
 	}
 
 	$scope.complete = function() {

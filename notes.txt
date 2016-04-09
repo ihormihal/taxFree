@@ -56,3 +56,13 @@ sign:
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore mykeys.keystore android-release-unsigned.apk taxfree4u
 optimize:
 C:/Android/sdk/tools/zipalign -v 4 android-release-unsigned.apk TaxFree4U_v.0.5.6.apk
+
+0.5.8
+- fixed unexpected logout
+- fixed behavior without internet connection
+- fixed cache control
+- fixed list of trips
+- fixed push-notification treatment
+- fixed settings synchronization
+- new notifications
+- other bug fixes

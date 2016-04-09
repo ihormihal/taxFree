@@ -51,11 +51,16 @@ angular.module('app.services', ['ngResource'])
             $rootScope.$broadcast('auth-login-success');
           }
 
-          //return false;
+          $rootScope.httpWaiting = false;
+
+          return false;
         }
       })
       .error(function (data, status, headers, config) {
-        $rootScope.$broadcast('auth-login-error', data);
+        $rootScope.httpWaiting = false;
+        if(self.credentials.grant_type == 'password'){
+          $rootScope.$broadcast('auth-login-error', data);
+        }
         return false; //do not intercept error
       });
     },

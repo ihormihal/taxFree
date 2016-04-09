@@ -3,6 +3,10 @@ angular.module('app.controller.auth', [])
 /*** LOGIN ***/
 .controller('loginCtrl', function($scope, $state, AuthService) {
 
+	$scope.logCredentials = function(){
+		console.log(AuthService.credentials);
+	};
+
 	window.localStorage['ready'] = true;
 	$scope.user = {};
 

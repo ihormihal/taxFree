@@ -9272,9 +9272,30 @@ a {
     width: 100%;
     height: auto; }
 
-.logo {
+.start-screen-logo {
+  position: fixed;
+  z-index: 1;
+  top: 44px;
+  left: 50%;
+  transform: translate(-50%, 0);
   width: 30%;
-  margin: 40px auto 20px auto; }
+  transition: 0.1s width linear; }
+  .start-screen-logo img {
+    max-width: 100%;
+    max-width: 100%; }
+  .start-screen-logo.landscape {
+    top: 24px;
+    width: 20%; }
+
+.screen-logo {
+  margin-top: 44px;
+  margin-bottom: 20px;
+  text-align: center; }
+  .screen-logo img {
+    transition: 0.1s width linear;
+    width: 50%; }
+  .screen-logo.landscape img {
+    width: 20%; }
 
 .bg-assertive {
   background-color: #f39736; }
@@ -9527,7 +9548,9 @@ a {
   background-image: url("../images/bg-img-positive.jpg");
   background-size: cover; }
   .menu .logo {
-    width: 50%; }
+    width: 50%;
+    text-align: center;
+    margin: 44px auto 24px auto; }
   .menu .item-content, .menu .item, .menu .bar {
     background-color: transparent; }
     .menu .item-content.activated, .menu .item.activated, .menu .bar.activated {
@@ -9620,6 +9643,7 @@ a {
 
 .list .list-status-past h2,
 .list .list-status-future h2,
+.list .list-status-cant_pay h2,
 .list .list-status-refused h2 {
   color: #444; }
 
@@ -9634,6 +9658,7 @@ a {
 .list .list-status-pay h2,
 .list .list-status-payment h2,
 .list .list-status-paid h2,
+.list .list-status-delivered h2,
 .list .list-status-default h2 {
   color: #018200; }
 
@@ -9641,15 +9666,18 @@ a {
 .list .list-status-pay .item-icon-right,
 .list .list-status-payment .item-icon-right,
 .list .list-status-paid .item-icon-right,
+.list .list-status-delivered .item-icon-right,
 .list .list-status-default .item-icon-right {
   color: #018200; }
 
 .list .list-status-digitalized h2,
-.list .list-status-shipping h2 {
+.list .list-status-shipping h2,
+.list .list-status-sent h2 {
   color: #00BCD4; }
 
 .list .list-status-digitalized .item-icon-right,
-.list .list-status-shipping .item-icon-right {
+.list .list-status-shipping .item-icon-right,
+.list .list-status-sent .item-icon-right {
   color: #00BCD4; }
 
 .bar-status-alert {
@@ -9673,19 +9701,28 @@ a {
   color: #fff;
   background-color: #018200; }
 
+.bar-status-updated,
 .bar-status-digitalized,
+.bar-status-sent,
 .bar-status-shipping {
   border: none;
   color: #fff;
   background-color: #00BCD4; }
 
+.bar-status-validated,
 .bar-status-pay,
 .bar-status-payment,
 .bar-status-paid,
+.bar-status-delivered,
 .bar-status-default {
   border: none;
   color: #fff;
   background-color: #018200; }
+
+.bar-status-cant_pay,
+.bar-status-refused {
+  border: none;
+  background-color: #eee; }
 
 .slider {
   height: 100%; }
@@ -9751,7 +9788,7 @@ a {
     height: 0px;
     padding: 0 16px;
     transition: 0.1s height linear, 0.1s padding linear; }
-  .dashboard-list .dashboard-item .item-content .date {
+  .dashboard-list .dashboard-item .item-content .options {
     margin-top: 10px;
     opacity: 0.5;
     font-weight: 100; }

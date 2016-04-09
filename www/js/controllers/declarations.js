@@ -78,7 +78,7 @@ angular.module('app.controller.declarations', [])
 			type: method
 		}, function(data) {
 			Toast.show(lngTranslate('delivery_method_success') + ': ' + lngTranslate(method));
-			$scope.doRefresh();
+			$scope.load();
 		});
 	};
 

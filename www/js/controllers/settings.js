@@ -1,4 +1,3 @@
-
 angular.module('app.controller.settings', [])
 
 .controller('settingsCtrl', function($rootScope, $http, $scope, $state, $ionicModal, $cordovaDialogs, $cordovaFile, Settings, AuthService, Toast) {
@@ -68,7 +67,7 @@ angular.module('app.controller.settings', [])
 				} catch (error) {
 					console.log(error);
 				}
-				AuthService.logout();
+				$state.go('start');
 				window.localStorage.clear();
 				window.location.reload(true);
 			}

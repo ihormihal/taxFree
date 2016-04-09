@@ -2,7 +2,7 @@
   <ion-nav-title>{{'check'|translate}} ID {{check.id}}</ion-nav-title>
   <div class="loading-bar-top" ng-class="{'active': loading}"></div>
   <ion-nav-buttons side="right">
-    <button ng-class="{visible: check.editable}" class="button button-icon button-clear ion-ios-trash-outline hidden" ng-click="delete()"></button>
+    <button ng-class="{'hide-false': check.deletable}" class="button button-icon button-clear ion-ios-trash-outline hide" ng-click="delete()"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
 

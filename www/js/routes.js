@@ -72,7 +72,7 @@ angular.module('app.routes', [])
   //SETTINGS
   .state('main.dashboard', {
     url: '/dashboard',
-    cache: true,
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'views/private/dashboard.html',

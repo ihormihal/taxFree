@@ -53,15 +53,12 @@ angular.module('app', [
 
 	$ionicPlatform.ready(function() {
 
-		var block_no_internet_alert = false;
 		$rootScope.$on('$cordovaNetwork:offline', function(event, offlineState) {
-			if (offlineState && !block_no_internet_alert) {
-				block_no_internet_alert = true;
+			if (offlineState) {
 				Alert.show({
 					message: lngTranslate('no_internet_message'),
 					title: lngTranslate('no_internet')
 				}, function(){
-					block_no_internet_alert = true;
 					$ionicHistory.goBack();
 				});
 			}
@@ -94,6 +91,9 @@ angular.module('app', [
 		}, 100);
 
 
+		$rootScope.httpWaiting = false; //processing http errors
+
+
 		//HTTP-ERRORS preprocessing
 		$rootScope.$on('http-error', function(event, data) {
 			window.SpinnerPlugin.activityStop();
@@ -108,64 +108,73 @@ angular.module('app', [
 				});
 			}
 
-			var showErrorMsg = function(data) {
-				var message = '';
-				if (data) {
-					if (data.error) {
-						if (data.error.message) {
-							message = data.error.message + '. ';
-						}
-						if (data.error_description) {
-							message += data.error_description + '. ';
-						}
+			if(!$rootScope.httpWaiting){
+				processHttpError(data);
+			}
+
+			return false;
+
+		});
+
+		function showHttpError(data) {
+			var message = '';
+			if (data) {
+				if (data.error) {
+					if (data.error.message) {
+						message = data.error.message + '. ';
+					}
+					if (data.error_description) {
+						message += data.error_description + '. ';
 					}
 				}
-				//defined errors
-				if (message) {
-					Toast.show(message);
-				//undefined errors
-				} else {
-					Toast.show(angular.toJson(data));
-				}
-			};
+			}
+			//defined errors
+			if (message) {
+				Toast.show(message);
+			//undefined errors
+			} else {
+				Toast.show(angular.toJson(data));
+			}
+		};
 
+		function processHttpError(data){
 			switch (data.status) {
 				case 0:
-					if(!block_no_internet_alert){
-						block_no_internet_alert = true;
-						Alert.show({
-							message: lngTranslate('no_internet_message'),
-							title: lngTranslate('no_internet')
-						}, function() {
-							block_no_internet_alert = false;
-							$ionicHistory.goBack();
-						});
-					}
+					Alert.show({
+						message: lngTranslate('no_internet_message'),
+						title: lngTranslate('no_internet')
+					}, function() {
+						$rootScope.httpWaiting = false;
+						$ionicHistory.goBack();
+					});
 					break;
 				case 400:
-					if(data.data.error == 'invalid_grant'){
-						AuthService.logout();
+					//invalid refresh token
+					if(data.data.error == 'invalid_grant' && AuthService.credentials.grant_type == 'refresh_token'){
+						$rootScope.httpWaiting = true;
+						AuthService.login();
 					}
-					showErrorMsg(data.data);
+					showHttpError(data.data);
 					break;
 				case 401:
-					if(data.data.error == 'access_denied'){
-						AuthService.logout();
-						showErrorMsg(data.data);
-					}else{
+					//invalid token
+					if(data.data.error == 'invalid_grant'){
+						$rootScope.httpWaiting = true;
 						AuthService.refresh();
+					}
+					if(data.data.error == 'access_denied'){
+						$rootScope.httpWaiting = true;
+						AuthService.logout();
+						showHttpError(data.data);
 					}
 					break;
 				case 404:
 					$ionicHistory.goBack();
 					break;
 				default:
-					showErrorMsg(data.data);
+					showHttpError(data.data);
 			}
-
-			return false;
-
-		});
+		}
 
 		$rootScope.$on('auth-login-success', function(event, data) {
 

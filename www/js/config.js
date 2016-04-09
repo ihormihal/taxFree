@@ -24,7 +24,7 @@ angular.module('app.config', ['ngResource'])
   };
 })
 
-.service('AppConfig', function($rootScope, $state, $ionicHistory) {
+.service('AppConfig', function($rootScope, $state, $timeout, $ionicHistory) {
 
    $rootScope.config = {
     domain: 'http://stage.tax-free-4u.com/', //default
@@ -44,6 +44,23 @@ angular.module('app.config', ['ngResource'])
   if(window.localStorage['config']){
     $rootScope.config = angular.fromJson(window.localStorage['config']);
   }
+
+  window.onresize = function(){
+    $timeout(function() {
+      checkOrientation();
+    }, 300);
+  };
+
+  checkOrientation();
+
+  function checkOrientation (){
+    if(window.screen.height > window.screen.width){
+      $rootScope.orientation = 'portrait';
+    }else{
+      $rootScope.orientation = 'landscape';
+    }
+  };
+
 
   $rootScope.transports = [];
   $rootScope.countries = [];
@@ -99,6 +116,13 @@ angular.module('app.config', ['ngResource'])
           $state.go('main.checks');
         }
         break;
+      case 'receipt':
+        if(data.entity_id){
+          $state.go('main.check',{id: data.entity_id});
+        }else{
+          $state.go('main.checks');
+        }
+        break;
       case 'declaration':
         if(data.entity_id){
           $state.go('main.declaration',{id: data.entity_id});
@@ -111,6 +135,13 @@ angular.module('app.config', ['ngResource'])
           $state.go('main.card',{id: data.entity_id});
         }else{
           $state.go('main.cards');
+        }
+        break;
+      case 'payment':
+        if(data.entity_id){
+          $state.go('main.paymen',{id: data.entity_id});
+        }else{
+          $state.go('main.payments');
         }
         break;
       default:

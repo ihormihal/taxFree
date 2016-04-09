@@ -7,7 +7,14 @@
 
     <ion-content padding="false" scroll="true" class="has-header">
 
-    <div class="padding bar-status-request hide" ng-class="{'hide-false': trip.reason && trip.status == 'request'}">
+    <div class="item bar-status-{{trip.status}}">
+      {{trip.status|translate}}
+      <div class="item-icon-right">
+        <i class="icon {{trip.status|getStatusIcon}}"></i>
+      </div>
+    </div>
+
+    <div class="padding bar-status-alert text-center hide" ng-class="{'hide-false': trip.reason && trip.status == 'request'}">
         {{trip.reason}}
     </div>
 

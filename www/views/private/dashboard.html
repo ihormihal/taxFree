@@ -22,10 +22,10 @@
 				<div class="item-content" ng-class="{'in': noactionlist.length}">
 					<div class="item" ng-repeat="action in noactionlist" ng-click="goToScreen(action)">
 						{{action.message}}
-						<div class="date">
-							<i class="icon ion-ios-timer-outline"></i> {{action.created | date:"HH:mm:ss"}}
+						<div class="options">
+							<i class="icon ion-ios-timer-outline"></i> {{action.created*1000 | date:"HH:mm:ss"}}
 							&nbsp;
-							<i class="icon ion-ios-calendar-outline"></i> {{action.created | date:"dd.MM.yyyy"}}
+							<i class="icon ion-ios-calendar-outline"></i> {{action.created*1000 | date:"dd.MM.yyyy"}}
 						</div>
 					</div>
 				</div>
@@ -39,10 +39,10 @@
 				<div class="item-content">
 					<div class="item" ng-repeat="action in actionlist track by $index" ng-click="goToScreen(action)">
 						{{action.message}}
-						<div class="date">
-							<i class="icon ion-ios-timer-outline"></i> {{action.created | date:"HH:mm:ss"}}
+						<div class="options">
+							<i class="icon ion-ios-timer-outline"></i> {{action.created*1000 | date:"HH:mm:ss"}}
 							&nbsp;
-							<i class="icon ion-ios-calendar-outline"></i> {{action.created | date:"dd.MM.yyyy"}}
+							<i class="icon ion-ios-calendar-outline"></i> {{action.created*1000 | date:"dd.MM.yyyy"}}
 						</div>
 					</div>
 				</div>
@@ -54,11 +54,20 @@
 					{{'payments'|translate}}  {{payments.all_payments_total.sum|currency}}
 				</div>
 				<div class="item-content">
-
-					<div class="item" ng-show="lastpayment.last_paid_declaration.length">
-					{{lastpayment.last_paid_declaration}}
+					<div
+					class="item"
+					ng-show="lastpayment.last_paid_declaration.declaration_id"
+					ng-click="goToScreen({entity: 'declaration', entity_id: lastpayment.last_paid_declaration.declaration_id })">
+						{{'last_payment'|translate}}: {{lastpayment.last_paid_declaration.total_sum|currency}}
+						<div class="options">
+							<i class="icon ion-ios-timer-outline"></i> {{lastpayment.last_paid_declaration.complete_time*1000 | date:"HH:mm:ss"}}
+							&nbsp;
+							<i class="icon ion-ios-calendar-outline"></i> {{lastpayment.last_paid_declaration.complete_time*1000 | date:"dd.MM.yyyy"}}
+							<br>
+							<i class="icon ion-earth"></i> {{lastpayment.last_paid_declaration.country_enter}} - {{lastpayment.last_paid_declaration.country_leaving}}
+						</div>
 					</div>
-					<div class="item" ng-show="payments.all_payments_total">
+					<div class="item" ng-show="payments.all_payments_total" ng-click="goToScreen({entity: 'payment'})">
 						{{'total_paid'|translate}}: {{payments.all_payments_total.sum|currency}}
 						<br>
 						{{'trips'|translate}}: {{payments.all_payments_total.trip_count}}

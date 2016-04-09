@@ -136,7 +136,7 @@ angular.module('app.directives', [])
 		restrict: 'A',
 		controller: function($scope, $element, $attrs) {
 			$element[0].onclick = function() {
-				PhotoViewer.show($attrs.src, $attrs.alt);
+				PhotoViewer.show($attrs.src, $attrs.alt, {share:false});
 			}
 		}
 	}

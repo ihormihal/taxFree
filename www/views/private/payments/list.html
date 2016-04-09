@@ -9,6 +9,7 @@
 			<div
 				ng-repeat="payment in payments  | orderBy : '-complete_time'"
 				class="item"
+				ui-sref="main.declaration({id: payment.declaration_id})"
 				>
 				<h2>{{payment.total_sum | currency}}</h2>
 				<p><i class="icon ion-android-time"></i> {{payment.complete_time}}</p>

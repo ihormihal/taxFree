@@ -37,7 +37,7 @@ angular.module('app.controller.trips', [])
 			if ($rootScope.trips[i].date_end < now) {
 				status = 'past';
 			}
-			$rootScope.trips[i].status = status;
+			$rootScope.trips[i].time_status = status;
 		}
 	}
 
