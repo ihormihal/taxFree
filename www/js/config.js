@@ -27,9 +27,11 @@ angular.module('app.config', ['ngResource'])
 .service('AppConfig', function($rootScope, $state, $timeout, $ionicHistory) {
 
    $rootScope.config = {
-    domain: 'http://stage.tax-free-4u.com/', //default
+    version: '0.6.0',
+    domain: 'http://stage.taxfree4u.eu/', //default
     domains: {
-      public: 'http://tax-free-4u.com/',
+      public: 'http://taxfree4u.eu/',
+      stage_public: 'http://stage.taxfree4u.eu/',
       stage: 'http://stage.tax-free-4u.com/',
       test: 'http://tax-free-4u.com/',
       dev: 'http://tax-free-dev.jaya-test.com/'
@@ -42,7 +44,12 @@ angular.module('app.config', ['ngResource'])
   };
 
   if(window.localStorage['config']){
-    $rootScope.config = angular.fromJson(window.localStorage['config']);
+    var storedConfig = angular.fromJson(window.localStorage['config']);
+    if(storedConfig.version == $rootScope.config.version){
+      window.localStorage['config'] = angular.toJson($rootScope.config);
+    }else{
+      $rootScope.config = storedConfig;
+    }
   }
 
   window.onresize = function(){
@@ -104,7 +111,7 @@ angular.module('app.config', ['ngResource'])
         break;
       case 'trip':
         if(data.entity_id){
-          $state.go('main.trip',{id: data.entity_id});
+          $state.go('main.trip.data',{id: data.entity_id});
         }else{
           $state.go('main.trips');
         }

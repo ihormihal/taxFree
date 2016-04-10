@@ -43,22 +43,29 @@
 
                 <label
                     class="item item-input item-stacked-label"
-                    ng-class="{'has-error': form.password.$invalid || data.password.length < 8}">
+                    ng-class="{'has-error': form.password.$error.pattern || form.password.$error.minlength}">
                     <span class="input-label">{{'password'|translate}} *
-                        <span class="error" ng-show="data.password && data.password.length < 8">
+                        <span class="error" ng-show="form.password.$error.pattern && !form.password.$error.minlength">
+                            {{'password_format_error'|translate}}
+                        </span>
+                        <span class="error" ng-show="form.password.$error.minlength">
                             {{'minimum_8_characters_error'|translate}}
                         </span>
                     </span>
-                    <input type="password" name="password" ng-model="data.password" placeholder="{{'minimum_8_characters'|translate}}" required>
+                    <input type="password" name="password"
+                    ng-pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/"
+                    ng-minlength="8"
+                    ng-model="data.password"
+                    placeholder="{{'minimum_8_characters'|translate}}" required>
                 </label>
 
 
 
                 <label
                     class="item item-input item-stacked-label"
-                    ng-class="{'has-error': form.password_confirm.$invalid || data.password != data.password_confirm}">
+                    ng-class="{'has-error': data.password != data.password_confirm && form.password.$valid}">
                     <span class="input-label" >{{'password_confirmation'|translate}} *
-                        <span class="error" ng-show="data.password != data.password_confirm && data.password.length >= 8">
+                        <span class="error" ng-show="data.password != data.password_confirm && form.password.$valid">
                             {{'password_not_mutch'|translate}}
                         </span>
                     </span>
@@ -75,7 +82,7 @@
             </form>
 
             <div class="padding mt20">
-                <button ng-class="{disabled: !(form.$valid && data.accept_terms && data.password == data.password_confirm && data.password.length >= 8)}" class="button button-stable button-block button-assertive up" ng-click="stepThree()">{{'submit'|translate}}</button>
+                <button ng-class="{disabled: !(form.$valid && data.accept_terms && data.password == data.password_confirm)}" class="button button-stable button-block button-assertive up" ng-click="stepThree()">{{'submit'|translate}}</button>
             </div>
 
         </div>

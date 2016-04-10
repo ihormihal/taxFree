@@ -42,13 +42,14 @@ angular.module('app.directives', [])
 		link: function($scope, $element, $attrs, ngModel) {
 
 			ngModel.$formatters.push(function(modelValue) {
-				return new Date(parseInt(modelValue) * 1000);
+				var offset = new Date(parseInt(modelValue) * 1000).getTimezoneOffset()*60;
+				return new Date(parseInt(modelValue) * 1000 + offset*1000);
 			});
 
 			ngModel.$parsers.push(function(viewValue) {
 				if (viewValue instanceof Date) {
-					var offset = new Date().getTimezoneOffset() * 60;
-					var timestamp = viewValue.getTime() / 1000 - offset;
+					var offset = viewValue.getTimezoneOffset() * 60;
+					var timestamp = viewValue.getTime() - offset / 1000 - offset;
 					return Math.abs(timestamp); //prevent negative values
 				}
 			});

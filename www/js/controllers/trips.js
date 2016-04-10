@@ -166,14 +166,6 @@ angular.module('app.controller.trips', [])
 		$scope.modalCheck = modal;
 	});
 
-	$scope.editTrip = function() {
-		$scope.modalTrip.show();
-	};
-
-	$scope.addCheck = function() {
-		$scope.modalCheck.show();
-	};
-
 	$scope.closeModal = function() {
 		$scope.modalTrip.hide();
 		$scope.modalCheck.hide();
@@ -188,6 +180,7 @@ angular.module('app.controller.trips', [])
 		Trip.update($scope.trip, function() {
 			Toast.show(lngTranslate('toast_trip_updated'));
 			$scope.closeModal();
+			$scope.load();
 		});
 	};
 
