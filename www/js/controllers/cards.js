@@ -70,8 +70,11 @@ angular.module('app.controller.cards', [])
 				Toast.show(lngTranslate('no_data'));
 			}
 			for (var i = 0; i < $scope.cards.length; i++) {
-				$scope.cards[i].num = '**** **** **** ' + $scope.cards[i].number.substr(7, 4);
+				var length = $scope.cards[i].number.length;
+				$scope.cards[i].num = '**** **** **** ' + $scope.cards[i].number.substr(length - 4, 4);
+				//$scope.cards[i].num = $scope.cards[i].number;
 			}
+
 			$rootScope.loading = false;
 			$scope.$broadcast('scroll.refreshComplete');
 		});
