@@ -42,15 +42,17 @@ angular.module('app.directives', [])
 		link: function($scope, $element, $attrs, ngModel) {
 
 			ngModel.$formatters.push(function(modelValue) {
-				var offset = new Date(parseInt(modelValue) * 1000).getTimezoneOffset()*60;
-				return new Date(parseInt(modelValue) * 1000 + offset*1000);
+				var val = parseInt(modelValue) * 1000;
+				var offset = new Date(val).getTimezoneOffset() * 60 * 1000;
+				return new Date(val + offset); //return Date
 			});
 
 			ngModel.$parsers.push(function(viewValue) {
 				if (viewValue instanceof Date) {
-					var offset = viewValue.getTimezoneOffset() * 60;
-					var timestamp = viewValue.getTime() - offset / 1000 - offset;
-					return Math.abs(timestamp); //prevent negative values
+					var val = viewValue.getTime();
+					var offset = viewValue.getTimezoneOffset() * 60 * 1000;
+					var output = parseInt((val - offset)/1000);
+					return Math.abs(output); //preturn Timestamp
 				}
 			});
 		}
@@ -252,7 +254,6 @@ angular.module('app.directives', [])
 					}, function(error) {
 						$scope.images[i].error = true;
 						$cordovaCamera.cleanup();
-						$cordovaToast.show(angular.toJson(error), 'short', 'top');
 					}, function(progress) {
 						$scope.images[i].progress = Math.floor(progress.loaded * 100 / progress.total);
 					});

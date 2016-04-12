@@ -97,6 +97,7 @@ window.translate.ru = {
   email_or_phone: 'E-mail или телефон',
   empty: 'Не выбрано',
   enter_code_from_recived_email: 'Введите код полученный на E-mail',
+  enter_code_time_limit_msg: 'Введите код подтверждения в течении часа',
   enter_password_: 'Введите пароль',
   enter_the_password_again: 'Введите пароль снова',
   enter_your_email_or_phone: 'Введите Ваш e-mail или телефон',
@@ -242,7 +243,6 @@ window.translate.ru = {
   upload_photo: 'Загрузить фото',
   validated: 'Подтвежрдено',
   yes: 'Да',
-  you_need_to_confirm_your_code_during_1_hour: 'Вам необходимо ввести код в течение 1 часа',
   your_phone: 'Ваш телефон',
   your_email: 'Ваш E-mail'
 };
@@ -320,6 +320,7 @@ window.translate.en = {
   email_or_phone: 'E-mail or phone',
   empty: 'Empty',
   enter_code_from_recived_email: 'Enter the code from your e-mail',
+  enter_code_time_limit_msg: 'Enter your code within 1 hour',
   enter_password_: 'Type password',
   enter_the_password_again: 'Retype password',
   enter_your_email_or_phone: 'Enter your e-mail or phone number',
@@ -465,7 +466,6 @@ window.translate.en = {
   upload_photo: 'Upload photo',
   validated: 'Validated',
   yes: 'Yes',
-  you_need_to_confirm_your_code_during_1_hour: 'You need to enter your code during 1 hour',
   your_phone: 'Your phone',
   your_email: 'Your email'
 };

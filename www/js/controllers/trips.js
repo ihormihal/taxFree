@@ -1,7 +1,7 @@
 angular.module('app.controller.trips', [])
 
 /*** LIST ***/
-.controller('tripsCtrl', function($rootScope, $scope, $state, $ionicModal, Trips, Trip, Toast) {
+.controller('tripsCtrl', function($rootScope, $scope, $state, $stateParams, $ionicModal, Trips, Trip, Toast) {
 
 	if ($rootScope.transports.length === 0 || $rootScope.countries.length === 0) {
 		$rootScope.loadCatalog();
@@ -46,14 +46,12 @@ angular.module('app.controller.trips', [])
 		animation: 'slide-in-up'
 	}).then(function(modal) {
 		$scope.modal = modal;
-	});
 
-	$scope.openModal = function() {
-		$scope.modal.show();
-	};
-	$scope.closeModal = function() {
-		$scope.modal.hide();
-	};
+		if($stateParams.action == 'new'){
+			$scope.modal.show();
+		}
+	
+	});
 
 	$scope.$on('$destroy', function() {
 		$scope.modal.remove();
@@ -61,13 +59,13 @@ angular.module('app.controller.trips', [])
 
 	$scope.addTrip = function() {
 		$scope.trip = { id: 'add' };
-		$scope.openModal();
+		$scope.modal.show();
 	};
 
 	$scope.create = function() {
 		Trip.add($scope.trip, function(data) {
 			if (data.id) {
-				$scope.closeModal();
+				$scope.modal.hide();
 				Toast.show(lngTranslate('toast_trip_created'));
 				$state.go('main.trip.data', { id: data.id });
 			} else {

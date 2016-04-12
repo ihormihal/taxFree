@@ -151,7 +151,7 @@ angular.module('app.routes', [])
 
   //TRIPS LIST
   .state('main.trips', {
-    url: '/trips',
+    url: '/trips/:action',
     cache:  false,
     views: {
       'menuContent': {
@@ -209,7 +209,7 @@ angular.module('app.routes', [])
 
   //CHECKS LIST
   .state('main.checks', {
-    url: '/checks',
+    url: '/checks/:action',
     cache:  false,
     views: {
       'menuContent': {

@@ -1,7 +1,7 @@
 angular.module('app.controller.checks', [])
 
 /*** LIST ***/
-.controller('checksCtrl', function($rootScope, $scope, $state, $ionicModal, Checks, Check, Trip, Trips, Toast) {
+.controller('checksCtrl', function($rootScope, $scope, $state, $stateParams, $ionicModal, Checks, Check, Trip, Trips, Toast) {
 
 	if($rootScope.transports.length === 0 || $rootScope.countries.length === 0){
       $rootScope.loadCatalog();
@@ -78,6 +78,10 @@ angular.module('app.controller.checks', [])
 		animation: 'slide-in-up'
 	}).then(function(modal) {
 		$scope.modalCheck = modal;
+
+		if($stateParams.action == 'new'){
+			$scope.modalCheck.show();
+		}
 	});
 
 	$scope.$on('$destroy', function() {

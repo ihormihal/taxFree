@@ -15,7 +15,7 @@ angular.module('app.controllers', [])
 
 
 /*** PRIVATE APP CONTROLLER ***/
-.controller('AppCtrl', function($ionicPlatform, $rootScope, $scope, $state, AuthService, Catalog) {
+.controller('AppCtrl', function($rootScope, $scope, $state, AuthService, Catalog) {
 
 
 	$rootScope.loadCatalog = function(){

@@ -27,7 +27,7 @@ angular.module('app.config', ['ngResource'])
 .service('AppConfig', function($rootScope, $state, $timeout, $ionicHistory) {
 
    $rootScope.config = {
-    version: '0.6.0',
+    version: '0.6.2',
     domain: 'http://stage.taxfree4u.eu/', //default
     domains: {
       public: 'http://taxfree4u.eu/',
@@ -46,9 +46,10 @@ angular.module('app.config', ['ngResource'])
   if(window.localStorage['config']){
     var storedConfig = angular.fromJson(window.localStorage['config']);
     if(storedConfig.version == $rootScope.config.version){
-      window.localStorage['config'] = angular.toJson($rootScope.config);
-    }else{
+      window.localStorage.clear();
       $rootScope.config = storedConfig;
+    }else{
+      window.localStorage['config'] = angular.toJson($rootScope.config);
     }
   }
 
@@ -111,7 +112,9 @@ angular.module('app.config', ['ngResource'])
         break;
       case 'trip':
         if(data.entity_id){
-          $state.go('main.trip.data',{id: data.entity_id});
+          $state.go('main.trip.data', {id: data.entity_id});
+        }else if(data.entity_id === 0){
+          $state.go('main.trips', {action: 'new'});
         }else{
           $state.go('main.trips');
         }
@@ -119,6 +122,8 @@ angular.module('app.config', ['ngResource'])
       case 'check':
         if(data.entity_id){
           $state.go('main.check',{id: data.entity_id});
+        }else if(data.entity_id === 0){
+          $state.go('main.checks', {action: 'new'});
         }else{
           $state.go('main.checks');
         }
