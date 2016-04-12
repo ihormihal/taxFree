@@ -81,11 +81,10 @@ angular.module('app.controller.auth', [])
 
 	};
 
-	$scope.saveDev = function(){;
+	$scope.saveDev = function(){
 		if($scope.dev.domain !== $rootScope.config.domain){
 			$rootScope.config.domain = $scope.dev.domain;
 			window.localStorage['config'] = angular.toJson($rootScope.config);
-			AuthService.logout();
 			window.location.reload(true);
 		}
 		$scope.closeModalDev();

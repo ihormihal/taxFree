@@ -46,11 +46,12 @@ angular.module('app.config', ['ngResource'])
   if(window.localStorage['config']){
     var storedConfig = angular.fromJson(window.localStorage['config']);
     if(storedConfig.version == $rootScope.config.version){
-      window.localStorage.clear();
       $rootScope.config = storedConfig;
     }else{
       window.localStorage['config'] = angular.toJson($rootScope.config);
     }
+  }else{
+    window.localStorage['config'] = angular.toJson($rootScope.config);
   }
 
   window.onresize = function(){
