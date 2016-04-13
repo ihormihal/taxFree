@@ -98,8 +98,6 @@ angular.module('app.controller.trips', [])
 		$rootScope.loadCatalog();
 	}
 
-	var now = new Date().getTime() * 0.001;
-
 	$scope.check = { id: 'add', trip: $stateParams.id, files: [], images: [] };
 
 	$scope.load = function() {
@@ -107,6 +105,11 @@ angular.module('app.controller.trips', [])
 
 		Trip.get({ id: $stateParams.id }, function(data) {
 			$scope.trip = data;
+			
+			$scope.trip.current = false;
+			if(($scope.trip.date_start + $scope.trip.time_start) < $rootScope.currentTime() && $rootScope.currentTime() < ($scope.trip.date_end + $scope.trip.time_end) && $scope.trip.status !== 'refused'){
+				$scope.trip.current = true;
+			}
 
 			$scope.loadChecks();
 			$scope.loadDeclarations();

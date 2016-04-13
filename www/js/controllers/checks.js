@@ -65,12 +65,15 @@ angular.module('app.controller.checks', [])
 			}
 		});
 
-		$scope.activeTrips = [];
-		angular.forEach($rootScope.trips, function(trip,i){
-			if(trip.date_end > $rootScope.currentTime() && trip.status !== 'refused'){
-				$scope.activeTrips.push(trip);
+		for(var i = 0; i < $rootScope.trips.length; i++){
+			$rootScope.trips[i].current = false;
+			var dateFrom = $rootScope.trips[i].date_start + $rootScope.trips[i].time_start;
+			var dateTo = $rootScope.trips[i].date_end + $rootScope.trips[i].time_end;
+			if(dateFrom < $rootScope.currentTime() && $rootScope.currentTime() < dateTo && $rootScope.trips[i].status !== 'refused'){
+				$rootScope.trips[i].current = true;
 			}
-		});
+		}
+
 	}
 
 	$ionicModal.fromTemplateUrl('views/private/checks/add.html', {

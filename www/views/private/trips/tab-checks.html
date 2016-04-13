@@ -1,7 +1,7 @@
 <ion-view view-title="{{'checks'|translate}}">
   <div class="loading-bar-top" ng-class="{'active': loading}"></div>
   <ion-nav-buttons side="right">
-    <button class="button button-icon button-clear ion-android-add fade" ng-class="{'in': trip.date_end*1000 > currentTime()}" ng-click="modalCheck.show()"></button>
+    <button class="button button-icon button-clear ion-android-add fade" ng-class="{'in': trip.current}" ng-click="modalCheck.show()"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
     <ion-refresher
