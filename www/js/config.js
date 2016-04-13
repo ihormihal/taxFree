@@ -28,7 +28,7 @@ angular.module('app.config', ['ngResource'])
 
    $rootScope.config = {
     version: '0.6.2',
-    domain: 'http://stage.taxfree4u.eu/', //default
+    domain: 'http://taxfree4u.eu/', //default
     domains: {
       public: 'http://taxfree4u.eu/',
       stage_public: 'http://stage.taxfree4u.eu/',
