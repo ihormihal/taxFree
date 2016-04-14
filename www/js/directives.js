@@ -52,7 +52,11 @@ angular.module('app.directives', [])
 					var val = viewValue.getTime();
 					var offset = viewValue.getTimezoneOffset() * 60 * 1000;
 					var output = parseInt((val - offset)/1000);
-					return Math.abs(output); //preturn Timestamp
+					if(output < 0){
+						//crutch for timepicker (because 1969 year!!!)
+						output = 86400 + output;
+					}
+					return output; //return Timestamp
 				}
 			});
 		}
