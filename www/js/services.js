@@ -123,6 +123,7 @@ angular.module('app.services', ['ngResource'])
     data: {
       email: '',
       phone: '',
+      country: '',
       confirmation: 'sms',
       password: '',
       password_confirm: '',

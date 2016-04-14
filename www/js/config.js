@@ -27,9 +27,10 @@ angular.module('app.config', ['ngResource'])
 .service('AppConfig', function($rootScope, $state, $timeout, $ionicHistory) {
 
    $rootScope.config = {
-    version: '0.6.3',
-    domain: 'http://taxfree4u.eu/', //default
+    version: '0.6.4',
+    domain: 'https://taxfree4u.eu/', //default
     domains: {
+      public_https: 'https://taxfree4u.eu/',
       public: 'http://taxfree4u.eu/',
       stage_public: 'http://stage.taxfree4u.eu/',
       stage: 'http://stage.tax-free-4u.com/',

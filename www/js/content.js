@@ -1,93 +1,121 @@
 var content = {};
 content.faq = [
     {
-        heading : "Do I need a customs stamp?",
+        heading : "How do I get my tax refund using TaxFree4U Shopping?",
         content : [
-            "Yes, as without a customs stamp it is not possible to process a tax refund. Forms must be stamped by a Customs Officer upon departure from country of purchase or last point of departure from the EU. Remember you are obliged to have the goods available for inspection by the Customs Officer."
+            "Follow these 6 simple steps to save money while shopping in EU."
         ]
     },
     {
-        heading : "Where do I obtain a customs stamp?",
+        heading : "What exactly is VAT?",
         content : [
-            "To obtain your customs stamp you must present the goods purchased for inspection at the social customs office at your last point of departure. Please be aware that without the customs stamp your VAT refund cannot be processed."
+            "VAT is the international term for `Value added Tax`. A general, broadly based consumption tax charged on all sold goods that included in the stated price. The percentages of VAT differ from country to country. Each traveler who purchases goods meant for personal use, to take with him/her to a non-EU country, is eligible to shop tax-free and receiving VAT refund."
         ]
     },
     {
-        heading : "How do I fill in my Tax Free Form?",
+        heading : "What documents I need to submit to use Taxfree4u service?",
         content : [
-            "You need to register yourself via our mobile App or homepage www.taxfree4u.eu"
+            "If you are making use of our service for the first time, we will need a copy of your passport or other."
         ]
     },
     {
-        heading : "How long will it take for my Tax Refund to come through?",
+        heading : "In which countries can I shop tax free through TaxFree4U?",
         content : [
-            "We process your refund within 48h of receiving the proof of export. Due to credit card procedures, put in place by credit card companies, refunds generally appear on your bank statement in the month following the transfer of your refund amount from. If you do not receive your refund within 2 month of departure, we advise you to contact us as there may have been a problem with your tax refund form."
+            "Currently you can enjoy your TaxFree4U Shopping in the following countries: France, Germany, Italy, Spain and United Kingdom. Sins we are developing our service, you will be able to take benefits of TaxFree4U shopping from more countries in near future."
         ]
     },
     {
-        heading : "How long are Tax Free forms valid for?",
+        heading : "What are the rules of Tax Free Shopping?",
         content : [
-            "You must get your customs stamp on your VAT refund document within 3 months following the month of purchase. For example, purchases made on the 25th of March must be exported in your personal luggage by the 30th of June. Once you have received your customs stamp, TaxFree4U advise that you forward your voucher for refund immediately. In some countries, tax refund forms will go out of date if they are not immediately sent back toTaxFree4U. Please read the conditions on your tax refund forms to be certain to respect local laws and regulations."
+            "Each country has its own specific rules for reclaiming VAT on shopping purchases. You can ask one of our friendly representative for this information. They are available 24/7 via phone, chat or by Skype."
         ]
     },
     {
-        heading : "Do I have to carry all the goods bought under the scheme in my hand luggage?",
+        heading : "Does Tax Free Shopping apply for services (hotel stay, restaurant bills, etc.)?",
         content : [
-            "Yes but if the goods are too large to carry on board an aircraft you may pack them in your hold baggage. If you do this, you much contact the Customs export office before you check in, in order to show the goods to customs. If you do not have the goods to present to customs for verification, they may refuse to stamp and validate you tax refund form."
+            "No. Services, although taxable, are not eligible for VAT refunds. Other companies deal with reclaim of business taxes, which allows reclaiming tax on car hire, restaurant and hotel bills etc."
         ]
     },
     {
-        heading : "What if I leave the EU on a through (transit) flight via another Member State?",
+        heading : "Does Tax Free Shopping apply to goods that are shipped. Sent by courier or bought on the Internet?",
         content : [
-            "Before leaving the country to continue your journey or head home, you need to take your purchases (packed and unused), receipts and passport to the Customs desk in order to validate your Tax Free form. Remember that without Customs Stamp on your Tax Free Form you will not get your Refund. You will need to present the goods physically to the Customs Officer, so do not pack them in your check-in luggage. Please allow enough time for the refund process before your flight departs."
-        ]
-    },
-    {
-        heading : "What are the terms and conditions?",
-        content : [
-            "Non-Cash refunds are sent within 48h after reception of your validated tax refund form from, processing times of credit card companies and banks excluded."
-        ]
-    },
-    {
-        heading : "How do I receive the refund if I didn’t manage to receive the export validation on my Tax Free Form?",
-        content : [
-            "Obtaining an export validation is one of the main conditions of Tax Free Shopping. It proves that the purchased goods were exported from the country of purchase to your home country. However, rules and regulations in some countries offer the possibility to obtain an additional export validation. Please check the Rules and Regulations of the country of purchase."
-        ]
-    },
-    {
-        heading : "How do I calculate my refund?",
-        content : [
-            "The VAT (or GST in some countries) is a percentage added on top of list prices. For example: if the VAT rate is 20% and a dress is displayed at €100, including VAT, the VAT amounts to €16.50. (Dress price: €83.5 + 20% VAT = €100.) The refund amount will thus be €16.50, minus a service fee."
+            "No. In general, TaxFree4U service only applies to goods that purchased in stores. All of the goods need to be exported in your personal luggage."
         ]
     },
     {
         heading : "Can I use the purchased goods before export?",
         content : [
-            "No. Goods purchased must be available to Customs in the original package. Otherwise they can refuse to stamp your Tax Free Form."
+            "No. Purchased goods must be available to Customs in the original package. Otherwise, they can refuse to stamp your Tax Free Form (Declaration of export)."
+        ]
+    },
+    {
+        heading : "How do I fill in my Tax Free Form?",
+        content : [
+            "This is part of our innovative service, which we perform for our clients. We do all of the paperwork for you. All you have to do, it is to send us photo/ copy of your receipts."
         ]
     },
     {
         heading : "How do I obtain an export validation?",
         content : [
-            "When you are leaving the country to head home or to continue your journey, take your purchases, receipt and passport to the Customs desk* to get your Tax Free Form validated. Make sure the goods are unused. Don’t pack away your purchases in your check-in luggage as you will need to show them to the Customs Officer. Please allow enough time for the refund process before your flight departs."
+            "When you are leaving the EU country to head home or to continue your journey. Take your purchases, passport and document package that we send top you to the Customs desk to get your Tax Free Form validated. Make sure that goods are unused. Do not pack away your purchases in your check-in luggage, as you will need to show them to the Customs Officer. Please allow enough time for the refund process before your flight departs.",
+            "Remember: No Customs Stamp = No Refund"
         ]
     },
     {
-        heading : "I paid for my purchases by credit card. Will my credit card information be automatically registered on the Tax Free Form?",
+        heading : "What if I leave the EU through another member state (connecting/transit flight)?",
         content : [
-            "No. The credit card you used in the shop is not automatically registered."
+            "If you are travelling on to another EU country, you could present your Tax Free Form at the final point of departure from EU.",
+            "Remember: No Customs Stamp = No Refund"
         ]
     },
     {
-        heading : "What information do I need for being able to track my refund?",
+        heading : "How do I receive the refund if I didn’t manage to receive an export validation on my Tax Free Form?",
         content : [
-            "- Country of purchase\n- Name of the buyer\n- Credit card number"
+            "Obtaining an export validation is one of the main conditions of Tax Free Shopping. It proves that the purchased goods were exported from the country of purchase to your home country.",
+            "No Customs Stamp = No Refund"
         ]
     },
     {
-        heading : "How can I track the refund payment on my bank statement?",
+        heading : "How do I calculate my refund?",
         content : [
-            "Your refund payment appears as “TaxFree4U” on your credit card statement. Please note that the processing time of your bank is excluded from the processing time of TaxFree4U."
+            "The VAT ( GST or IVA in some countries) is a percentage included in the list prices. For example: if the VAT rate is 20% and a dress is displayed at €100, including VAT, the VAT amounts is €16.50. (Dress price: €83.5 + 20% VAT = €100.) The refund amount will be €16.50, minus a company service fee."
+        ]
+    },
+    {
+        heading : "I want to receive the refund to my banking card. Does it have to be the same banking card that I used for paying in the shop?",
+        content : [
+            "No. You can receive the refund on a different banking card. Best option will be to receive your refund on TaxFree4U card. You can find out more information regarding TaxFree card here."
+        ]
+    },
+    {
+        heading : "Where to send my Validated Tax Free Form?",
+        content : [
+            "You can send your Tax Free Forms using the prepaid envelope available at all affiliated stores. We recommend using safer mail service, e.g. registered mail. In case you have lost the prepaid envelope, please use an ordinary envelope for sending your Tax Free Form to our Processing Centre:",
+            "For standard and registered mail:",
+            "Sceptre Court, 40 Tower Hill,",
+            "London, EC3N 4DX"
+        ]
+    },
+    {
+        heading : "When will I receive my refund?",
+        content : [
+            "Refunds are processed within following time limits:",
+            "- 48 hours* applies to refunds processed to TaxFree card issued by Bank4U;",
+            "- 1-7 weeks* for refunds paid to a banking card or bank account;",
+            "* from receipt of Tax Free Form by mail"
+        ]
+    },
+    {
+        heading : "How can I contact TaxFree4U if I have additional questions?",
+        content : [
+            "Our representatives available to answer your call t the following numbers:",
+            "UK: +44 203 7696704",
+            "FR: +33 176 542634",
+            "IT: +39 069 4807492",
+            "ES: +34 911 983484",
+            "DE: +49 691 20066943",
+            "Or by the email: support@taxfree4u.eu"
         ]
     }
+    
 ];

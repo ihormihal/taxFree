@@ -107,7 +107,10 @@ angular.module('app.controller.trips', [])
 			$scope.trip = data;
 			
 			$scope.trip.current = false;
-			if(($scope.trip.date_start + $scope.trip.time_start) < $rootScope.currentTime() && $rootScope.currentTime() < ($scope.trip.date_end + $scope.trip.time_end) && $scope.trip.status !== 'refused'){
+
+			var dateFrom = $scope.trip.date_start + $scope.trip.time_start;
+			var dateTo = $scope.trip.date_end + $scope.trip.time_end;
+			if(dateFrom < $rootScope.currentTime() && $rootScope.currentTime() < dateTo && $scope.trip.status !== 'refused'){
 				$scope.trip.current = true;
 			}
 
@@ -191,7 +194,7 @@ angular.module('app.controller.trips', [])
 				lngTranslate('dialog_remove_trip_title'), [lngTranslate('yes'), lngTranslate('no')])
 			.then(function(buttonIndex) {
 				if (buttonIndex == 1) {
-					Trip.delete($scope.trip.id, function() {
+					Trip.delete({id: $scope.trip.id}, function() {
 						Toast.show(lngTranslate('toast_trip_deleted'));
 						$state.go('main.trips');
 					});
