@@ -17,6 +17,7 @@ angular.module('app.controller.user', [])
 		$rootScope.loading = true;
 		User.get({}, function(data) {
 			$scope.user.profile = data;
+			$scope.user.profile.uid = '0000000000254';
 			$scope.user.params = {
 				user: $scope.user.profile.id
 			};

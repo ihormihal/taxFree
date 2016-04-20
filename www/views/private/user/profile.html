@@ -16,6 +16,11 @@
             on-refresh="load()">
         </ion-refresher>
 
+        <div class="barcode-box">
+            <div barcode-generator="{{user.profile.uid}}"></div>
+            <p class="code">{{user.profile.uid}}</p>
+        </div>
+
         <div class="padding bar-status-request text-center hide" ng-class="{'hide-false': user.profile.editable == 0}">
             {{'profile_wait'|translate}}
         </div>

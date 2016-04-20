@@ -31,6 +31,7 @@ angular.module('app', [
 	'ionic',
 	'ngCordova',
 	'ui.mask',
+	'barcodeGenerator',
 	'app.config',
 	'app.cordova',
 	'app.routes',
