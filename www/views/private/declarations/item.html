@@ -66,12 +66,15 @@
 
       </div>
 
-      <div class="padding" ng-show="declaration.file && !file.exist">
-        <button class="button button-block button-assertive icon-left ion-ios-download-outline" ng-click="download()">{{'save_to_pdf'|translate}}</a>
+
+      <div class="padding">
+        <button ng-show="declaration.file && !declarationFile.exist" class="button button-block button-assertive icon-left ion-ios-download-outline" ng-click="downloadDeclaration()">{{'download_declaration'|translate}}</a>
+        <button ng-show="declaration.invoice && !invoiceFile.exist" class="button button-block button-assertive icon-left ion-ios-download-outline" ng-click="downloadInvoice()">{{'download_invoice'|translate}}</a>
       </div>
 
-      <div class="padding" ng-show="file.exist">
-        <button class="button button-block button-assertive icon-left ion-document-text" ng-click="openfile()">{{'open_file'|translate}}</a>
+      <div class="padding">
+        <button ng-show="declarationFile.exist" class="button button-block button-assertive icon-left ion-document-text" ng-click="openFile(invoiceFile.path)">{{'open_declaration'|translate}}</a>
+        <button ng-show="invoiceFile.exist" class="button button-block button-assertive icon-left ion-document-text" ng-click="openFile(invoiceFile.path)">{{'open_invoice'|translate}}</a>
       </div>
 
   </ion-content>

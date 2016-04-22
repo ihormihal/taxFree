@@ -22,11 +22,36 @@ angular.module('app.controller.declarations', [])
 /*** ITEM ***/
 .controller('declarationCtrl', function($rootScope, $scope, $stateParams, $cordovaFile, $cordovaFileTransfer, Declaration, Toast) {
 
-	$scope.file = {
+	$scope.declarationFile = {
 		exist: false,
 		name: null,
 		path: null
 	};
+
+	$scope.invoiceFile = {
+		exist: false,
+		name: null,
+		path: null
+	};
+
+	var transferOptions = {
+		headers: {
+			'Authorization': window.localStorage['token']
+		}
+	};
+
+	var fileDirectory = '';
+	try {
+		if (ionic.Platform.isIOS()) {
+			fileDirectory = cordova.file.documentsDirectory;
+			/* file /var/mobile/Containers/Data/Application/<UUID>/Documents/ */
+		} else {
+			fileDirectory = cordova.file.externalDataDirectory;
+			/* Android/data/<app-id>/files */
+		}
+	} catch (error) {
+		console.log(error);
+	}
 
 	$scope.load = function() {
 		$rootScope.loading = true;
@@ -37,31 +62,29 @@ angular.module('app.controller.declarations', [])
 			$scope.$broadcast('scroll.refreshComplete');
 			$scope.declaration = data;
 
-			//$scope.declaration.file = $scope.declaration.file.replace('app_dev.php/','');
 			//$scope.declaration.file = 'http://mycode.in.ua/app/Declaration_GB.pdf'; //for test
+			$scope.declaration.invoice = 'http://mycode.in.ua/app/Declaration_GB.pdf'; //for test
 
 			var fileDirectory = '';
-
-			$scope.file.name = $scope.declaration.file.split("/").pop();
-			try {
-				if (ionic.Platform.isIOS()) {
-					fileDirectory = cordova.file.documentsDirectory;
-					/* file /var/mobile/Containers/Data/Application/<UUID>/Documents/ */
-				} else {
-					fileDirectory = cordova.file.externalDataDirectory;
-					/* Android/data/<app-id>/files */
-				}
-			} catch (error) {
-				console.log(error);
+			if($scope.declaration.file){
+				$scope.declarationFile.name = $scope.declaration.file.split("/").pop();
+			}
+			if($scope.declaration.invoice){
+				$scope.invoiceFile.name = $scope.declaration.invoice.split("/").pop();
 			}
 
-			$scope.file.path = fileDirectory + $scope.file.name;
+			$scope.declarationFile.path = fileDirectory + $scope.declarationFile.name;
+			$scope.invoiceFile.path = fileDirectory + $scope.invoiceFile.name;
 
 			//Check for the downloaded file.
 			try {
-				$cordovaFile.checkFile(fileDirectory, $scope.file.name)
+				$cordovaFile.checkFile(fileDirectory, $scope.declarationFile.name)
 					.then(function() {
-						$scope.file.exist = true;
+						$scope.declarationFile.exist = true;
+					});
+				$cordovaFile.checkFile(fileDirectory, $scope.invoiceFile.name)
+					.then(function() {
+						$scope.invoiceFile.exist = true;
 					});
 			} catch (error) {
 				console.log(error);
@@ -82,29 +105,36 @@ angular.module('app.controller.declarations', [])
 		});
 	};
 
-	$scope.download = function() {
+	$scope.downloadDeclaration = function() {
 
-		var options = {
-			headers: {
-				'Authorization': window.localStorage['token']
-			}
-		};
-
-		$cordovaFileTransfer.download($scope.declaration.file, $scope.file.path, options, true)
+		$cordovaFileTransfer.download($scope.declaration.file, $scope.declarationFile.path, transferOptions, true)
 			.then(function(result) {
 				Toast.show(lngTranslate('download_success'));
-				$scope.file.exist = true;
+				$scope.declarationFile.exist = true;
 				$scope.$apply();
 			}, function(error) {
 				Toast.show(lngTranslate('download_error') + ' ' + angular.toJson(error));
 			}, function(progress) {
 				// PROGRESS HANDLING GOES HERE
 			});
-
 	};
 
-	$scope.openfile = function() {
-		cordova.plugins.disusered.open($scope.file.path, function() {
+	$scope.downloadInvoice = function() {
+
+		$cordovaFileTransfer.download($scope.declaration.invoice, $scope.invoiceFile.path, transferOptions, true)
+			.then(function(result) {
+				Toast.show(lngTranslate('download_success'));
+				$scope.invoiceFile.exist = true;
+				$scope.$apply();
+			}, function(error) {
+				Toast.show(lngTranslate('download_error') + ' ' + angular.toJson(error));
+			}, function(progress) {
+				// PROGRESS HANDLING GOES HERE
+			});
+	};
+
+	$scope.openFile = function(path) {
+		cordova.plugins.disusered.open(path, function() {
 			//success
 		}, function() {
 			if (code === 1) {

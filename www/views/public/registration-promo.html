@@ -24,65 +24,6 @@
                     <input type="text" name="fsname" ng-model="data.fsname" placeholder="Ф.И.О." required>
                 </label>
 
-                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_birthday.$invalid}">
-                    <div class="input-label">{{'birthday'|translate}} <sup>*</sup></div>
-                    <input datetime type="date" name="passp_birthday" ng-model="data.passp_birthday" required>
-                </label>
-
-                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_sex.$invalid}">
-                    <div class="input-label">{{'sex'|translate}} <sup>*</sup></div>
-                    <div class="item-select">
-                        <select name="passp_sex" ng-model="data.passp_sex" required>
-                            <option value="" disabled>{{'empty'|translate}}</option>
-                            <option value="m">{{'m'|translate}}</option>
-                            <option value="f">{{'f'|translate}}</option>
-                        </select>
-                    </div>
-                </label>
-
-                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_citizenship.$invalid}">
-                    <div class="input-label">{{'citizenship'|translate}} <sup>*</sup></div>
-                    <div class="item-select">
-                        <select integer-model name="passp_citizenship" ng-model="data.passp_citizenship" required>
-                            <option value="" disabled>{{'empty'|translate}}</option>
-                            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
-                        </select>
-                    </div>
-                </label>
-
-                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.country.$invalid}">
-                    <div class="input-label">{{'country'|translate}} <sup>*</sup></div>
-                    <div class="item-select">
-                        <select integer-model name="country" ng-model="data.country" required>
-                            <option value="" disabled>{{'empty'|translate}}</option>
-                            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
-                        </select>
-                    </div>
-                </label>
-
-                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_number.$invalid}">
-                    <div class="input-label">{{'passport_number'|translate}} <sup>*</sup></div>
-                    <input type="text" minlength="8" name="passp_number" ng-model="data.passp_number" placeholder="ET000001" required>
-                </label>
-
-                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_country.$invalid}">
-                    <div class="input-label">{{'passport_country'|translate}} <sup>*</sup></div>
-                    <div class="item-select">
-                        <select integer-model name="passp_country" ng-model="data.passp_country" required>
-                            <option value="" disabled>{{'empty'|translate}}</option>
-                            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
-                        </select>
-                    </div>
-                </label>
-
-                <label class="item item-input item-stacked-label" ng-class="{'has-error': data.passp_date < currentTime()}">
-                    <div class="input-label">
-                        {{'passport_date'|translate}} <sup>*</sup>
-                        <span class="error" ng-show="data.passp_date < currentTime()">{{'date_expired'|translate}}</span>
-                    </div>
-                    <input datetime type="date" name="passp_date" ng-model="data.passp_date" required>
-                </label>
-
                 <label class="item item-input item-stacked-label" ng-class="{'has-error': form.email.$invalid}">
                     <div class="input-label">{{'email'|translate}} <sup>*</sup></div>
                     <input type="email" name="email" ng-model="data.email" required>
@@ -100,6 +41,16 @@
 
                 <label class="item" ng-class="{'has-error': form.phone.$invalid}">
                     <input type="tel" name="phone" ng-model="data.phone" required>
+                </label>
+
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_citizenship.$invalid}">
+                    <div class="input-label">{{'citizenship'|translate}} <sup>*</sup></div>
+                    <div class="item-select">
+                        <select integer-model name="passp_citizenship" ng-model="data.passp_citizenship" required>
+                            <option value="" disabled>{{'empty'|translate}}</option>
+                            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
+                        </select>
+                    </div>
                 </label>
 
                 <div class="item">
