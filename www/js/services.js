@@ -47,8 +47,16 @@ angular.module('app.services', ['ngResource'])
           window.localStorage['token'] = token;
           window.localStorage['refresh_token'] = self.credentials.refresh_token;
 
-          if(self.credentials.grant_type == 'password'){
-            $rootScope.$broadcast('auth-login-success');
+          if(data.promo){
+            
+            $state.go('reg-promo');
+
+          }else{
+
+            if(self.credentials.grant_type == 'password'){
+              $rootScope.$broadcast('auth-login-success');
+            }
+
           }
 
           $rootScope.httpWaiting = false;

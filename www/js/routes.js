@@ -42,6 +42,12 @@ angular.module('app.routes', [])
     controller: 'regCtrl'
   })
 
+  .state('regPromo', {
+    url: '/reg-promo',
+    templateUrl: 'views/public/registration-promo.html',
+    controller: 'regCtrl'
+  })
+
   // Password Recovery
   .state('passwordOne', {
     url: '/password-one',

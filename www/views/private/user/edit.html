@@ -12,7 +12,7 @@
         <label class="item item-input item-stacked-label top-item" ng-class="{'has-error': form.before_fs.$invalid}">
           <span class="input-label">{{'how_call_you'|translate}} <sup>*</sup></span>
           <div class="item-select">
-            <select name="before_fs" ng-model="user.profile.before_fs">
+            <select name="before_fs" ng-model="user.profile.before_fs" required>
               <option value="mr">{{'mr'|translate}}</option>
               <option value="mrs">{{'mrs'|translate}}</option>
               <option value="miss">{{'ms'|translate}}</option>

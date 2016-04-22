@@ -1,0 +1,146 @@
+<ion-view hide-nav-bar="true">
+    <ion-content padding="false">
+        <div class="screen-logo {{orientation}}">
+            <img src="images/logo.png">
+        </div>
+        <h1 class="text-center">{{'registration'|translate}}</h1>
+        <p class="text-center">{{'personal_data'|translate}}</p>
+
+        <div class="mt20">
+            <form name="form" class="list">
+
+                <label class="item item-input item-stacked-label top-item" ng-class="{'has-error': form.before_fs.$invalid}">
+                    <span class="input-label">{{'how_call_you'|translate}} <sup>*</sup></span>
+                    <div class="item-select">
+                        <select name="before_fs" ng-model="data.before_fs" required>
+                            <option value="mr">{{'mr'|translate}}</option>
+                            <option value="mrs">{{'mrs'|translate}}</option>
+                            <option value="miss">{{'ms'|translate}}</option>
+                        </select>
+                    </div>
+                </label>
+
+                <label class="item item-input" ng-class="{'has-error': form.fsname.$invalid}">
+                    <input type="text" name="fsname" ng-model="data.fsname" placeholder="Ф.И.О." required>
+                </label>
+
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_birthday.$invalid}">
+                    <div class="input-label">{{'birthday'|translate}} <sup>*</sup></div>
+                    <input datetime type="date" name="passp_birthday" ng-model="data.passp_birthday" required>
+                </label>
+
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_sex.$invalid}">
+                    <div class="input-label">{{'sex'|translate}} <sup>*</sup></div>
+                    <div class="item-select">
+                        <select name="passp_sex" ng-model="data.passp_sex" required>
+                            <option value="" disabled>{{'empty'|translate}}</option>
+                            <option value="m">{{'m'|translate}}</option>
+                            <option value="f">{{'f'|translate}}</option>
+                        </select>
+                    </div>
+                </label>
+
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_citizenship.$invalid}">
+                    <div class="input-label">{{'citizenship'|translate}} <sup>*</sup></div>
+                    <div class="item-select">
+                        <select integer-model name="passp_citizenship" ng-model="data.passp_citizenship" required>
+                            <option value="" disabled>{{'empty'|translate}}</option>
+                            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
+                        </select>
+                    </div>
+                </label>
+
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.country.$invalid}">
+                    <div class="input-label">{{'country'|translate}} <sup>*</sup></div>
+                    <div class="item-select">
+                        <select integer-model name="country" ng-model="data.country" required>
+                            <option value="" disabled>{{'empty'|translate}}</option>
+                            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
+                        </select>
+                    </div>
+                </label>
+
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_number.$invalid}">
+                    <div class="input-label">{{'passport_number'|translate}} <sup>*</sup></div>
+                    <input type="text" minlength="8" name="passp_number" ng-model="data.passp_number" placeholder="ET000001" required>
+                </label>
+
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_country.$invalid}">
+                    <div class="input-label">{{'passport_country'|translate}} <sup>*</sup></div>
+                    <div class="item-select">
+                        <select integer-model name="passp_country" ng-model="data.passp_country" required>
+                            <option value="" disabled>{{'empty'|translate}}</option>
+                            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
+                        </select>
+                    </div>
+                </label>
+
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': data.passp_date < currentTime()}">
+                    <div class="input-label">
+                        {{'passport_date'|translate}} <sup>*</sup>
+                        <span class="error" ng-show="data.passp_date < currentTime()">{{'date_expired'|translate}}</span>
+                    </div>
+                    <input datetime type="date" name="passp_date" ng-model="data.passp_date" required>
+                </label>
+
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.email.$invalid}">
+                    <div class="input-label">{{'email'|translate}} <sup>*</sup></div>
+                    <input type="email" name="email" ng-model="data.email" required>
+                </label>
+
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.phone_country.$invalid}">
+                    <div class="input-label">{{'phone'|translate}} <sup>*</sup></div>
+                    <div class="item-select">
+                        <select integer-model ng-model="data.phone_country" name="phone_country" required>
+                            <option value="" disabled>{{'empty'|translate}}</option>
+                            <option ng-repeat="country in countries" value="{{country.id}}">{{country.name}} {{country.phone_code}}</option>
+                        </select>
+                    </div>
+                </label>
+
+                <label class="item" ng-class="{'has-error': form.phone.$invalid}">
+                    <input type="tel" name="phone" ng-model="data.phone" required>
+                </label>
+
+                <div class="item">
+                    <span class="input-label">{{'passport_photo'|translate}} <sup>*</sup></span>
+                    <choose-images single="true" images="images" url="api/user/upload" filekey="passport" userid="{{data.user}}"></choose-images>
+                </div>
+
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': form.password.$error.pattern || form.password.$error.minlength}">
+                    <span class="input-label">{{'password'|translate}} *
+                        <span class="error" ng-show="form.password.$error.pattern && !form.password.$error.minlength">
+                            {{'password_format_error'|translate}}
+                        </span>
+                    <span class="error" ng-show="form.password.$error.minlength">
+                            {{'minimum_8_characters_error'|translate}}
+                        </span>
+                    </span>
+                    <input type="password" name="password" ng-pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/" ng-minlength="8" ng-model="data.password" placeholder="{{'minimum_8_characters'|translate}}" required>
+                </label>
+
+                <label class="item item-input item-stacked-label" ng-class="{'has-error': data.password != data.password_confirm && form.password.$valid}">
+                    <span class="input-label">{{'password_confirmation'|translate}} *
+                        <span class="error" ng-show="data.password != data.password_confirm && form.password.$valid">
+                            {{'password_not_mutch'|translate}}
+                        </span>
+                    </span>
+                    <input type="password" name="password_confirm" ng-model="data.password_confirm" placeholder="{{'minimum_8_characters'|translate}}" required>
+                </label>
+
+                <div class="item item-checkbox">
+                    <label class="checkbox checkbox-assertive">
+                        <input type="checkbox" ng-model="data.accept_terms" ng-true-value="true" ng-false-value="false">
+                    </label>
+                    <span class="input-label">{{'agree_with'|translate}} <a ng-click="openTerms()">{{'terms_of_use'|translate}}</a></span>
+                </div>
+
+            </form>
+
+            <div class="padding mt20">
+                <button ng-class="{disabled: !(form.$valid && data.accept_terms && data.password == data.password_confirm)}" class="button button-stable button-block button-assertive up" ng-click="stepThree()">{{'submit'|translate}}</button>
+            </div>
+
+        </div>
+    </ion-content>
+</ion-view>
