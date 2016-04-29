@@ -158,7 +158,7 @@ angular.module('app.directives', [])
 		},
 		templateUrl: 'views/tpl/choose-images.html',
 		controller: function($rootScope, $scope, $element, $attrs, $timeout, $cordovaImagePicker, $cordovaFile, $cordovaFileTransfer, $cordovaActionSheet, $cordovaCamera, $cordovaToast) {
-
+			
 			if ($attrs.single == 'true') {
 				$scope.single = true;
 			}
