@@ -98,6 +98,13 @@ angular.module('app.directives', [])
 				if(src){
 
 					var filename = src.split("/").pop();
+
+					var ext = filename.split(".").pop();
+					if(ext !== 'jpg' && ext !== 'jpeg' && ext !== 'gif' && ext !== 'png'){
+						$attrs.$set('src', '');
+						return false;
+					}
+
 					var safeSrc = src + '?token=' + window.localStorage['token'];
 
 					try {
@@ -143,7 +150,10 @@ angular.module('app.directives', [])
 		restrict: 'A',
 		controller: function($scope, $element, $attrs) {
 			$element[0].onclick = function() {
-				PhotoViewer.show($attrs.src, $attrs.alt, {share:false});
+				var ext = $attrs.src.split(".").pop();
+				if(ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'png'){
+					PhotoViewer.show($attrs.src, $attrs.alt, {share:false});
+				}
 			}
 		}
 	}

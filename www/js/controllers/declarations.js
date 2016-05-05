@@ -65,7 +65,6 @@ angular.module('app.controller.declarations', [])
 			//$scope.declaration.file = 'http://mycode.in.ua/app/Declaration_GB.pdf'; //for test
 			$scope.declaration.invoice = 'http://mycode.in.ua/app/Declaration_GB.pdf'; //for test
 
-			var fileDirectory = '';
 			if($scope.declaration.file){
 				$scope.declarationFile.name = $scope.declaration.file.split("/").pop();
 			}

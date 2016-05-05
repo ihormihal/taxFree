@@ -57,6 +57,8 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore mykeys.keystore
 optimize:
 C:/Android/sdk/tools/zipalign -v 4 android-release-unsigned.apk TaxFree4U_v.0.5.6.apk
 
+defaults write com.apple.finder AppleShowAllFiles YES
+
 0.5.8
 - fixed unexpected logout
 - fixed behavior without internet connection
@@ -66,3 +68,7 @@ C:/Android/sdk/tools/zipalign -v 4 android-release-unsigned.apk TaxFree4U_v.0.5.
 - fixed settings synchronization
 - new notifications
 - other bug fixes
+
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore mykeys.keystore platforms/android/build/outputs/apk/android-release-unsigned.apk taxfree4u
+~/Library/Android/sdk/build-tools/23.0.3/zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk TaxFree4U_v.0.6.8.apk
