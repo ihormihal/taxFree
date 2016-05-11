@@ -1,0 +1,49 @@
+<ion-view title="{{'bank_account'|translate}}">
+	<ion-nav-buttons side="right">
+		<button class="button button-icon button-clear ion-ios-compose-outline" ng-click="modal.show()"></button>
+	</ion-nav-buttons>
+	<ion-content padding="false" class="has-header">
+
+		<ion-refresher
+			pulling-text=""
+			on-refresh="load()">
+		</ion-refresher>
+
+		<div ng-show="account.is_default" class="item bar-status-default">
+			{{'is_default_account'|translate}}
+			<div class="item-icon-right">
+				<i class="icon ion-ios-checkmark"></i>
+			</div>
+		</div>
+
+		<div class="list">
+
+			<div class="item">
+				<span class="label">{{'bank_name'|translate}}</span>
+				<span class="value">{{account.bank_name}}</span>
+			</div>
+
+			<div class="item">
+				<span class="label">{{'bank_address'|translate}}</span>
+				<span class="value multiline">{{account.bank_address}}</span>
+			</div>
+
+			<div class="item">
+				<span class="label">{{'swift_code'|translate}}</span>
+				<span class="value">{{account.swift_code}}</span>
+			</div>
+
+			<div class="item">
+				<span class="label">{{'account_number'|translate}}</span>
+				<span class="value">{{account.number}}</span>
+			</div>
+
+			<div class="item">
+				<span class="label">{{'account_alias'|translate}}</span>
+				<span class="value">{{account.alias}}</span>
+			</div>
+
+		</div>
+
+	</ion-content>
+</ion-view>

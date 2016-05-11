@@ -473,6 +473,31 @@ angular.module('app.services', ['ngResource'])
 
 
 /****************************************/
+/********* BANK ACCOUNT SERVICE *********/
+/****************************************/
+
+.factory('BankAccounts', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/account/list');
+})
+
+.factory('BankAccount', function($rootScope, $resource) {
+  return $resource($rootScope.config.domain + 'api/account/:id', {id: '@id'}, {
+    update: {
+      method: 'PUT'
+    },
+    add: {
+      method: 'POST'
+    },
+    setDefault: {
+      url: $rootScope.config.domain + 'api/account/:id/default',
+      params: {id: '@id'},
+      method: 'POST'
+    }
+  });
+})
+
+
+/****************************************/
 /************ MESSAGE SERVICE ***********/
 /****************************************/
 

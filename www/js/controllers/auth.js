@@ -100,7 +100,7 @@ angular.module('app.controller.auth', [])
 
 	$scope.data = RegService.data;
 	
-	$scope.data.country = 2;
+	$scope.data.country = null;
 
 	window.localStorage['token'] = '';
 	$rootScope.countries = [];

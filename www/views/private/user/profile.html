@@ -16,10 +16,10 @@
 			on-refresh="load()">
 		</ion-refresher>
 
-		<!-- <div class="barcode-box">
+		<div class="barcode-box">
 			<div barcode-generator="{{user.profile.uid}}"></div>
 			<p class="code">{{user.profile.uid}}</p>
-		</div> -->
+		</div>
 
 		<div class="padding bar-status-request text-center hide" ng-class="{'hide-false': user.profile.editable == 0}">
 			{{'profile_wait'|translate}}
@@ -69,7 +69,7 @@
 			</div>
 			<div class="item">
 				<span class="label">{{'home_address'|translate}}</span>
-				<span class="value" ng-show="user.profile.address">{{user.profile.address}}</span>
+				<span class="value multiline" ng-show="user.profile.address">{{user.profile.address}}</span>
 			</div>
 			<div class="item">
 				<span class="label">{{'phone'|translate}}</span>

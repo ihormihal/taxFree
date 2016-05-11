@@ -35,6 +35,22 @@ angular.module('app.directives', [])
 	}
 })
 
+.directive('tabform', [function() {
+	return {
+		restrict: 'A',
+		controller: function($scope, $element, $attrs){
+			var inputs = $element[0].querySelectorAll('input, select');
+			angular.forEach(inputs, function(input){
+				input.onkeypress = function(event){
+					if(event.keyCode == 13){
+						//go to
+					}
+				};
+			})
+		}
+	}
+}])
+
 .directive('datetime', [function(dateFilter) {
 	return {
 		restrict: 'A',

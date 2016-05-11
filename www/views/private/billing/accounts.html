@@ -1,0 +1,28 @@
+<ion-view view-title="{{'bank_accounts'|translate}}">
+	<div class="loading-bar-top" ng-class="{'active': loading}"></div>
+	<ion-nav-buttons side="right">
+		<button class="button button-icon button-clear ion-android-add" ng-click="modal.show()"></button>
+	</ion-nav-buttons>
+
+	<ion-content class="has-header">
+		<ion-refresher
+			pulling-text=""
+			on-refresh="load()">
+		</ion-refresher>
+
+		<div class="list fade" ng-class="{'in': accounts.length}">
+			<div
+				ng-repeat="account in accounts  | orderBy : '-id'"
+				ui-sref="main.billing.account({id: account.id})"
+				class="item"
+				ng-class="{'list-status-default': account.is_default}"
+				>
+				<h2>{{account.alias}}</h2>
+				<p>{{account.bank_name}}</p>
+				<div class="item-icon-right" ng-show="account.is_default">
+					<i class="icon ion-ios-checkmark"></i>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

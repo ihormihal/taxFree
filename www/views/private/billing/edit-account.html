@@ -1,0 +1,53 @@
+<div class="modal">
+	<ion-header-bar class="bar-assertive">
+		<div class="buttons">
+			<button class="button button-icon button-clear ion-ios-trash-outline" ng-click="delete()"></button>
+		</div>
+		<h1 class="title">{{'bank_account_editing'|translate}}</h1>
+		<div class="buttons">
+			<button class="button button-icon button-clear ion-android-close" ng-click="modal.hide()"></button>
+		</div>
+	</ion-header-bar>
+	<ion-content padding="false" scroll="true" class="has-header">
+
+		<form name="form" class="list">
+
+			<label class="item item-input item-stacked-label" ng-class="{'has-error': form.bank_name.$invalid}">
+				<div class="input-label">{{'bank_name'|translate}} <sup>*</sup></div>
+				<input type="text" name="bank_name" ng-model="account.bank_name" required>
+			</label>
+
+			<label class="item item-input item-stacked-label" ng-class="{'has-error': form.bank_address.$invalid}">
+				<div class="input-label">{{'bank_address'|translate}} <sup>*</sup></div>
+				<input type="text" name="bank_address" ng-model="account.bank_address" required>
+			</label>
+
+			<label class="item item-input item-stacked-label" ng-class="{'has-error': form.swift_code.$invalid}">
+				<div class="input-label">{{'swift_code'|translate}} <sup>*</sup></div>
+				<input type="text" name="swift_code" ng-model="account.swift_code" required>
+			</label>
+
+			<label class="item item-input item-stacked-label" ng-class="{'has-error': form.number.$invalid}">
+				<div class="input-label">{{'account_number'|translate}} <sup>*</sup></div>
+				<input type="text" name="number" ng-model="account.number" required>
+			</label>
+
+			<label class="item item-input item-stacked-label" ng-class="{'has-error': form.alias.$invalid}">
+				<div class="input-label">{{'account_alias'|translate}} <sup>*</sup></div>
+				<input type="text" name="alias" ng-model="account.alias" required>
+			</label>
+
+			<div class="item item-toggle">
+				{{'set_as_default_account'|translate}}?
+				<label class="toggle toggle-assertive">
+					<input type="checkbox" ng-model="account.is_default" ng-true-value="1" ng-false-value="0">
+					<div class="track"><div class="handle"></div></div>
+				</label>
+			</div>
+		</form>
+
+		<div class="padding">
+			<button ng-class="{disabled: form.$invalid}" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
+		</div>
+	</ion-content>
+</div>

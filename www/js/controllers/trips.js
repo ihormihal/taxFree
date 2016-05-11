@@ -88,6 +88,10 @@ angular.module('app.controller.trips', [])
 		}
 	});
 
+	$scope.press = function(event){
+		console.log(angular.toJson(event));
+	};
+
 })
 
 

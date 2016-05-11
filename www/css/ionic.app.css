@@ -9342,6 +9342,10 @@ a {
   display: inline-block;
   float: right;
   margin-left: 5px; }
+  .item span.value.multiline {
+    max-width: 60%;
+    white-space: normal;
+    text-align: right; }
 
 /*** TOOGLE FIX ***/
 .item-toggle .toggle {

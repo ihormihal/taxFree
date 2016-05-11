@@ -1,0 +1,33 @@
+<ion-view view-title="{{'cards'|translate}}">
+	<div class="loading-bar-top" ng-class="{'active': loading}"></div>
+	<ion-nav-buttons side="right">
+		<button class="button button-icon button-clear ion-android-add" ng-click="add()"></button>
+	</ion-nav-buttons>
+
+	<ion-content class="has-header">
+		<ion-refresher
+			pulling-text=""
+			on-refresh="load()">
+		</ion-refresher>
+		<div class="list messages fade" ng-class="{'in': messages.length}" ng-show="messages.length">
+			<div ng-repeat="message in messages" class="item message type-{{message.type}}" ng-click="messageMenu(message.message, message.buttons)">
+				{{message.message}}
+			</div>
+		</div>
+		<div class="list fade" ng-class="{'in': cards.length}">
+			<div
+				ng-repeat="card in cards  | orderBy : '-id'"
+				ui-sref="main.billing.card({id: card.id})"
+				class="item"
+				ng-class="{'list-status-default': card.is_default}"
+				>
+				<h2><span ng-show="card.is_taxfree_card">TaxFree4U </span>{{'card'|translate}}</h2>
+				<p>{{card.num}}</p>
+				<div class="item-icon-right" ng-show="card.is_default">
+					<i class="icon ion-ios-checkmark"></i>
+				</div>
+			</div>
+		</div>
+		<button class="hidden" ng-click="modal.card.show()">Order Card</button>
+	</ion-content>
+</ion-view>

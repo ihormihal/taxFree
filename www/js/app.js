@@ -43,16 +43,17 @@ angular.module('app', [
 	'app.controller.trips',
 	'app.controller.checks',
 	'app.controller.declarations',
-	'app.controller.cards',
+	'app.controller.billing',
 	'app.controller.faq',
 	'app.controller.settings',
 	'app.directives'
 ])
 
 
-.run(function($rootScope, $state, $ionicPlatform, $ionicHistory, $cordovaFile, $cordovaNetwork, AppConfig, AuthService, Settings, Toast, Alert) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicHistory, $cordovaFile, $cordovaNetwork, AppConfig, AuthService, User, Settings, Toast, Alert) {
 
 	$ionicPlatform.ready(function() {
+
 
 		$rootScope.$on('$cordovaNetwork:offline', function(event, offlineState) {
 			if (offlineState) {
@@ -200,7 +201,13 @@ angular.module('app', [
 				});
 			}
 
-			$state.go('main.dashboard');
+			User.get({}, function(data) {
+				if(data.first_login){
+					$state.go('passwordThree');
+				}else{
+					$state.go('main.dashboard');
+				}
+			});
 		});
 
 		$rootScope.$on('auth-login-error', function(event, data) {

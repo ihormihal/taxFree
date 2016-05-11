@@ -166,6 +166,11 @@ a {color: $assertive;}
 		display: inline-block;
 		float: right;
 		margin-left: 5px;
+		&.multiline {
+			max-width: 60%;
+			white-space: normal;
+			text-align: right;
+		}
 	}
 }
 
