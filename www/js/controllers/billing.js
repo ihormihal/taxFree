@@ -339,7 +339,7 @@ angular.module('app.controller.billing', [])
 					BankAccount.delete({
 						id: $scope.account.id
 					}, function() {
-						Toast.show(lngTranslate('toast_bank_account_deleted'));
+						Toast.show(lngTranslate('toast_account_deleted'));
 						$state.go('main.billing.accounts');
 					});
 				}
@@ -351,7 +351,7 @@ angular.module('app.controller.billing', [])
 			id: $scope.account.id
 		}, $scope.account, function() {
 			$scope.modal.hide();
-			Toast.show(lngTranslate('toast_bank_account_updated'));
+			Toast.show(lngTranslate('toast_account_updated'));
 		});
 	};
 

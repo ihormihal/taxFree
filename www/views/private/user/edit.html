@@ -62,7 +62,7 @@
 
 				<label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_number.$invalid}">
 					<div class="input-label">{{'passport_number'|translate}} <sup>*</sup></div>
-					<input type="text" minlength="8" name="passp_number" ng-model="user.profile.passp_number" placeholder="ET000001" required>
+					<input type="text" minlength="5" maxlength="15" name="passp_number" ng-model="user.profile.passp_number" placeholder="ET000001" required>
 				</label>
 
 				<label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_country.$invalid}">

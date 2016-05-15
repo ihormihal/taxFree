@@ -1,6 +1,7 @@
 angular.module('app.config', ['ngResource'])
 
-.config(function($httpProvider, $resourceProvider) {
+.config(function($httpProvider, $resourceProvider, $ionicConfigProvider) {
+	$ionicConfigProvider.views.swipeBackEnabled(false);
 	if (window.localStorage['token']) {
 		$httpProvider.defaults.headers.common['Authorization'] = window.localStorage['token'];
 	}
@@ -27,8 +28,8 @@ angular.module('app.config', ['ngResource'])
 .service('AppConfig', function($rootScope, $state, $timeout, $ionicHistory) {
 
 	$rootScope.config = {
-		version: '0.7.0',
-		domain: 'http://taxfree4u.eu/', //default
+		version: '0.7.5',
+		domain: 'https://taxfree4u.eu/', //default
 		domains: {
 			public_https: 'https://taxfree4u.eu/',
 			public: 'http://taxfree4u.eu/',

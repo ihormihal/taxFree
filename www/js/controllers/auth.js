@@ -195,7 +195,7 @@ angular.module('app.controller.auth', [])
 
 
 /*** PASSWORD RECOVERY CONTROLLER ***/
-.controller('passwordCtrl', function($scope, $state, Alert, RegService, PasswordService, AuthService, Toast) {
+.controller('passwordCtrl', function($scope, $state, $stateParams, Alert, RegService, PasswordService, AuthService, Toast) {
 
 	$scope.data = PasswordService.data;
 
@@ -229,6 +229,9 @@ angular.module('app.controller.auth', [])
 	};
 
 	$scope.stepThree = function() {
+		if($stateParams.token){
+			PasswordService.data.token = $stateParams.token;
+		}
 		PasswordService.data.password = $scope.data.password;
 		PasswordService.three()
 			.then(function(data) {

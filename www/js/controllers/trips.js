@@ -1,7 +1,8 @@
 angular.module('app.controller.trips', [])
 
 /*** LIST ***/
-.controller('tripsCtrl', function($rootScope, $scope, $state, $stateParams, $ionicModal, Trips, Trip, Toast) {
+.controller('tripsCtrl', function($rootScope, $scope, $state, $stateParams, $ionicModal, $cordovaDatePicker, Trips, Trip, Toast) {
+
 
 	if ($rootScope.transports.length === 0 || $rootScope.countries.length === 0) {
 		$rootScope.loadCatalog();
@@ -63,7 +64,9 @@ angular.module('app.controller.trips', [])
 	};
 
 	$scope.create = function() {
+		$rootScope.formWaiting = true;
 		Trip.add($scope.trip, function(data) {
+			$rootScope.formWaiting = false;
 			if (data.id) {
 				$scope.modal.hide();
 				Toast.show(lngTranslate('toast_trip_created'));

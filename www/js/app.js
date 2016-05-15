@@ -50,7 +50,7 @@ angular.module('app', [
 ])
 
 
-.run(function($rootScope, $state, $ionicPlatform, $ionicHistory, $cordovaFile, $cordovaNetwork, AppConfig, AuthService, User, Settings, Toast, Alert) {
+.run(function($rootScope, $state, $ionicPlatform, $ionicHistory, $cordovaFile, $cordovaNetwork, $cordovaDatePicker, AppConfig, AuthService, User, Settings, Toast, Alert) {
 
 	$ionicPlatform.ready(function() {
 
@@ -105,6 +105,7 @@ angular.module('app', [
 
 
 		$rootScope.httpWaiting = false; //processing http errors
+		$rootScope.formWaiting = false;
 
 
 		//HTTP-ERRORS preprocessing
@@ -112,6 +113,7 @@ angular.module('app', [
 			window.SpinnerPlugin.activityStop();
 			$rootScope.$broadcast('scroll.refreshComplete');
 			$rootScope.loading = false;
+			$rootScope.formWaiting = false;
 
 			//Debug
 			if ($rootScope.config.debug) {
@@ -203,7 +205,7 @@ angular.module('app', [
 
 			User.get({}, function(data) {
 				if(data.first_login){
-					$state.go('passwordThree');
+					$state.go('passwordThree', { token: data.confirmation_token });
 				}else{
 					$state.go('main.dashboard');
 				}

@@ -55,12 +55,16 @@ angular.module('app.directives', [])
 	return {
 		restrict: 'A',
 		require: '?ngModel',
-		link: function($scope, $element, $attrs, ngModel) {
-
+		scope: {
+			ngModel: '='
+		},
+		link: function($scope, $element, $attrs, ngModel){
 			ngModel.$formatters.push(function(modelValue) {
 				var val = parseInt(modelValue) * 1000;
 				var offset = new Date(val).getTimezoneOffset() * 60 * 1000;
-				return new Date(val + offset); //return Date
+				var output = new Date(val + offset);
+
+				return output; //return Date
 			});
 
 			ngModel.$parsers.push(function(viewValue) {
@@ -75,6 +79,42 @@ angular.module('app.directives', [])
 					return output; //return Timestamp
 				}
 			});
+		},
+		controller: function($scope, $element, $attrs, $cordovaDatePicker) {
+
+			var datepickerOptions = {
+				date: new Date(),
+				mode: $attrs.type || 'date',
+				//minDate: new Date() - 10000,
+				allowOldDates: true,
+				allowFutureDates: true,
+				doneButtonLabel: 'DONE',
+				doneButtonColor: '#F2F3F4',
+				cancelButtonLabel: 'CANCEL',
+				cancelButtonColor: '#000000'
+			};
+
+			if(ionic.Platform.isAndroid() && parseInt(ionic.Platform.version()) < 5){
+				$element[0].onclick = function(){
+					try {
+						$cordovaDatePicker.show(datepickerOptions).then(function(date) {
+							//$scope.ngModel = date;
+							if (date instanceof Date) {
+								var val = date.getTime();
+								var offset = date.getTimezoneOffset() * 60 * 1000;
+								var output = parseInt((val - offset)/1000);
+								if(output < 0){
+									//crutch for timepicker (because 1969 year!!!)
+									output = 86400 + output;
+								}
+								$scope.ngModel = output; //return Timestamp
+							}
+						});
+					} catch (error) {
+						console.log(error);
+					}
+				};
+			}
 		}
 	}
 }])
@@ -134,7 +174,7 @@ angular.module('app.directives', [])
 							}, function(error) {
 								//download image
 								$rootScope.loading = true;
-								$cordovaFileTransfer.download(safeSrc, cachedSrc, {}, true)
+								$cordovaFileTransfer.download(safeSrc, cachedSrc, {trustAllHosts: true}, true)
 								.then(function(success){
 									$attrs.$set('src', cachedSrc);
 									$rootScope.loading = false;
@@ -265,28 +305,60 @@ angular.module('app.directives', [])
 					fileName: "photo.jpg",
 					chunkedMode: false,
 					mimeType: "image/jpeg",
+					trustAllHosts: true,
 					params: {user: $attrs.userid}
 				};
-				$cordovaFileTransfer.upload(
-					encodeURI($rootScope.config.domain + $attrs.url),
-					file,
-					options)
-					.then(function(data) {
-						var response = angular.fromJson(data.response);
-						if ($scope.single) {
-							$scope.images[i].src = response[filekey];
-						} else {
-							$scope.images[i].src = response[0];
-						}
-						$scope.images[i].progress = 100;
-						$scope.images[i].error = false;
-						$cordovaCamera.cleanup();
-					}, function(error) {
-						$scope.images[i].error = true;
-						$cordovaCamera.cleanup();
-					}, function(progress) {
+
+				// $cordovaFileTransfer.upload(
+				// 	encodeURI($rootScope.config.domain + $attrs.url),
+				// 	file,
+				// 	options)
+				// 	.then(function(data) {
+				// 		var response = angular.fromJson(data.response);
+				// 		if ($scope.single) {
+				// 			$scope.images[i].src = response[filekey];
+				// 		} else {
+				// 			$scope.images[i].src = response[0];
+				// 		}
+				// 		$scope.images[i].progress = 100;
+				// 		$scope.images[i].error = false;
+				// 		$cordovaCamera.cleanup();
+				// 	}, function(error) {
+				// 		$scope.images[i].error = true;
+				// 		$cordovaCamera.cleanup();
+				// 	}, function(progress) {
+				// 		$scope.images[i].progress = Math.floor(progress.loaded * 100 / progress.total);
+				// 	}, true);
+
+				var ft = new FileTransfer();
+				ft.upload(
+				file,
+				encodeURI($rootScope.config.domain + $attrs.url),
+				function(data) {
+					var response = angular.fromJson(data.response);
+					if ($scope.single) {
+						$scope.images[i].src = response[filekey];
+					} else {
+						$scope.images[i].src = response[0];
+					}
+					$scope.images[i].progress = 100;
+					$scope.images[i].error = false;
+					$scope.$apply();
+					$cordovaCamera.cleanup();
+				}, function(error) {
+					$scope.images[i].error = true;
+					$scope.$apply();
+					$cordovaCamera.cleanup();
+				},
+				options, true);
+
+				ft.onprogress = function(progress) {
+					if (progress.lengthComputable) {
 						$scope.images[i].progress = Math.floor(progress.loaded * 100 / progress.total);
-					});
+						console.log($scope.images[i].progress);
+						$scope.$apply();
+					}
+				};
 			};
 
 			$scope.removeImage = function(index){
