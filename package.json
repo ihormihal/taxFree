@@ -42,6 +42,10 @@
       "variables": {
         "SENDER_ID": "116809155568"
       }
+    },
+    {
+      "locator": "https://github.com/VitaliiBlagodir/cordova-plugin-datepicker.git",
+      "id": "cordova-plugin-datepicker"
     }
   ],
   "cordovaPlatforms": [
