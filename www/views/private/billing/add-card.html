@@ -17,12 +17,39 @@
 				<input type="tel" ui-mask="9999-9999-9999-9999" ui-mask-placeholder ng-model="card.number" required>
 			</label>
 
-			<label class="item item-input item-stacked-label" ng-class="{'has-error': form.expire_date.$invalid || card.expire_date < currentDate()}">
+			<label class="item item-input item-stacked-label" ng-class="{'has-error': form.expire_month.$invalid}">
 				<div class="input-label">
-					{{'expire_date'|translate}} <sup>*</sup>
+					{{'expire_month'|translate}} <sup>*</sup>
 					<span class="error" ng-show="card.expire_date < currentDate()">{{'date_expired'|translate}}</span>
 				</div>
-				<input type="month" name="expire_date" ng-model="card.expire_date" required>
+				<div class="item-select">
+					<select name="expire_month" ng-model="card.expire_month" integer-model required>
+						<option value="1">01</option>
+						<option value="2">02</option>
+						<option value="3">03</option>
+						<option value="4">04</option>
+						<option value="5">05</option>
+						<option value="6">06</option>
+						<option value="7">07</option>
+						<option value="8">08</option>
+						<option value="9">09</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+					</select>
+				</div>
+			</label>
+
+			<label class="item item-input item-stacked-label" ng-class="{'has-error': form.expire_year.$invalid}">
+				<div class="input-label">
+					{{'expire_year'|translate}} <sup>*</sup>
+				</div>
+				<div class="item-select">
+					<select name="expire_year" ng-model="card.expire_year" integer-model required>
+						<option ng-repeat="year in years" value="{{year}}">{{year}}</option>
+					</select>
+				</div>
+				<!-- <input type="month" name="expire_date" ng-model="card.expire_date" required> -->
 			</label>
 
 			<div class="item item-toggle">

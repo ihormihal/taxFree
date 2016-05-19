@@ -22,6 +22,7 @@ angular.module('app.routes', [])
 		templateUrl: 'views/public/login.html',
 		controller: 'loginCtrl'
 	})
+	
 	//REGISTRATION
 	.state('regOne', {
 		url: '/reg-one',
@@ -62,7 +63,7 @@ angular.module('app.routes', [])
 	})
 	// Password Reset
 	.state('passwordThree', {
-		url: '/password-three',
+		url: '/password-three/:token',
 		templateUrl: 'views/public/password-recovery-three.html',
 		controller: 'passwordCtrl'
 	})

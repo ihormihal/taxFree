@@ -1,6 +1,11 @@
+/* DECLARATIONS & DECLARATION SCREEN */
+
 angular.module('app.controller.declarations', [])
 
 /*** LIST ***/
+/* 
+	- display list of declarations
+*/
 .controller('declarationsCtrl', function($rootScope, $scope, Declarations, Toast) {
 
 	$scope.load = function() {
@@ -20,6 +25,12 @@ angular.module('app.controller.declarations', [])
 })
 
 /*** ITEM ***/
+/* 
+	- display single declaration
+	- choose shipping mode
+	- download declaration file
+	- download invoice file
+*/
 .controller('declarationCtrl', function($rootScope, $scope, $stateParams, $cordovaFile, $cordovaFileTransfer, Declaration, Toast) {
 
 	$scope.declarationFile = {
@@ -63,7 +74,7 @@ angular.module('app.controller.declarations', [])
 			$scope.declaration = data;
 
 			//$scope.declaration.file = 'http://mycode.in.ua/app/Declaration_GB.pdf'; //for test
-			$scope.declaration.invoice = 'http://mycode.in.ua/app/Declaration_GB.pdf'; //for test
+			//$scope.declaration.invoice = 'http://mycode.in.ua/app/Declaration_GB.pdf'; //for test
 
 			if($scope.declaration.file){
 				$scope.declarationFile.name = $scope.declaration.file.split("/").pop();
@@ -147,6 +158,9 @@ angular.module('app.controller.declarations', [])
 })
 
 /*** PAYMENTS ***/
+/* 
+	- display list of payments
+*/
 .controller('paymentsCtrl', function($rootScope, $scope, Payments, Toast) {
 
 	$scope.load = function() {

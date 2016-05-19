@@ -1,3 +1,8 @@
+/*** FAQ SCREEN ***/
+/* 
+	- display faq
+*/
+
 angular.module('app.controller.faq', [])
 
 .controller('faqCtrl', function($scope) {

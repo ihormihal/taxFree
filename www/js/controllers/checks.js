@@ -1,6 +1,12 @@
+/* RECEIPTS & RECEIPT SCREEN */
+
 angular.module('app.controller.checks', [])
 
 /*** LIST ***/
+/* 
+	- display list of receipts
+	- add new receipt 
+*/
 .controller('checksCtrl', function($rootScope, $scope, $state, $stateParams, $ionicModal, Checks, Check, Trip, Trips, Toast) {
 
 	if($rootScope.transports.length === 0 || $rootScope.countries.length === 0){
@@ -120,6 +126,10 @@ angular.module('app.controller.checks', [])
 })
 
 /*** ITEM ***/
+/*
+	- display single receipt
+	- edit receipt
+*/
 .controller('checkCtrl', function($http, $rootScope, $scope, $stateParams, $ionicModal, $cordovaFile, $cordovaDialogs, Check, Toast, Trips) {
 
 
@@ -215,6 +225,7 @@ angular.module('app.controller.checks', [])
 				id: $scope.check.id
 			}, $scope.check, function() {
 				Toast.show(lngTranslate('toast_check_updated'));
+				$scope.load();
 			});
 		} else {
 			Toast.show(lngTranslate('please_wait_uploading'));

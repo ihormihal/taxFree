@@ -1,6 +1,12 @@
+/* TRIPS & TRIP SCREEN */
+
 angular.module('app.controller.trips', [])
 
 /*** LIST ***/
+/* 
+	- display list of trips
+	- add new trip 
+*/
 .controller('tripsCtrl', function($rootScope, $scope, $state, $stateParams, $ionicModal, $cordovaDatePicker, Trips, Trip, Toast) {
 
 
@@ -9,6 +15,8 @@ angular.module('app.controller.trips', [])
 	}
 
 	var now = $rootScope.currentTime();
+
+	$scope.trip = { id: 'add' };
 
 	$scope.load = function() {
 
@@ -59,7 +67,6 @@ angular.module('app.controller.trips', [])
 	});
 
 	$scope.addTrip = function() {
-		$scope.trip = { id: 'add' };
 		$scope.modal.show();
 	};
 
@@ -99,6 +106,10 @@ angular.module('app.controller.trips', [])
 
 
 /*** ITEM ***/
+/*
+	- display single trip
+	- edit trip
+*/
 .controller('tripCtrl', function($rootScope, $scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Trip, TripChecks, TripDeclarations, Check, Toast) {
 
 	if ($rootScope.transports.length === 0 || $rootScope.countries.length === 0) {

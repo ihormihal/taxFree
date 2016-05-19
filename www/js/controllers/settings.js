@@ -1,3 +1,9 @@
+/*** SETTINGS SCREEN ***/
+/* 
+	- edit application language
+	- edit account settings
+*/
+
 angular.module('app.controller.settings', [])
 
 .controller('settingsCtrl', function($rootScope, $ionicPlatform, $http, $scope, Settings, Toast) {

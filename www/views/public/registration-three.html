@@ -64,13 +64,11 @@
 					placeholder="{{'minimum_8_characters'|translate}}" required>
 				</label>
 
-
-
 				<label
 					class="item item-input item-stacked-label"
 					ng-class="{'has-error': data.password != data.password_confirm && form.password.$valid}">
 					<span class="input-label" >{{'password_confirmation'|translate}} *
-						<span class="error" ng-show="data.password != data.password_confirm && form.password.$valid">
+						<span class="error" ng-show="data.password != data.password_confirm && form.password.$valid && data.password_confirm">
 							{{'password_not_mutch'|translate}}
 						</span>
 					</span>

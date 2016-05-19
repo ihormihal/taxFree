@@ -1,3 +1,8 @@
+/*** DASHBOARD SCREEN ***/
+/* 
+	- display list of messages
+*/
+
 angular.module('app.controller.dashboard', [])
 
 .controller('dashboardCtrl', function($rootScope, $scope, Dashboard) {

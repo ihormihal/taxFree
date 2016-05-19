@@ -1,7 +1,36 @@
+/* ionic icons css-classes */
+window.icons = {
+	'new': 'ion-ios-clock-outline',
+	'client-response' : 'ion-ios-refresh-outline',
+	'request' : 'ion-ios-help-outline',
+	'signed' : 'ion-ios-checkmark-empty',
+	'digitalized' : 'ion-ios-list-outline',
+	'processed' : 'ion-android-time',
+	'refused' : 'ion-ios-close-outline',
+	'pay' : 'ion-ios-checkmark-outline',
+	'payment' : 'ion-ios-checkmark-outline',
+	'paid' : 'ion-ios-checkmark',
+	'shipping' : 'ion-ios-paperplane',
+	'created' : 'ion-ios-clock-outline',
+	'card_problems' : 'ion-ios-close-outline',
+	'created_changes' : 'ion-ios-clock-outline',
+	'future' : 'ion-android-more-horizontal',
+	'current' : 'ion-ios-clock-outline',
+	'past' : 'ion-ios-checkmark-empty',
+	'updated' : 'ion-ios-refresh-outline',
+	'validated' : 'ion-ios-checkmark-empty',
+	'cant_pay': 'ion-ios-close-outline',
+	'sent': 'ion-ios-paperplane',
+	'delivered': 'ion-ios-checkmark'
+};
+
+/* main module configuration */
 angular.module('app.config', ['ngResource'])
 
 .config(function($httpProvider, $resourceProvider, $ionicConfigProvider) {
+	/* disable navigation on swipe */
 	$ionicConfigProvider.views.swipeBackEnabled(false);
+	/* add Authorization token (if exists) for all http queries */
 	if (window.localStorage['token']) {
 		$httpProvider.defaults.headers.common['Authorization'] = window.localStorage['token'];
 	}
@@ -15,7 +44,7 @@ angular.module('app.config', ['ngResource'])
 		// 'response': function(response) {
 
 		// },
-		//http error processing
+		//fire http-error event
 		responseError: function(error) {
 			var q = $q.defer();
 			$rootScope.$broadcast('http-error', error);
@@ -27,8 +56,9 @@ angular.module('app.config', ['ngResource'])
 
 .service('AppConfig', function($rootScope, $state, $timeout, $ionicHistory) {
 
+	/* App & API configuration */
 	$rootScope.config = {
-		version: '0.7.5',
+		version: '0.7.10',
 		domain: 'https://taxfree4u.eu/', //default
 		domains: {
 			public_https: 'https://taxfree4u.eu/',
@@ -45,6 +75,7 @@ angular.module('app.config', ['ngResource'])
 		debug: false
 	};
 
+	/* Reading and saving configuration to local storage */
 	if (window.localStorage['config']) {
 		var storedConfig = angular.fromJson(window.localStorage['config']);
 		if (storedConfig.version == $rootScope.config.version) {
@@ -56,6 +87,7 @@ angular.module('app.config', ['ngResource'])
 		window.localStorage['config'] = angular.toJson($rootScope.config);
 	}
 
+	/* checking screen orientation changing */
 	window.onresize = function() {
 		$timeout(function() {
 			checkOrientation();
@@ -71,6 +103,7 @@ angular.module('app.config', ['ngResource'])
 			$rootScope.orientation = 'landscape';
 		}
 	};
+
 
 
 	$rootScope.transports = [];
@@ -107,6 +140,11 @@ angular.module('app.config', ['ngResource'])
 		return parseInt(new Date().getTime() / 1000);
 	};
 
+
+	/* global function goToScreen */
+	/* 
+		This function switches an application screen according to the parameter "entity"
+	*/
 	$rootScope.goToScreen = function(data) {
 
 		switch (data.entity) {
@@ -166,7 +204,7 @@ angular.module('app.config', ['ngResource'])
 
 	};
 
-
+	/* Cordova SpinnerPlugin emulation if it`s not avaliable */
 	if (!window.SpinnerPlugin) {
 		window.SpinnerPlugin = {
 			activityStart: function(message) {

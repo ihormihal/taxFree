@@ -1,8 +1,13 @@
-//HELPERS
-//language
+/************************
+* MAIN APPLICATION FILE *
+*************************/
+
+/* HELPERS */
+/* default language */
 if (!window.localStorage['lang']) {
 	window.localStorage['lang'] = 'en';
 }
+/* translation function */
 var lngTranslate = function(text) {
 	var lang = window.localStorage['lang'] ? window.localStorage['lang'] : 'en';
 	if (text in window.translate[lang]) {
@@ -11,7 +16,7 @@ var lngTranslate = function(text) {
 		return text;
 	}
 };
-
+/* this function serializing data object for post queries ß*/
 var serializeData = function(obj, prefix) {
 	var str = [];
 	for (var p in obj) {
@@ -26,7 +31,7 @@ var serializeData = function(obj, prefix) {
 	return str.join("&");
 };
 
-
+/* MAIN application module */
 angular.module('app', [
 	'ionic',
 	'ngCordova',
@@ -49,26 +54,31 @@ angular.module('app', [
 	'app.directives'
 ])
 
-
+/* Execute on application start */
 .run(function($rootScope, $state, $ionicPlatform, $ionicHistory, $cordovaFile, $cordovaNetwork, $cordovaDatePicker, AppConfig, AuthService, User, Settings, Toast, Alert) {
 
+	/* Execute on device ready */
 	$ionicPlatform.ready(function() {
 
-
+		/* Checking network connection */
 		$rootScope.$on('$cordovaNetwork:offline', function(event, offlineState) {
 			if (offlineState) {
+				/* Show error message when device is offline */
 				Alert.show({
 					message: lngTranslate('no_internet_message'),
 					title: lngTranslate('no_internet')
 				}, function(){
+					/* Then go to previous screen */
 					$ionicHistory.goBack();
 				});
 			}
 		});
 
 		//Android 6 fix
+		/* Checking filesystem read permission */
 		try {
 			window.imagePicker.hasReadPermission(function(result){
+				/* if no permission - show dialog */
 				if(result === false){
 					window.imagePicker.requestReadPermission();
 				}
@@ -87,16 +97,20 @@ angular.module('app', [
 		var BackButtonPressed = 0;
 		$ionicPlatform.registerBackButtonAction(function(event) {
 			BackButtonPressed += 1;
-		  if (BackButtonPressed == 1) {
-		  	event.preventDefault();
-		    $ionicHistory.goBack();
-		  } else if(BackButtonPressed == 2){
-		  	event.preventDefault();
-		    Toast.show(lngTranslate('press_again_to_exit'));
-		  } else if(BackButtonPressed == 3){
-		  	navigator.app.exitApp();
-		  }
+			if (BackButtonPressed == 1) {
+				event.preventDefault();
+				//go to previous screen
+				$ionicHistory.goBack();
+			} else if (BackButtonPressed == 2) {
+				event.preventDefault();
+				//show toast message
+				Toast.show(lngTranslate('press_again_to_exit'));
+			} else if (BackButtonPressed == 3) {
+				//exit from app on third pressing
+				navigator.app.exitApp();
+			}
 
+			//reset timer after 2 seconds
 			setTimeout(function() {
 				BackButtonPressed = 0;
 			}, 2000);
@@ -105,7 +119,7 @@ angular.module('app', [
 
 
 		$rootScope.httpWaiting = false; //processing http errors
-		$rootScope.formWaiting = false;
+		$rootScope.formWaiting = false; //block all form buttons
 
 
 		//HTTP-ERRORS preprocessing
@@ -115,7 +129,7 @@ angular.module('app', [
 			$rootScope.loading = false;
 			$rootScope.formWaiting = false;
 
-			//Debug
+			//if debug mode - show all messages in alert pop-up
 			if ($rootScope.config.debug) {
 				Alert.show({
 					title: 'Server error',
@@ -131,6 +145,8 @@ angular.module('app', [
 
 		});
 
+		/* Error processing functionы */
+		/* This function displays error messages */
 		function showHttpError(data) {
 			var message = '';
 			if (data) {
@@ -152,6 +168,7 @@ angular.module('app', [
 			}
 		};
 
+		/* This function formats error messages from all http responses */
 		function processHttpError(data){
 			switch (data.status) {
 				case 0:
@@ -191,8 +208,10 @@ angular.module('app', [
 			}
 		}
 
+		/* Successful authorization listener */
 		$rootScope.$on('auth-login-success', function(event, data) {
 
+			/* send device identifier (for push notifications) */
 			var platform = null;
 			if (ionic.Platform.isAndroid()) platform = 'google';
 			if (ionic.Platform.isIOS() || ionic.Platform.isIPad()) platform = 'apple';
@@ -203,15 +222,19 @@ angular.module('app', [
 				});
 			}
 
+			/* Getting user profile */
 			User.get({}, function(data) {
 				if(data.first_login){
+					/* go to password reseting screen */
 					$state.go('passwordThree', { token: data.confirmation_token });
 				}else{
+					/* go to dashboard */
 					$state.go('main.dashboard');
 				}
 			});
 		});
 
+		/* Unsuccessful authorization listener */
 		$rootScope.$on('auth-login-error', function(event, data) {
 			$state.go('login');
 		});
@@ -223,6 +246,7 @@ angular.module('app', [
 		// 	AuthService.login();
 		// }
 
+		/* Device registration on push-notification service */
 		var push = null;
 
 		try {

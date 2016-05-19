@@ -1,3 +1,8 @@
+/*
+	General controllers
+	&& ABOUT, TERMS OF USE SCREEN
+*/
+
 angular.module('app.controllers', [])
 
 /*** START SCREEN CONTROLLER ***/
@@ -14,10 +19,10 @@ angular.module('app.controllers', [])
 })
 
 
-/*** PRIVATE APP CONTROLLER ***/
+/*** PRIVATE AREA APP CONTROLLER ***/
 .controller('AppCtrl', function($rootScope, $scope, $state, AuthService, Catalog) {
 
-
+	/* Loading catalogs */
 	$rootScope.loadCatalog = function(){
 		if (window.localStorage['countries']) {
 			$rootScope.countries = angular.fromJson(window.localStorage['countries']);

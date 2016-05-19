@@ -1,9 +1,18 @@
+/*
+	Authorization module
+	- Login screen controller
+	- Registration screen controller
+	- Password reset screen controller
+*/
+
 angular.module('app.controller.auth', [])
 
 /*** LOGIN ***/
 .controller('loginCtrl', function($rootScope, $scope, $state, $ionicModal, $http, $cordovaDialogs, $cordovaFile, AuthService) {
 
+	//hide start screen on next launching
 	window.localStorage['ready'] = true;
+
 	$scope.user = {};
 
 	if (AuthService.credentials.username) {
@@ -19,7 +28,8 @@ angular.module('app.controller.auth', [])
 		AuthService.login();
 	};
 
-	//DEVELOPER MODE
+
+	/* DEVELOPERs HIDDEN MENU */
 	$scope.dev = {
 		domain: $rootScope.config.domain,
 	};
@@ -90,6 +100,8 @@ angular.module('app.controller.auth', [])
 		$scope.closeModalDev();
 		//window.location.reload(true);
 	};
+
+	/* END DEVELOPERs HIDDEN MENU */
 
 })
 
@@ -228,10 +240,11 @@ angular.module('app.controller.auth', [])
 			});
 	};
 
+	if($stateParams.token){
+		PasswordService.data.token = $stateParams.token;
+	}
+
 	$scope.stepThree = function() {
-		if($stateParams.token){
-			PasswordService.data.token = $stateParams.token;
-		}
 		PasswordService.data.password = $scope.data.password;
 		PasswordService.three()
 			.then(function(data) {

@@ -6,10 +6,10 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
 
-    <ion-refresher
+<!--     <ion-refresher
       pulling-text=""
       on-refresh="load()">
-    </ion-refresher>
+    </ion-refresher> -->
 
     <div class="padding">
       <h1>{{'check'|translate}} ID {{check.id}}</h1>
@@ -30,7 +30,6 @@
     <div class="padding status-bar text-center assertive" ng-hide="check.files.length">
       <p>{{'no_check_photos'|translate}}</p>
     </div>
-
     <div class="card card-image" ng-repeat="file in check.files">
       <div class="item item-image">
         <div ng-show="check.editable" ng-click="deletePhoto($index)" class="text-right padding"><i class="icon ion-close"></i></div>

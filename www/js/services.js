@@ -1,3 +1,9 @@
+/*
+  API Services
+  set of factories for working with REST API
+*/
+
+
 angular.module('app.services', ['ngResource'])
 
 /****************************************/
@@ -242,7 +248,8 @@ angular.module('app.services', ['ngResource'])
       sendTo: 'sms',
       contact: '',
       password: '',
-      password_confirm: ''
+      password_confirm: '',
+      token: ''
     },
 
     one: function(){

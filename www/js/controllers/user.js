@@ -1,3 +1,9 @@
+/* USER PROFILE SCREEN */
+/*
+	- display profile information
+	- edit profile information
+*/
+
 angular.module('app.controller.user', [])
 
 .controller('userCtrl', function($rootScope, $scope, $ionicModal, Toast, User) {

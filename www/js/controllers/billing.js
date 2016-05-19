@@ -1,6 +1,16 @@
+/*
+	Payment information
+	CARDS, CARD, BANK ACCOUNTS & BANK ACCOUNT SCREN
+
+*/
+
 angular.module('app.controller.billing', [])
 
 /*** CARDS LIST ***/
+/* 
+	- display list of cards
+	- add new card 
+*/
 .controller('cardsCtrl', function($rootScope, $scope, $state, $ionicModal, $cordovaActionSheet, Cards, Card, TaxFreeCard, Messages, Catalog, Toast) {
 
 	$scope.cards = [];
@@ -84,7 +94,19 @@ angular.module('app.controller.billing', [])
 
 	/////////////////////////////////////////////////
 
-	$scope.card = {id: 'add', is_default: 0};
+	var currentYear = parseInt($rootScope.currentDate().getFullYear());
+	var currentMonth = parseInt($rootScope.currentDate().getMonth() + 1);
+	$scope.years = [];
+	for (var i = 0; i <= 20; i++) {
+		$scope.years.push(currentYear + i);
+	}
+
+
+	$scope.card = {id: 'add', is_default: 0, expire_month: currentMonth, expire_year: currentYear};
+
+	$scope.$watch('card', function() {
+		$scope.card.expire_date = new Date($scope.card.expire_year, $scope.card.expire_month - 1, 1);
+	}, true);
 
 	$scope.card_taxfree = {
 		cards: [{
@@ -162,8 +184,8 @@ angular.module('app.controller.billing', [])
 		});
 	};
 	$scope.addCard = function() {
-		$scope.card.expire_month = $scope.card.expire_date.getMonth() + 1;
-		$scope.card.expire_year = $scope.card.expire_date.getFullYear();
+		//$scope.card.expire_month = $scope.card.expire_date.getMonth() + 1;
+		//$scope.card.expire_year = $scope.card.expire_date.getFullYear();
 		Card.add($scope.card, function(data) {
 			if (data.id) {
 				$scope.modal.card.hide();
@@ -179,9 +201,23 @@ angular.module('app.controller.billing', [])
 
 
 /*** CARD ITEM ***/
+/*
+	- display single card
+	- edit card
+*/
 .controller('cardCtrl', function($rootScope, $scope, $state, $stateParams, $ionicModal, $cordovaDialogs, Card, Toast) {
 
+	var currentYear = parseInt($rootScope.currentDate().getFullYear());
+	$scope.years = [];
+	for (var i = 0; i <= 20; i++) {
+		$scope.years.push(currentYear + i);
+	}
+
 	$scope.card = null;
+
+	$scope.$watch('card', function() {
+		$scope.card.expire_date = new Date($scope.card.expire_year, $scope.card.expire_month - 1, 1);
+	}, true);
 
 	$scope.load = function() {
 		Card.get({
@@ -234,8 +270,8 @@ angular.module('app.controller.billing', [])
 	};
 
 	$scope.update = function() {
-		$scope.card.expire_month = $scope.card.expire_date.getMonth() + 1;
-		$scope.card.expire_year = $scope.card.expire_date.getFullYear();
+		//$scope.card.expire_month = $scope.card.expire_date.getMonth() + 1;
+		//$scope.card.expire_year = $scope.card.expire_date.getFullYear();
 		Card.update({
 			id: $scope.card.id
 		}, $scope.card, function() {
@@ -248,6 +284,10 @@ angular.module('app.controller.billing', [])
 
 
 /*** ACCOUNTS LIST ***/
+/* 
+	- display list of bank accounts
+	- add bank account
+*/
 .controller('accountsCtrl', function($rootScope, $scope, $state, $ionicModal, $cordovaActionSheet, BankAccounts, BankAccount, Catalog, Toast) {
 
 	$scope.account = {id: 'add', is_default: 0};
@@ -300,6 +340,10 @@ angular.module('app.controller.billing', [])
 })
 
 /*** ACCOUNT ITEM ***/
+/*
+	- display single bank account
+	- edit bank account
+*/
 .controller('accountCtrl', function($rootScope, $scope, $state, $stateParams, $ionicModal, $cordovaDialogs, BankAccount, Toast) {
 
 	$scope.account = null;
