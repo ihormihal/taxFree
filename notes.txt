@@ -72,3 +72,10 @@ defaults write com.apple.finder AppleShowAllFiles YES
 
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore mykeys.keystore platforms/android/build/outputs/apk/android-release-unsigned.apk taxfree4u
 ~/Library/Android/sdk/build-tools/23.0.3/zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk TaxFree4U_v.0.6.8.apk
+
+
+
+
+ REQUIRMENTS:
+iOS, Android > 20Mb free space
+100Mb RAM

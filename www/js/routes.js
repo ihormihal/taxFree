@@ -105,7 +105,7 @@ angular.module('app.routes', [])
 		url: '/about',
 		views: {
 			menuContent: {
-				templateUrl: 'views/private/about.html',
+				templateUrl: 'views/private/about_'+window.localStorage['lang']+'.html',
 				controller: 'aboutCtrl'
 			}
 		}
@@ -127,7 +127,7 @@ angular.module('app.routes', [])
 		url: '/terms',
 		views: {
 			menuContent: {
-				templateUrl: 'views/private/terms.html',
+				templateUrl: 'views/private/terms_'+window.localStorage['lang']+'.html',
 				controller: 'termsCtrl'
 			}
 		}
@@ -138,7 +138,7 @@ angular.module('app.routes', [])
 		url: '/about_taxfree_card',
 		views: {
 			menuContent: {
-				templateUrl: 'views/private/about_taxfree_card.html',
+				templateUrl: 'views/private/about_taxfree_card_'+window.localStorage['lang']+'.html',
 				controller: 'aboutCtrl'
 			}
 		}

@@ -1,6 +1,6 @@
 {
   "name": "TaxFree4U",
-  "version": "0.7.10",
+  "version": "0.7.13",
   "description": "TaxFree4U App",
   "dependencies": {
     "gulp": "^3.5.6",
@@ -20,11 +20,6 @@
     "cordova-plugin-file-transfer",
     "cordova-plugin-file",
     "cordova-open",
-    "cordova-plugin-camera",
-    {
-      "locator": "https://github.com/wymsee/cordova-imagePicker.git",
-      "id": "cordova-plugin-image-picker"
-    },
     {
       "locator": "https://github.com/sarriaroman/photoviewer.git",
       "id": "com.sarriaroman.PhotoViewer"
@@ -46,6 +41,12 @@
     {
       "locator": "https://github.com/VitaliiBlagodir/cordova-plugin-datepicker.git",
       "id": "cordova-plugin-datepicker"
+    },
+    "cordova-plugin-camera",
+    "cordova-plugin-compat",
+    {
+      "locator": "https://github.com/Telerik-Verified-Plugins/ImagePicker.git",
+      "id": "com.synconset.imagepicker"
     }
   ],
   "cordovaPlatforms": [

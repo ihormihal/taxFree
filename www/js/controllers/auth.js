@@ -15,6 +15,7 @@ angular.module('app.controller.auth', [])
 
 	$scope.user = {};
 
+	/* autofill form by saved data */
 	if (AuthService.credentials.username) {
 		$scope.user.username = AuthService.credentials.username;
 	}
@@ -22,6 +23,7 @@ angular.module('app.controller.auth', [])
 		$scope.user.password = AuthService.credentials.password;
 	}
 
+	/* Login button pressed */
 	$scope.login = function() {
 		AuthService.credentials.username = $scope.user.username;
 		AuthService.credentials.password = $scope.user.password;

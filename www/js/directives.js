@@ -67,7 +67,15 @@ angular.module('app.directives', [])
 				return output; //return Date
 			});
 
+			//remove milliseconds
+			if (ionic.Platform.isAndroid() && parseInt(ionic.Platform.version()) < 5 && $attrs.type == 'time') {
+				ngModel.$formatters.unshift(function(value) {
+					return value.replace(/:\d{2}[.,]\d{3}$/, '')
+				});
+			}
+
 			ngModel.$parsers.push(function(viewValue) {
+
 				if (viewValue instanceof Date) {
 					var val = viewValue.getTime();
 					var offset = viewValue.getTimezoneOffset() * 60 * 1000;
@@ -258,10 +266,9 @@ angular.module('app.directives', [])
 			};
 
 			$scope.fromGallery = function() {
-				$cordovaImagePicker.getPictures({
-					maximumImagesCount: ($scope.single ? 1 : 10)
-				})
-					.then(function(files) {
+
+				window.imagePicker.getPictures(
+					function(files) {
 						for (var i = 0; i < files.length; i++) {
 							$scope.images.push({
 								src: files[i],
@@ -270,9 +277,31 @@ angular.module('app.directives', [])
 							});
 							$scope.uploadPhoto(files[i], $scope.images.length - 1);
 						}
-					}, function(error) {
+					},
+					function(error) {
 						$cordovaToast.show(error, 'short', 'top');
-					});
+					},
+					{
+						maximumImagesCount: ($scope.single ? 1 : 10)
+					}
+				);
+
+				
+				// $cordovaImagePicker.getPictures({
+				// 	maximumImagesCount: ($scope.single ? 1 : 10)
+				// })
+				// 	.then(function(files) {
+				// 		for (var i = 0; i < files.length; i++) {
+				// 			$scope.images.push({
+				// 				src: files[i],
+				// 				progress: 0,
+				// 				error: false
+				// 			});
+				// 			$scope.uploadPhoto(files[i], $scope.images.length - 1);
+				// 		}
+				// 	}, function(error) {
+				// 		$cordovaToast.show(error, 'short', 'top');
+				// 	});
 			};
 
 			$scope.fromCamera = function() {
@@ -285,6 +314,7 @@ angular.module('app.directives', [])
 					saveToPhotoAlbum: false
 				})
 					.then(function(image) {
+						console.log('Camera getPicture SUCCESS');
 						$scope.images.push({
 							src: image,
 							progress: 0,
@@ -292,6 +322,7 @@ angular.module('app.directives', [])
 						});
 						$scope.uploadPhoto(image, $scope.images.length - 1);
 					}, function(error) {
+						console.log('Camera getPicture ERROR');
 						$cordovaToast.show(angular.toJson(error), 'short', 'top');
 					});
 			};
@@ -330,11 +361,14 @@ angular.module('app.directives', [])
 				// 		$scope.images[i].progress = Math.floor(progress.loaded * 100 / progress.total);
 				// 	}, true);
 
+				console.log('File transfer START');
+
 				var ft = new FileTransfer();
 				ft.upload(
 				file,
 				encodeURI($rootScope.config.domain + $attrs.url),
 				function(data) {
+					console.log('File transfer SUCCESS');
 					var response = angular.fromJson(data.response);
 					if ($scope.single) {
 						$scope.images[i].src = response[filekey];
@@ -344,8 +378,10 @@ angular.module('app.directives', [])
 					$scope.images[i].progress = 100;
 					$scope.images[i].error = false;
 					$scope.$apply();
+					console.log('$cordovaCamera cleanup');
 					$cordovaCamera.cleanup();
 				}, function(error) {
+					console.log('File transfer ERROR');
 					$scope.images[i].error = true;
 					$scope.$apply();
 					$cordovaCamera.cleanup();

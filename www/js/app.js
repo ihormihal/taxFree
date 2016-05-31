@@ -60,10 +60,27 @@ angular.module('app', [
 	/* Execute on device ready */
 	$ionicPlatform.ready(function() {
 
+
+		// var testDate = document.createElement('input');
+		// testDate.type = 'date'; // or any other type
+		// if (testDate.type === 'text') {
+		// 	alert('date not supported');
+		// } else {
+		// 	alert('date supported!');
+		// }
+
+		// var testTime = document.createElement('input');
+		// testTime.type = 'time'; // or any other type
+		// if (testTime.type === 'text') {
+		// 	alert('time not supported');
+		// } else {
+		// 	alert('time supported!');
+		// }
+
 		/* Checking network connection */
 		$rootScope.$on('$cordovaNetwork:offline', function(event, offlineState) {
 			if (offlineState) {
-				/* Show error message when device is offline */
+				/* Show error message if device is offline */
 				Alert.show({
 					message: lngTranslate('no_internet_message'),
 					title: lngTranslate('no_internet')
@@ -76,6 +93,7 @@ angular.module('app', [
 
 		//Android 6 fix
 		/* Checking filesystem read permission */
+
 		try {
 			window.imagePicker.hasReadPermission(function(result){
 				/* if no permission - show dialog */

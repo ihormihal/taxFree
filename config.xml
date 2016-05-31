@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.jayadigital.taxfree4u" version="0.7.10" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.jayadigital.taxfree4youApp" version="0.7.13" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <!-- com.jayadigital.taxfree4youApp -->
   <!-- com.jayadigital.taxfree4u -->
   <name>Tax Free 4U</name>
