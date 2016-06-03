@@ -215,16 +215,14 @@ angular.module('app.controller.billing', [])
 
 	$scope.card = null;
 
-	$scope.$watch('card', function() {
-		$scope.card.expire_date = new Date($scope.card.expire_year, $scope.card.expire_month - 1, 1);
-	}, true);
-
 	$scope.load = function() {
 		Card.get({
 			id: $stateParams.id
 		}, function(data) {
 			$scope.card = data;
-			$scope.card.expire_date = new Date($scope.card.expire_year, $scope.card.expire_month - 1, 1);
+			if($scope.card.expire_year.toString().length == 2){
+				$scope.card.expire_year = parseInt($scope.card.expire_year) + 2000;
+			}
 			$scope.$broadcast('scroll.refreshComplete');
 		});
 	};

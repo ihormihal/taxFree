@@ -62,6 +62,7 @@ angular.module('app.directives', [])
 			ngModel.$formatters.push(function(modelValue) {
 				var val = parseInt(modelValue) * 1000;
 				var offset = new Date(val).getTimezoneOffset() * 60 * 1000;
+				var offset = 0;
 				var output = new Date(val + offset);
 
 				return output; //return Date
