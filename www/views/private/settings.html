@@ -20,43 +20,25 @@
 				</select>
 			</label>
 
-			<div class="item item-toggle">
+			<ion-toggle ng-model="settings.dontShowCardMessagesBuy" toggle-class="toggle-assertive" ng-true-value="1" ng-false-value="0">
 				<span class="input-label">{{'setting_dontShowCardMessagesBuy'|translate}}</span>
-				<label class="toggle toggle-assertive">
-					<input type="checkbox" ng-model="settings.dontShowCardMessagesBuy" ng-true-value="1" ng-false-value="0">
-					<div class="track"><div class="handle"></div></div>
-				</label>
-			</div>
-			<div class="item item-toggle">
+			</ion-toggle>
+
+			<ion-toggle ng-model="settings.dontShowCardMessagesDef" toggle-class="toggle-assertive" ng-true-value="1" ng-false-value="0">
 				<span class="input-label">{{'setting_dontShowCardMessagesDef'|translate}}</span>
-				<label class="toggle toggle-assertive">
-					<input type="checkbox" ng-model="settings.dontShowCardMessagesDef" ng-true-value="1" ng-false-value="0">
-					<div class="track"><div class="handle"></div></div>
-				</label>
-			</div>
+			</ion-toggle>
 
-			<div class="item item-toggle">
+			<ion-toggle ng-model="settings.receiveSms" toggle-class="toggle-assertive" ng-true-value="1" ng-false-value="0">
 				<span class="input-label">{{'setting_receiveSms'|translate}}</span>
-				<label class="toggle toggle-assertive">
-					<input type="checkbox" ng-model="settings.receiveSms" ng-true-value="1" ng-false-value="0">
-					<div class="track"><div class="handle"></div></div>
-				</label>
-			</div>
-			<div class="item item-toggle">
-				<span class="input-label">{{'setting_receiveMail'|translate}}</span>
-				<label class="toggle toggle-assertive">
-					<input type="checkbox" ng-model="settings.receiveMail" ng-true-value="1" ng-false-value="0">
-					<div class="track"><div class="handle"></div></div>
-				</label>
-			</div>
-			<div class="item item-toggle">
-				<span class="input-label">{{'setting_receivePush'|translate}}</span>
-				<label class="toggle toggle-assertive">
-					<input type="checkbox" ng-model="settings.receivePush" ng-true-value="1" ng-false-value="0">
-					<div class="track"><div class="handle"></div></div>
-				</label>
-			</div>
+			</ion-toggle>
 
+			<ion-toggle ng-model="settings.receiveMail" toggle-class="toggle-assertive" ng-true-value="1" ng-false-value="0">
+				<span class="input-label">{{'setting_receiveMail'|translate}}</span>
+			</ion-toggle>
+
+			<ion-toggle ng-model="settings.receivePush" toggle-class="toggle-assertive" ng-true-value="1" ng-false-value="0">
+				<span class="input-label">{{'setting_receivePush'|translate}}</span>
+			</ion-toggle>
 
 			<div class="item">
 				<button class="button button-stable button-block button-assertive up" ng-click="save()">{{'save'|translate}}!</button>
