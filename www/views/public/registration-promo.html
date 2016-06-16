@@ -21,7 +21,7 @@
                 </label>
 
                 <label class="item item-input" ng-class="{'has-error': form.fsname.$invalid}">
-                    <input type="text" name="fsname" ng-model="data.fsname" placeholder="Ф.И.О." required>
+                    <input type="text" name="fsname" pattern="[a-zA-Z\s]+" ng-model="data.fsname" placeholder="Ф.И.О." required>
                 </label>
 
                 <label class="item item-input item-stacked-label" ng-class="{'has-error': form.email.$invalid}">
@@ -89,7 +89,7 @@
             </form>
 
             <div class="padding mt20">
-                <button ng-class="{disabled: !(form.$valid && data.accept_terms && data.password == data.password_confirm)}" class="button button-stable button-block button-assertive up" ng-click="stepThree()">{{'submit'|translate}}</button>
+                <button ng-disabled="!(form.$valid && data.accept_terms && data.password == data.password_confirm && images.length)" class="button button-stable button-block button-assertive up" ng-click="stepThree()">{{'submit'|translate}}</button>
             </div>
 
         </div>

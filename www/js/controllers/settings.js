@@ -8,14 +8,13 @@ angular.module('app.controller.settings', [])
 
 .controller('settingsCtrl', function($rootScope, $ionicPlatform, $http, $scope, Settings, Toast) {
 
-	$scope.appSettings = {
-		language: window.localStorage['lang']
-	};
-
 	$scope.load = function(){
 		$rootScope.loading = true;
 		Settings.get({}, function(data){
 			$scope.settings = data;
+			if(!$scope.settings.language){
+				$scope.settings.language = window.localStorage['lang']
+			}
 			$rootScope.loading = false;
 			$scope.$broadcast('scroll.refreshComplete');
 		});
@@ -26,8 +25,8 @@ angular.module('app.controller.settings', [])
 	});
 
 	function switchLang (){
-		if(window.localStorage['lang'] !== $scope.appSettings.language){
-			window.localStorage['lang'] = $scope.appSettings.language;
+		if(window.localStorage['lang'] !== $scope.settings.language){
+			window.localStorage['lang'] = $scope.settings.language;
 			window.location.reload(true);
 		}
 	}

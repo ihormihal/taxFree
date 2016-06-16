@@ -23,7 +23,7 @@
 				</label>
 
 				<label class="item item-input" ng-class="{'has-error': form.fsname.$invalid}">
-					<input type="text" name="fsname" ng-model="data.fsname" placeholder="{{'name'|translate}}" required>
+					<input type="text" pattern="[a-zA-Z\s]+" name="fsname" ng-model="data.fsname" placeholder="{{'name'|translate}}" required>
 				</label>
 
 				<label class="item item-input item-stacked-label" ng-class="{'has-error': form.country.$invalid}">
@@ -38,7 +38,7 @@
 
 				<label class="item item-input item-stacked-label" ng-class="{'has-error': form.address.$invalid}">
 					<div class="input-label">{{'home_address'|translate}} <sup>*</sup></div>
-					<input type="text" name="address" ng-model="data.address" required>
+					<textarea tabindex="11" rows="3" name="address" ng-model="data.address" required></textarea>
 				</label>
 
 				<div class="item">
@@ -85,7 +85,7 @@
 			</form>
 
 			<div class="padding mt20">
-				<button ng-class="{disabled: !(form.$valid && data.accept_terms && data.password == data.password_confirm)}" class="button button-stable button-block button-assertive up" ng-click="stepThree()">{{'submit'|translate}}</button>
+				<button ng-disabled="!(form.$valid && data.accept_terms && data.password == data.password_confirm && images.length)" class="button button-stable button-block button-assertive up" ng-click="stepThree()">{{'submit'|translate}}</button>
 			</div>
 
 		</div>

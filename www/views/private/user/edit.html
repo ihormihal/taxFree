@@ -21,7 +21,7 @@
 				</label>
 
 				<label class="item item-input" ng-class="{'has-error': form.fsname.$invalid}">
-					<input type="text" name="fsname" ng-model="user.profile.fsname" placeholder="Ф.И.О." required>
+					<input type="text" pattern="[a-zA-Z\s]+" name="fsname" ng-model="user.profile.fsname" placeholder="Ф.И.О." required>
 				</label>
 
 				<label class="item item-input item-stacked-label" ng-class="{'has-error': form.passp_birthday.$invalid}">
@@ -106,7 +106,7 @@
 
 				<label class="item item-input item-stacked-label" ng-class="{'has-error': form.address.$invalid}">
 					<div class="input-label">{{'home_address'|translate}} <sup>*</sup></div>
-					<input type="text" name="address" ng-model="user.profile.address" required>
+					<textarea tabindex="11" rows="3" name="address" ng-model="user.profile.address" required></textarea>
 				</label>
 
 				<div class="item">
@@ -119,7 +119,7 @@
 		</form>
 
 		<div class="box">
-			<button ng-class="{disabled: (form.$invalid || user.profile.passp_date < currentTime())}" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
+			<button ng-disabled="!(form.$valid && user.profile.passp_date > currentTime() && user.images.length)" class="button button-stable button-block button-assertive up" ng-click="update()">{{'done'|translate}}</button>
 		</div>
 
 	</ion-content>

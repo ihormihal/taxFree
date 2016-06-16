@@ -84,7 +84,7 @@
 
       <label class="item item-input item-stacked-label" ng-class="{'has-error': form.address.$invalid}">
         <div class="input-label">{{'residence_address'|translate}} <sup>*</sup></div>
-        <input type="text" name="address" ng-model="trip.address" required>
+        <textarea rows="3" name="address" ng-model="trip.address" required></textarea>
       </label>
 
     </form>
