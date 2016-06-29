@@ -11,7 +11,7 @@
 				class="item"
 				ui-sref="main.declaration({id: payment.declaration_id})"
 				>
-				<h2>{{payment.total_sum | currency}}</h2>
+				<h2>{{payment.total_sum | currency: getCurrencySym(payment.currency)}}</h2>
 				<p><i class="icon ion-android-time"></i> {{payment.complete_time}}</p>
 				<p><i class="icon ion-earth"></i> {{payment.country_enter}} - {{payment.country_leaving}}</p>
 				<div class="item-icon-right">

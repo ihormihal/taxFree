@@ -394,21 +394,21 @@ a {color: $assertive;}
 			border-color: #fff;
 			.ion-android-arrow-dropdown {display: block; color: #777;}
 			.ion-android-arrow-dropup {display: none;}
-			transition: 0.3s background-color linear;
+			//transition: 0.3s background-color linear;
 		}
 		.content {
-			line-height: 0px;
 			.content-item {
+				height: 0;
+				transition: 0.1s height linear, 0.1s padding linear;
 				padding: 0 16px;
 				border: none;
-				line-height: 0px;
+				//line-height: 0px;
 				opacity: 0;
-				transition: 0.3s opacity linear;
+				//transition: 0.3s opacity linear;
 			}
 		}
 		&.active {
 			.heading {
-				//background-color: #f06c21;
 				background-color: #f39736;
 				color: #fff;
 				.ion-android-arrow-dropdown {display: none;}
@@ -416,7 +416,7 @@ a {color: $assertive;}
 			}
 			.content {
 				.content-item {
-					line-height: 16px;
+					height: auto;
 					padding: 8px 16px;
 					opacity: 1;
 				}

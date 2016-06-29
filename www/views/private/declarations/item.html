@@ -41,27 +41,27 @@
           <div class="item item-divider">{{'product'|translate}} {{$index+1}}</div>
           <div class="item">
             <span class="label">{{'product_group'|translate}}</span>
-            <span class="value">{{product.group}}</span>
+            <span class="value multiline">{{product.group}}</span>
           </div>
           <div class="item">
             <span class="label">{{'product_name'|translate}}</span>
-            <span class="value">{{product.name}}</span>
+            <span class="value multiline">{{product.name}}</span>
           </div>
           <div class="item">
             <span class="label">{{'shop'|translate}}</span>
-            <span class="value">{{product.shop}}</span>
+            <span class="value multiline">{{product.shop}}</span>
           </div>
         </div>
 
         <div class="item item-divider">{{'total'|translate}}</div>
         <div class="item">
-          <span class="label">{{'sum'|translate}}</span> <span class="item-note item-note-large assertive">{{declaration.sum | currency}}</span>
+          <span class="label">{{'sum'|translate}}</span> <span class="item-note item-note-large assertive">{{declaration.sum | currency: getCurrencySym(declaration.currency)}}</span>
         </div>
         <div class="item">
-          <span class="label">{{'sum_vat'|translate}}</span> <span class="item-note item-note-large assertive">{{declaration.sumVat | currency}}</span>
+          <span class="label">{{'sum_vat'|translate}}</span> <span class="item-note item-note-large assertive">{{declaration.sumVat | currency: getCurrencySym(declaration.currency)}}</span>
         </div>
         <div class="item">
-          <span class="label">{{'to_payoff'|translate}}</span> <span class="item-note item-note-large assertive">{{declaration.sumPay | currency}}</span>
+          <span class="label">{{'to_payoff'|translate}}</span> <span class="item-note item-note-large assertive">{{declaration.sumPay | currency: getCurrencySym(declaration.currency)}}</span>
         </div>
 
       </div>

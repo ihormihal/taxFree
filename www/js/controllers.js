@@ -45,6 +45,17 @@ angular.module('app.controllers', [])
 				window.localStorage['transports'] = angular.toJson(data);
 			});
 		}
+
+		if (window.localStorage['currencies']) {
+			$rootScope.currencies = angular.fromJson(window.localStorage['currencies']);
+		} else {
+			Catalog.query({
+				name: 'currency'
+			}, function(data) {
+				$rootScope.currencies = data;
+				window.localStorage['currencies'] = angular.toJson(data);
+			});
+		}
 	};
 
 	$rootScope.loadCatalog();

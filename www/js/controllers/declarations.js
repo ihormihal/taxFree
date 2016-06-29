@@ -163,6 +163,10 @@ angular.module('app.controller.declarations', [])
 */
 .controller('paymentsCtrl', function($rootScope, $scope, Payments, Toast) {
 
+	if ($rootScope.currencies.length === 0) {
+		$rootScope.loadCatalog();
+	}
+
 	$scope.load = function() {
 		$rootScope.loading = true;
 		Payments.query({}, function(data) {

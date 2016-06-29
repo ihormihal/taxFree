@@ -77,6 +77,26 @@ angular.module('app', [
 		// 	alert('time supported!');
 		// }
 
+		/* CORDOVA KEYBOARD CONFIG */
+		$rootScope.$on('$ionicView.afterEnter', function() {
+			// Handle iOS-specific issue with jumpy viewport when interacting with input fields.
+			if (window.cordova && window.cordova.plugins.Keyboard) {
+				cordova.plugins.Keyboard.disableScroll(true);
+			}
+		});
+		$rootScope.$on('$ionicView.beforeLeave', function() {
+			if (window.cordova && window.cordova.plugins.Keyboard) {
+				// return to keyboard default scroll state
+				cordova.plugins.Keyboard.disableScroll(false);
+			}
+		});
+
+		//do not hide keyboard accessory bar
+		if (window.cordova && window.cordova.plugins.Keyboard) {
+			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
+		}
+		/* END CORDOVA KEYBOARD CONFIG */
+
 		/* Checking network connection */
 		$rootScope.$on('$cordovaNetwork:offline', function(event, offlineState) {
 			if (offlineState) {
@@ -103,12 +123,6 @@ angular.module('app', [
 			});
 		} catch (error){
 			console.log(error);
-		}
-
-		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-		// for form inputs)
-		if (window.cordova && window.cordova.plugins.Keyboard) {
-			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 		}
 
 		//pressing on system back button

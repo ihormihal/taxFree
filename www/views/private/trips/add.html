@@ -34,7 +34,7 @@
         <div class="item-select">
           <select tabindex="3" integer-model name="transport_enter" ng-model="trip.transport_enter" required>
             <option value="" disabled>{{'empty'|translate}}</option>
-            <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name}}</option>
+            <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name|translate}}</option>
           </select>
         </div>
       </label>
@@ -69,7 +69,7 @@
         <div class="item-select">
           <select tabindex="8" integer-model name="transport_leaving" ng-model="trip.transport_leaving" required>
             <option value="" disabled>{{'empty'|translate}}</option>
-            <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name}}</option>
+            <option ng-repeat="transport in transports" value="{{transport.id}}">{{transport.name|translate}}</option>
           </select>
         </div>
       </label>

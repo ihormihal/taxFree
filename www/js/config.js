@@ -58,7 +58,7 @@ angular.module('app.config', ['ngResource'])
 
 	/* App & API configuration */
 	$rootScope.config = {
-		version: '0.8.0',
+		version: '0.8.5',
 		domain: 'https://taxfree4u.eu/', //default
 		domains: {
 			public_https: 'https://taxfree4u.eu/',
@@ -129,6 +129,16 @@ angular.module('app.config', ['ngResource'])
 		if ($rootScope.countries.length === 0) {
 			Toast.show(lngTranslate('catalog_countries_loading'));
 		}
+	};
+
+	$rootScope.getCurrencySym = function(id) {
+		var sym = '$';
+		for (var i = 0; i < $rootScope.currencies.length; i++) {
+			if(id == $rootScope.currencies[i].id){
+				sym = $rootScope.currencies[i].short_name+' ';
+			}
+		}
+		return sym;
 	};
 
 	//data object

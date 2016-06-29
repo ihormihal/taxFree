@@ -51,6 +51,23 @@ angular.module('app.directives', [])
 	}
 }])
 
+// .directive('phoneEmail', [function() {
+// 	return {
+// 		restrict: 'A',
+// 		require: '?ngModel',
+// 		scope: {
+// 			ngModel: '='
+// 		},
+// 		link: function($scope, $element, $attrs, ngModel){
+// 			ngModel.$parsers.push(function(modelValue) {
+// 				console.log(modelValue);
+				
+// 			});
+
+// 		}
+// 	}
+// }])
+
 .directive('datetime', [function(dateFilter) {
 	return {
 		restrict: 'A',
@@ -62,7 +79,6 @@ angular.module('app.directives', [])
 			ngModel.$formatters.push(function(modelValue) {
 				var val = parseInt(modelValue) * 1000;
 				var offset = new Date(val).getTimezoneOffset() * 60 * 1000;
-				var offset = 0;
 				var output = new Date(val + offset);
 
 				return output; //return Date
