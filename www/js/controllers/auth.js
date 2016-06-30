@@ -8,12 +8,13 @@
 angular.module('app.controller.auth', [])
 
 /*** LOGIN ***/
-.controller('loginCtrl', function($rootScope, $scope, $state, $ionicModal, $http, $cordovaDialogs, $cordovaFile, AuthService) {
+.controller('loginCtrl', function($rootScope, $scope, $state, $ionicModal, $http, $cordovaDialogs, $cordovaFile, AuthService, RegService) {
 
 	//hide start screen on next launching
 	window.localStorage['ready'] = true;
 
 	$scope.user = {};
+	RegService.data = null;
 
 	/* autofill form by saved data */
 	if (AuthService.credentials.username) {

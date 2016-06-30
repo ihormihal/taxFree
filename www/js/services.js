@@ -101,6 +101,7 @@ angular.module('app.services', ['ngResource'])
 
     logout: function() {
       self.credentials.password = null;
+      self.credentials.username = null,
       self.credentials.refresh_token = null;
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('refresh_token');
