@@ -58,7 +58,7 @@ angular.module('app.config', ['ngResource'])
 
 	/* App & API configuration */
 	$rootScope.config = {
-		version: '0.8.5',
+		version: '0.8.6',
 		domain: 'https://taxfree4u.eu/', //default
 		domains: {
 			public_https: 'https://taxfree4u.eu/',
