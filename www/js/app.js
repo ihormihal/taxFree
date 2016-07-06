@@ -263,7 +263,7 @@ angular.module('app', [
 					/* go to dashboard */
 					$state.go('main.dashboard');
 				}
-				if(window.localStorage['lang'] !== data.language){
+				if(data.language && window.localStorage['lang'] !== data.language){
 					window.localStorage['lang'] = data.language;
 					$rootScope.httpWaiting = true;
 					window.location.reload(true);

@@ -214,7 +214,7 @@ angular.module('app.config', ['ngResource'])
 
 	};
 
-	/* Cordova SpinnerPlugin emulation if it`s not avaliable */
+	/* Cordova SpinnerPlugin emulation for web */
 	if (!window.SpinnerPlugin) {
 		window.SpinnerPlugin = {
 			activityStart: function(message) {
