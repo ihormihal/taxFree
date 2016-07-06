@@ -14,7 +14,7 @@ angular.module('app.controller.auth', [])
 	window.localStorage['ready'] = true;
 
 	$scope.user = {};
-	RegService.data = null;
+	RegService.data = {};
 
 	/* autofill form by saved data */
 	if (AuthService.credentials.username) {
@@ -157,7 +157,6 @@ angular.module('app.controller.auth', [])
 
 	$scope.stepTwo = function() {
 		RegService.data.code = $scope.data.code;
-		console.log(RegService.data);
 		RegService.two()
 			.then(function(data) {
 				$state.go('regThree');
