@@ -15,7 +15,7 @@
               <option value="" disabled>{{'empty'|translate}}</option>
               <option
                 ng-repeat="trip in trips | filter: {current:true} track by $index"
-                value="{{trip.id}}">{{getById(countries,trip.country_enter).name}} - {{getById(countries,trip.country_leaving).name}}</option>
+                value="{{trip.id}}">{{getById(countries,trip.country_enter).name}} - {{getById(countries,trip.country_leaving).name}} ({{trip.date_start*1000|date:'dd/MM/yyyy'}} - {{trip.date_end*1000|date:'dd/MM/yyyy'}})</option>
             </select>
           </div>
         </label>
