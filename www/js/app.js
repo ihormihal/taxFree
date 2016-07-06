@@ -4,7 +4,7 @@
 
 /* HELPERS */
 /* default language */
-if (!window.localStorage['lang']) {
+if (!window.localStorage['lang'] || window.localStorage['lang'] == 'undefined') {
 	window.localStorage['lang'] = 'en';
 }
 /* translation function */

@@ -14,7 +14,7 @@
             <select integer-model name="trip" ng-model="check.trip" required>
               <option value="" disabled>{{'empty'|translate}}</option>
               <option
-                ng-repeat="trip in trips | filter: {current:true}"
+                ng-repeat="trip in trips | filter: {current:true} track by $index"
                 value="{{trip.id}}">{{getById(countries,trip.country_enter).name}} - {{getById(countries,trip.country_leaving).name}}</option>
             </select>
           </div>

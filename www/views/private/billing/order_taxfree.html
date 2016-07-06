@@ -14,7 +14,7 @@
         <div class="item-select">
           <select name="currency_index" ng-model="card_taxfree.currency_index">
             <option value="" disabled>{{'empty'|translate}}</option>
-            <option ng-repeat="price in prices" value="{{$index}}">{{price.name}} ({{price.card_price}} {{price.short_name}})</option>
+            <option ng-repeat="price in prices" ng-show="price.card_price !== 0" value="{{$index}}">{{price.name}} ({{price.card_price}} {{price.short_name}})</option>
           </select>
         </div>
       </label>

@@ -114,8 +114,11 @@ angular.module('app.controller.auth', [])
 	$scope.images = [];
 
 	$scope.data = RegService.data;
+	if($scope.data){
+		$scope.data.country = null;
+	}
 	
-	$scope.data.country = null;
+	//$scope.data.country = null;
 
 	window.localStorage['token'] = '';
 	$rootScope.countries = [];
