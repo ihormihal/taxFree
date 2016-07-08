@@ -26,6 +26,26 @@ angular.module('app.directives', [])
 	}
 })
 
+.filter('top5Countries', function() {
+	var top = [1,176,221];
+	return function(array) {
+		var topArray = [];
+		for (var i = 0; i < top.length; i++) {
+			for (var j = 0; j < array.length; j++) {
+				if(parseInt(array[j].id) == top[i]){
+					topArray.push(array[j]);
+					array.splice(j,1);
+				}
+			}
+		}
+		for (var i = topArray.length - 1; i >= 0; i--) {
+			array.unshift(topArray[i]);
+		}
+		
+		return array;
+	}
+})
+
 
 .filter('getStatusIcon', function() {
 	return function(status) {

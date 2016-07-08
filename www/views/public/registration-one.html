@@ -17,7 +17,7 @@
                         <select ng-model="data.country" required>
                             <option value="" disabled>{{'select_country'|translate}} *</option>
                             <option
-                            ng-repeat="country in countries"
+                            ng-repeat="country in countries | orderBy: 'name' | top5Countries"
                             value="{{country.id}}">({{country.phone_code}}) {{country.name}}</option>
                         </select>
                     </div>
