@@ -71,6 +71,7 @@ defaults write com.apple.finder AppleShowAllFiles YES
 
 
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore mykeys.keystore platforms/android/build/outputs/apk/android-release-unsigned.apk taxfree4u
+
 ~/Library/Android/sdk/build-tools/23.0.3/zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk TaxFree4U_v.0.7.15_dbg.apk
 
 

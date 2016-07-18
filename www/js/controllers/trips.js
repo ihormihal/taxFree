@@ -118,11 +118,19 @@ angular.module('app.controller.trips', [])
 
 	$scope.check = { id: 'add', trip: $stateParams.id, files: [], images: [] };
 
+	var tripDate = {
+		start: 0,
+		end: 0
+	};
+
 	$scope.load = function() {
 		$rootScope.loading = true;
 
 		Trip.get({ id: $stateParams.id }, function(data) {
 			$scope.trip = data;
+
+			tripDate.start = $scope.trip.date_start;
+			tripDate.end = $scope.trip.date_end;
 			
 			$scope.trip.current = false;
 
@@ -191,7 +199,16 @@ angular.module('app.controller.trips', [])
 	$scope.closeModal = function() {
 		$scope.modalTrip.hide();
 		$scope.modalCheck.hide();
+		$scope.trip.date_start = tripDate.start;
+		$scope.trip.date_end = tripDate.end;
 	};
+
+	$scope.editTrip = function(){
+		$scope.trip.date_start = tripDate.start + $scope.trip.time_start;
+		$scope.trip.date_end = tripDate.end + $scope.trip.time_start;
+		$scope.modalTrip.show();
+	};
+	
 
 	$scope.$on('$destroy', function() {
 		$scope.modalTrip.remove();
